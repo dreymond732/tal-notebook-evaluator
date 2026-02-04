@@ -1,0 +1,17 @@
+services:
+  web-corrector:
+    build: .
+    container_name: corrector-tilt
+    restart: unless-stopped
+    ports:
+      - "2025:5000"
+    volumes:
+      # Ajout de ce volume pour la persistance des données
+      - ./soumissions:/app/soumissions
+      # - ./app:/app/  # pour dev c'est pratique
+    networks:
+      - proxnet
+
+networks:
+  proxnet:
+    external: true
