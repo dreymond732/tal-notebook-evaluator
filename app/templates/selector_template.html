@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TQR - Sélecteur de Correcteur</title>
+    <style>
+        :root { --primary: #005a9c; --secondary: #6c757d; --bg: #f4f7f6; --text: #2d3436; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; border-left: 5px solid var(--secondary); text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .card.td { border-left-color: #2ecc71; }
+        .card.controle { border-left-color: #e74c3c; }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .badge { font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; }
+        .badge-td { background: #eafaf1; color: #2ecc71; }
+        .badge-ctrl { background: #fdedec; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Plateforme d'auto-évaluation TAL et programmation</h1>
+        <div class="grid">
+            {% for id, (label, module) in evaluators.items() %}
+            <a href="{{ url_for('main.route_evaluator', eval_name=id) }}"
+               class="card {{ 'td' if id.startswith('td') else 'controle' }}">
+                <span class="badge {{ 'badge-td' if id.startswith('td') else 'badge-ctrl' }}">
+                    {{ 'Formation' if id.startswith('td') else 'Certification' }}
+                </span>
+                <h3>{{ label }}</h3>
+                <p style="color: var(--secondary); font-size: 0.9rem;">Cliquer pour accéder au dépôt de fichier.</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

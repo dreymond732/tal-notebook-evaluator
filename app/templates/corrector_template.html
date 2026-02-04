@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ display_name }} - TD</title>
+    <style>
+        :root { --ok: #27ae60; --err: #c0392b; --warn: #f39c12; --blue: #2980b9; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; line-height: 1.5; margin: 0; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 30px; padding-bottom: 20px; }
+        .final-score { font-size: 2rem; font-weight: bold; color: white; background: var(--blue); padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; }
+        .status { font-weight: bold; text-align: center; width: 40px; }
+        .solution-col { display: none; background-color: #f0f7ff; }
+        body.show-solutions .solution-col { display: table-cell; }
+        .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: right; }
+        pre { background: #f4f4f4; padding: 8px; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; margin: 0; }
+        .flash { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border-left: 5px solid transparent; }
+        .flash.error { background: #fdedec; color: var(--err); border-color: var(--err); }
+        .flash.success { background: #eafaf1; color: var(--ok); border-color: var(--ok); }
+        /* Style des liens de navigation */
+        .nav-links { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        .nav-links a { color: var(--blue); text-decoration: none; margin: 0 15px; font-weight: 500; }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ display_name }}</h1>
+            <p>Type : Travaux Dirigés (Formatif)</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}{% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}{% endif %}
+        {% endwith %}
+
+        {% if score is not none %}
+            <div class="student-info">
+                <p><strong>Étudiant :</strong> {{ student_info.prenom | capitalize }} {{ student_info.nom | upper }} ({{ student_info.classe }})</p>
+            </div>
+
+            <div class="toggle-box">
+                <label style="cursor: pointer; font-weight: bold; color: var(--blue);">
+                    <input type="checkbox" id="toggle-solutions"> Afficher les solutions attendues
+                </label>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vérification</th>
+                        <th>Votre Réponse</th>
+                        <th class="solution-col">Solution</th>
+                        <th class="status">Statut</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in details %}
+                    <tr>
+                        <td><strong>{{ d.check }}</strong></td>
+                        <td><pre>{{ d.student_answer }}</pre></td>
+                        <td class="solution-col"><pre>{{ d.correct_answer }}</pre></td>
+                        <td class="status">
+                            <span title="{{ d.status }}">
+                                {{ '✅' if d.status == '✅' else ('❌' if d.status == '❌' else '⚠️') }}
+                            </span>
+                        </td>
+                        <td>{{ "%.2f"|format(d.points) }} / {{ "%.2f"|format(d.max_points) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="final-score">Note Finale : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
+
+            <div class="nav-links">
+                <a href="{{ url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
+                <span style="color: #ccc;">|</span>
+                <a href="{{ url_for('main.index') }}">🏠 Revenir au sélecteur</a>
+            </div>
+
+        {% else %}
+            <div style="background: #f8f9fa; padding: 40px; border-radius: 10px; text-align: center; border: 2px dashed #ccc;">
+                <form method="post" enctype="multipart/form-data">
+                    <p>Déposez votre fichier <strong>{{ allowed_extension }}</strong> pour correction immédiate.</p>
+                    <input type="file" name="file" accept="{{ allowed_extension }}" required style="margin: 20px 0;"><br>
+                    <button type="submit" style="background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold;">Lancer la correction</button>
+                </form>
+            </div>
+
+            <div class="nav-links" style="border-top: none;">
+                <a href="{{ url_for('main.index') }}">← Revenir au sélecteur</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('toggle-solutions')?.addEventListener('change', function() {
+            document.body.classList.toggle('show-solutions', this.checked);
+        });
+    </script>
+</body>
+</html>
