@@ -1,10 +1,10 @@
 services:
   web-corrector:
     build: .
-    container_name: corrector-tilt
+    container_name: correcteurtilt
     restart: unless-stopped
     ports:
-      - "2025:5000"
+      - "2026:5001"
     volumes:
       # Ajout de ce volume pour la persistance des données
       - ./soumissions:/app/soumissions
