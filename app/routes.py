@@ -16,6 +16,8 @@ EVALUATORS = {
     'td5-S2': ('TD5 S2 - Algorithmique avancée', 'app_correction_TD5_S2'),
     'td6-S2': ('TD6 S2 - Fichiers', 'app_correction_TD6_S2'),
     'Controletilt-s1': ('Contrôle TAL - S1', 'app_correction_controle_S1'),
+    #'ControleS2': ('Contrôle S2', 'app_correction_controle_S2'),
+    'ControleDevoirMaisonS2': ('Contrôle DM S2', 'app_correction_devoirMaisonS2'),
 }
 
 
