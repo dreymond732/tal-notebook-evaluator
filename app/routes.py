@@ -91,8 +91,7 @@ def route_evaluator(eval_module, display_name, eval_name):
                     raise Exception("Fonction check_notebook manquante")
             except Exception as e:
                 flash(f"Erreur: {e}", 'error')
-
-            process_submission(file, content_bytes, html_rendered, info, score, eval_name)
+                return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
     return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
 
 def render_eval_template(template, display_name, eval_name, ext, is_td):
@@ -123,5 +122,5 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
         os.makedirs(os.path.dirname(rep_path), exist_ok=True)
         with open(rep_path, 'w', encoding='utf-8') as f:
             f.write(html_report)
-    except Exception as e:
-        print(f"Erreur lors de la sauvegarde : {e}")
+    except OSError as e:
+        raise RuntimeError(f"Erreur lors de la sauvegarde : {e}") from e
