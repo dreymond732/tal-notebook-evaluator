@@ -1,44 +1,20 @@
-# TD exemples (en cours de tests avec étudiants master littéraire)
+# Notebooks de TD
 
-Pour évaluation formative. Les TD suivent une progression en difficulté : Bases, Structures, Logique, initiation algorithmique, fichiers.
+Les supports étudiants sont organisés par semestre. Les versions corrigées, lorsqu'elles sont nécessaires, restent séparées des versions distribuées.
 
-### Organisation des notebooks et modèle "ia-ready"
+## S3 — Fondations Python et TAL
 
-Le projet est structuré pour permettre une génération automatisée de nouveaux contenus pédagogiques. Les notebooks "exemples" servent de base pour être déclinés par l'IA, qui peut également générer l'application d'évaluation associée.
+Le dossier `S3/` contient le premier lot du parcours :
 
-**Organisation des fichiers :**
-* `app/Notebooks TD/` : Contient les exercices dirigés (ex: `TD2 - S2.ipynb`) et leurs versions corrigées.
-* `app/Notebooks contrôles finaux/` : Contient les examens de fin de cycle.
+- `TD0_S3_diagnostic_texte.ipynb` : diagnostic formatif, du texte brut aux limites de `split()` ;
+- `TD1_S3_fondations_spacy.ipynb` : document spaCy, tokens, phrases, lemmes et POS ;
+- `TD2_S3_analyse_corpus.ipynb` : fréquences de lemmes, filtrage et fonctions paramétrées ;
+- `R0_S3_python_texte.ipynb`, `R1_S3_doc_spacy.ipynb`, `R2_S3_frequences_reutilisables.ipynb` : activités passerelles formatives.
 
-**Capacité de l'IA :** L'architecture modulaire permet à une IA de :
-1. **Générer un notebook** : En suivant les conventions de nommage des variables (`reponse_Qx`, `valeur_Qx`) et les marqueurs d'identification (`# Complétez les informations...`).
-2. **Générer le module de correction** : En créant un fichier `app_correction_XXX.py` qui définit les dictionnaires `points_breakdown` et `correct_answers`.
-3. **Déploiement immédiat** : Il suffit d'ajouter le nouveau module dans le dictionnaire `EVALUATORS` du fichier `routes.py`.
+La spécification de progression et le contrat des activités passerelles sont dans `docs/pedagogy/S3_TD0_TD2_SPECIFICATION.md`.
 
+## Évaluation formative
 
+Les correcteurs ne lancent jamais le code remis. Les notebooks doivent donc être exécutés avant dépôt et produire les marqueurs indiqués (`Résultat Qx :`). Les correcteurs analysent le JSON, le code source et les sorties enregistrées ; ils fournissent un diagnostic de compétence, pas une validation par exécution sur données cachées.
 
----
-
-### Exemple de prompt pour l'IA
-
-Voici un prompt structuré pour générer un nouveau module complet :
-
-**Objet : Génération d'un nouveau module d'évaluation Python pour le cours de TAL.**
-> **Contexte :** je possède une application Flask de correction automatique qui analyse des fichiers `.ipynb`.
-
-**Tâche 1 : Générer un notebook étudiant (`TD_Regex_TAL.ipynb`)**
-> * Inclure une cellule d'identification avec les variables `nom`, `prenom`, `classe`.
-> * Créer 10 exercices sur les Expressions Régulières.
-> * Pour chaque exercice, l'étudiant doit stocker son résultat dans une variable nommée `reponse_Q1`, `reponse_Q2`, etc.
-> * Chaque cellule de code doit se terminer par un print : `print(f"Résultat Q1 : {reponse_Q1}")`.
-
-**Tâche 2 : Générer le module de correction (`app_correction_regex.py`)**
-> * Utiliser la fonction `run_evaluation` importée de `engine`.
-> * Définir le dictionnaire `points_breakdown` (ex: Q1: 5pts, Q2: 5pts, Q3: 10pts).
-> * Définir le dictionnaire `correct_answers` avec les solutions attendues.
-> * Implémenter la fonction `check_notebook(notebook_content_str, filename)` qui appelle `engine.run_evaluation`.
-
-**Contraintes techniques :**
-> * Respecter strictement le format des fichiers existants (voir `app_correction_TD2_S2.py` pour la structure).
-> * Utiliser `ast.literal_eval` via le moteur `engine` pour la comparaison des types complexes.
-
+Les identifiants personnels ne sont pas demandés dans les notebooks de TD.
