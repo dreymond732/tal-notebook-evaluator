@@ -12,8 +12,8 @@ Ce lot installe le début du parcours S3 : diagnostic Python/texte (TD0), premi�
 | R0 | Écrire une fonction de comptage et produire un dictionnaire de fréquences | Boucle, dictionnaire, fonction et sortie explicite. |
 | TD1 | Construire un `Doc` spaCy ; parcourir tokens, lemmes, POS et phrases | L'étudiant sait interroger une annotation. |
 | R1 | Filtrer les noms et verbes d'un `Doc` | Itération et condition sur `token.pos_`. |
-| TD2 | Concevoir une fonction de fréquences de lemmes filtrée et paramétrée | `Counter`, argument de fonction, stopwords et interprétation. |
-| R2 | Comparer une fréquence brute et une fréquence filtrée | Réutilisation d'une fonction et lecture critique du résultat. |
+| R2 | Construire une fréquence de lemmes filtrée avec `Counter` | Fonction paramétrée, stopwords et interprétation. |
+| TD2 | Réutiliser et discuter une fonction de fréquences sur un corpus | Comparer les résultats bruts et filtrés. |
 
 ## Statut du TD0
 
@@ -31,7 +31,11 @@ Le correcteur analyse uniquement le JSON du notebook, son code source et ses sor
 
 ## Données et reproductibilité
 
-Les exemples sont embarqués dans les notebooks. Aucun chemin Google Drive, donnée personnelle, téléchargement automatique ou installation silencieuse n'est requis. TD1 et TD2 indiquent le modèle `fr_core_news_sm` et la commande d'installation à exécuter dans Colab.
+Les exemples sont embarqués dans les notebooks ; aucun chemin Google Drive ni donnée personnelle n'est requis. Dans Colab, TD1, R1, R2 et TD2 exigent une connexion pour installer explicitement `spacy==3.8.7` et `fr_core_news_sm==3.8.0`. En cas de redémarrage du runtime, il faut relancer cette cellule avant de charger le modèle.
+
+## Périmètre des correcteurs
+
+TD0 et les trois activités passerelles disposent d'un correcteur formatif. TD1 et TD2 sont des TD en présence : leur correction est guidée par l'enseignant ; ils ne sont pas présentés comme autocorrigés dans ce lot.
 
 ## Hors périmètre du lot
 
