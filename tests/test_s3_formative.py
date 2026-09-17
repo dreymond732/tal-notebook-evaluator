@@ -63,6 +63,17 @@ class S3FormativeTests(unittest.TestCase):
         self.assertEqual((score, maximum), (7.0, 7.0))
         self.assertIn("PRÊT", details[0]["student_answer"])
 
+    def test_td0_requires_a_context_manager_for_utf8_reading(self):
+        content = notebook([
+            code('f = open("x", encoding="utf-8")\nprint("Résultat Q1 : 12")\n'),
+        ])
+        score, details, maximum, _, error = check_notebook(content, "td0.ipynb")
+        self.assertIsNone(error)
+        self.assertEqual(maximum, 7.0)
+        self.assertEqual(score, 0.0)
+        self.assertEqual(details[1]["check"], "Lecture UTF-8")
+        self.assertEqual(details[1]["status"], "❌")
+
     def test_comments_do_not_satisfy_r0_code_check(self):
         content = notebook([
             code('# def compter_mots(texte): return 0\n', stdout("Résultat Q1 : 0\nRésultat Q2 : []\nRésultat Q3 : {}\nRésultat Q4 : limite\n")),
