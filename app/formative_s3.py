@@ -19,10 +19,13 @@ def _sources(cells: List[Dict]) -> str:
             continue
         source = "".join(cell.get("source", []))
         try:
-            tokens = tokenize.generate_tokens(io.StringIO(source).readline)
-            cleaned.append("".join(
-                token.string for token in tokens if token.type != tokenize.COMMENT
-            ))
+            lines = source.splitlines(keepends=True)
+            for token in tokenize.generate_tokens(io.StringIO(source).readline):
+                if token.type == tokenize.COMMENT:
+                    row = token.start[0] - 1
+                    start, end = token.start[1], token.end[1]
+                    lines[row] = lines[row][:start] + lines[row][end:]
+            cleaned.append("".join(lines))
         except tokenize.TokenError:
             cleaned.append(source)
     return "\n".join(cleaned)
