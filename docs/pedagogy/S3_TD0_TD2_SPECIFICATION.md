@@ -2,6 +2,8 @@
 
 ## Décision enseignante validée
 
+La matrice des huit TD source est validée dans `docs/pedagogy/S3_COVERAGE_MATRIX.md`. Les versions complètes de TD0–TD2 remplacent les prototypes légers ; R0–R2 restent des passerelles de consolidation.
+
 Ce lot installe le début du parcours S3 : diagnostic Python/texte (TD0), premières annotations spaCy (TD1), puis analyse de corpus réutilisable (TD2). Les notebooks R0, R1 et R2 sont des activités formatives brèves, à réaliser avant la séance suivante.
 
 ## Progression
