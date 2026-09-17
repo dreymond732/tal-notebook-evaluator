@@ -9,4 +9,21 @@ CHECKS = [
     {"label": "Observation critique", "source": [], "output": "Résultat Q4 :", "points": 1.0, "feedback": "Expliquer au moins une limite de split() : ponctuation, casse, contraction ou morphologie."},
 ]
 def check_notebook(content_str, filename):
-    return check_formative_notebook(content_str, CHECKS, MAX_SCORE_TOTAL)
+    score, details, max_score, info, error = check_formative_notebook(
+        content_str, CHECKS, MAX_SCORE_TOTAL
+    )
+    if score == max_score:
+        verdict = "PRÊT : les prérequis minimaux pour TD1 sont présents."
+    elif score >= 2:
+        verdict = "À CONSOLIDER : réalisez R0 avant TD1."
+    else:
+        verdict = "ACCOMPAGNEMENT RECOMMANDÉ : réalisez R0 et reprenez les bases avec l'enseignant."
+    details.insert(0, {
+        "check": "Diagnostic TD0",
+        "student_answer": verdict,
+        "correct_answer": "Diagnostic formatif ; pas de note certificative.",
+        "status": "ℹ️",
+        "points": score,
+        "max_points": max_score,
+    })
+    return score, details, max_score, info, error
