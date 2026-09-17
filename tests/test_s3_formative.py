@@ -15,6 +15,8 @@ import outils
 import routes
 from app_correction_TD0_S3 import check_notebook
 from app_correction_R0_S3 import check_notebook as check_r0
+from app_correction_R1_S3 import check_notebook as check_r1
+from app_correction_R2_S3 import check_notebook as check_r2
 
 
 def notebook(cells):
@@ -68,6 +70,32 @@ class S3FormativeTests(unittest.TestCase):
         score, _, maximum, _, error = check_r0(content, "r0.ipynb")
         self.assertIsNone(error)
         self.assertLess(score, maximum)
+
+    def test_r0_r1_r2_accept_expected_code_forms(self):
+        output = stdout("Résultat Q1 : ok\nRésultat Q2 : ok\nRésultat Q3 : ok\nRésultat Q4 : ok\n")
+        r0 = notebook([code(
+            "def compter_mots(texte):\n    return len(texte.split())\n"
+            "mots = texte.lower().split()\n"
+            "def frequences(texte):\n    return {mot: mots.get(mot, 0) for mot in []}\n",
+            output,
+        )])
+        r1 = notebook([code(
+            "doc = nlp(texte)\nfor token in doc:\n    print(token.text)\n"
+            "noms = [token.lemma_ for token in doc if token.pos_ == 'NOUN']\n"
+            "verbes = [token.lemma_ for token in doc if token.pos_ == 'VERB']\n",
+            output,
+        )])
+        r2 = notebook([code(
+            "from collections import Counter\n"
+            "def frequences_lemmas(texte, stopwords=None):\n"
+            "    return Counter(token.lemma_ for token in nlp(texte) "
+            "if token.pos_ in {'NOUN'} and not token.is_stop).most_common()\n",
+            output,
+        )])
+        for checker, content in ((check_r0, r0), (check_r1, r1), (check_r2, r2)):
+            score, _, maximum, _, error = checker(content, "passerelle.ipynb")
+            self.assertIsNone(error)
+            self.assertEqual(score, maximum)
 
     def test_invalid_json_returns_controlled_page(self):
         response = self.client.post(
