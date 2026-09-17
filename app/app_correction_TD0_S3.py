@@ -3,7 +3,7 @@ from formative_s3 import check_formative_notebook
 EVAL_ID = "td0-s3"
 MAX_SCORE_TOTAL = 7.0
 CHECKS = [
-    {"label": "Lecture UTF-8", "source": ["open(", "encoding="], "output": "Résultat Q1 :", "points": 1.0, "feedback": "Lire le corpus fourni en UTF-8."},
+    {"label": "Lecture UTF-8", "source": ["with open(", "encoding="], "output": "Résultat Q1 :", "points": 1.0, "feedback": "Lire le corpus fourni en UTF-8 avec un contexte with."},
     {"label": "Découpage brut", "source": [".split()"], "output": "Résultat Q2 :", "points": 1.0, "feedback": "Créer et afficher une liste issue de split()."},
     {"label": "Comptage", "source": ["len("], "output": "Résultat Q3 :", "points": 1.0, "feedback": "Compter les éléments de la liste."},
     {"label": "Formes distinctes", "source": ["set("], "output": "Résultat Q4 :", "points": 1.0, "feedback": "Construire un ensemble de formes distinctes."},
