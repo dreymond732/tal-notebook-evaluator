@@ -16,6 +16,7 @@ Les règles détaillées sont dans `docs/agents/`. Les sources normatives sont c
 8. Un `NON_CONFORME` de gouvernance bloque le workflow.
 9. L'Integration-Master ne rend `READY_TO_MERGE` que s'il est indépendant de la PR ; sinon, `MAINTAINER_REVIEW`.
 10. La fusion et la production restent sous décision du mainteneur.
+11. L'adaptation d'un support existant ne peut réduire sa couverture pédagogique sans décision explicite de l'enseignant. Une matrice source → cible, validée avant conception, est obligatoire ; une simplification de forme n'est acceptable que si l'objectif, l'activité étudiante et le niveau d'autonomie visés restent couverts.
 
 ## Contexte TAL
 
