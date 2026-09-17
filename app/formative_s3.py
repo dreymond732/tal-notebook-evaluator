@@ -4,17 +4,28 @@ Le module ne lance jamais le code remis : il lit seulement les cellules et
 les sorties déjà présentes dans le notebook JSON.
 """
 import json
+import io
+import tokenize
 from typing import Dict, List
 
 import outils
 
 
 def _sources(cells: List[Dict]) -> str:
-    return "\n".join(
-        "".join(cell.get("source", []))
-        for cell in cells
-        if cell.get("cell_type") == "code"
-    )
+    """Retourne le code sans commentaires, sans jamais l'exécuter."""
+    cleaned = []
+    for cell in cells:
+        if cell.get("cell_type") != "code":
+            continue
+        source = "".join(cell.get("source", []))
+        try:
+            tokens = tokenize.generate_tokens(io.StringIO(source).readline)
+            cleaned.append("".join(
+                token.string for token in tokens if token.type != tokenize.COMMENT
+            ))
+        except tokenize.TokenError:
+            cleaned.append(source)
+    return "\n".join(cleaned)
 
 
 def _outputs(cells: List[Dict]) -> str:
@@ -42,6 +53,9 @@ def check_formative_notebook(content_str, checks, max_score):
 
     for check in checks:
         code_ok = all(fragment in source for fragment in check.get("source", []))
+        alternatives = check.get("source_any", [])
+        if alternatives:
+            code_ok = code_ok and any(fragment in source for fragment in alternatives)
         output_marker = check.get("output")
         output_ok = not output_marker or output_marker in output
         success = code_ok and output_ok
