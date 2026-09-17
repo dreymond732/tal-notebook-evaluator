@@ -15,6 +15,10 @@ EVALUATORS = {
     'td4-S2': ('TD4 S2 - Logique', 'app_correction_TD4_S2'),
     'td5-S2': ('TD5 S2 - Algorithmique avancée', 'app_correction_TD5_S2'),
     'td6-S2': ('TD6 S2 - Fichiers', 'app_correction_TD6_S2'),
+    'td0-s3': ('TD0 S3 - Diagnostic texte', 'app_correction_TD0_S3'),
+    'td-r0-s3': ('R0 S3 - Python pour le texte', 'app_correction_R0_S3'),
+    'td-r1-s3': ('R1 S3 - Parcourir un Doc spaCy', 'app_correction_R1_S3'),
+    'td-r2-s3': ('R2 S3 - Fréquences réutilisables', 'app_correction_R2_S3'),
     'Controletilt-s1': ('Contrôle TAL - S1', 'app_correction_controle_S1'),
     #'ControleS2': ('Contrôle S2', 'app_correction_controle_S2'),
     'ControleDevoirMaisonS2': ('Contrôle DM S2', 'app_correction_devoirMaisonS2'),
@@ -87,8 +91,7 @@ def route_evaluator(eval_module, display_name, eval_name):
                     raise Exception("Fonction check_notebook manquante")
             except Exception as e:
                 flash(f"Erreur: {e}", 'error')
-
-            process_submission(file, content_bytes, html_rendered, info, score, eval_name)
+                return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
     return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
 
 def render_eval_template(template, display_name, eval_name, ext, is_td):
@@ -119,5 +122,5 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
         os.makedirs(os.path.dirname(rep_path), exist_ok=True)
         with open(rep_path, 'w', encoding='utf-8') as f:
             f.write(html_report)
-    except Exception as e:
-        print(f"Erreur lors de la sauvegarde : {e}")
+    except OSError as e:
+        raise RuntimeError(f"Erreur lors de la sauvegarde : {e}") from e
