@@ -10,6 +10,13 @@ main_bp = Blueprint('main', __name__)
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
 # IMPORTANT : Les noms de modules doivent utiliser des underscores (_), pas des tirets (-).
 EVALUATORS = {
+    'td1-s1': ('TD1 S1 - Variables et types', 'app_correction_TD1_S1'),
+    'td2-s1': ('TD2 S1 - Chaînes et séquences', 'app_correction_TD2_S1'),
+    'td3-s1': ('TD3 S1 - Collections', 'app_correction_TD3_S1'),
+    'td4-s1': ('TD4 S1 - Boucles et conditions', 'app_correction_TD4_S1'),
+    'td5-s1': ('TD5 S1 - Fonctions', 'app_correction_TD5_S1'),
+    'td6-s1': ('TD6 S1 - Fichiers et données', 'app_correction_TD6_S1'),
+    'td7-s1': ('TD7 S1 - Expressions régulières', 'app_correction_TD7_S1'),
     'td2-S2': ('TD2 S2 - Bases', 'app_correction_TD2_S2'),
     'td3-S2': ('TD3 S2 - Structures', 'app_correction_TD3_S2'),
     'td4-S2': ('TD4 S2 - Logique', 'app_correction_TD4_S2'),
