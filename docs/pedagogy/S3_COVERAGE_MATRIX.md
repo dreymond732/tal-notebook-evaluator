@@ -3,7 +3,7 @@
 ## Statut
 
 - **Référence analysée** : archive fournie le 17 septembre 2026, SHA-256 `406bc452f5440fa946b257a5471a2529adace5d1e30cc049a864d10f4f40ef9d`.
-- **Décision de conception** : en attente de validation de l’enseignant.
+- **Décision de conception** : validée par l’enseignant le 17 septembre 2026.
 - **Règle** : aucun remplacement des notebooks S3 légers ne commence avant cette validation.
 - **Critère** : la couverture porte sur objectifs, notions, manipulations, interprétation et autonomie ; elle ne se mesure pas au nombre de cellules.
 
@@ -44,7 +44,7 @@ TD6 n’existe pas comme notebook source autonome : il est créé pour rendre ex
 | `TD-1-exosSpacy.ipynb` | « classification » par similarité présentée comme classification | `RENFORCÉ`, non supprimé | Conserver l’exercice comme contre-exemple critique, avec explicitation de sa limite. |
 | Tous les notebooks sources | Solutions intégrées au support étudiant | `DÉPLACÉ` | Conserver les solutions dans un notebook enseignant distinct ; ne pas les livrer dans la version étudiante. |
 
-## Décisions demandées à l’enseignant
+## Décisions validées par l’enseignant
 
 1. Valider la suppression des blocs magnet/BitTorrent étrangers au cours.
 2. Valider TD6 comme nouveau TD préparatoire au projet final.
@@ -52,7 +52,7 @@ TD6 n’existe pas comme notebook source autonome : il est créé pour rendre ex
 4. Valider le maintien de la classification par similarité comme activité critique, et non comme méthode de classification.
 5. Valider que les TD0–TD2 complets remplacent les versions légères fusionnées ; R0–R2 restent des passerelles facultatives/de consolidation.
 
-## Suite après validation
+## Suite engagée
 
 - produire TD0, TD1 et TD2 complets, avec jeux de données intégrés ou versionnés ;
 - conserver les versions légères uniquement comme archives de transition, jamais comme support distribué ;
