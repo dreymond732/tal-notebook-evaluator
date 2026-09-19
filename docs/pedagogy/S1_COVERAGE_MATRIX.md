@@ -17,7 +17,7 @@ Le 18 septembre 2026, l’enseignant demande la préparation complète des sept 
 | Élément source | Statut | TD cible et activité étudiante |
 |---|---|---|
 | Environnement notebook, exécution ordonnée, variables et types | RENFORCÉ | TD1 : six exercices gradués, dont type, conversion, calcul et booléen. |
-| Chaînes, indexation, tranches, méthodes, `split` / `join` | RENFORCÉ | TD2 : sept exercices et interprétation d’une limite de `split()`. |
+| Chaînes, indexation, tranches, méthodes, `split` / `join` | RENFORCÉ | TD2 : sept groupes renforcés (prédiction, manipulations, vérification), sept productions complémentaires et interprétation d’une limite de `split()` ; traitement explicite de trois chaînes sans boucle. Voir la [spécification TD2](TD2_S1_SPECIFICATION.md). |
 | Listes, tuples, dictionnaires, ensembles | RENFORCÉ | TD3 : six exercices : modification, lexique, parcours et comparaison de vocabulaires. |
 | `for`, `range`, `while`, tests et appartenance | RENFORCÉ | TD4 : sept exercices ; deux filtrages distincts, `range`, `while` bornée, fréquence et compréhension. |
 | Fonctions, paramètres, `return`, portée et modularité | RENFORCÉ | TD5 : six exercices, de la fonction simple au résumé composé. |
@@ -33,3 +33,7 @@ Chaque notebook demande des sorties `Résultat Qx :`. Le correcteur analyse stat
 ## Bilan
 
 Tous les éléments obligatoires des sources sont conservés, renforcés ou déplacés. Les seules suppressions concernent des formulations techniquement erronées, remplacées par les activités cibles identifiées ci-dessus.
+
+## Révision ciblée du TD2
+
+La spécification du TD2 décrit la couverture conservée et renforcée, le périmètre des notions et les sorties attendues. Son correcteur conserve sept groupes et un total de 7 points, vérifie les traces enregistrées sans exécuter le code déposé et distingue ces traces de la qualité des explications : l’interprétation de Q7 reste à relire humainement. Le tuteur S1 guide sans fournir de code et n’anticipe ni les collections du TD3 au-delà de la liste minimale introduite ici, ni les boucles du TD4. Les durées totalisant 120 minutes sont prévisionnelles.

@@ -113,6 +113,161 @@
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": []
+    },
+    {
+      "id": "TD2_S1",
+      "notebook": "Notebooks TD/S1/TD2_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Chaînes et séquences",
+      "prerequisites": [
+        "TD1 : variables, types, affichage, longueur, appartenance, égalité"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1, Q1b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "strip()",
+            "valeur source"
+          ],
+          "introduced_here": [
+            "strip()",
+            "valeur source"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2, Q2b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "strip()",
+            "lower()",
+            "replace()",
+            "in",
+            "booléen"
+          ],
+          "introduced_here": [
+            "lower()",
+            "replace()"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3, Q3b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "indice",
+            "indice négatif",
+            "tranche",
+            "borne exclue"
+          ],
+          "introduced_here": [
+            "indice",
+            "indice négatif",
+            "tranche",
+            "borne exclue"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4, Q4b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "split()",
+            "liste",
+            "indice",
+            "indice négatif",
+            "type",
+            "type()"
+          ],
+          "introduced_here": [
+            "split()",
+            "liste"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5, Q5b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "liste",
+            "split(séparateur)",
+            "join()",
+            "égalité",
+            "booléen"
+          ],
+          "introduced_here": [
+            "join()",
+            "split(séparateur)"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6, Q6b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "liste littérale",
+            "indice",
+            "strip()",
+            "lower()",
+            "valeur source",
+            "comparaison",
+            "égalité",
+            "booléen"
+          ],
+          "introduced_here": [
+            "liste littérale"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7, Q7b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "split()",
+            "liste",
+            "observation",
+            "ponctuation",
+            "apostrophe",
+            "limite argumentée",
+            "indice",
+            "indice négatif"
+          ],
+          "introduced_here": [
+            "ponctuation",
+            "apostrophe",
+            "limite argumentée"
+          ]
+        }
+      ]
     }
   ]
 }
