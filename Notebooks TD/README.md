@@ -20,3 +20,17 @@ Les correcteurs ne lancent jamais le code remis. Les notebooks doivent donc êtr
 Les identifiants personnels ne sont pas demandés dans les notebooks de TD.
 
 TD0 et les activités R0–R2 disposent d'un correcteur. TD1 et TD2 sont corrigés en séance dans ce lot. Les notebooks spaCy requièrent, dans Colab, une connexion pour installer explicitement les versions indiquées ; relancez cette cellule après un redémarrage du runtime.
+
+## S1 — Python pour le texte
+
+Le dossier `S1/` contient les sept TD préparant le contrôle final S1 :
+
+- `TD1_S1_python_texte.ipynb` : notebook, variables, types et premières expressions ;
+- `TD2_S1_python_texte.ipynb` : chaînes, séquences et découpage naïf ;
+- `TD3_S1_python_texte.ipynb` : listes, tuples, dictionnaires et ensembles ;
+- `TD4_S1_python_texte.ipynb` : boucles, tests, comptages et compréhension ;
+- `TD5_S1_python_texte.ipynb` : fonctions, retours et composition ;
+- `TD6_S1_python_texte.ipynb` : fichiers UTF-8, données structurées et CSV ;
+- `TD7_S1_python_texte.ipynb` : expressions régulières et pipeline textuel.
+
+Chaque TD a un correcteur formatif associé. La matrice de couverture et la progression sont dans `docs/pedagogy/S1_COVERAGE_MATRIX.md`.
