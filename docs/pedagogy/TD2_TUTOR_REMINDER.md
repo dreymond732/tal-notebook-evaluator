@@ -1,4 +1,6 @@
-# TD2 S1 : rappel du tutorat en commentaire Markdown
+# TD2 S1 : historique du pilote de rappel du tutorat
+
+> **Historique, périmètre désormais dépassé.** L'enseignant rapporte que le pilote « marche parfaitement », puis demande sa généralisation à tous les TD et contrôles avec une cellule Markdown dédiée à l'indice0 et les métadonnées. La politique applicable est [TUTORING_POLICY.md](TUTORING_POLICY.md) et la nouvelle matrice [TUTOR_COVERAGE_MATRIX.md](TUTOR_COVERAGE_MATRIX.md). Les paragraphes ci-dessous documentent la version expérimentale initiale : ils ne prescrivent plus son implantation dans la cellule d'introduction. Le retour utilisateur est une observation favorable rapportée ; le protocole détaillé n'a pas été consigné et la généralisation reste à vérifier dans Colab.
 
 ## Constat et décision
 
@@ -46,7 +48,7 @@ TAL_TD2_TUTOR_REMINDER_END -->
 - Le générateur de métadonnées conserve ce rappel explicitement autorisé ; sa vérification ne doit pas exiger sa suppression comme ancien bloc à migrer.
 - La revue indépendante confirme la couverture conservée ; l'observation Colab reste une vérification distincte.
 
-## Protocole manuel Colab — NOT_TESTED
+## Protocole manuel Colab historique — retour favorable rapporté, protocole détaillé non consigné
 
 Comparer une copie du notebook de référence sans rappel et une copie avec le rappel. Conserver les mêmes réglages et le même profil de tuteur, relever le modèle et le mode disponibles, la date, le profil réellement sélectionné et les éventuels éléments de contexte visibles. Utiliser une nouvelle conversation pour chaque scénario et chaque version, sans rappeler oralement les règles avant la première demande. Repartir d'une copie vierge si des cellules ont changé.
 
