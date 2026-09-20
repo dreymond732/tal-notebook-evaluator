@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "sessions": [
+    {
+      "id": "TD1_S1",
+      "notebook": "Notebooks TD/S1/TD1_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Variables, types et premières expressions",
+      "prerequisites": ["Lecture d'une consigne", "Exécution ordonnée des cellules d'un notebook"],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Q1 — Expression numérique et affectation (commentaire de cellule)",
+          "available_concepts": ["variable", "affectation", "valeur numérique", "expression arithmétique", "affichage"],
+          "introduced_here": ["expression arithmétique", "affichage"]
+        },
+        {
+          "id": "Q2",
+          "topic": "Q2 — Observation du type d'une valeur (commentaire de cellule)",
+          "available_concepts": ["variable", "affectation", "valeur numérique", "type", "type()", "affichage"],
+          "introduced_here": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Comparaison et condition composée",
+          "available_concepts": ["variable", "affectation", "valeur numérique", "type", "booléen", "comparaison", "égalité", "conjonction logique", "affichage"],
+          "introduced_here": ["booléen", "comparaison", "conjonction logique"]
+        },
+        {
+          "id": "Q4",
+          "topic": "Chaîne et interpolation",
+          "available_concepts": ["variable", "affectation", "type", "chaîne", "f-string", "affichage"],
+          "introduced_here": ["chaîne", "f-string"]
+        },
+        {
+          "id": "Q5",
+          "topic": "Conversion explicite d'une valeur",
+          "available_concepts": ["variable", "affectation", "chaîne", "valeur numérique", "type", "type()", "conversion en entier", "addition", "affichage"],
+          "introduced_here": ["conversion en entier"]
+        },
+        {
+          "id": "Q6",
+          "topic": "Longueur et appartenance dans une chaîne",
+          "available_concepts": ["variable", "affectation", "chaîne", "booléen", "longueur d'une chaîne", "len()", "appartenance", "affichage"],
+          "introduced_here": ["longueur d'une chaîne", "len()", "appartenance"]
+        }
+      ]
+    },
+    {
+      "id": "TD0_S3",
+      "notebook": "Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Diagnostic et révision : du texte brut aux unités linguistiques",
+      "prerequisites": ["Bases Python à diagnostiquer, sans présumer leur maîtrise", "Lecture UTF-8", "Chaînes et collections", "Boucles", "Dictionnaires", "Fonctions"],
+      "allowed_libraries": [],
+      "provided_libraries": ["pathlib"],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Lire un fichier",
+          "available_concepts": ["variable", "affectation", "chemin relatif", "open()", "with", "lecture de fichier", "encodage UTF-8", "chaîne", "len()", "affichage"],
+          "introduced_here": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Découper et compter : liste",
+          "available_concepts": ["variable", "affectation", "chaîne", "split()", "liste", "affichage", "observation d'unités textuelles"],
+          "introduced_here": ["observation d'unités textuelles"]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 2 — Découper et compter : nombre",
+          "available_concepts": ["variable", "liste", "len()", "affichage", "distinction caractère et élément de liste"],
+          "introduced_here": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 3 — Formes distinctes",
+          "available_concepts": ["variable", "affectation", "liste", "ensemble", "set()", "len()", "affichage", "occurrence", "forme distincte"],
+          "introduced_here": ["occurrence", "forme distincte"]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 4 — Fréquences brutes",
+          "available_concepts": ["variable", "affectation", "liste", "dictionnaire", "boucle for", "condition if/else", "appartenance", "accumulation", "dict.get()", "fonction", "paramètre", "return", "appel de fonction", "paires clé-valeur", "affichage"],
+          "introduced_here": ["dict.get()"]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 5 — Première normalisation",
+          "available_concepts": ["variable", "affectation", "chaîne", "lower()", "split()", "liste", "dictionnaire", "fonction", "paramètre", "return", "appel de fonction", "composition de fonctions", "comparaison de résultats", "affichage"],
+          "introduced_here": ["comparaison de résultats"]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 6 — Interpréter les limites",
+          "available_concepts": ["chaîne", "split()", "lower()", "ponctuation", "forme graphique", "observation linguistique", "tokenisation", "lemmatisation", "hypothèse", "limites d'un traitement", "synthèse argumentée", "affichage"],
+          "introduced_here": ["limites d'un traitement", "synthèse argumentée"]
+        }
+      ]
+    },
+    {
+      "id": "CONTROLE_S1",
+      "notebook": "Notebooks contrôles finaux/DevoirS1.ipynb",
+      "semester": 1,
+      "activity": "controle",
+      "title": "Contrôle S1 : fondamentaux Python et TAL",
+      "prerequisites": [],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
+    },
+    {
+      "id": "TD2_S1",
+      "notebook": "Notebooks TD/S1/TD2_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Chaînes et séquences",
+      "prerequisites": [
+        "TD1 : variables, types, affichage, longueur, appartenance, égalité"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1, Q1b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "strip()",
+            "valeur source"
+          ],
+          "introduced_here": [
+            "strip()",
+            "valeur source"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2, Q2b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "strip()",
+            "lower()",
+            "replace()",
+            "in",
+            "booléen"
+          ],
+          "introduced_here": [
+            "lower()",
+            "replace()"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3, Q3b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "indice",
+            "indice négatif",
+            "tranche",
+            "borne exclue"
+          ],
+          "introduced_here": [
+            "indice",
+            "indice négatif",
+            "tranche",
+            "borne exclue"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4, Q4b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "len()",
+            "split()",
+            "liste",
+            "indice",
+            "indice négatif",
+            "type",
+            "type()"
+          ],
+          "introduced_here": [
+            "split()",
+            "liste"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5, Q5b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "liste",
+            "split(séparateur)",
+            "join()",
+            "égalité",
+            "booléen"
+          ],
+          "introduced_here": [
+            "join()",
+            "split(séparateur)"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6, Q6b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "liste littérale",
+            "indice",
+            "strip()",
+            "lower()",
+            "valeur source",
+            "comparaison",
+            "égalité",
+            "booléen"
+          ],
+          "introduced_here": [
+            "liste littérale"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7, Q7b",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "split()",
+            "liste",
+            "observation",
+            "ponctuation",
+            "apostrophe",
+            "limite argumentée",
+            "indice",
+            "indice négatif"
+          ],
+          "introduced_here": [
+            "ponctuation",
+            "apostrophe",
+            "limite argumentée"
+          ]
+        }
+      ]
+    }
+  ]
+}

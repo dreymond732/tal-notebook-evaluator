@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ display_name }} — dépôt</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f8f9fa; margin: 0; padding: 24px; line-height: 1.5; }
+        main { max-width: 720px; margin: 0 auto; background: white; padding: 32px; border-radius: 12px; }
+        h1 { color: #2c3e50; }
+        .error { background: #f8d7da; padding: 16px; border-radius: 6px; }
+        .receipt { background: #e8f3eb; padding: 16px; border-radius: 6px; }
+        button { background: #2c3e50; color: white; border: 0; padding: 12px 20px; border-radius: 6px; margin: 20px 0; cursor: pointer; }
+        a { color: #245681; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>{{ display_name }}</h1>
+    <p>Contrôle — dépôt de la copie</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="{{ category }}" role="alert">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+    {% if received %}
+        <p class="receipt" role="status"><strong>Copie reçue et enregistrée.</strong></p>
+        <p>L'enseignant communiquera les résultats après l'épreuve.</p>
+    {% else %}
+        <form method="post" action="{{ url_for('main.route_evaluator', eval_name=evaluator_name) }}" enctype="multipart/form-data">
+            <p><label for="submission">Votre fichier {{ allowed_extension }}</label></p>
+            <input id="submission" type="file" name="file" accept="{{ allowed_extension }}" required>
+            <br><button type="submit">Déposer la copie</button>
+        </form>
+    {% endif %}
+    <p><a href="{{ url_for('main.index') }}">Revenir au sélecteur</a></p>
+</main>
+</body>
+</html>
