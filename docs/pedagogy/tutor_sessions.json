@@ -128,159 +128,220 @@
       "notebook": "Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb",
       "semester": 3,
       "activity": "td",
-      "title": "Diagnostic et révision : du texte brut aux unités linguistiques",
+      "title": "Du texte à une mesure vérifiable",
       "prerequisites": [
-        "Bases Python à diagnostiquer, sans présumer leur maîtrise",
-        "Lecture UTF-8",
-        "Chaînes et collections",
-        "Boucles",
-        "Dictionnaires",
-        "Fonctions"
+        "Python S1–S2 à réactiver sans présumer la maîtrise"
       ],
-      "allowed_libraries": [],
+      "allowed_libraries": [
+        "json"
+      ],
       "provided_libraries": [
-        "pathlib"
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
       ],
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Lire un fichier",
+          "topic": "Exercice 1 — Lire et préserver le texte",
           "available_concepts": [
-            "variable",
-            "affectation",
-            "chemin relatif",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "open()",
             "with",
-            "lecture de fichier",
-            "encodage UTF-8",
-            "chaîne",
+            "UTF-8",
             "len()",
-            "affichage"
+            "préserver source"
           ],
-          "introduced_here": [],
-          "allowed_libraries": []
+          "introduced_here": [
+            "open()",
+            "with",
+            "UTF-8",
+            "len()",
+            "préserver source"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Découper et compter : liste",
+          "topic": "Exercice 2 — Voir les unités réellement comptées",
           "available_concepts": [
-            "variable",
-            "affectation",
-            "chaîne",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "split()",
-            "liste",
-            "affichage",
-            "observation d'unités textuelles"
+            "ponctuation",
+            "apostrophe"
           ],
           "introduced_here": [
-            "observation d'unités textuelles"
+            "split()",
+            "ponctuation",
+            "apostrophe"
           ],
-          "allowed_libraries": []
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q3",
-          "topic": "Exercice 2 — Découper et compter : nombre",
+          "topic": "Exercice 3 — Occurrences et vérification",
           "available_concepts": [
-            "variable",
-            "liste",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "len()",
-            "affichage",
-            "distinction caractère et élément de liste"
+            "compteur",
+            "unités",
+            "incrémentation"
           ],
-          "introduced_here": [],
-          "allowed_libraries": []
+          "introduced_here": [
+            "len()",
+            "compteur",
+            "unités"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q4",
-          "topic": "Exercice 3 — Formes distinctes",
+          "topic": "Exercice 4 — Construire le vocabulaire observé",
           "available_concepts": [
-            "variable",
-            "affectation",
-            "liste",
-            "ensemble",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "set()",
             "len()",
-            "affichage",
-            "occurrence",
-            "forme distincte"
+            "occurrence/forme"
           ],
           "introduced_here": [
-            "occurrence",
-            "forme distincte"
+            "set()",
+            "len()",
+            "occurrence/forme"
           ],
-          "allowed_libraries": []
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q5",
-          "topic": "Exercice 4 — Fréquences brutes",
+          "topic": "Exercice 5 — Fréquences brutes et fonction réutilisable",
           "available_concepts": [
-            "variable",
-            "affectation",
-            "liste",
-            "dictionnaire",
-            "boucle for",
-            "condition if/else",
-            "appartenance",
-            "accumulation",
-            "dict.get()",
-            "fonction",
-            "paramètre",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "get()",
+            "items()",
+            "values()",
+            "sum()",
             "return",
-            "appel de fonction",
-            "paires clé-valeur",
-            "affichage"
+            "liste vide"
           ],
           "introduced_here": [
-            "dict.get()"
+            "get()",
+            "items()",
+            "values()",
+            "sum()",
+            "return",
+            "liste vide"
           ],
-          "allowed_libraries": []
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q6",
-          "topic": "Exercice 5 — Première normalisation",
+          "topic": "Exercice 6 — Normaliser sans tout confondre",
           "available_concepts": [
-            "variable",
-            "affectation",
-            "chaîne",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "lower()",
             "split()",
-            "liste",
-            "dictionnaire",
-            "fonction",
-            "paramètre",
-            "return",
-            "appel de fonction",
-            "composition de fonctions",
-            "comparaison de résultats",
-            "affichage"
+            "somme",
+            "comparaison"
           ],
           "introduced_here": [
-            "comparaison de résultats"
+            "lower()",
+            "split()",
+            "somme",
+            "comparaison"
           ],
-          "allowed_libraries": []
+          "allowed_libraries": [
+            "json"
+          ]
         },
         {
           "id": "Q7",
-          "topic": "Exercice 6 — Interpréter les limites",
+          "topic": "Exercice 7 — Passer du comptage à l’audit",
           "available_concepts": [
-            "chaîne",
-            "split()",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "lower()",
-            "ponctuation",
-            "forme graphique",
-            "observation linguistique",
-            "tokenisation",
-            "lemmatisation",
-            "hypothèse",
-            "limites d'un traitement",
-            "synthèse argumentée",
-            "affichage"
+            "split()",
+            "tokenisation/lemme",
+            "paramètre absent",
+            "hypothèse"
           ],
           "introduced_here": [
-            "limites d'un traitement",
-            "synthèse argumentée"
+            "lower()",
+            "split()",
+            "tokenisation/lemme",
+            "paramètre absent",
+            "hypothèse"
           ],
-          "allowed_libraries": []
+          "allowed_libraries": [
+            "json"
+          ]
         }
       ]
     },
@@ -1297,173 +1358,234 @@
       "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
       "semester": 3,
       "activity": "td",
-      "title": "spaCy : du texte à l’annotation linguistique",
+      "title": "Du texte aux annotations spaCy",
       "prerequisites": [
-        "TD0 et bases Python ; spaCy introduit dans la préparation"
+        "Python S1–S2 à réactiver sans présumer la maîtrise",
+        "TD0–TD0 S3 : fonctions, objets et preuves construits"
       ],
       "allowed_libraries": [
+        "json",
         "spacy",
         "spacy.displacy"
       ],
-      "provided_libraries": [],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Tableau d’annotations",
+          "topic": "Exercice 1 — Lire puis contrôler les annotations",
           "available_concepts": [
-            "variable",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "Doc",
-            "token",
-            "boucle for",
-            "condition if",
             "token.text",
-            "token.lemma_",
-            "token.pos_",
-            "token.tag_",
-            "token.is_punct",
-            "annotation",
-            "interprétation",
-            "print()"
+            "lemma_",
+            "pos_",
+            "tag_",
+            "idx",
+            "len()",
+            "is_punct",
+            "annotation manuelle"
           ],
           "introduced_here": [
             "Doc",
-            "token",
             "token.text",
-            "token.lemma_",
-            "token.pos_",
-            "token.tag_",
-            "token.is_punct",
-            "annotation"
+            "lemma_",
+            "pos_",
+            "tag_",
+            "idx",
+            "len()",
+            "is_punct",
+            "annotation manuelle"
           ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Segmentation en phrases",
+          "topic": "Exercice 2 — Segmenter et vérifier",
           "available_concepts": [
-            "variable",
-            "Doc",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "doc.sents",
             "Span",
-            "boucle for",
             "len()",
-            "phrase.text",
-            "token",
-            "split()",
-            "comparaison",
-            "print()"
+            "start_char",
+            "end_char",
+            "segmentation"
           ],
           "introduced_here": [
             "doc.sents",
             "Span",
-            "phrase.text"
+            "len()",
+            "start_char",
+            "end_char",
+            "segmentation"
           ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Filtrer des catégories",
+          "topic": "Exercice 3 — Comparer trois filtres",
           "available_concepts": [
-            "variable",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "Doc",
-            "token",
-            "liste",
-            "boucle for",
-            "condition if",
+            "lemma_",
+            "pos_",
+            "is_stop",
             "append()",
-            "appartenance",
-            "token.lemma_",
-            "token.pos_",
-            "token.is_stop",
-            "filtrage",
-            "interprétation",
-            "print()"
+            "NOUN/VERB/ADJ"
           ],
           "introduced_here": [
-            "token.is_stop",
-            "filtrage"
+            "Doc",
+            "lemma_",
+            "pos_",
+            "is_stop",
+            "append()",
+            "NOUN/VERB/ADJ"
           ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Visualiser et interpréter",
+          "topic": "Exercice 4 — Visualiser puis expliquer",
           "available_concepts": [
-            "Doc",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "doc.sents",
-            "Span",
             "displacy.render",
-            "visualisation",
-            "verbe principal",
-            "relation syntaxique",
-            "hypothèse",
-            "limites du modèle"
+            "dep_",
+            "head.text",
+            "interprétation",
+            "token.idx",
+            "len()",
+            "indices/tranches"
           ],
           "introduced_here": [
+            "doc.sents",
             "displacy.render",
-            "visualisation",
-            "verbe principal",
-            "relation syntaxique"
+            "dep_",
+            "head.text",
+            "interprétation"
           ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "spacy.displacy"
           ]
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Comparer découpage brut et tokenisation",
+          "topic": "Exercice 5 — Comparer deux découpages sur une même donnée",
           "available_concepts": [
-            "variable",
-            "chaîne",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "split()",
             "nlp()",
-            "Doc",
-            "token",
             "len()",
-            "boucle for",
-            "condition if",
-            "token.is_punct",
-            "dictionnaire",
-            "comparaison",
-            "interprétation",
-            "print()"
+            "is_punct",
+            "is_space",
+            "comparaison"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "split()",
+            "nlp()",
+            "len()",
+            "is_punct",
+            "is_space",
+            "comparaison"
+          ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Réinvestissement autonome",
+          "topic": "Exercice 6 — Réinvestissement autonome et export de preuves",
           "available_concepts": [
-            "variable",
-            "chaîne",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "nlp()",
-            "Doc",
             "doc.sents",
-            "token",
-            "liste",
-            "indice",
-            "tranche",
+            "text",
+            "lemma_",
+            "pos_",
+            "indices",
+            "tranches",
             "len()",
-            "boucle for",
-            "condition if",
-            "token.text",
-            "token.lemma_",
-            "token.pos_",
-            "hypothèse",
-            "print()"
+            "preuve"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "nlp()",
+            "doc.sents",
+            "text",
+            "lemma_",
+            "pos_",
+            "indices",
+            "tranches",
+            "len()",
+            "preuve"
+          ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         }
@@ -1679,180 +1801,229 @@
       "notebook": "Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb",
       "semester": 3,
       "activity": "td",
-      "title": "Analyse de corpus : fréquences, filtrage et visualisation",
+      "title": "Fréquences, filtres et objets de recherche",
       "prerequisites": [
-        "TD1, R1 et R2 S3 ; lecture UTF-8 ; fonctions ; Counter"
+        "Python S1–S2 à réactiver sans présumer la maîtrise",
+        "TD0–TD1 S3 : fonctions, objets et preuves construits"
       ],
       "allowed_libraries": [
+        "json",
         "spacy",
         "collections",
         "wordcloud",
         "matplotlib"
       ],
       "provided_libraries": [
-        "pathlib"
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
       ],
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Lire et annoter le corpus",
+          "topic": "Exercice 1 — Lire le corpus et rendre l’annotation inspectable",
           "available_concepts": [
-            "variable",
-            "with",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "open()",
-            "read()",
             "UTF-8",
             "nlp()",
             "Doc",
-            "doc.sents",
+            "sents",
             "token",
             "len()",
-            "liste",
-            "tranche",
-            "boucle for",
-            "condition if",
-            "token.is_punct",
-            "token.text",
-            "token.lemma_",
-            "token.pos_",
-            "print()"
+            "text/lemma_/pos_"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "open()",
+            "UTF-8",
+            "nlp()",
+            "Doc",
+            "sents",
+            "token",
+            "len()",
+            "text/lemma_/pos_"
+          ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Noms, verbes et fréquence",
+          "topic": "Exercice 2 — Deux fonctions de fréquences",
           "available_concepts": [
-            "variable",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "nlp()",
-            "Doc",
-            "token",
-            "liste",
-            "boucle for",
-            "condition if",
-            "token.lemma_",
-            "token.pos_",
-            "token.is_punct",
-            "token.is_stop",
-            "appartenance",
+            "lemma_/pos_",
+            "is_stop/is_punct",
+            "lower()",
             "Counter",
-            "most_common()",
-            "def",
-            "paramètre par défaut",
             "None",
-            "return",
-            "print()"
+            "return"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "nlp()",
+            "lemma_/pos_",
+            "is_stop/is_punct",
+            "lower()",
+            "Counter",
+            "None",
+            "return"
+          ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "collections"
           ]
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Paramètres et exclusions adaptées",
+          "topic": "Exercice 3 — Mesurer l’effet des exclusions",
           "available_concepts": [
-            "variable",
-            "collection d’exclusions",
-            "fonction",
-            "paramètre",
-            "appel",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "exclusions",
+            "appels",
             "Counter",
             "most_common()",
-            "comparaison",
-            "choix de filtrage",
-            "interprétation",
-            "print()"
+            "comparaison"
           ],
           "introduced_here": [
-            "choix de filtrage"
+            "exclusions",
+            "appels",
+            "Counter",
+            "most_common()",
+            "comparaison"
           ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "collections"
           ]
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Fréquences par catégorie grammaticale",
+          "topic": "Exercice 4 — Fréquences grammaticales",
           "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "Doc",
-            "token",
-            "token.pos_",
-            "token.is_punct",
-            "boucle for",
-            "condition if",
-            "dictionnaire",
+            "pos_",
+            "is_punct/is_space",
             "Counter",
             "most_common()",
-            "distribution",
-            "limites interprétatives",
-            "print()"
+            "sum()"
           ],
           "introduced_here": [
-            "distribution",
-            "limites interprétatives"
+            "Doc",
+            "pos_",
+            "is_punct/is_space",
+            "Counter",
+            "most_common()",
+            "sum()"
           ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "collections"
           ]
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Liste de lemmes et contrôle qualité",
+          "topic": "Exercice 5 — Contrôle qualité et objets recherchés",
           "available_concepts": [
-            "variable",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "Doc",
-            "token",
-            "liste",
-            "boucle for",
-            "condition if",
-            "appartenance",
-            "token.lemma_",
-            "token.pos_",
-            "token.is_stop",
-            "vérification manuelle",
-            "qualité de l’annotation",
-            "limites du modèle",
-            "print()"
+            "lemma_/pos_",
+            "is_stop/is_punct",
+            "contrôle manuel",
+            "forme/lemme/expression"
           ],
           "introduced_here": [
-            "vérification manuelle",
-            "qualité de l’annotation"
+            "Doc",
+            "lemma_/pos_",
+            "is_stop/is_punct",
+            "contrôle manuel",
+            "forme/lemme/expression"
           ],
           "allowed_libraries": [
+            "json",
             "spacy"
           ]
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Nuage de mots filtré",
+          "topic": "Exercice 6 — Visualiser sans surinterpréter",
           "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "Counter",
-            "fonction",
-            "appel",
             "WordCloud",
-            "generate_from_frequencies()",
-            "plt.imshow",
-            "plt.axis",
-            "plt.show",
-            "hypothèse vérifiable",
-            "fréquence et pertinence"
+            "generate_from_frequencies",
+            "matplotlib",
+            "bar",
+            "imshow",
+            "hypothèse"
           ],
           "introduced_here": [
+            "Counter",
             "WordCloud",
-            "generate_from_frequencies()",
-            "plt.imshow",
-            "plt.axis",
-            "plt.show",
-            "hypothèse vérifiable"
+            "generate_from_frequencies",
+            "matplotlib",
+            "bar",
+            "imshow",
+            "hypothèse"
           ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "collections",
             "wordcloud",
@@ -1861,35 +2032,36 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Fonction généralisée",
+          "topic": "Exercice 7 — Généraliser et transférer",
           "available_concepts": [
-            "variable",
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
             "nlp()",
-            "Doc",
-            "token",
-            "token.lemma_",
-            "token.pos_",
-            "token.is_punct",
-            "token.is_stop",
-            "boucle for",
-            "condition if",
-            "appartenance",
-            "collection de POS",
-            "collection d’exclusions",
+            "POS",
+            "exclusions",
             "Counter",
-            "def",
-            "paramètre par défaut",
             "return",
-            "appel",
-            "comparaison",
-            "lisibilité",
-            "print()"
+            "généralisation",
+            "texte vide"
           ],
           "introduced_here": [
-            "collection de POS",
-            "lisibilité"
+            "nlp()",
+            "POS",
+            "exclusions",
+            "Counter",
+            "return",
+            "généralisation",
+            "texte vide"
           ],
           "allowed_libraries": [
+            "json",
             "spacy",
             "collections"
           ]
@@ -2824,6 +2996,1261 @@
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": []
+    },
+    {
+      "id": "TD3_S3",
+      "notebook": "Notebooks TD/S3/TD3_S3_concordances_citations.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Concordances et fidélité des citations",
+      "prerequisites": [
+        "Python S1–S2 à réactiver sans présumer la maîtrise",
+        "TD0–TD2 S3 : fonctions, objets et preuves construits"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Fixer le périmètre de la preuve",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "provenance",
+            "lecture JSON",
+            "paramètres absents",
+            "conversation",
+            "empreinte fournie"
+          ],
+          "introduced_here": [
+            "provenance",
+            "lecture JSON",
+            "paramètres absents",
+            "conversation",
+            "empreinte fournie"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Construire une concordance exacte",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "find()",
+            "while",
+            "indices/tranches",
+            "max/min",
+            "len()",
+            "ValueError",
+            "concordance",
+            "try/except",
+            "raise ValueError"
+          ],
+          "introduced_here": [
+            "find()",
+            "while",
+            "indices/tranches",
+            "max/min",
+            "len()",
+            "ValueError",
+            "concordance",
+            "try/except",
+            "raise ValueError"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Comparer des recherches explicites",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "nlp()",
+            "token.text/lemma_/idx",
+            "len()",
+            "find()",
+            "PhraseMatcher",
+            "expression"
+          ],
+          "introduced_here": [
+            "nlp()",
+            "token.text/lemma_/idx",
+            "len()",
+            "find()",
+            "PhraseMatcher",
+            "expression"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "spacy.matcher"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Auditer une citation exacte",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "find()",
+            "indices",
+            "len()",
+            "égalité",
+            "citation exacte",
+            "preuve"
+          ],
+          "introduced_here": [
+            "find()",
+            "indices",
+            "len()",
+            "égalité",
+            "citation exacte",
+            "preuve"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Qualifier une altération",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "replace()",
+            "lower()",
+            "find()",
+            "indices/tranches",
+            "normalisation",
+            "substitution"
+          ],
+          "introduced_here": [
+            "replace()",
+            "lower()",
+            "find()",
+            "indices/tranches",
+            "normalisation",
+            "substitution"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Un rapprochement n’est pas une preuve automatique",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "find()",
+            "in",
+            "égalité",
+            "booléen",
+            "test manuel",
+            "proximité/conformité"
+          ],
+          "introduced_here": [
+            "find()",
+            "in",
+            "égalité",
+            "booléen",
+            "test manuel",
+            "proximité/conformité"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Assembler un dossier de preuves",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "concordances_exactes",
+            "indices/tranches",
+            "preuve",
+            "paramètres",
+            "proposition"
+          ],
+          "introduced_here": [
+            "concordances_exactes",
+            "indices/tranches",
+            "preuve",
+            "paramètres",
+            "proposition"
+          ],
+          "allowed_libraries": [
+            "json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD4_S3",
+      "notebook": "Notebooks TD/S3/TD4_S3_cooccurrences.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Définir et vérifier les cooccurrences",
+      "prerequisites": [
+        "TD0–TD3 S3 : réactiver les fonctions, unités et preuves construites ; ne pas présumer la maîtrise"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Présence et marges",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "set()",
+            "len()",
+            "marge",
+            "contexte",
+            "présence"
+          ],
+          "introduced_here": [
+            "set()",
+            "len()",
+            "marge",
+            "contexte",
+            "présence"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Compter une paire par phrase",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "set()",
+            "in",
+            "somme",
+            "cooccurrence phrase",
+            "symétrie",
+            "assert",
+            "test de fonction"
+          ],
+          "introduced_here": [
+            "set()",
+            "in",
+            "somme",
+            "cooccurrence phrase",
+            "symétrie"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Réunion et somme des paires",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "any()",
+            "set()",
+            "union/somme",
+            "paires",
+            "présence"
+          ],
+          "introduced_here": [
+            "any()",
+            "set()",
+            "union/somme",
+            "paires",
+            "présence"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Mesurer une distance entre positions",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "enumerate()",
+            "abs()",
+            "positions",
+            "distance <= k",
+            "fenêtre",
+            "raise ValueError",
+            "refus k<1"
+          ],
+          "introduced_here": [
+            "enumerate()",
+            "abs()",
+            "positions",
+            "distance <= k",
+            "fenêtre"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Choisir les frontières",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "paragraphes",
+            "doc.sents",
+            "token.i",
+            "token.text",
+            "frontières"
+          ],
+          "introduced_here": [
+            "paragraphes",
+            "doc.sents",
+            "token.i",
+            "token.text",
+            "frontières"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Contrôler la normalisation",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "nlp()",
+            "text/lemma_/pos_",
+            "lower()",
+            "normalisation",
+            "comparaison",
+            "PhraseMatcher TD3",
+            "expression multi-token"
+          ],
+          "introduced_here": [
+            "nlp()",
+            "text/lemma_/pos_",
+            "lower()",
+            "normalisation",
+            "comparaison"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "spacy.matcher"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Exporter une mesure contrôlable",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "json.dump/load",
+            "open()",
+            "concordances",
+            "paramètres",
+            "preuve"
+          ],
+          "introduced_here": [
+            "json.dump/load",
+            "open()",
+            "concordances",
+            "paramètres",
+            "preuve"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD5_S3",
+      "notebook": "Notebooks TD/S3/TD5_S3_associations.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Comparer fréquences et associations",
+      "prerequisites": [
+        "TD0–TD4 S3 : réactiver les fonctions, unités et preuves construites ; ne pas présumer la maîtrise"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "math"
+      ],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Donner un dénominateur",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "division",
+            "round()",
+            "marges",
+            "proportions",
+            "univers commun"
+          ],
+          "introduced_here": [
+            "division",
+            "round()",
+            "marges",
+            "proportions",
+            "univers commun"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Fréquent ou associé ?",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "division",
+            "round()",
+            "fréquence/association",
+            "taux de base"
+          ],
+          "introduced_here": [
+            "division",
+            "round()",
+            "fréquence/association",
+            "taux de base"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Comparer des tailles de texte",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "len()",
+            "tranches",
+            "token.is_alpha",
+            "pour mille",
+            "None"
+          ],
+          "introduced_here": [
+            "len()",
+            "tranches",
+            "token.is_alpha",
+            "pour mille",
+            "None"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Inverser la condition",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "division",
+            "round()",
+            "table 2x2",
+            "symétrie",
+            "marges"
+          ],
+          "introduced_here": [
+            "division",
+            "round()",
+            "table 2x2",
+            "symétrie",
+            "marges"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Traiter les absences et les petits nombres",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "None",
+            "zéro/indéfini",
+            "faible effectif",
+            "PMI/log2 optionnel"
+          ],
+          "introduced_here": [
+            "None",
+            "zéro/indéfini",
+            "faible effectif",
+            "PMI/log2 optionnel"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "math"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Tester la sensibilité du résultat",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "token.i",
+            "abs()",
+            "any()",
+            "fenêtres",
+            "couverture de pivots"
+          ],
+          "introduced_here": [
+            "token.i",
+            "abs()",
+            "any()",
+            "fenêtres",
+            "couverture de pivots"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Rédiger une conclusion mesurée",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "json.dump/load",
+            "open()",
+            "round()",
+            "effectif/dénominateur",
+            "preuve"
+          ],
+          "introduced_here": [
+            "json.dump/load",
+            "open()",
+            "round()",
+            "effectif/dénominateur",
+            "preuve"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD6_S3",
+      "notebook": "Notebooks TD/S3/TD6_S3_visualisations.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Lire à distance et revenir au texte",
+      "prerequisites": [
+        "TD0–TD5 S3 : réactiver les fonctions, unités et preuves construites ; ne pas présumer la maîtrise"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "matplotlib"
+      ],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Situer les occurrences",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "Doc",
+            "token.idx/i/text",
+            "positions",
+            "scatter",
+            "axvline",
+            "eventplot",
+            "xlim",
+            "xlabel",
+            "yticks",
+            "show"
+          ],
+          "introduced_here": [
+            "Doc",
+            "token.idx/i/text",
+            "positions",
+            "scatter",
+            "axvline"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Découper en segments",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "len()",
+            "range()",
+            "tranches",
+            "is_alpha",
+            "segments",
+            "dénominateur",
+            "int()",
+            "bornes exclues"
+          ],
+          "introduced_here": [
+            "len()",
+            "range()",
+            "tranches",
+            "is_alpha",
+            "segments",
+            "dénominateur"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Comparer une carte de chaleur",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "matrice",
+            "pour mille",
+            "imshow",
+            "colorbar",
+            "ticks",
+            "échelle",
+            "subplots",
+            "set_xticks/set_yticks"
+          ],
+          "introduced_here": [
+            "matrice",
+            "pour mille",
+            "imshow",
+            "colorbar",
+            "ticks",
+            "échelle"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Visualiser la sensibilité",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "fenêtres",
+            "tableau",
+            "plot",
+            "scatter",
+            "légende",
+            "sensibilité"
+          ],
+          "introduced_here": [
+            "fenêtres",
+            "tableau",
+            "plot",
+            "scatter",
+            "légende",
+            "sensibilité"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Revenir aux passages",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "concordances",
+            "indices/tranches",
+            "preuves",
+            "retour au texte",
+            "token.idx",
+            "min/max",
+            "join()"
+          ],
+          "introduced_here": [
+            "concordances",
+            "indices/tranches",
+            "preuves",
+            "retour au texte"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Rendre un graphique vérifiable",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "titre/axes/unité",
+            "savefig",
+            "tableau source",
+            "paramètres",
+            "imshow",
+            "matrice de cooccurrences",
+            "bar"
+          ],
+          "introduced_here": [
+            "titre/axes/unité",
+            "savefig",
+            "tableau source",
+            "paramètres"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Interpréter et exporter",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "json.dump/load",
+            "open()",
+            "export",
+            "protocole",
+            "interprétation",
+            "savefig",
+            "show",
+            "moyenne pondérée"
+          ],
+          "introduced_here": [
+            "json.dump/load",
+            "open()",
+            "export",
+            "protocole",
+            "interprétation"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD7_S3",
+      "notebook": "Notebooks TD/S3/TD7_S3_audit_llm.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Auditer une analyse textométrique produite par un LLM",
+      "prerequisites": [
+        "TD0–TD6 S3 : réactiver les fonctions, unités et preuves construites ; ne pas présumer la maîtrise"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "difflib",
+        "matplotlib"
+      ],
+      "provided_libraries": [
+        "pathlib",
+        "hashlib",
+        "urllib.request",
+        "urllib.parse",
+        "sys",
+        "subprocess"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Formaliser une affirmation",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "lecture JSON",
+            "paramètres absents",
+            "protocole",
+            "reconstruction"
+          ],
+          "introduced_here": [
+            "lecture JSON",
+            "paramètres absents",
+            "protocole",
+            "reconstruction"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Construire le moteur commun",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "réutilisation TD3–5",
+            "marges/cooccurrences",
+            "tests",
+            "phrases"
+          ],
+          "introduced_here": [
+            "réutilisation TD3–5",
+            "marges/cooccurrences",
+            "tests",
+            "phrases"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Vérifier les citations",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "find()",
+            "indices/tranches",
+            "citation",
+            "normalisation",
+            "candidat approché",
+            "difflib option hors séance"
+          ],
+          "introduced_here": [
+            "find()",
+            "indices/tranches",
+            "citation",
+            "normalisation",
+            "candidat approché",
+            "difflib option hors séance"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "difflib"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Comparer un nombre défini",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "round()",
+            "intervalle",
+            "comparaison conditionnelle",
+            "verdict"
+          ],
+          "introduced_here": [
+            "round()",
+            "intervalle",
+            "comparaison conditionnelle",
+            "verdict"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Traiter groupes et expressions",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "forme/lemme/expression",
+            "token.text/lemma_/i",
+            "union/somme",
+            "groupes déclarés",
+            "visualisation TD6",
+            "matrice",
+            "dispersion"
+          ],
+          "introduced_here": [
+            "forme/lemme/expression",
+            "token.text/lemma_/i",
+            "union/somme",
+            "groupes déclarés"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Éprouver sur un cas nouveau",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "cas nouveau",
+            "tests",
+            "booléens",
+            "attendu/observé",
+            "preuve"
+          ],
+          "introduced_here": [
+            "cas nouveau",
+            "tests",
+            "booléens",
+            "attendu/observé",
+            "preuve"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Livrer un audit argumenté",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "fonctions",
+            "print()",
+            "json.dumps()",
+            "json.dump/load",
+            "open()",
+            "export",
+            "6 affirmations",
+            "conclusion",
+            "limites"
+          ],
+          "introduced_here": [
+            "json.dump/load",
+            "open()",
+            "export",
+            "6 affirmations",
+            "conclusion",
+            "limites"
+          ],
+          "allowed_libraries": [
+            "json",
+            "spacy"
+          ]
+        }
+      ]
     }
   ],
   "excluded_notebooks": [

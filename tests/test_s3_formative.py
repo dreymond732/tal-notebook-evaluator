@@ -54,25 +54,16 @@ class S3FormativeTests(unittest.TestCase):
             response = self.client.get(f"/eval/{identifier}")
             self.assertEqual(response.status_code, 200)
 
-    def test_td0_reports_ready_without_executing_notebook_code(self):
-        content = notebook([
-            code('raise RuntimeError("ne doit jamais être exécuté")\nwith open("x", encoding="utf-8") as f: pass\nmots = texte.split()\nformes = set(mots)\ndef frequences_brutes(valeurs):\n    resultat = {}\n    for valeur in valeurs:\n        resultat[valeur] = resultat.get(valeur, 0) + 1\n    return resultat\ndef frequences_minuscules(texte):\n    return frequences_brutes(texte.lower().split())\nprint(len(mots))\n', stdout("Résultat Q1 : 12\nRésultat Q2 : []\nRésultat Q3 : 0\nRésultat Q4 : 0\nRésultat Q5 : {}\nRésultat Q6 : {}\nRésultat Q7 : limite\n")),
-        ])
+    def test_td0_rejects_legacy_presence_only_records(self):
+        content = notebook([code(
+            'raise RuntimeError("ne doit jamais être exécuté")\n'
+            'mots = texte.split()\nprint(len(mots))\n',
+            stdout("Résultat Q1 : ok\nRésultat Q2 : ok\nRésultat Q7 : limite\n"),
+        )])
         score, details, maximum, _, error = check_notebook(content, "td0.ipynb")
         self.assertIsNone(error)
-        self.assertEqual((score, maximum), (7.0, 7.0))
-        self.assertIn("PRÊT", details[0]["student_answer"])
-
-    def test_td0_requires_a_context_manager_for_utf8_reading(self):
-        content = notebook([
-            code('f = open("x", encoding="utf-8")\nprint("Résultat Q1 : 12")\n'),
-        ])
-        score, details, maximum, _, error = check_notebook(content, "td0.ipynb")
-        self.assertIsNone(error)
-        self.assertEqual(maximum, 7.0)
-        self.assertEqual(score, 0.0)
-        self.assertEqual(details[1]["check"], "Lecture UTF-8")
-        self.assertEqual(details[1]["status"], "❌")
+        self.assertEqual((score, maximum), (0.0, 7.0))
+        self.assertIn("S3", check_notebook.__module__)
 
     def test_comments_do_not_satisfy_r0_code_check(self):
         content = notebook([
