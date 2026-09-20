@@ -1,15 +1,23 @@
 # Fichier: app/routes.py
 import os
-from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
+from markupsafe import escape
 import outils
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
 # IMPORTANT : Les noms de modules doivent utiliser des underscores (_), pas des tirets (-).
 EVALUATORS = {
+    'td1-s1': ('TD1 S1 - Variables et types', 'app_correction_TD1_S1'),
+    'td2-s1': ('TD2 S1 - Chaînes et séquences', 'app_correction_TD2_S1'),
+    'td3-s1': ('TD3 S1 - Collections', 'app_correction_TD3_S1'),
+    'td4-s1': ('TD4 S1 - Boucles et conditions', 'app_correction_TD4_S1'),
+    'td5-s1': ('TD5 S1 - Fonctions', 'app_correction_TD5_S1'),
+    'td6-s1': ('TD6 S1 - Fichiers et données', 'app_correction_TD6_S1'),
+    'td7-s1': ('TD7 S1 - Expressions régulières', 'app_correction_TD7_S1'),
     'td2-S2': ('TD2 S2 - Bases', 'app_correction_TD2_S2'),
     'td3-S2': ('TD3 S2 - Structures', 'app_correction_TD3_S2'),
     'td4-S2': ('TD4 S2 - Logique', 'app_correction_TD4_S2'),
@@ -24,6 +32,30 @@ EVALUATORS = {
     'ControleDevoirMaisonS2': ('Contrôle DM S2', 'app_correction_devoirMaisonS2'),
 }
 
+# Mode pédagogique explicite, indépendant du nom et de l'URL.
+# Les deux supports S2 ambigus portent un titre « Contrôle » : pas de retour
+# pédagogique public tant que l'enseignant n'a pas arbitré leur statut.
+EVALUATOR_MODES = {
+    'td1-s1': 'td',
+    'td2-s1': 'td',
+    'td3-s1': 'td',
+    'td4-s1': 'td',
+    'td5-s1': 'td',
+    'td6-s1': 'td',
+    'td7-s1': 'td',
+    'td2-S2': 'controle',
+    'td3-S2': 'td',
+    'td4-S2': 'controle',
+    'td5-S2': 'td',
+    'td6-S2': 'td',
+    'td0-s3': 'td',
+    'td-r0-s3': 'td',
+    'td-r1-s3': 'td',
+    'td-r2-s3': 'td',
+    'Controletilt-s1': 'controle',
+    'ControleDevoirMaisonS2': 'controle',
+}
+
 
 def load_evaluator(f):
     @wraps(f)
@@ -33,12 +65,15 @@ def load_evaluator(f):
             return redirect(url_for('main.index'))
 
         display, module_name = EVALUATORS[eval_name]
+        if EVALUATOR_MODES.get(eval_name) not in {'td', 'controle'}:
+            current_app.logger.error("Mode pédagogique absent ou invalide : %s", eval_name)
+            return "Évaluation temporairement indisponible. Contactez l'enseignant.", 503
         try:
             eval_module = import_module(module_name)
-            return f(eval_module, display, eval_name, *args, **kwargs)
-        except ImportError as e:
-            flash(f"Module '{module_name}' introuvable : {e}", 'error')
-            return redirect(url_for('main.index'))
+        except ImportError:
+            current_app.logger.exception("Chargement impossible : %s", eval_name)
+            return "Évaluation temporairement indisponible. Contactez l'enseignant.", 503
+        return f(eval_module, display, eval_name, *args, **kwargs)
 
     return decorated_function
 
@@ -51,14 +86,9 @@ def index():
 @main_bp.route('/eval/<eval_name>', methods=['GET', 'POST'])
 @load_evaluator
 def route_evaluator(eval_module, display_name, eval_name):
-    # Détection automatique du mode (TD vs Contrôle) basé sur le nom
-    is_td = 'td' in eval_name.lower()
+    is_td = EVALUATOR_MODES[eval_name] == 'td'
     allowed_ext = '.ipynb'
-    # Utilisation du template approprié
-    template = 'corrector_template.html' if is_td else 'controle_corrector_template.html'
-    # Cas particulier pour le contrôle S1 qui avait son propre template dans l'ancien code
-    if eval_name == 'Controletilt-s1':
-        template = 'controle_corrector_template.html'
+    template = 'corrector_template.html' if is_td else 'controle_receipt_template.html'
 
     if request.method == 'POST':
         file = request.files.get('file')
@@ -84,14 +114,34 @@ def route_evaluator(eval_module, display_name, eval_name):
                               "display_name": display_name, "evaluator_name": eval_name,
                               "allowed_extension": allowed_ext, "is_td": is_td}
 
-                    html = render_template(template, **params)
+                    report_template = 'corrector_template.html' if is_td else 'controle_corrector_template.html'
+                    if not is_td:
+                        # Le template historique rend student_answer avec |safe.
+                        # Un rapport enseignant ne doit pas exécuter du HTML étudiant.
+                        params['details'] = [dict(d, student_answer=escape(d.get('student_answer', '')))
+                                             for d in details]
+                        # Le rendu privé ne doit pas consommer/cacher les messages
+                        # de dépôt avant une éventuelle erreur de sauvegarde.
+                        params['get_flashed_messages'] = lambda **kwargs: []
+                    html = render_template(report_template, **params)
                     process_submission(file, content_bytes, html, info, score, eval_name)
-                    return html
+                    if is_td:
+                        return html
+                    # Ne transmettre aucun résultat au template public, même caché.
+                    return render_template(template, display_name=display_name,
+                                           evaluator_name=eval_name, received=True,
+                                           allowed_extension=allowed_ext)
                 else:
                     raise Exception("Fonction check_notebook manquante")
             except Exception as e:
-                flash(f"Erreur: {e}", 'error')
+                if is_td:
+                    flash(f"Erreur: {e}", 'error')
+                else:
+                    current_app.logger.exception("Échec du dépôt de contrôle : %s", eval_name)
+                    flash("Le dépôt n'a pas pu être confirmé. Contactez l'enseignant.", 'error')
                 return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
+        else:
+            flash("Le fichier doit être au format .ipynb.", 'error')
     return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
 
 def render_eval_template(template, display_name, eval_name, ext, is_td):
