@@ -4251,6 +4251,179 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CONTROLE_TD1_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD1_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD1 S3 — Annotations linguistiques et décisions de lecture",
+      "prerequisites": [
+        "TD0 à TD1 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess",
+        "pathlib"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD2_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD2_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD2 S3 — Fréquences et choix de représentation",
+      "prerequisites": [
+        "TD0 à TD2 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess",
+        "pathlib"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD3_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD3_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD3 S3 — Concordances et fidélité documentaire",
+      "prerequisites": [
+        "TD0 à TD3 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess",
+        "pathlib"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD4_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD4_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD4 S3 — Cooccurrences entre fiches et documents",
+      "prerequisites": [
+        "TD0 à TD4 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD5_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD5_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD5 S3 — Dénominateurs et portée des associations",
+      "prerequisites": [
+        "TD0 à TD5 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD6_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD6_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD6 S3 — Figures vérifiables et retour aux passages",
+      "prerequisites": [
+        "TD0 à TD6 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess"
+      ],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD7_S3",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD7_S3.ipynb",
+      "semester": 3,
+      "activity": "controle",
+      "title": "Contrôle TD7 S3 — Audit quantitatif d’un rapport synthétique",
+      "prerequisites": [
+        "TD0 à TD7 du S3 : compétences déjà pratiquées",
+        "Travail autonome sans assistant pendant le contrôle"
+      ],
+      "allowed_libraries": [
+        "json",
+        "spacy",
+        "spacy.displacy",
+        "collections",
+        "wordcloud",
+        "matplotlib",
+        "spacy.matcher"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess"
+      ],
+      "exercises": []
     }
   ],
   "excluded_notebooks": [

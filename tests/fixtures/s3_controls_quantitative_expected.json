@@ -1,0 +1,692 @@
+{
+  "4": {
+    "Q1": {
+      "N": 8,
+      "frequences": {
+        "bus": 5,
+        "retard": 4,
+        "tram": 2,
+        "accès": 4,
+        "travaux": 2,
+        "vélo": 1
+      },
+      "marge_bus": 4
+    },
+    "Q2": {
+      "bus_retard": {
+        "N": 8,
+        "marge_pivot": 4,
+        "marge_associe": 4,
+        "cooc": 2,
+        "indices": [
+          0,
+          2
+        ]
+      },
+      "bus_acces": {
+        "N": 8,
+        "marge_pivot": 4,
+        "marge_associe": 4,
+        "cooc": 2,
+        "indices": [
+          2,
+          5
+        ]
+      }
+    },
+    "Q3": {
+      "somme_paires": 4,
+      "union": 3,
+      "indices_union": [
+        0,
+        2,
+        5
+      ],
+      "indices_plusieurs_paires": [
+        2
+      ]
+    },
+    "Q4": {
+      "k1": {
+        "effectif": 0,
+        "paires": []
+      },
+      "k3": {
+        "effectif": 3,
+        "paires": [
+          [
+            0,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            8
+          ]
+        ]
+      }
+    },
+    "Q5": {
+      "par_fiche": 2,
+      "par_dossier": 3,
+      "indices_dossiers": [
+        0,
+        1,
+        2
+      ],
+      "N_dossiers": 4
+    },
+    "Q6": {
+      "formes_retard": 1,
+      "lemmes_retard": 2,
+      "expressions": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    },
+    "Q7": {
+      "voix_bruit": {
+        "N": 8,
+        "marge_pivot": 4,
+        "marge_associe": 5,
+        "cooc": 2,
+        "indices": [
+          0,
+          3
+        ]
+      },
+      "somme_paires": 4,
+      "union": 3,
+      "indices_union": [
+        0,
+        3,
+        5
+      ],
+      "notices_memoire_orale": [
+        1,
+        7
+      ]
+    }
+  },
+  "5": {
+    "Q1": {
+      "N": 10,
+      "marge_pivot": 4,
+      "marge_associe": 7,
+      "cooc": 3,
+      "indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    "Q2": {
+      "audio_sachant_visite": 0.75,
+      "visite_sachant_audio": 0.428571,
+      "table": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          2
+        ]
+      ]
+    },
+    "Q3": {
+      "audio": {
+        "cooc": 3,
+        "marge_associe": 7,
+        "conditionnelle": 0.75,
+        "base": 0.7,
+        "ecart": 0.05
+      },
+      "atelier": {
+        "cooc": 2,
+        "marge_associe": 2,
+        "conditionnelle": 0.5,
+        "base": 0.2,
+        "ecart": 0.3
+      }
+    },
+    "Q4": {
+      "court": {
+        "effectif": 3,
+        "taille": 10,
+        "pour_mille": 300.0
+      },
+      "long": {
+        "effectif": 5,
+        "taille": 25,
+        "pour_mille": 200.0
+      },
+      "global": {
+        "effectif": 8,
+        "taille": 35,
+        "pour_mille": 228.571429
+      }
+    },
+    "Q5": {
+      "sans_pivot": null,
+      "sans_associe": 0.0,
+      "rare": 1.0,
+      "rare_effectif": 1,
+      "rare_denominateur": 1
+    },
+    "Q6": {
+      "k1": {
+        "indices_pivots": [
+          0
+        ],
+        "couverts": 1,
+        "total": 3,
+        "proportion": 0.333333
+      },
+      "k2": {
+        "indices_pivots": [
+          0,
+          4,
+          8
+        ],
+        "couverts": 3,
+        "total": 3,
+        "proportion": 1.0
+      },
+      "k4": {
+        "indices_pivots": [
+          0,
+          4,
+          8
+        ],
+        "couverts": 3,
+        "total": 3,
+        "proportion": 1.0
+      },
+      "paires_k4": 5
+    },
+    "Q7": {
+      "plage_vent": {
+        "N": 8,
+        "marge_pivot": 4,
+        "marge_associe": 5,
+        "cooc": 2,
+        "indices": [
+          0,
+          3
+        ]
+      },
+      "vent_sachant_plage": 0.5,
+      "plage_sachant_vent": 0.4,
+      "base_vent": 0.625,
+      "alerte_sachant_plage": 0.5,
+      "base_alerte": 0.375,
+      "table": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ]
+    }
+  },
+  "6": {
+    "Q1": {
+      "N": 48,
+      "termes": {
+        "affiche": {
+          "positions": [
+            1,
+            10,
+            19,
+            40
+          ],
+          "relatives": [
+            0.020833,
+            0.208333,
+            0.395833,
+            0.833333
+          ]
+        },
+        "public": {
+          "positions": [
+            7,
+            16,
+            25,
+            37
+          ],
+          "relatives": [
+            0.145833,
+            0.333333,
+            0.520833,
+            0.770833
+          ]
+        },
+        "atelier": {
+          "positions": [
+            13,
+            22,
+            34,
+            43
+          ],
+          "relatives": [
+            0.270833,
+            0.458333,
+            0.708333,
+            0.895833
+          ]
+        }
+      }
+    },
+    "Q2": {
+      "bornes": [
+        [
+          0,
+          12
+        ],
+        [
+          12,
+          24
+        ],
+        [
+          24,
+          36
+        ],
+        [
+          36,
+          48
+        ]
+      ],
+      "tailles_flux": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "tailles_alpha": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "effectifs": {
+        "affiche": [
+          2,
+          1,
+          0,
+          1
+        ],
+        "public": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "atelier": [
+          0,
+          2,
+          1,
+          1
+        ]
+      }
+    },
+    "Q3": {
+      "affiche": [
+        200.0,
+        100.0,
+        0.0,
+        100.0
+      ],
+      "public": [
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "atelier": [
+        0.0,
+        200.0,
+        100.0,
+        100.0
+      ]
+    },
+    "Q4": {
+      "k": [
+        1,
+        3,
+        6
+      ],
+      "public": [
+        0,
+        3,
+        6
+      ],
+      "atelier": [
+        0,
+        3,
+        5
+      ],
+      "couverture_public_k6": 1.0
+    },
+    "Q5": {
+      "concordances": [
+        {
+          "indice": 1,
+          "debut_token": 0,
+          "fin_token": 4,
+          "debut_caractere": 0,
+          "fin_caractere": 23,
+          "passage": "Une affiche annonce une"
+        },
+        {
+          "indice": 40,
+          "debut_token": 38,
+          "fin_token": 43,
+          "debut_caractere": 208,
+          "fin_caractere": 231,
+          "passage": "discute une affiche. Un"
+        }
+      ]
+    },
+    "Q6": {
+      "termes": [
+        "affiche",
+        "public",
+        "atelier"
+      ],
+      "matrice": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ],
+      "preuves_affiche_public": [
+        1,
+        6
+      ]
+    },
+    "Q7": {
+      "bornes": [
+        [
+          0,
+          9
+        ],
+        [
+          9,
+          19
+        ],
+        [
+          19,
+          29
+        ]
+      ],
+      "tailles_alpha": [
+        8,
+        8,
+        8
+      ],
+      "effectifs": {
+        "atelier": [
+          2,
+          0,
+          1
+        ],
+        "prototype": [
+          1,
+          1,
+          1
+        ]
+      },
+      "taux": {
+        "atelier": [
+          250.0,
+          0.0,
+          125.0
+        ],
+        "prototype": [
+          125.0,
+          125.0,
+          125.0
+        ]
+      },
+      "global": {
+        "atelier": {
+          "effectif": 3,
+          "taille_alpha": 24,
+          "pour_mille": 125.0,
+          "moyenne_taux_segmentaires": 125.0
+        },
+        "prototype": {
+          "effectif": 3,
+          "taille_alpha": 24,
+          "pour_mille": 125.0,
+          "moyenne_taux_segmentaires": 125.0
+        }
+      }
+    }
+  },
+  "7": {
+    "Q1": {
+      "annonces": [
+        {
+          "id": "M1",
+          "manquants": [],
+          "mesurable": true
+        },
+        {
+          "id": "M2",
+          "manquants": [],
+          "mesurable": true
+        },
+        {
+          "id": "M3",
+          "manquants": [
+            "agregation"
+          ],
+          "mesurable": false
+        },
+        {
+          "id": "M4",
+          "manquants": [],
+          "mesurable": true
+        }
+      ]
+    },
+    "Q2": {
+      "mesures": {
+        "M1": {
+          "N": 10,
+          "marge_pivot": 5,
+          "marge_associe": 5,
+          "cooc": 2,
+          "indices": [
+            0,
+            2
+          ]
+        },
+        "M2": {
+          "N": 10,
+          "marge_pivot": 2,
+          "marge_associe": 6,
+          "cooc": 2,
+          "indices": [
+            1,
+            6
+          ]
+        },
+        "M3": {
+          "N": 10,
+          "marge_pivot": 5,
+          "marge_associe": 8,
+          "cooc": 4,
+          "indices": [
+            0,
+            1,
+            2,
+            4
+          ]
+        },
+        "M4": {
+          "N": 10,
+          "marge_pivot": 6,
+          "marge_associe": 2,
+          "cooc": 2,
+          "indices": [
+            7,
+            8
+          ]
+        }
+      }
+    },
+    "Q3": {
+      "citations": [
+        {
+          "id": "C1",
+          "exacte": true,
+          "debut": 174,
+          "fin": 205,
+          "normalisee": true
+        },
+        {
+          "id": "C2",
+          "exacte": false,
+          "debut": null,
+          "fin": null,
+          "normalisee": false
+        },
+        {
+          "id": "C3",
+          "exacte": false,
+          "debut": null,
+          "fin": null,
+          "normalisee": true
+        }
+      ]
+    },
+    "Q4": {
+      "verdicts": {
+        "M1": "compatible selon le protocole",
+        "M2": "contredit selon le protocole",
+        "M3": "insuffisamment défini",
+        "M4": "contredit selon le protocole"
+      }
+    },
+    "Q5": {
+      "union_M3": 4,
+      "somme_M3": 5,
+      "expressions_acces_libre": [
+        1,
+        6
+      ],
+      "mots_acces_libre": [
+        1,
+        3,
+        6
+      ],
+      "faux_rapprochements": [
+        3
+      ],
+      "silence_singulier": 1,
+      "silence_groupe": 2
+    },
+    "Q6": {
+      "union_jardin": {
+        "N": 7,
+        "marge_pivot": 4,
+        "marge_associe": 5,
+        "cooc": 2,
+        "indices": [
+          0,
+          2
+        ]
+      },
+      "conditionnelle": 0.5,
+      "somme_paires": 3,
+      "expression_compost": 1,
+      "vide": {
+        "N": 0,
+        "marge_pivot": 0,
+        "marge_associe": 0,
+        "cooc": 0,
+        "indices": []
+      },
+      "conditionnelle_vide": null,
+      "conditionnelle_pivot_absent": null
+    },
+    "Q7": {
+      "audit_jardin": [
+        {
+          "id": "J1",
+          "mesure_union": {
+            "N": 7,
+            "marge_pivot": 4,
+            "marge_associe": 5,
+            "cooc": 2,
+            "indices": [
+              0,
+              2
+            ]
+          },
+          "verdict": "compatible selon le protocole"
+        },
+        {
+          "id": "J2",
+          "mesure_union": {
+            "N": 7,
+            "marge_pivot": 2,
+            "marge_associe": 3,
+            "cooc": 1,
+            "indices": [
+              2
+            ]
+          },
+          "verdict": "contredit selon le protocole"
+        },
+        {
+          "id": "J3",
+          "mesure_union": {
+            "N": 7,
+            "marge_pivot": 4,
+            "marge_associe": 4,
+            "cooc": 2,
+            "indices": [
+              0,
+              2
+            ]
+          },
+          "verdict": "insuffisamment défini"
+        }
+      ],
+      "citation_exacte": true,
+      "debut_citation": 108,
+      "fin_citation": 121
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>{{ display_name }} — Rapport enseignant</title>
+<style>body{font-family:system-ui,sans-serif;max-width:1100px;margin:2rem auto;padding:1rem;color:#192b3a}table{width:100%;border-collapse:collapse}td,th{padding:.7rem;text-align:left;border-bottom:1px solid #ccd5dd;vertical-align:top}pre{white-space:pre-wrap;overflow-wrap:anywhere}.scope{padding:1rem;background:#fff0cf}.score{font-size:1.3rem;font-weight:bold}small{color:#405567}</style></head>
+<body>
+<h1>{{ display_name }}</h1>
+<p>Rapport privé enseignant — {{ student_info.prenom }} {{ student_info.nom }} — {{ student_info.classe }}</p>
+<p>Copie : {{ filename }}</p>
+<p class="score">Score technique provisoire : {{ '%.2f'|format(score) }} / {{ max_score }}</p>
+<p class="scope">{{ human_review }}</p>
+<table><thead><tr><th>Vérification</th><th>Trace enregistrée</th><th>Critère technique</th><th>Points</th></tr></thead><tbody>
+{% for d in details %}<tr><td>{{ d.check }} {{ d.status }}</td><td><pre>{{ d.student_answer }}</pre></td><td>{{ d.correct_answer }}</td><td>{{ d.points }} / {{ d.max_points }}</td></tr>{% endfor %}
+</tbody></table>
+<h2>Relecture humaine à compléter</h2>
+<p>Lire le code et les réponses argumentées dans la copie sauvegardée. Un point technique valide uniquement le critère indiqué ci-dessus.</p>
+<table><thead><tr><th>Dimension</th><th>Appréciation de l’enseignant</th></tr></thead><tbody>
+<tr><td>Raisonnement, méthode et transfert</td><td>À renseigner</td></tr>
+<tr><td>Qualité linguistique et retour aux passages</td><td>À renseigner</td></tr>
+<tr><td>Interprétations, limites et prudence des conclusions</td><td>À renseigner</td></tr>
+<tr><td>Figures, légendes, unités et dénominateurs, si demandés</td><td>À renseigner</td></tr>
+<tr><td>Lisibilité, réutilisabilité du programme et autonomie</td><td>À renseigner</td></tr>
+</tbody></table>
+<p><strong>Note globale après relecture : à déterminer par l’enseignant.</strong></p>
+</body></html>
