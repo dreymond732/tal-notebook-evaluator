@@ -7,45 +7,119 @@
       "semester": 1,
       "activity": "td",
       "title": "Variables, types et premières expressions",
-      "prerequisites": ["Lecture d'une consigne", "Exécution ordonnée des cellules d'un notebook"],
+      "prerequisites": [
+        "Lecture d'une consigne",
+        "Exécution ordonnée des cellules d'un notebook"
+      ],
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": [
         {
           "id": "Q1",
           "topic": "Q1 — Expression numérique et affectation (commentaire de cellule)",
-          "available_concepts": ["variable", "affectation", "valeur numérique", "expression arithmétique", "affichage"],
-          "introduced_here": ["expression arithmétique", "affichage"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "valeur numérique",
+            "expression arithmétique",
+            "affichage"
+          ],
+          "introduced_here": [
+            "expression arithmétique",
+            "affichage"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q2",
           "topic": "Q2 — Observation du type d'une valeur (commentaire de cellule)",
-          "available_concepts": ["variable", "affectation", "valeur numérique", "type", "type()", "affichage"],
-          "introduced_here": []
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "valeur numérique",
+            "type",
+            "type()",
+            "affichage"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
         },
         {
           "id": "Q3",
           "topic": "Comparaison et condition composée",
-          "available_concepts": ["variable", "affectation", "valeur numérique", "type", "booléen", "comparaison", "égalité", "conjonction logique", "affichage"],
-          "introduced_here": ["booléen", "comparaison", "conjonction logique"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "valeur numérique",
+            "type",
+            "booléen",
+            "comparaison",
+            "égalité",
+            "conjonction logique",
+            "affichage"
+          ],
+          "introduced_here": [
+            "booléen",
+            "comparaison",
+            "conjonction logique"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q4",
           "topic": "Chaîne et interpolation",
-          "available_concepts": ["variable", "affectation", "type", "chaîne", "f-string", "affichage"],
-          "introduced_here": ["chaîne", "f-string"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "type",
+            "chaîne",
+            "f-string",
+            "affichage"
+          ],
+          "introduced_here": [
+            "chaîne",
+            "f-string"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q5",
           "topic": "Conversion explicite d'une valeur",
-          "available_concepts": ["variable", "affectation", "chaîne", "valeur numérique", "type", "type()", "conversion en entier", "addition", "affichage"],
-          "introduced_here": ["conversion en entier"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "valeur numérique",
+            "type",
+            "type()",
+            "conversion en entier",
+            "addition",
+            "affichage"
+          ],
+          "introduced_here": [
+            "conversion en entier"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q6",
           "topic": "Longueur et appartenance dans une chaîne",
-          "available_concepts": ["variable", "affectation", "chaîne", "booléen", "longueur d'une chaîne", "len()", "appartenance", "affichage"],
-          "introduced_here": ["longueur d'une chaîne", "len()", "appartenance"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "booléen",
+            "longueur d'une chaîne",
+            "len()",
+            "appartenance",
+            "affichage"
+          ],
+          "introduced_here": [
+            "longueur d'une chaîne",
+            "len()",
+            "appartenance"
+          ],
+          "allowed_libraries": []
         }
       ]
     },
@@ -55,51 +129,158 @@
       "semester": 3,
       "activity": "td",
       "title": "Diagnostic et révision : du texte brut aux unités linguistiques",
-      "prerequisites": ["Bases Python à diagnostiquer, sans présumer leur maîtrise", "Lecture UTF-8", "Chaînes et collections", "Boucles", "Dictionnaires", "Fonctions"],
+      "prerequisites": [
+        "Bases Python à diagnostiquer, sans présumer leur maîtrise",
+        "Lecture UTF-8",
+        "Chaînes et collections",
+        "Boucles",
+        "Dictionnaires",
+        "Fonctions"
+      ],
       "allowed_libraries": [],
-      "provided_libraries": ["pathlib"],
+      "provided_libraries": [
+        "pathlib"
+      ],
       "exercises": [
         {
           "id": "Q1",
           "topic": "Exercice 1 — Lire un fichier",
-          "available_concepts": ["variable", "affectation", "chemin relatif", "open()", "with", "lecture de fichier", "encodage UTF-8", "chaîne", "len()", "affichage"],
-          "introduced_here": []
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chemin relatif",
+            "open()",
+            "with",
+            "lecture de fichier",
+            "encodage UTF-8",
+            "chaîne",
+            "len()",
+            "affichage"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
         },
         {
           "id": "Q2",
           "topic": "Exercice 2 — Découper et compter : liste",
-          "available_concepts": ["variable", "affectation", "chaîne", "split()", "liste", "affichage", "observation d'unités textuelles"],
-          "introduced_here": ["observation d'unités textuelles"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "split()",
+            "liste",
+            "affichage",
+            "observation d'unités textuelles"
+          ],
+          "introduced_here": [
+            "observation d'unités textuelles"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q3",
           "topic": "Exercice 2 — Découper et compter : nombre",
-          "available_concepts": ["variable", "liste", "len()", "affichage", "distinction caractère et élément de liste"],
-          "introduced_here": []
+          "available_concepts": [
+            "variable",
+            "liste",
+            "len()",
+            "affichage",
+            "distinction caractère et élément de liste"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
         },
         {
           "id": "Q4",
           "topic": "Exercice 3 — Formes distinctes",
-          "available_concepts": ["variable", "affectation", "liste", "ensemble", "set()", "len()", "affichage", "occurrence", "forme distincte"],
-          "introduced_here": ["occurrence", "forme distincte"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "liste",
+            "ensemble",
+            "set()",
+            "len()",
+            "affichage",
+            "occurrence",
+            "forme distincte"
+          ],
+          "introduced_here": [
+            "occurrence",
+            "forme distincte"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q5",
           "topic": "Exercice 4 — Fréquences brutes",
-          "available_concepts": ["variable", "affectation", "liste", "dictionnaire", "boucle for", "condition if/else", "appartenance", "accumulation", "dict.get()", "fonction", "paramètre", "return", "appel de fonction", "paires clé-valeur", "affichage"],
-          "introduced_here": ["dict.get()"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "liste",
+            "dictionnaire",
+            "boucle for",
+            "condition if/else",
+            "appartenance",
+            "accumulation",
+            "dict.get()",
+            "fonction",
+            "paramètre",
+            "return",
+            "appel de fonction",
+            "paires clé-valeur",
+            "affichage"
+          ],
+          "introduced_here": [
+            "dict.get()"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q6",
           "topic": "Exercice 5 — Première normalisation",
-          "available_concepts": ["variable", "affectation", "chaîne", "lower()", "split()", "liste", "dictionnaire", "fonction", "paramètre", "return", "appel de fonction", "composition de fonctions", "comparaison de résultats", "affichage"],
-          "introduced_here": ["comparaison de résultats"]
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "lower()",
+            "split()",
+            "liste",
+            "dictionnaire",
+            "fonction",
+            "paramètre",
+            "return",
+            "appel de fonction",
+            "composition de fonctions",
+            "comparaison de résultats",
+            "affichage"
+          ],
+          "introduced_here": [
+            "comparaison de résultats"
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q7",
           "topic": "Exercice 6 — Interpréter les limites",
-          "available_concepts": ["chaîne", "split()", "lower()", "ponctuation", "forme graphique", "observation linguistique", "tokenisation", "lemmatisation", "hypothèse", "limites d'un traitement", "synthèse argumentée", "affichage"],
-          "introduced_here": ["limites d'un traitement", "synthèse argumentée"]
+          "available_concepts": [
+            "chaîne",
+            "split()",
+            "lower()",
+            "ponctuation",
+            "forme graphique",
+            "observation linguistique",
+            "tokenisation",
+            "lemmatisation",
+            "hypothèse",
+            "limites d'un traitement",
+            "synthèse argumentée",
+            "affichage"
+          ],
+          "introduced_here": [
+            "limites d'un traitement",
+            "synthèse argumentée"
+          ],
+          "allowed_libraries": []
         }
       ]
     },
@@ -141,7 +322,8 @@
           "introduced_here": [
             "strip()",
             "valeur source"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q2",
@@ -160,7 +342,8 @@
           "introduced_here": [
             "lower()",
             "replace()"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q3",
@@ -181,7 +364,8 @@
             "indice négatif",
             "tranche",
             "borne exclue"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q4",
@@ -202,7 +386,8 @@
           "introduced_here": [
             "split()",
             "liste"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q5",
@@ -221,7 +406,8 @@
           "introduced_here": [
             "join()",
             "split(séparateur)"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q6",
@@ -242,7 +428,8 @@
           ],
           "introduced_here": [
             "liste littérale"
-          ]
+          ],
+          "allowed_libraries": []
         },
         {
           "id": "Q7",
@@ -265,9 +452,2416 @@
             "ponctuation",
             "apostrophe",
             "limite argumentée"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD3_S1",
+      "notebook": "Notebooks TD/S1/TD3_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Collections : listes, dictionnaires et ensembles",
+      "prerequisites": [
+        "TD1 à TD2 S1 : réactiver les notions utiles, sans présumer leur maîtrise"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Q1 — Modifier une liste",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "liste",
+            "append()",
+            "pop()",
+            "print()"
+          ],
+          "introduced_here": [
+            "append()",
+            "pop()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Liste ou tuple ?",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "liste",
+            "tuple",
+            "type()",
+            "ordre",
+            "mutabilité",
+            "justification",
+            "print()"
+          ],
+          "introduced_here": [
+            "tuple",
+            "mutabilité"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Lexique bilingue",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "dictionnaire",
+            "clé",
+            "valeur",
+            "ajout",
+            "accès par clé",
+            "print()"
+          ],
+          "introduced_here": [
+            "dictionnaire",
+            "clé",
+            "valeur",
+            "accès par clé"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Parcourir un dictionnaire",
+          "available_concepts": [
+            "variable",
+            "dictionnaire",
+            "items()",
+            "boucle for",
+            "paire clé-valeur",
+            "liste",
+            "append()",
+            "chaîne",
+            "f-string",
+            "print()"
+          ],
+          "introduced_here": [
+            "items()",
+            "boucle for",
+            "paire clé-valeur"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Formes distinctes",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "ensemble",
+            "set()",
+            "len()",
+            "unicité",
+            "print()"
+          ],
+          "introduced_here": [
+            "ensemble",
+            "set()",
+            "unicité"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Comparer deux vocabulaires",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "ensemble",
+            "set()",
+            "intersection",
+            "différence",
+            "print()"
+          ],
+          "introduced_here": [
+            "intersection",
+            "différence"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD4_S1",
+      "notebook": "Notebooks TD/S1/TD4_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Boucles, conditions et comptages",
+      "prerequisites": [
+        "TD1 à TD3 S1 : réactiver les notions utiles, sans présumer leur maîtrise"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Q1 — Boucle et majuscules",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "append()",
+            "boucle for",
+            "indentation",
+            "chaîne",
+            "upper()",
+            "print()"
+          ],
+          "introduced_here": [
+            "indentation",
+            "upper()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Filtrer, premier essai",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "append()",
+            "boucle for",
+            "condition if",
+            "indentation",
+            "len()",
+            "comparaison",
+            "print()"
+          ],
+          "introduced_here": [
+            "condition if"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Filtrer, second essai",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "append()",
+            "boucle for",
+            "condition if",
+            "lower()",
+            "appartenance",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — range et positions",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "append()",
+            "boucle for",
+            "range()",
+            "borne exclue",
+            "pas",
+            "condition if",
+            "modulo",
+            "print()"
+          ],
+          "introduced_here": [
+            "range()",
+            "pas",
+            "modulo"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — while avec condition d’arrêt",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "append()",
+            "boucle while",
+            "condition",
+            "comparaison",
+            "incrémentation",
+            "arrêt",
+            "print()"
+          ],
+          "introduced_here": [
+            "boucle while",
+            "incrémentation",
+            "arrêt"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Compter des formes",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "dictionnaire",
+            "boucle for",
+            "if/else",
+            "appartenance",
+            "get()",
+            "incrémentation",
+            "lower()",
+            "split()",
+            "print()"
+          ],
+          "introduced_here": [
+            "get()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Compréhension de liste",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "compréhension de liste",
+            "condition if",
+            "len()",
+            "comparaison",
+            "print()"
+          ],
+          "introduced_here": [
+            "compréhension de liste"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD5_S1",
+      "notebook": "Notebooks TD/S1/TD5_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Fonctions et réutilisation du code",
+      "prerequisites": [
+        "TD1 à TD4 S1 : réactiver les notions utiles, sans présumer leur maîtrise"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Première fonction",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "len()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "print()",
+            "test"
+          ],
+          "introduced_here": [
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "test"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Normaliser",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "strip()",
+            "lower()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Compter les mots",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "split()",
+            "len()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "composition",
+            "print()"
+          ],
+          "introduced_here": [
+            "composition"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Traduire un mot",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "strip()",
+            "lower()",
+            "dictionnaire",
+            "clé",
+            "appartenance",
+            "if/else",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Traduire une phrase",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "split()",
+            "join()",
+            "boucle for",
+            "append()",
+            "dictionnaire",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "composition",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Composer",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "len()",
+            "liste",
+            "split()",
+            "dictionnaire",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "composition",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD6_S1",
+      "notebook": "Notebooks TD/S1/TD6_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Lire, transformer et écrire des fichiers",
+      "prerequisites": [
+        "TD1 à TD5 S1 : réactiver les notions utiles, sans présumer leur maîtrise"
+      ],
+      "allowed_libraries": [
+        "csv"
+      ],
+      "provided_libraries": [
+        "pathlib"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Lire sans oublier de fermer",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "with",
+            "open()",
+            "read()",
+            "UTF-8",
+            "chemin relatif",
+            "len()",
+            "print()"
+          ],
+          "introduced_here": [
+            "with",
+            "open()",
+            "read()",
+            "UTF-8",
+            "chemin relatif"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Lignes utiles",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "splitlines()",
+            "strip()",
+            "liste",
+            "boucle for",
+            "condition if",
+            "compréhension de liste",
+            "len()",
+            "print()"
+          ],
+          "introduced_here": [
+            "splitlines()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Lire une ligne structurée",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "split(séparateur,maxsplit)",
+            "liste",
+            "tuple",
+            "indice",
+            "boucle for",
+            "append()",
+            "print()"
+          ],
+          "introduced_here": [
+            "split(séparateur,maxsplit)"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Normaliser une personne",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "strip()",
+            "split()",
+            "join()",
+            "title()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "test",
+            "print()"
+          ],
+          "introduced_here": [
+            "title()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Affiliations uniques",
+          "available_concepts": [
+            "variable",
+            "liste",
+            "tuple",
+            "dictionnaire",
+            "ensemble",
+            "set()",
+            "add()",
+            "clé",
+            "boucle for",
+            "if/else",
+            "appartenance",
+            "fonction",
+            "print()"
+          ],
+          "introduced_here": [
+            "add()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Écrire un CSV",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "dictionnaire",
+            "ensemble",
+            "items()",
+            "len()",
+            "join()",
+            "boucle for",
+            "with",
+            "open()",
+            "UTF-8",
+            "csv.writer",
+            "writerow()",
+            "écriture",
+            "relecture",
+            "Path.read_text fourni",
+            "print()"
+          ],
+          "introduced_here": [
+            "csv.writer",
+            "writerow()",
+            "écriture",
+            "relecture"
+          ],
+          "allowed_libraries": [
+            "csv"
           ]
         }
       ]
+    },
+    {
+      "id": "TD7_S1",
+      "notebook": "Notebooks TD/S1/TD7_S1_python_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "Motifs, expressions régulières et pipeline",
+      "prerequisites": [
+        "TD1 à TD6 S1 : réactiver les notions utiles, sans présumer leur maîtrise"
+      ],
+      "allowed_libraries": [
+        "re"
+      ],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Rechercher",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "booléen",
+            "re.search",
+            "motif",
+            "re.IGNORECASE",
+            "print()"
+          ],
+          "introduced_here": [
+            "re.search",
+            "motif",
+            "re.IGNORECASE"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Extraire plusieurs nombres",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "re.findall",
+            "motif",
+            "classe de caractères",
+            "répétition",
+            "print()"
+          ],
+          "introduced_here": [
+            "re.findall",
+            "classe de caractères",
+            "répétition"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Extraire des mots",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "re.findall",
+            "classe de caractères",
+            "répétition",
+            "lettres accentuées",
+            "split()",
+            "comparaison",
+            "commentaire",
+            "print()"
+          ],
+          "introduced_here": [
+            "lettres accentuées"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Remplacer des dates",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "re.sub",
+            "classe de caractères",
+            "répétition bornée",
+            "motif",
+            "print()"
+          ],
+          "introduced_here": [
+            "re.sub",
+            "répétition bornée"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Fonction de nettoyage",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "lower()",
+            "strip()",
+            "split()",
+            "join()",
+            "re.sub",
+            "motif",
+            "espaces",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [
+            "espaces"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Pipeline de synthèse",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "liste",
+            "re.findall",
+            "motif",
+            "dictionnaire",
+            "boucle for",
+            "if/else",
+            "get()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "composition",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "re"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Limite méthodologique",
+          "available_concepts": [
+            "motif",
+            "regex",
+            "limite linguistique",
+            "analyse linguistique",
+            "contexte",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [
+            "limite linguistique",
+            "contexte"
+          ],
+          "allowed_libraries": [
+            "re"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R0_S3",
+      "notebook": "Notebooks TD/S3/R0_S3_python_texte.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Python pour le texte",
+      "prerequisites": [
+        "Diagnostic TD0 et bases Python à réactiver"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "1. Compter les mots",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "split()",
+            "liste",
+            "len()",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "test",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "2. Normaliser",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "lower()",
+            "split()",
+            "liste",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "3. Fréquences",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "split()",
+            "lower()",
+            "liste",
+            "dictionnaire",
+            "dict()",
+            "get()",
+            "boucle for",
+            "incrémentation",
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "4. Regard critique",
+          "available_concepts": [
+            "chaîne",
+            "split()",
+            "lower()",
+            "comptage",
+            "ponctuation",
+            "limite argumentée",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD1_S3",
+      "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "spaCy : du texte à l’annotation linguistique",
+      "prerequisites": [
+        "TD0 et bases Python ; spaCy introduit dans la préparation"
+      ],
+      "allowed_libraries": [
+        "spacy",
+        "spacy.displacy"
+      ],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Tableau d’annotations",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "boucle for",
+            "condition if",
+            "token.text",
+            "token.lemma_",
+            "token.pos_",
+            "token.tag_",
+            "token.is_punct",
+            "annotation",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [
+            "Doc",
+            "token",
+            "token.text",
+            "token.lemma_",
+            "token.pos_",
+            "token.tag_",
+            "token.is_punct",
+            "annotation"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Segmentation en phrases",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "doc.sents",
+            "Span",
+            "boucle for",
+            "len()",
+            "phrase.text",
+            "token",
+            "split()",
+            "comparaison",
+            "print()"
+          ],
+          "introduced_here": [
+            "doc.sents",
+            "Span",
+            "phrase.text"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Filtrer des catégories",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "liste",
+            "boucle for",
+            "condition if",
+            "append()",
+            "appartenance",
+            "token.lemma_",
+            "token.pos_",
+            "token.is_stop",
+            "filtrage",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [
+            "token.is_stop",
+            "filtrage"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Visualiser et interpréter",
+          "available_concepts": [
+            "Doc",
+            "doc.sents",
+            "Span",
+            "displacy.render",
+            "visualisation",
+            "verbe principal",
+            "relation syntaxique",
+            "hypothèse",
+            "limites du modèle"
+          ],
+          "introduced_here": [
+            "displacy.render",
+            "visualisation",
+            "verbe principal",
+            "relation syntaxique"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "spacy.displacy"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Comparer découpage brut et tokenisation",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "split()",
+            "nlp()",
+            "Doc",
+            "token",
+            "len()",
+            "boucle for",
+            "condition if",
+            "token.is_punct",
+            "dictionnaire",
+            "comparaison",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Réinvestissement autonome",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "nlp()",
+            "Doc",
+            "doc.sents",
+            "token",
+            "liste",
+            "indice",
+            "tranche",
+            "len()",
+            "boucle for",
+            "condition if",
+            "token.text",
+            "token.lemma_",
+            "token.pos_",
+            "hypothèse",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R1_S3",
+      "notebook": "Notebooks TD/S3/R1_S3_doc_spacy.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Parcourir un Doc spaCy",
+      "prerequisites": [
+        "TD1 S3 : Doc, tokens, lemmes et POS"
+      ],
+      "allowed_libraries": [
+        "spacy"
+      ],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "1. Observer le document",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "nlp()",
+            "Doc",
+            "len()",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "2. Parcourir",
+          "available_concepts": [
+            "Doc",
+            "token",
+            "boucle for",
+            "token.text",
+            "token.lemma_",
+            "token.pos_",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "3. Noms",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "liste",
+            "append()",
+            "boucle for",
+            "condition if",
+            "token.lemma_",
+            "token.pos_",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "4. Verbes",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "liste",
+            "append()",
+            "boucle for",
+            "condition if",
+            "token.lemma_",
+            "token.pos_",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R2_S3",
+      "notebook": "Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Fréquences réutilisables",
+      "prerequisites": [
+        "TD1 et R1 S3 : Doc, sélection par POS ; fonctions et dictionnaires"
+      ],
+      "allowed_libraries": [
+        "spacy",
+        "collections"
+      ],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "1. Fonction",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "nlp()",
+            "Doc",
+            "token",
+            "liste",
+            "boucle for",
+            "condition if",
+            "token.lemma_",
+            "token.pos_",
+            "Counter",
+            "def",
+            "paramètre par défaut",
+            "None",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [
+            "Counter"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "2. Noms et lemmes",
+          "available_concepts": [
+            "Doc",
+            "token",
+            "token.lemma_",
+            "token.pos_",
+            "Counter",
+            "fonction",
+            "vérification",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "3. Filtrer",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "token.is_stop",
+            "token.lemma_",
+            "token.pos_",
+            "boucle for",
+            "condition if",
+            "appartenance",
+            "collection d’exclusions",
+            "Counter",
+            "def",
+            "paramètre par défaut",
+            "None",
+            "return",
+            "appel",
+            "print()"
+          ],
+          "introduced_here": [
+            "collection d’exclusions"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "4. Comparer",
+          "available_concepts": [
+            "Counter",
+            "most_common()",
+            "fonction",
+            "appel",
+            "comparaison avant/après filtrage",
+            "print()"
+          ],
+          "introduced_here": [
+            "most_common()",
+            "comparaison avant/après filtrage"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD2_S3",
+      "notebook": "Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Analyse de corpus : fréquences, filtrage et visualisation",
+      "prerequisites": [
+        "TD1, R1 et R2 S3 ; lecture UTF-8 ; fonctions ; Counter"
+      ],
+      "allowed_libraries": [
+        "spacy",
+        "collections",
+        "wordcloud",
+        "matplotlib"
+      ],
+      "provided_libraries": [
+        "pathlib"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Lire et annoter le corpus",
+          "available_concepts": [
+            "variable",
+            "with",
+            "open()",
+            "read()",
+            "UTF-8",
+            "nlp()",
+            "Doc",
+            "doc.sents",
+            "token",
+            "len()",
+            "liste",
+            "tranche",
+            "boucle for",
+            "condition if",
+            "token.is_punct",
+            "token.text",
+            "token.lemma_",
+            "token.pos_",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Noms, verbes et fréquence",
+          "available_concepts": [
+            "variable",
+            "nlp()",
+            "Doc",
+            "token",
+            "liste",
+            "boucle for",
+            "condition if",
+            "token.lemma_",
+            "token.pos_",
+            "token.is_punct",
+            "token.is_stop",
+            "appartenance",
+            "Counter",
+            "most_common()",
+            "def",
+            "paramètre par défaut",
+            "None",
+            "return",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Paramètres et exclusions adaptées",
+          "available_concepts": [
+            "variable",
+            "collection d’exclusions",
+            "fonction",
+            "paramètre",
+            "appel",
+            "Counter",
+            "most_common()",
+            "comparaison",
+            "choix de filtrage",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [
+            "choix de filtrage"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Fréquences par catégorie grammaticale",
+          "available_concepts": [
+            "Doc",
+            "token",
+            "token.pos_",
+            "token.is_punct",
+            "boucle for",
+            "condition if",
+            "dictionnaire",
+            "Counter",
+            "most_common()",
+            "distribution",
+            "limites interprétatives",
+            "print()"
+          ],
+          "introduced_here": [
+            "distribution",
+            "limites interprétatives"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Liste de lemmes et contrôle qualité",
+          "available_concepts": [
+            "variable",
+            "Doc",
+            "token",
+            "liste",
+            "boucle for",
+            "condition if",
+            "appartenance",
+            "token.lemma_",
+            "token.pos_",
+            "token.is_stop",
+            "vérification manuelle",
+            "qualité de l’annotation",
+            "limites du modèle",
+            "print()"
+          ],
+          "introduced_here": [
+            "vérification manuelle",
+            "qualité de l’annotation"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Nuage de mots filtré",
+          "available_concepts": [
+            "Counter",
+            "fonction",
+            "appel",
+            "WordCloud",
+            "generate_from_frequencies()",
+            "plt.imshow",
+            "plt.axis",
+            "plt.show",
+            "hypothèse vérifiable",
+            "fréquence et pertinence"
+          ],
+          "introduced_here": [
+            "WordCloud",
+            "generate_from_frequencies()",
+            "plt.imshow",
+            "plt.axis",
+            "plt.show",
+            "hypothèse vérifiable"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections",
+            "wordcloud",
+            "matplotlib"
+          ]
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Fonction généralisée",
+          "available_concepts": [
+            "variable",
+            "nlp()",
+            "Doc",
+            "token",
+            "token.lemma_",
+            "token.pos_",
+            "token.is_punct",
+            "token.is_stop",
+            "boucle for",
+            "condition if",
+            "appartenance",
+            "collection de POS",
+            "collection d’exclusions",
+            "Counter",
+            "def",
+            "paramètre par défaut",
+            "return",
+            "appel",
+            "comparaison",
+            "lisibilité",
+            "print()"
+          ],
+          "introduced_here": [
+            "collection de POS",
+            "lisibilité"
+          ],
+          "allowed_libraries": [
+            "spacy",
+            "collections"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD3_S2",
+      "notebook": "Notebooks TD/TD3_S2.ipynb",
+      "semester": 2,
+      "activity": "td",
+      "title": "Renforcement Python et algorithmique",
+      "prerequisites": [
+        "S1 : variables, chaînes, collections, conditions, boucles, fonctions"
+      ],
+      "allowed_libraries": [
+        "math"
+      ],
+      "provided_libraries": [
+        "collections.Counter"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Coût et types",
+          "available_concepts": [
+            "conversion",
+            "arithmétique",
+            "affectation"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Sous-chaîne",
+          "available_concepts": [
+            "indices",
+            "tranches",
+            "dictionnaire"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Condition composée",
+          "available_concepts": [
+            "comparaisons",
+            "booléens",
+            "if/else"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Nettoyage",
+          "available_concepts": [
+            "strip",
+            "lower",
+            "replace"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Structure adaptée",
+          "available_concepts": [
+            "liste",
+            "set",
+            "dict",
+            "tuple",
+            "unicité"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Modification de liste",
+          "available_concepts": [
+            "insert",
+            "pop",
+            "indices"
+          ],
+          "introduced_here": [
+            "insert",
+            "pop"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Comptage",
+          "available_concepts": [
+            "for",
+            "enumerate",
+            "len",
+            "compteur"
+          ],
+          "introduced_here": [
+            "enumerate"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q8",
+          "topic": "Exercice 8 — Compréhension",
+          "available_concepts": [
+            "range",
+            "modulo",
+            "filtrage",
+            "compréhension de liste"
+          ],
+          "introduced_here": [
+            "compréhension de liste"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q9",
+          "topic": "Exercice 9 — Occurrences",
+          "available_concepts": [
+            "dictionnaire",
+            "boucle",
+            "accumulation"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q10",
+          "topic": "Exercice 10 — Boucle conditionnelle",
+          "available_concepts": [
+            "while",
+            "append",
+            "décrément"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q11",
+          "topic": "Exercice 11 — Fonction",
+          "available_concepts": [
+            "paramètre",
+            "return",
+            "méthodes de chaîne"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q12",
+          "topic": "Exercice 12 — Paramètre par défaut",
+          "available_concepts": [
+            "fonction",
+            "addition",
+            "paramètre par défaut"
+          ],
+          "introduced_here": [
+            "paramètre par défaut"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q13",
+          "topic": "Exercice 13 — Tri avec clé",
+          "available_concepts": [
+            "tuple",
+            "sorted",
+            "key",
+            "reverse"
+          ],
+          "introduced_here": [
+            "key",
+            "reverse"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q14",
+          "topic": "Exercice 14 — Ensembles",
+          "available_concepts": [
+            "intersection",
+            "union"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q15",
+          "topic": "Exercice 15 — Gestion d’erreur",
+          "available_concepts": [
+            "division",
+            "try/except",
+            "None"
+          ],
+          "introduced_here": [
+            "try/except"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q16",
+          "topic": "Exercice 16 — Factorielle itérative",
+          "available_concepts": [
+            "for",
+            "range",
+            "produit accumulé"
+          ],
+          "introduced_here": [
+            "produit accumulé"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q17",
+          "topic": "Exercice 17 — Maximum et position",
+          "available_concepts": [
+            "max",
+            "index"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q18",
+          "topic": "Exercice 18 — Bigrammes",
+          "available_concepts": [
+            "tuple",
+            "indices",
+            "bornes",
+            "boucle",
+            "bigramme"
+          ],
+          "introduced_here": [
+            "bigramme"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q19",
+          "topic": "Exercice 19 — Association",
+          "available_concepts": [
+            "dict",
+            "zip"
+          ],
+          "introduced_here": [
+            "zip"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q20",
+          "topic": "Exercice 20 — Filtrage",
+          "available_concepts": [
+            "compréhension",
+            "modulo",
+            "comparaison"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q21",
+          "topic": "Exercice 21 — Complexité",
+          "available_concepts": [
+            "dictionnaire",
+            "accès par clé",
+            "complexité moyenne"
+          ],
+          "introduced_here": [
+            "complexité moyenne"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q22",
+          "topic": "Exercice 22 — Moyenne et écart-type",
+          "available_concepts": [
+            "sum",
+            "len",
+            "variance population",
+            "math.sqrt"
+          ],
+          "introduced_here": [
+            "variance population",
+            "math.sqrt"
+          ],
+          "allowed_libraries": [
+            "math"
+          ]
+        },
+        {
+          "id": "Q23",
+          "topic": "Exercice 23 — Formes distinctes",
+          "available_concepts": [
+            "set",
+            "len",
+            "unicité"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q24",
+          "topic": "Exercice 24 — Recherche sans in",
+          "available_concepts": [
+            "fonction",
+            "for",
+            "égalité",
+            "return",
+            "recherche linéaire"
+          ],
+          "introduced_here": [
+            "recherche linéaire"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q25",
+          "topic": "Exercice 25 — Récursivité",
+          "available_concepts": [
+            "fonction",
+            "cas de base",
+            "appel récursif"
+          ],
+          "introduced_here": [
+            "appel récursif"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q26",
+          "topic": "Exercice 26 — Dictionnaire par compréhension",
+          "available_concepts": [
+            "dictionnaire",
+            "compréhension",
+            "len",
+            "compréhension de dictionnaire"
+          ],
+          "introduced_here": [
+            "compréhension de dictionnaire"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q27",
+          "topic": "Exercice 27 — Deux plus grandes valeurs",
+          "available_concepts": [
+            "sorted",
+            "reverse",
+            "tranche"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q28",
+          "topic": "Exercice 28 — Mots vides",
+          "available_concepts": [
+            "split",
+            "ensemble",
+            "appartenance",
+            "filtrage",
+            "stopwords"
+          ],
+          "introduced_here": [
+            "stopwords"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q29",
+          "topic": "Exercice 29 — Toutes les paires",
+          "available_concepts": [
+            "boucles imbriquées",
+            "tuple",
+            "append"
+          ],
+          "introduced_here": [
+            "boucles imbriquées"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q30",
+          "topic": "Exercice 30 — Euclide",
+          "available_concepts": [
+            "while",
+            "modulo",
+            "affectation multiple",
+            "algorithme d’Euclide"
+          ],
+          "introduced_here": [
+            "algorithme d’Euclide"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD5_S2",
+      "notebook": "Notebooks TD/TD5_S2.ipynb",
+      "semester": 2,
+      "activity": "td",
+      "title": "Approfondissement et algorithmique avancée",
+      "prerequisites": [
+        "S1 et TD3 S2 : Python, compréhensions, tri, ensembles"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Carrés des pairs",
+          "available_concepts": [
+            "compréhension",
+            "range",
+            "modulo",
+            "puissance"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Filtrage de mots",
+          "available_concepts": [
+            "compréhension",
+            "indice",
+            "appartenance"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Dictionnaire de longueurs",
+          "available_concepts": [
+            "split",
+            "set",
+            "len",
+            "compréhension de dictionnaire"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Inversion des mots",
+          "available_concepts": [
+            "split",
+            "tranche",
+            "join"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Association",
+          "available_concepts": [
+            "zip",
+            "dict"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Palindrome",
+          "available_concepts": [
+            "chaîne",
+            "tranche",
+            "égalité",
+            "palindrome"
+          ],
+          "introduced_here": [
+            "palindrome"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Anagrammes",
+          "available_concepts": [
+            "tri",
+            "fréquences",
+            "égalité",
+            "anagramme"
+          ],
+          "introduced_here": [
+            "anagramme"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q8",
+          "topic": "Exercice 8 — Distance de Hamming",
+          "available_concepts": [
+            "parcours parallèle",
+            "comparaison",
+            "compteur",
+            "distance de Hamming"
+          ],
+          "introduced_here": [
+            "distance de Hamming"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q9",
+          "topic": "Exercice 9 — Acronyme",
+          "available_concepts": [
+            "split",
+            "indice",
+            "upper",
+            "join",
+            "acronyme"
+          ],
+          "introduced_here": [
+            "acronyme"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q10",
+          "topic": "Exercice 10 — Chiffrement de César",
+          "available_concepts": [
+            "ord",
+            "chr",
+            "décalage",
+            "boucle"
+          ],
+          "introduced_here": [
+            "ord",
+            "chr"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q11",
+          "topic": "Exercice 11 — Aplatissement",
+          "available_concepts": [
+            "listes imbriquées",
+            "boucles",
+            "append"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q12",
+          "topic": "Exercice 12 — Fusion de dictionnaires",
+          "available_concepts": [
+            "dictionnaire",
+            "clés",
+            "appartenance",
+            "somme",
+            "fusion"
+          ],
+          "introduced_here": [
+            "fusion"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q13",
+          "topic": "Exercice 13 — Inversion de dictionnaire",
+          "available_concepts": [
+            "items",
+            "liste",
+            "regroupement",
+            "append"
+          ],
+          "introduced_here": [
+            "regroupement"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q14",
+          "topic": "Exercice 14 — Tri complexe",
+          "available_concepts": [
+            "tuple",
+            "sorted",
+            "key",
+            "reverse"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q15",
+          "topic": "Exercice 15 — Mode",
+          "available_concepts": [
+            "fréquences",
+            "dictionnaire",
+            "maximum",
+            "mode"
+          ],
+          "introduced_here": [
+            "mode"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q16",
+          "topic": "Exercice 16 — Tokenisation",
+          "available_concepts": [
+            "replace",
+            "lower",
+            "split"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q17",
+          "topic": "Exercice 17 — Stopwords",
+          "available_concepts": [
+            "ensemble",
+            "appartenance",
+            "filtrage"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q18",
+          "topic": "Exercice 18 — Bigrammes",
+          "available_concepts": [
+            "indices",
+            "tuple",
+            "boucle",
+            "bornes"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q19",
+          "topic": "Exercice 19 — Trigrammes",
+          "available_concepts": [
+            "indices",
+            "tuple",
+            "boucle",
+            "bornes",
+            "trigramme"
+          ],
+          "introduced_here": [
+            "trigramme"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q20",
+          "topic": "Exercice 20 — Jaccard",
+          "available_concepts": [
+            "intersection",
+            "union",
+            "len",
+            "rapport",
+            "indice de Jaccard"
+          ],
+          "introduced_here": [
+            "indice de Jaccard"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q21",
+          "topic": "Exercice 21 — Fréquence normalisée",
+          "available_concepts": [
+            "occurrences",
+            "len",
+            "rapport",
+            "TF"
+          ],
+          "introduced_here": [
+            "TF"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q22",
+          "topic": "Exercice 22 — Produit scalaire",
+          "available_concepts": [
+            "parcours parallèle",
+            "produit",
+            "somme",
+            "produit scalaire"
+          ],
+          "introduced_here": [
+            "produit scalaire"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q23",
+          "topic": "Exercice 23 — Préfixe commun",
+          "available_concepts": [
+            "indices",
+            "comparaison",
+            "boucle",
+            "borne",
+            "préfixe commun"
+          ],
+          "introduced_here": [
+            "préfixe commun"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q24",
+          "topic": "Exercice 24 — Cooccurrence simplifiée",
+          "available_concepts": [
+            "vocabulaire",
+            "comptage",
+            "dictionnaire"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q25",
+          "topic": "Exercice 25 — Pipeline",
+          "available_concepts": [
+            "strip",
+            "lower",
+            "replace",
+            "split",
+            "composition de traitements"
+          ],
+          "introduced_here": [
+            "composition de traitements"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD6_S2",
+      "notebook": "Notebooks TD/TD6_S2.ipynb",
+      "semester": 2,
+      "activity": "td",
+      "title": "Fichiers et ressources linguistiques — sans Regex",
+      "prerequisites": [
+        "TD précédents : chaînes, collections, boucles, fonctions, fréquences"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Exercice 1 — Lecture simple",
+          "available_concepts": [
+            "with",
+            "open",
+            "UTF-8",
+            "read",
+            "lecture de fichier"
+          ],
+          "introduced_here": [
+            "lecture de fichier"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Exercice 2 — Lecture ligne à ligne",
+          "available_concepts": [
+            "readlines",
+            "list",
+            "itération sur fichier"
+          ],
+          "introduced_here": [
+            "readlines"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Exercice 3 — Nettoyer une ligne",
+          "available_concepts": [
+            "fonction",
+            "lower",
+            "replace",
+            "boucle",
+            "return"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Exercice 4 — Tokenisation",
+          "available_concepts": [
+            "split",
+            "liste"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exercice 5 — Filtrage numérique",
+          "available_concepts": [
+            "isdigit",
+            "boucle",
+            "condition",
+            "append"
+          ],
+          "introduced_here": [
+            "isdigit"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Exercice 6 — Stopwords",
+          "available_concepts": [
+            "ensemble",
+            "appartenance",
+            "filtrage"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q7",
+          "topic": "Exercice 7 — Pipeline complet",
+          "available_concepts": [
+            "lecture",
+            "boucles imbriquées",
+            "nettoyage",
+            "filtrage"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q8",
+          "topic": "Exercice 8 — Fréquences sans Counter",
+          "available_concepts": [
+            "dictionnaire",
+            "boucle",
+            "compteur"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q9",
+          "topic": "Exercice 9 — Écriture CSV sans bibliothèque",
+          "available_concepts": [
+            "open",
+            "write",
+            "items",
+            "chaîne",
+            "en-tête",
+            "UTF-8",
+            "écriture CSV"
+          ],
+          "introduced_here": [
+            "écriture CSV"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q10",
+          "topic": "Exercice 10 — CSV trié",
+          "available_concepts": [
+            "sorted",
+            "items",
+            "key",
+            "lambda",
+            "reverse",
+            "écriture"
+          ],
+          "introduced_here": [
+            "lambda"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "CONTROLE_TD2_S2",
+      "notebook": "Notebooks TD/TD2 - S2.ipynb",
+      "semester": 2,
+      "activity": "controle",
+      "title": "Contrôle S2 : renforcement et algorithmique",
+      "prerequisites": [],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_TD4_S2",
+      "notebook": "Notebooks TD/TD4_S2.ipynb",
+      "semester": 2,
+      "activity": "controle",
+      "title": "Contrôle : manipulation des ensembles",
+      "prerequisites": [],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
+    },
+    {
+      "id": "DEVOIR_MAISON_S2",
+      "notebook": "Notebooks TD/devoirMaisonS2.ipynb",
+      "semester": 2,
+      "activity": "controle",
+      "title": "Devoir maison intermédiaire d’approfondissement",
+      "prerequisites": [],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
+    },
+    {
+      "id": "CONTROLE_FINAL_S2",
+      "notebook": "Notebooks contrôles finaux/ControleFinalS2.ipynb",
+      "semester": 2,
+      "activity": "controle",
+      "title": "Contrôle final S2 : algorithmique et fichiers",
+      "prerequisites": [],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
+    }
+  ],
+  "excluded_notebooks": [
+    {
+      "notebook": "Corrigés modèles/TD/td2-s1/TD2_S1_EtudiantModele_non_execute.ipynb",
+      "reason": "Corrigé modèle séparé, non destiné au travail étudiant ; conserver sans tuteur ni modification."
+    },
+    {
+      "notebook": "Notebooks TD/TD2 - S2 - Corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks TD/TD3 - S2 - Corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks TD/TD4_S2-corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks TD/TD5_S2-corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks TD/TD6_S2-corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks TD/devoirMaisonS2-corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb",
+      "reason": "Corrigé enseignant, hors sujets étudiants ; conservé sans modification."
+    },
+    {
+      "notebook": "Notebooks contrôles finaux/DevoirS2.ipynb",
+      "reason": "Corrigé enseignant mal nommé : titre TD6 (CORRIGÉ), Version Enseignant / Solution ; JSON tronqué préexistant, hors sujets et inchangé."
     }
   ]
 }

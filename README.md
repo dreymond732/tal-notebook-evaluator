@@ -96,6 +96,10 @@ L'application utilise des variables d'environnement pour isoler les paramètres 
 
 Pour ajouter un nouveau TD ou contrôle, suivez ces 3 étapes simples :
 
+Tout nouveau sujet doit aussi suivre la [politique de tutorat](docs/pedagogy/TUTORING_POLICY.md) : consignes adaptées à la séance, dans les métadonnées **et dans une cellule Markdown dédiée placée en première position**. Les TD guident sans fournir la solution ; les contrôles refusent toute assistance. Au S1, le tuteur ne fournit aucun code ; à partir du S2, seul un exemple minimal distinct peut être proposé après échange, dans les notions autorisées.
+
+Déclarer le sujet et son mode explicite dans `docs/pedagogy/tutor_sessions.json`, puis appliquer la [procédure de génération et de vérification](docs/TUTOR_METADATA.md). Le contrôle d'inventaire signale un nouveau notebook non classé ; les corrigés enseignants doivent être exclus explicitement avec leur justification. Les deux copies des consignes sont générées ensemble : ne pas les maintenir séparément.
+
 ### Étape A : créer le fichier de correction
 Dupliquez un fichier existant (ex: `app/app_correction_TD6_S2.py`) et nommez-le pour votre nouveau devoir (ex: `app/app_correction_TD7_S2.py`).
 
