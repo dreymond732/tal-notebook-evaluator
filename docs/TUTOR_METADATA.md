@@ -7,7 +7,7 @@ Le pilote est construit sur la branche S1 de la PR #6. Il ne remplace pas la ré
 - Spécification pédagogique : `docs/pedagogy/TUTORING_POLICY.md`.
 - Fiches par séance et exercice : `docs/pedagogy/tutor_sessions.json`.
 - Règles communes et génération : `app/tutor_metadata.py` (bibliothèque standard seulement).
-- Destination : un contexte `metadata.colab.aiContexts` par notebook et une fiche structurée `metadata.tal_tutor`. Aucune instruction LLM n'est ajoutée dans les cellules Markdown.
+- Destination générée : un contexte `metadata.colab.aiContexts` par notebook et une fiche structurée `metadata.tal_tutor`. Le générateur n'ajoute aucune instruction LLM dans les cellules Markdown. Exception expérimentale demandée par l'enseignant : le TD2 S1 comporte aussi un rappel manuel en commentaire HTML dans sa première cellule Markdown ; voir [le protocole du pilote](pedagogy/TD2_TUTOR_REMINDER.md).
 
 Le champ `context` contient les consignes complètes rendues et le périmètre de chaque exercice. La fiche structurée sert à la traçabilité ; on ne suppose pas que Colab interprète le champ personnalisé `tal_tutor`. Le mode d'évaluation serveur ne dépend jamais des métadonnées du fichier déposé.
 
@@ -18,6 +18,8 @@ python -m unittest discover -s tests -p 'test_tutor_metadata.py' -v
 ```
 
 `--check` termine avec un code non nul en cas de dérive. `--write` prépare et valide tous les fichiers avant écriture, conserve les activités et les métadonnées étrangères au tutorat, retire les anciens blocs délimités `LLM_PEDAGOGICAL_CONTEXT_START/END` et remplace les anciens profils pédagogiques reconnus. Un contexte Colab personnel inconnu nécessite une revue, sans suppression automatique. Aucune cellule de code n'est exécutée. La commande est idempotente.
+
+Le rappel expérimental du TD2 utilise les délimiteurs distincts `TAL_TD2_TUTOR_REMINDER_START/END` : il est conservé par le générateur, mais n'est ni généré ni synchronisé par celui-ci. Toute évolution des règles de tutorat doit donc vérifier sa cohérence avec les métadonnées. Ce commentaire ne contient pas de nouvelle liste de notions : le périmètre par exercice reste défini dans les métadonnées. Sa présence dans le fichier ne prouve pas que Colab le transmet au modèle, ni que le modèle le respecte.
 
 Les contextes sont limités à 4 400 caractères par précaution après observation d'un texte de 4 500 caractères tronqué dans le fichier fourni. **Ce budget est une règle du projet, pas une limite Colab documentée.** Un dépassement provoque une erreur ; le texte n'est jamais tronqué. Si les fiches deviennent plus longues, revoir leur découpage plutôt que retirer silencieusement des règles.
 

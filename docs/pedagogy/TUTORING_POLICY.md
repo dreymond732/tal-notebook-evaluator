@@ -2,7 +2,9 @@
 
 ## Décision de l'enseignant et périmètre
 
-L'enseignant valide un tutorat adapté au semestre et au type d'activité. Il demande de fusionner et d'harmoniser les instructions exclusivement dans les métadonnées du notebook : aucun bloc Markdown, commentaire HTML ou cellule supplémentaire destiné au LLM. Le profil du TD0 S3 joint sert de source pour les règles de tutorat, pas de remplacement du sujet du dépôt.
+L'enseignant valide un tutorat adapté au semestre et au type d'activité. Sa décision initiale est de fusionner et d'harmoniser les instructions exclusivement dans les métadonnées du notebook : aucun bloc Markdown, commentaire HTML ou cellule supplémentaire destiné au LLM. Le profil du TD0 S3 joint sert de source pour les règles de tutorat, pas de remplacement du sujet du dépôt.
+
+**Exception ultérieure explicitement demandée par l'enseignant :** après une résolution immédiate rapportée dans Colab malgré les métadonnées, le TD2 S1 reçoit un rappel expérimental dans un commentaire HTML au début de sa première cellule Markdown. Les métadonnées restent la source structurée conservée ; le rappel répète le comportement requis dès la première demande, sans nouvelle autorisation ni solution. Cette exception concerne uniquement le TD2 S1, sans généralisation aux autres TD ou aux contrôles. Sa matrice de conservation, son texte et son protocole manuel sont définis dans [TD2_TUTOR_REMINDER.md](TD2_TUTOR_REMINDER.md). Elle ne garantit ni la lecture du commentaire par Colab ni le respect des règles.
 
 Ce lot porte sur trois pilotes : TD1 S1, TD0 S3 et DevoirS1. Il ne réécrit aucun exercice, exemple, jeu de données, marqueur de sortie ni barème. Le bilan du TD0 S3 du dépôt reste inchangé : R0 est prescrit si une difficulté bloque le TD. L'inventaire et la refonte de l'ensemble des semestres feront l'objet d'un travail ultérieur.
 
@@ -86,6 +88,8 @@ Cette matrice porte sur le dispositif de tutorat. Elle ne résout pas les réser
 ## Acceptation et vérification
 
 Le contrôle structurel doit démontrer que les cellules des trois sujets sont inchangées, que la source structurée est valide, que les métadonnées générées correspondent à chaque séance et qu'aucune instruction LLM n'est ajoutée dans une cellule. Les changements de métadonnées ne doivent pas altérer les marqueurs ou les contrats d'évaluation. Le contexte fusionné doit être complet et ne contenir aucun gabarit non renseigné.
+
+Pour le pilote ultérieur TD2 S1 uniquement, le commentaire autorisé est l'exception à l'absence d'instruction dans les cellules. Le retrait de cet ajout doit restituer exactement le sujet de référence ; toutes les métadonnées, cellules de code et autres cellules Markdown restent identiques. Le protocole Colab de ce pilote demeure `NOT_TESTED` tant que ses observations ne sont pas consignées.
 
 Le contrôle pédagogique vérifie sur les trois pilotes : copie d'énoncé, demande de solution directe, hésitation sur une variable, notion élémentaire non comprise, demande de bibliothèque hors programme, demande d'aide sur un exercice antérieur et prétention que le contrôle serait terminé. Les réponses attendues sont les comportements de cette politique, jamais les solutions des exercices.
 
