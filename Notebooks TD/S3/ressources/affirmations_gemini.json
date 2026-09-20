@@ -1,0 +1,126 @@
+[
+  {
+    "id": "G1",
+    "prompt": 3,
+    "pivot_original": "Intelligence",
+    "associes_originaux": [
+      "inaptitude",
+      "aptes",
+      "également",
+      "professions",
+      "génie"
+    ],
+    "intervalle_annonce": [
+      15,
+      20
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "G2",
+    "prompt": 3,
+    "pivot_original": "Aptitude(s)",
+    "associes_originaux": [
+      "professions",
+      "capacité",
+      "instincts",
+      "métier"
+    ],
+    "intervalle_annonce": [
+      12,
+      18
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "G3",
+    "prompt": 3,
+    "pivot_original": "Raison / Bon sens",
+    "associes_originaux": [
+      "rationnelle",
+      "logique",
+      "droit",
+      "précision",
+      "équité"
+    ],
+    "intervalle_annonce": [
+      25,
+      35
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "G4",
+    "prompt": 3,
+    "pivot_original": "Devoir",
+    "associes_originaux": [
+      "travail",
+      "règle",
+      "femme forte",
+      "sacrifice",
+      "conscience"
+    ],
+    "intervalle_annonce": [
+      10,
+      15
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "G5",
+    "prompt": 3,
+    "pivot_original": "Morale / Vertu",
+    "associes_originaux": [
+      "haute moralité",
+      "saine",
+      "probité",
+      "moralisation",
+      "dépravation"
+    ],
+    "intervalle_annonce": [
+      15,
+      22
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "G6",
+    "prompt": 3,
+    "pivot_original": "Exception",
+    "associes_originaux": [
+      "généralité",
+      "infinitésimale",
+      "type",
+      "rare"
+    ],
+    "intervalle_annonce": [
+      8,
+      12
+    ],
+    "unite": null,
+    "fenetre": null,
+    "normalisation": null,
+    "agregation": null,
+    "source": "gemini_transcription.txt"
+  }
+]
