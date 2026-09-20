@@ -1,33 +1,22 @@
-from formative_s3 import check_formative_notebook
+"""Diagnostic texte : résultats déterministes, sans exécution côté serveur."""
+from collections import Counter
+from s3_audit import check_audit, same, keys
+from s3_audit_data import TEXT0
 
-EVAL_ID = "td0-s3"
+EVAL_ID = 'td0-s3'
 MAX_SCORE_TOTAL = 7.0
-CHECKS = [
-    {"label": "Lecture UTF-8", "source": ["with open(", "encoding="], "output": "Résultat Q1 :", "points": 1.0, "feedback": "Lire le corpus fourni en UTF-8 avec un contexte with."},
-    {"label": "Découpage brut", "source": [".split()"], "output": "Résultat Q2 :", "points": 1.0, "feedback": "Créer et afficher une liste issue de split()."},
-    {"label": "Comptage", "source": ["len("], "output": "Résultat Q3 :", "points": 1.0, "feedback": "Compter les éléments de la liste."},
-    {"label": "Formes distinctes", "source": ["set("], "output": "Résultat Q4 :", "points": 1.0, "feedback": "Construire un ensemble de formes distinctes."},
-    {"label": "Fonction de fréquences", "source": ["def frequences_brutes", "return", ".get("], "output": "Résultat Q5 :", "points": 1.0, "feedback": "Définir une fonction qui retourne un dictionnaire de fréquences."},
-    {"label": "Normalisation", "source": ["def frequences_minuscules", ".lower()"], "output": "Résultat Q6 :", "points": 1.0, "feedback": "Comparer le comptage brut avec une normalisation en minuscules."},
-    {"label": "Limites du découpage", "source": [], "output": "Résultat Q7 :", "points": 1.0, "feedback": "Expliquer une limite de split() et l'apport d'une annotation linguistique."},
+EXPECTED = [
+    {'caracteres': len(TEXT0)}, {'mots': TEXT0.split()}, {'occurrences': len(TEXT0.split())},
+    {'formes': len(set(TEXT0.split()))}, {'frequences': dict(Counter(TEXT0.split()))},
+    {'frequences': dict(Counter(TEXT0.lower().split()))},
 ]
+LABELS = ['Lecture UTF-8', 'Découpage brut', 'Occurrences', 'Formes distinctes', 'Fréquences brutes', 'Fréquences minuscules']
+CHECKS = [{'label': label, 'validate': lambda value, expected=expected: same(value, expected),
+           'feedback': 'Résultat du texte fixé : ' + repr(expected)} for label, expected in zip(LABELS, EXPECTED)]
+CHECKS.append({'label': 'Preuve du découpage et limites à relire',
+               'validate': lambda value: keys(value, ['split', 'limites']) and same(value['split'], ['L’analyse,', 'c’est', 'utile', '!']) and isinstance(value['limites'], str),
+               'feedback': 'Le point porte sur la liste exacte issue du découpage du microcas. La synthèse limites est à relire humainement, sans note automatique de qualité.'})
+
 
 def check_notebook(content_str, filename):
-    score, details, max_score, info, error = check_formative_notebook(
-        content_str, CHECKS, MAX_SCORE_TOTAL
-    )
-    if score >= 6:
-        verdict = "PRÊT : les prérequis minimaux pour TD1 sont présents."
-    elif score >= 4:
-        verdict = "À CONSOLIDER : réalisez R0 avant TD1."
-    else:
-        verdict = "ACCOMPAGNEMENT RECOMMANDÉ : réalisez R0 et reprenez les bases avec l'enseignant."
-    details.insert(0, {
-        "check": "Diagnostic TD0",
-        "student_answer": verdict,
-        "correct_answer": "Diagnostic formatif ; pas de note certificative.",
-        "status": "ℹ️",
-        "points": score,
-        "max_points": max_score,
-    })
-    return score, details, max_score, info, error
+    return check_audit(content_str, filename, 0, CHECKS)

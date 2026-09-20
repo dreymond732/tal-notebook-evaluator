@@ -1,4 +1,43 @@
-# S3 — matrice de couverture des TD d'origine
+# S3 — matrice de couverture : audit quantitatif des analyses LLM
+
+## Décision active du 20 septembre 2026
+
+L’enseignant a approuvé la progression proposée en huit TD de deux heures (« Passe à la mise en place de cette progression »). La nouvelle cible est un instrument reproductible d’audit quantitatif d’analyses LLM, à partir du texte de Faguet et de la conversation Gemini fournis. Cette décision remplace le projet bilingue comme finalité du tronc commun. Elle n’autorise aucune disparition silencieuse des compétences déjà distribuées.
+
+**Établie par TAL-Prof avant conception des nouveaux supports.** L’Orchestrateur transmet cette matrice aux Designers avant leurs modifications ; la revue pédagogique indépendante vérifiera la réalisation, sans confondre cette validation préalable du périmètre avec une validation des futurs fichiers. Référence de départ : branche `main`, commit `7990234` (PR9 fusionnée). Les huit sources historiques et la précédente décision restent documentées dans la seconde partie de ce fichier.
+
+| Source et activité substantielle | Cible active | Statut et preuve attendue |
+|---|---|---|
+| TD0 : fichier UTF-8, chaînes, listes, ensembles, occurrences, boucle, dictionnaire, fonction et retour | TD0 Q1–Q5 | CONSERVÉ + RENFORCÉ : même diagnostic, plusieurs exemples distincts, essais sur petit corpus puis texte de travail ; liste et dénombrement restent deux traces Q2/Q3, désormais deux exercices distincts. |
+| TD0 : minuscules, ponctuation, flexion, limites de split, distinction mesure/interprétation | TD0 Q6–Q7 puis TD1–TD2 | CONSERVÉ + RENFORCÉ : comparaison explicite, hypothèse et confrontation au texte ; une opinion n’est pas notée comme vérité par mots-clés. |
+| TD1 : installation, Doc, tableau forme/lemme/POS/tag, phrases et longueur | TD1 Q1–Q2 | CONSERVÉ + RENFORCÉ : positions caractères et vérification manuelle ajoutées ; annotations apprises, non vérité de référence. |
+| TD1 : listes de noms/verbes/mots pleins, displaCy et lecture d’une dépendance | TD1 Q3–Q4 | CONSERVÉ : production de listes et visualisation syntaxique ; l’interprétation de la relation reste humaine. |
+| TD1 : comparaison split/tokens, extrait personnel autonome de 2–4 phrases | TD1 Q5–Q6 | CONSERVÉ : essai contrôlé et transfert autonome, sans préremplir l’interprétation. |
+| TD2 : lecture corpus, Counter, fonctions frequences_noms/frequences_verbes, paramètres et exclusions, stopwords | TD2 Q1–Q3 | CONSERVÉ + RENFORCÉ : fonctions réellement écrites ; formes/lemmes et fréquences normalisées clarifiés. |
+| TD2 : distribution POS/top3, contrôle de cinq lemmes, nuage filtré WordCloud, fonction frequences_pos générale | TD2 Q4–Q7 | CONSERVÉ + RENFORCÉ : les quatre activités restent obligatoires ; recherche d’expression intégrée au contrôle des unités et réinvestie au TD3 ; aucun lien fréquence=pertinence. |
+| R0, R1, R2 : consolidation préparatoire | R0, R1, R2 inchangés | CONSERVÉ : recours selon diagnostic ; ne remplacent ni un exercice ni une séance. |
+| Initiation/approfondissement historiques : groupes nominaux, entités nommées, EntityRuler | Prolongement distinct après S3 ; expressions multi-mots dans TD2–TD3 | DÉPLACÉ : NER, EntityRuler et groupes nominaux ne sont pas prétendus couverts par une recherche d’expression exacte. Ils ne sont plus prérequis ni critères de notation du projet final. |
+| Exercices avancés historiques : relations sujet–verbe, similarité, pseudo-classification | TD1 lecture syntaxique élémentaire ; prolongement pour extraction systématique et similarité | DÉPLACÉ : pas d’assimilation cooccurrence/similarité/classification ; l’ancien programme reste traçable mais ces ateliers ne sont pas créés dans cette livraison. |
+| Ancien TD4 : vecteurs statiques, polysémie, projections de genre, contextualisation BERT | Prolongement représentations et biais | DÉPLACÉ hors tronc commun approuvé : nouvelle cible TD4 = cooccurrences ; aucune fausse déclaration d’équivalence pédagogique. |
+| Ancien TD5 : deux modèles, corpus parallèle, alignements 1–1/1–2/2–1 et heuristique gloutonne | Prolongement bilingue distinct | DÉPLACÉ hors tronc commun approuvé : nouvelle cible TD5 = associations, marges et proportions ; aucun alignement évalué. |
+| Ancien TD6–TD7 : cooccurrences, marges, PMI, glossaire comparatif | TD4–TD5 pour comptages/marges ; PMI optionnelle TD5 ; projet TD7 remplacé | RENFORCÉ pour mesures unilingues ; DÉPLACÉ pour glossaire/bilingue ; PMI n’est pas obligatoire à défaut de maîtrise préalable des probabilités/logarithmes. |
+| Nouvelle activité : localiser et vérifier citations et concordances | TD3 obligatoire | AJOUTÉ : indices, tranches, expressions, citations exactes et variantes, lot manuel de validation ; candidat approché ≠ citation conforme. |
+| Nouvelle activité : dispersion, carte de chaleur et sensibilité aux paramètres | TD6 obligatoire | AJOUTÉ : chaque visuel dispose d’un tableau sous-jacent et d’un retour au texte ; segments égaux ne sont pas des chapitres. |
+| Nouvelle finalité : audit de six lignes d’analyse Gemini | TD7 obligatoire | AJOUTÉ : paramètres absents consignés, recomptage contrôlé, preuves textuelles, verdicts nuancés, absence de conclusion imposée. |
+
+## Contraintes de conception
+
+Chaque TD couvre 120 minutes prévisionnelles, installation/bilan/dépôt compris, avec au moins trois exemples commentés sur des données distinctes des réponses, une prédiction, un essai contrôlé et un transfert. Ces durées sont des hypothèses à éprouver en classe. Les cellules de réponse ne contiennent pas les solutions.
+
+Le corpus original est conservé, sa transformation déclarée, les trois prompts Gemini sont une conversation séquentielle et non trois expériences indépendantes. Les microcorpus construits permettent de contrôler les calculs indépendamment des annotations spaCy. Les productions du corpus complet exigent une interprétation humaine.
+
+Les nouveaux supports utilisent les mêmes règles de tutorat que les autres TD : métadonnées et cellule Markdown dédiée en première position, quiz immédiat sur demande de résolution, fragment minimal distinct seulement après échange au S3, aucune modification ni exécution des cellules par le tuteur. Aucun contrôle n’est transformé en TD.
+
+---
+
+# Historique — matrice validée le 17 septembre 2026 (supplantée pour TD3–TD7)
+
+
 
 ## Statut
 

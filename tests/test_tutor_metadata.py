@@ -125,7 +125,7 @@ class TutorMetadataTests(unittest.TestCase):
                 if heading:
                     current_exercise = heading.group(1)
             elif current_exercise:
-                for marker in re.findall(r"Résultat (Q\d+)\s*:", source):
+                for marker in re.findall(r"S3_TD0_(Q\d+)\s*:", source):
                     locations[marker] = current_exercise
         self.assertEqual(set(locations), {e["id"] for e in session["exercises"]})
         context = render_context(session)
@@ -134,10 +134,10 @@ class TutorMetadataTests(unittest.TestCase):
             self.assertIn(exercise["topic"], context)
 
     def test_supplied_library_is_distinct_from_allowed_library(self):
-        context = render_context(self.sessions[1])
-        self.assertIn("Bibliothèques autorisées (plafond, voir chaque exercice) : aucune", context)
+        session = copy.deepcopy(next(s for s in self.sessions if s["id"] == "TD0_S3"))
+        context = render_context(session)
+        self.assertIn("Bibliothèques autorisées (plafond, voir chaque exercice) : json", context)
         self.assertIn("Préparation fournie seulement : pathlib", context)
-        session = copy.deepcopy(self.sessions[1])
         session["allowed_libraries"].append("pathlib")
         with self.assertRaisesRegex(ValueError, "préparation"):
             render_context(session)
