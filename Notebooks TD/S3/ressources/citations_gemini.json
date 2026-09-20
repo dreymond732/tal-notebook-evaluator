@@ -1,0 +1,20 @@
+[
+  {
+    "id": "C1",
+    "prompt": 1,
+    "citation": "Il faut que la femme puisse être légalement tout ce qu'elle peut être naturally.",
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "C2",
+    "prompt": 1,
+    "citation": "Les professions n'ont pas de sexe.",
+    "source": "gemini_transcription.txt"
+  },
+  {
+    "id": "C3",
+    "prompt": 2,
+    "citation": "une exception infinitésimale ne prouve rien pour la généralité",
+    "source": "gemini_transcription.txt"
+  }
+]

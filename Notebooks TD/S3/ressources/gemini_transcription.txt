@@ -1,0 +1,126 @@
+Prompt adressé à Gemini Fais une analyse lexicomé…
+LLM: Gemini, inclus dans google workspace. Le 18/09/26 au matin.
+
+Prompt 1. 
+Fais une analyse lexicométrique du texte. (j'ai fourni une version nettoyée de https://www.gutenberg.org/files/59719/59719-h/59719-h.htm). 
+
+1. Champs lexicaux dominants et noyaux fréquenciels
+L'analyse du vocabulaire du texte d'Émile Faguet fait apparaître trois grands champs lexicaux interconnectés qui structurent l'ensemble de la démonstration :
+Axe institutionnel, politique et juridique :
+Mots-clés récurrents : droit, loi, égalité, législation, suffrage, électorat, éligibilité, code, répudiation, divorce, contrat, fonctions, professions.
+Analyse : Ce réseau lexical inscrit le texte dans un registre juridique et politique explicite. Il vise à poser les termes théoriques et civiques du débat féministe au tournant du XXe siècle.
+Axe de la caractérisation des sexes et du genre :
+Mots-clés récurrents : femme(s), homme(s), sexe, féminisme, féministe(s), antiféministe(s), viril, masculin, féminin, mariage, époux, épouse, jeune fille.
+Analyse : L'omniprésence du couple conceptuel homme / femme s'accompagne d'un emploi systématique des adjectifs catégoriels (qualités viriles, professions viriles, métier de femme) pour évaluer le champ d'action possible de chaque sexe.
+Axe de la rationalité, de la morale et des aptitudes :
+Mots-clés récurrents : raison, bon sens, intelligence, devoir, aptitude(s), moralisation, sincérité, vertu, anomalie, exception.
+Analyse : Ce champ lexical sert d'étalon de mesure pour arbitrer entre les revendications doctrinales et la réalité sociale pragmatique.
+2. Réseaux de polarité et dualités lexicales
+Le texte est articulé autour d'oppositions lexicales binaires qui organisent la dialectique de l'auteur :
+    [ En Droit ]   <=======================>   [ En Pratique ](Principe, Égalité, Justice)                 (Mœurs, Bon sens, Limites)         |                                                |         v                                                v [ Modèle Théorique ]                         [ Application Sociale ]
+« En droit » versus « En pratique » :
+C'est la dichotomie maîtresse du texte. Le terme droit est associé aux valeurs d'égalité, d'équité et de justice absolue. Le terme pratique est assorti d'un vocabulaire lié aux mœurs, aux inconvénients, à la prudence et aux réalités de terrain.
+« Viril » versus « Féminin » :
+L'auteur utilise ces termes de façon mi-biologique, mi-fonctionnelle. Le champ lexical du viril renvoie aux activités publiques, intellectuelles ou d'État (médecine, barreau, politique), tandis que le lexique du féminin oscillera entre la sphère domestique/mondaine et l'expression psychologique/littéraire.
+« Utilité / Nature » versus « Convention / Arbitraire » :
+Opposition entre ce qui relève des aptitudes naturelles de l'individu et les restrictions artificielles ou tyranniques imposées par la loi.
+3. Modalisateurs et posture énonciative
+L'étude des marques de modalisation met en évidence une posture d'essayiste tranchant, balançant entre rigueur logique et ironie moraliste :
+Marqueurs d'affirmation catégorique :
+Emploi fréquent d'adverbes d'intensité et d'affirmation : absolument, parfaitement, évidemment, sans doute, il est clair.
+Effet : Donne un ton d'autorité intellectuelle, posant l'auteur en juge impartial et lucide.
+Procédés concessifs et nuances dialectiques :
+Abondance des structures contrastives : non pas... mais..., sans doute... cependant..., il est vrai que... mais....
+Effet : Permet à l'auteur de concéder des points aux antiféministes sur le plan pratique tout en réaffirmant le principe féministe sur le plan du droit.
+Variations de registre et causticités lexicales :
+Le vocabulaire passe d'un registre soutenu/philosophique (condominium, misonéisme, spécialisations spontanées) à un registre familier ou imagé (traîne-savates, pécores, se casser le nez, galimatias).
+Effet : Désamorce la gravité du sujet par la satire des extrêmes (les féministes exaltées comme les antiféministes dogmatiques).
+4. Structures syntaxiques et stylistique
+Aphorismes et maximes lapidaires :
+Le texte produit de nombreuses formules condensées à portée générale :
+« Il faut que la femme puisse être légalement tout ce qu'elle peut être naturally. »
+« Les professions n'ont pas de sexe. »
+« L'homme et la femme sont égaux [...] non pas parce qu'ils sont également forts, mais parce qu'ils sont également faibles. »
+Rhetorique du dialogue fictif :
+Utilisation constante de tournures interrogatives et de dialogues réinventés entre l'auteur, les féministes et les antiféministes (-- Mais si la femme est une mineure... -- J'ai répondu à ceci...). Cela dynamise la démonstration et donne à l'analyse lexicale une dimension théâtrale et argumentative directe.
+Souhaitez-vous une comparaison lexicométrique ciblée sur un chapitre spécifique ou l'extraction d'un tableau d'occurrences sur des termes précis ?
+
+Sources :
+feminismeFaguet.txt
+Prompt 2: extrait le tableau des co occurrences s…
+Prompt 2: extrait le tableau des co occurrences sur les termes de l'axe de la rationalité, de la morale et des aptitudes 
+
+
+Terme pivot (Axe)
+Termes co-occurrents privilégiés
+Contexte d'association dans le texte
+Extraits / Formulations du texte
+Intelligence
+inaptitude, aptes, également, professions, génie
+Discussion sur l'égalité intellectuelle des sexes et l'accès aux fonctions civiles et libérales.
+« [Elles ne sont pas] assez intelligentes pour exercer les professions viriles... » / « aptes à tout cela, absolument aussi bien que les hommes » / « égales en intelligence ».
+Aptitude(s)
+professions, capacité, instincts, métier
+Évaluation des compétences professionnelles et des capacités intellectuelles ou pratiques selon le sexe.
+« inaptitude des femmes aux professions viriles » / « même capacité intellectuelle ».
+Raison / Bon sens
+rationnelle, logique, droit, précision, équité
+Justification de la répartition de l'autorité conjugale et du fondement juridique de l'égalité.
+« la seule rationnelle, encore qu'elle soit rare » / « avec l'observation et la logique » / « simplicité et raison ».
+Devoir
+travail, règle, femme forte, sacrifice, conscience
+Association du devoir à la valeur morale, à la responsabilité familiale et à l'éthique du travail.
+« saintement pénétrée des idées de devoir et de travail » / « l'exemple de la femme forte, sensée » / « accomplir un devoir important ».
+Morale / Vertu
+haute moralité, saine, probité, moralisation, dépravation
+Analyse du niveau d'exigence éthique dans la vie privée, le mariage et la vie politique.
+« résumé des vertus de la femme forte » / « action moralisatrice » / « grande préoccupation de la probité, de la moralité ».
+Exception
+généralité, infinitésimale, type, rare
+Qualification des cas de génie ou des personnalités féminines hors du commun face au reste de la société.
+« une exception infinitésimale ne prouve rien pour la généralité » / « elles seront toujours une exception ».
+Synthèse des associations lexico-thématiques
+Aptitude et Intelligence : Ces deux notions co-apparaissent quasi-systématiquement avec le lexique des professions et du génie, servant à rejeter l'argument de l'incapacité naturelle des femmes.
+Raison et Droit : La raison co-occurre avec le bon sens et la logique pour définir ce que doit être la norme juridique, opposée à l'arbitraire des préjugés sociaux.
+Devoir et Morale : Le devoir s'articule étroitement avec le travail et la figure de la « femme forte », posant l'élévation morale comme le résultat de la responsabilité et de l'action.
+Prompt 3:
+Prompt 3:
+dans ce tableau, fais apparaître une colonne pour mesurer les cooccurrences des termes pivots et des termes co-occurrents privilégiés
+
+Voici le tableau mis à jour intégrant une estimation quantitative des co-occurrences (nombre de co-occurrences dans la fenêtre textuelle du document) entre chaque terme pivot et ses termes co-occurrents associés :
+Terme pivot (Axe)
+Termes co-occurrents privilégiés
+Fréquence de co-occurrence (estimation dans le texte)
+Contexte d'association dans le texte
+Extraits / Formulations du texte
+Intelligence
+inaptitude, aptes, également, professions, génie
+15 - 20
+Discussion sur l'égalité intellectuelle des sexes et l'accès aux fonctions civiles et libérales.
+« [Elles ne sont pas] assez intelligentes pour exercer les professions viriles... » / « aptes à tout cela, absolument aussi bien que les hommes » / « égales en intelligence ».
+Aptitude(s)
+professions, capacité, instincts, métier
+12 - 18
+Évaluation des compétences professionnelles et des capacités intellectuelles ou pratiques selon le sexe.
+« inaptitude des femmes aux professions viriles » / « même capacité intellectuelle ».
+Raison / Bon sens
+rationnelle, logique, droit, précision, équité
+25 - 35
+Justification de la répartition de l'autorité conjugale et du fondement juridique de l'égalité.
+« la seule rationnelle, encore qu'elle soit rare » / « avec l'observation et la logique » / « simplicité et raison ».
+Devoir
+travail, règle, femme forte, sacrifice, conscience
+10 - 15
+Association du devoir à la valeur morale, à la responsabilité familiale et à l'éthique du travail.
+« saintement pénétrée des idées de devoir et de travail » / « l'exemple de la femme forte, sensée » / « accomplir un devoir important ».
+Morale / Vertu
+haute moralité, saine, probité, moralisation, dépravation
+15 - 22
+Analyse du niveau d'exigence éthique dans la vie privée, le mariage et la vie politique.
+« résumé des vertus de la femme forte » / « action moralisatrice » / « grande préoccupation de la probité, de la moralité ».
+Exception
+généralité, infinitésimale, type, rare
+8 - 12
+Qualification des cas de génie ou des personnalités féminines hors du commun face au reste de la société.
+« une exception infinitésimale ne prouve rien pour la généralité » / « elles seront toujours une exception ».
+Souhaitez-vous d'autres précisions ou analyses complémentaires sur ce texte ?

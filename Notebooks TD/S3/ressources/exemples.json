@@ -1,0 +1,76 @@
+{
+  "annotation_manuelle": {
+    "texte": "La bibliothécaire lit. Les lecteurs lisent.",
+    "tokens": [
+      {
+        "forme": "La",
+        "lemme": "le",
+        "pos": "DET"
+      },
+      {
+        "forme": "bibliothécaire",
+        "lemme": "bibliothécaire",
+        "pos": "NOUN"
+      },
+      {
+        "forme": "lit",
+        "lemme": "lire",
+        "pos": "VERB"
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT"
+      },
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET"
+      },
+      {
+        "forme": "lecteurs",
+        "lemme": "lecteur",
+        "pos": "NOUN"
+      },
+      {
+        "forme": "lisent",
+        "lemme": "lire",
+        "pos": "VERB"
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT"
+      }
+    ],
+    "note": "Convention pédagogique manuelle pour un exemple, pas sortie garantie du modèle."
+  },
+  "cooccurrences_demo": [
+    "Le chat dort près du livre.",
+    "Le livre rejoint le chat et le chat dort.",
+    "Le chien dort."
+  ],
+  "cooccurrences_exercice": [
+    "La science éclaire le droit.",
+    "Le droit et la science dialoguent avec la science.",
+    "La science progresse.",
+    "Le droit change."
+  ],
+  "citations_demo": {
+    "source": "Le catalogue conserve les traces. Le lecteur compare les notices.",
+    "exacte": "Le catalogue conserve les traces.",
+    "alteree": "Le catalogue conserve les preuves."
+  },
+  "frequences_demo": [
+    "livre",
+    "notice",
+    "livre",
+    "archive"
+  ],
+  "segmentation_demo": [
+    "L’étudiante relit l’article.",
+    "M. Durand relit : est-ce exact ?",
+    "Paris, Lyon : deux villes."
+  ],
+  "microcorpus_td2": "Les bibliothécaires comparent des notices. Une notice décrit un livre. Les lecteurs consultent les livres."
+}
