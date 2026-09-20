@@ -172,7 +172,11 @@ def log_grade_to_csv(eval_id, info, score, bonus=0.0):
     write_h = not os.path.exists(csv_path) or os.path.getsize(csv_path) == 0
     with open(csv_path, 'a', newline='', encoding='utf-8') as f:
         w = csv.writer(f, delimiter=';')
-        if write_h: w.writerow(['Date', 'Nom', 'Prénom', 'Classe', 'Note', 'Bonus'])
+        technical = info.get('score_nature') == 'technique_provisoire'
+        extra_header = ['Nature du score', 'Maximum technique', 'Relecture humaine'] if technical else []
+        extra_row = [info['score_nature'], info.get('score_max', ''), info.get('relecture_humaine', '')] if technical else []
+        score_header = 'Score technique provisoire' if technical else 'Note'
+        if write_h: w.writerow(['Date', 'Nom', 'Prénom', 'Classe', score_header, 'Bonus'] + extra_header)
         w.writerow([datetime.now().strftime("%d/%m/%Y %H:%M"), info.get('nom', '').upper(),
                     info.get('prenom', '').capitalize(), info.get('classe', ''),
-                    f"{score:.2f}".replace('.', ','), f"{bonus:.2f}".replace('.', ',')])
+                    f"{score:.2f}".replace('.', ','), f"{bonus:.2f}".replace('.', ',')] + extra_row)

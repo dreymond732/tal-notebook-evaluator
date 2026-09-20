@@ -78,7 +78,7 @@ def read_notebook(content):
     return notebook
 
 
-def collect(cells, td):
+def collect(cells, td, trace_re=TRACE_RE):
     displays, records = {}, {}
     for index, cell in enumerate(cells):
         if cell.get('cell_type') != 'code':
@@ -101,13 +101,13 @@ def collect(cells, td):
                 first = call.args[0]
                 if not (isinstance(first, ast.Constant) and isinstance(first.value, str)):
                     continue
-                match = TRACE_RE.fullmatch(first.value)
+                match = trace_re.fullmatch(first.value)
                 if match and int(match[1]) == td and not match[3]:
                     displays.setdefault(int(match[2]), []).append((index, errors))
         stdout = ''.join(text(out.get('text', '')) for out in outputs
                          if out.get('output_type') == 'stream' and out.get('name', 'stdout') == 'stdout')
         for line in stdout.splitlines():
-            match = TRACE_RE.fullmatch(line)
+            match = trace_re.fullmatch(line)
             if match and int(match[1]) == td:
                 records.setdefault(int(match[2]), []).append((index, match[3]))
     return displays, records
