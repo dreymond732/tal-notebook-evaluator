@@ -55,7 +55,10 @@ class S1FormativeTests(unittest.TestCase):
                 notebook(source, outputs), f"td{number}.ipynb"
             )
             self.assertIsNone(error)
-            self.assertEqual(score, maximum)
+            if number == 2:
+                self.assertEqual(score, 0.0)  # Des marqueurs « ok » ne sont pas des réponses.
+            else:
+                self.assertEqual(score, maximum)
             self.assertEqual(len(details), len(module.CHECKS))
 
     def test_invalid_json_is_controlled(self):
