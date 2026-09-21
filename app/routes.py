@@ -31,6 +31,13 @@ EVALUATORS = {
     'td5-s3': ('TD5 S3 - Mesures d’association', 'app_correction_TD5_S3'),
     'td6-s3': ('TD6 S3 - Lecture distante et robustesse', 'app_correction_TD6_S3'),
     'td7-s3': ('TD7 S3 - Audit textométrique reproductible', 'app_correction_TD7_S3'),
+    'controle-td1-s3': ('Contrôle TD1 S3 - Acquis cumulés', 'app_correction_Controle_TD1_S3'),
+    'controle-td2-s3': ('Contrôle TD2 S3 - Acquis cumulés', 'app_correction_Controle_TD2_S3'),
+    'controle-td3-s3': ('Contrôle TD3 S3 - Acquis cumulés', 'app_correction_Controle_TD3_S3'),
+    'controle-td4-s3': ('Contrôle TD4 S3 - Acquis cumulés', 'app_correction_Controle_TD4_S3'),
+    'controle-td5-s3': ('Contrôle TD5 S3 - Acquis cumulés', 'app_correction_Controle_TD5_S3'),
+    'controle-td6-s3': ('Contrôle TD6 S3 - Acquis cumulés', 'app_correction_Controle_TD6_S3'),
+    'controle-td7-s3': ('Contrôle TD7 S3 - Acquis cumulés', 'app_correction_Controle_TD7_S3'),
     'td-r0-s3': ('R0 S3 - Python pour le texte', 'app_correction_R0_S3'),
     'td-r1-s3': ('R1 S3 - Parcourir un Doc spaCy', 'app_correction_R1_S3'),
     'td-r2-s3': ('R2 S3 - Fréquences réutilisables', 'app_correction_R2_S3'),
@@ -63,6 +70,13 @@ EVALUATOR_MODES = {
     'td5-s3': 'td',
     'td6-s3': 'td',
     'td7-s3': 'td',
+    'controle-td1-s3': 'controle',
+    'controle-td2-s3': 'controle',
+    'controle-td3-s3': 'controle',
+    'controle-td4-s3': 'controle',
+    'controle-td5-s3': 'controle',
+    'controle-td6-s3': 'controle',
+    'controle-td7-s3': 'controle',
     'td-r0-s3': 'td',
     'td-r1-s3': 'td',
     'td-r2-s3': 'td',
@@ -129,6 +143,10 @@ def route_evaluator(eval_module, display_name, eval_name):
                               "allowed_extension": allowed_ext, "is_td": is_td}
 
                     report_template = 'corrector_template.html' if is_td else 'controle_corrector_template.html'
+                    if not is_td and info.get('score_nature') == 'technique_provisoire':
+                        report_template = 's3_controle_report_template.html'
+                        from s3_controls import HUMAN_REVIEW
+                        params['human_review'] = HUMAN_REVIEW
                     if not is_td:
                         # Le template historique rend student_answer avec |safe.
                         # Un rapport enseignant ne doit pas exécuter du HTML étudiant.
