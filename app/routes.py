@@ -1,6 +1,6 @@
 # Fichier: app/routes.py
 import os
-from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app
+from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort
 from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
@@ -85,6 +85,58 @@ EVALUATOR_MODES = {
 }
 
 
+SEMESTERS = ('S1', 'S2', 'S3')
+
+# Classement explicite : indépendant de la casse des URL historiques et du mode.
+EVALUATOR_SEMESTERS = {
+    'td1-s1': 'S1',
+    'td2-s1': 'S1',
+    'td3-s1': 'S1',
+    'td4-s1': 'S1',
+    'td5-s1': 'S1',
+    'td6-s1': 'S1',
+    'td7-s1': 'S1',
+    'Controletilt-s1': 'S1',
+    'td2-S2': 'S2',
+    'td3-S2': 'S2',
+    'td4-S2': 'S2',
+    'td5-S2': 'S2',
+    'td6-S2': 'S2',
+    'ControleDevoirMaisonS2': 'S2',
+    'td0-s3': 'S3',
+    'td1-s3': 'S3',
+    'td2-s3': 'S3',
+    'td3-s3': 'S3',
+    'td4-s3': 'S3',
+    'td5-s3': 'S3',
+    'td6-s3': 'S3',
+    'td7-s3': 'S3',
+    'controle-td1-s3': 'S3',
+    'controle-td2-s3': 'S3',
+    'controle-td3-s3': 'S3',
+    'controle-td4-s3': 'S3',
+    'controle-td5-s3': 'S3',
+    'controle-td6-s3': 'S3',
+    'controle-td7-s3': 'S3',
+    'td-r0-s3': 'S3',
+    'td-r1-s3': 'S3',
+    'td-r2-s3': 'S3',
+}
+
+
+def validate_evaluator_semesters():
+    """Empêcher qu'un correcteur actif disparaisse du parcours par omission."""
+    if set(EVALUATOR_SEMESTERS) != set(EVALUATORS):
+        raise ValueError('Chaque correcteur actif doit être associé à un semestre.')
+    if any(semester not in SEMESTERS for semester in EVALUATOR_SEMESTERS.values()):
+        raise ValueError('Semestre de correcteur invalide : S1, S2 ou S3 attendu.')
+
+
+@main_bp.context_processor
+def semester_navigation():
+    return {'evaluator_semesters': EVALUATOR_SEMESTERS}
+
+
 def load_evaluator(f):
     @wraps(f)
     def decorated_function(eval_name, *args, **kwargs):
@@ -108,7 +160,17 @@ def load_evaluator(f):
 
 @main_bp.route('/', methods=['GET'])
 def index():
-    return render_template('selector_template.html', evaluators=EVALUATORS)
+    return render_template('selector_template.html', semesters=SEMESTERS, semester=None)
+
+
+@main_bp.route('/semestre/<semester>', methods=['GET'])
+def semester_evaluators(semester):
+    if semester not in SEMESTERS:
+        abort(404)
+    evaluators = {name: config for name, config in EVALUATORS.items()
+                  if EVALUATOR_SEMESTERS[name] == semester}
+    return render_template('selector_template.html', semester=semester,
+                           evaluators=evaluators, evaluator_modes=EVALUATOR_MODES)
 
 
 @main_bp.route('/eval/<eval_name>', methods=['GET', 'POST'])

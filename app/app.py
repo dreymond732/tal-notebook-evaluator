@@ -22,7 +22,8 @@ def create_app() -> Flask:
     os.makedirs(outils.BASE_DIR, exist_ok=True)
 
     # Blueprints
-    from routes import main_bp
+    from routes import main_bp, validate_evaluator_semesters
+    validate_evaluator_semesters()
     app.register_blueprint(main_bp)
 
     return app
