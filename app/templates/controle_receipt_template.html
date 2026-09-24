@@ -33,7 +33,7 @@
             <br><button type="submit">Déposer la copie</button>
         </form>
     {% endif %}
-    <p><a href="{{ url_for('main.index') }}">Revenir au sélecteur</a></p>
+    <p>{% include 'semester_navigation.html' %}</p>
 </main>
 </body>
 </html>

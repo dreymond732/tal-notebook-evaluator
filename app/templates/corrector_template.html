@@ -82,7 +82,7 @@
             <div class="nav-links">
                 <a href="{{ url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
                 <span style="color: #ccc;">|</span>
-                <a href="{{ url_for('main.index') }}">🏠 Revenir au sélecteur</a>
+                {% include 'semester_navigation.html' %}
             </div>
 
         {% else %}
@@ -95,7 +95,7 @@
             </div>
 
             <div class="nav-links" style="border-top: none;">
-                <a href="{{ url_for('main.index') }}">← Revenir au sélecteur</a>
+                {% include 'semester_navigation.html' %}
             </div>
         {% endif %}
     </div>
