@@ -99,7 +99,7 @@ class S3RouteTests(unittest.TestCase):
         self.client = self.app.test_client()
 
     def test_all_eight_modules_routes_selector_and_proxy(self):
-        selector = self.client.get('/', headers={'X-Forwarded-Prefix': '/universite/tal'}).get_data(as_text=True)
+        selector = self.client.get('/semestre/S3', headers={'X-Forwarded-Prefix': '/universite/tal'}).get_data(as_text=True)
         for number in range(8):
             identifier = f'td{number}-s3'
             self.assertEqual(routes.EVALUATOR_MODES[identifier], 'td')

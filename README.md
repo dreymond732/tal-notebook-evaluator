@@ -6,6 +6,7 @@ Une plateforme web légère et conteneurisée pour l'évaluation automatique de 
 
 ## 1. Fonctionnalités clés
 
+* **Navigation par semestre** : accueil → S1, S2 ou S3 → correcteurs du semestre. Les liens directs des notebooks restent valables.
 * **Correction instantanée** : Les étudiants reçoivent un feedback immédiat (note + détails) pour les TD (mode formatif).
 * **Mode examen** : Pour les contrôles, le feedback est masqué (mode sommatif).
 * **Analyse hybride** : Combine l'exécution de code (lecture des `print`) et l'analyse statique (AST) pour une robustesse maximale.
@@ -132,7 +133,7 @@ EVALUATORS = {
     'td7-s2': ('TD7 - Analyse de corpus', 'app_correction_TD7_S2'),
 }
 ```
-*Note : Le premier élément est le titre affiché sur l'accueil, le second est le nom du fichier Python créé à l'étape A (sans .py).*
+Le premier élément est le titre affiché dans la liste du semestre, le second est le nom du module Python (sans `.py`). Déclarez également le mode dans `EVALUATOR_MODES` (`td` ou `controle`) et le semestre dans `EVALUATOR_SEMESTERS` (`S1`, `S2` ou `S3`). Un semestre absent ou invalide bloque le démarrage pour éviter un correcteur invisible. Voir l'[inventaire et le parcours étudiant](docs/SEMESTER_NAVIGATION.md).
 
 ### Étape C : mise à jour
 Pour que les modifications soient prises en compte, relancez le conteneur :

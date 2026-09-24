@@ -86,7 +86,7 @@ class ControlRouteTests(unittest.TestCase):
         self.client = self.app.test_client()
 
     def test_seven_real_subjects_modules_get_post_selector_proxy_and_private_persistence(self):
-        selector = self.client.get('/', headers={'X-Forwarded-Prefix': '/universite/tal'}).get_data(as_text=True)
+        selector = self.client.get('/semestre/S3', headers={'X-Forwarded-Prefix': '/universite/tal'}).get_data(as_text=True)
         for n in range(1, 8):
             with self.subTest(control=n):
                 identifier = f'controle-td{n}-s3'
