@@ -3,38 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAL éval - Sélecteur de correcteur</title>
+    <title>TAL — {{ 'Correcteurs ' ~ semester if semester else 'Choix du semestre' }}</title>
     <style>
         :root { --primary: #005a9c; --secondary: #6c757d; --bg: #f4f7f6; --text: #2d3436; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; }
         .container { max-width: 900px; margin: 0 auto; }
         h1 { text-align: center; color: var(--primary); margin-bottom: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s; border-left: 5px solid var(--secondary); text-decoration: none; color: inherit; display: block; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        a:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+        .card.semester { border-left-color: var(--primary); }
         .card.td { border-left-color: #2ecc71; }
         .card.controle { border-left-color: #e74c3c; }
-        .card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .card h2 { margin: 10px 0; font-size: 1.2rem; }
         .badge { font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; }
-        .badge-td { background: #eafaf1; color: #2ecc71; }
-        .badge-ctrl { background: #fdedec; color: #e74c3c; }
+        .badge-td { background: #eafaf1; color: #196f3d; }
+        .badge-ctrl { background: #fdedec; color: #a93226; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Plateforme d'auto-évaluation TAL et programmation</h1>
+    <main class="container">
+        {% if semester %}
+        <nav aria-label="Navigation"><a href="{{ url_for('main.index') }}">← Changer de semestre</a></nav>
+        <h1>Correcteurs — {{ semester }}</h1>
+        <p>Choisissez le TD ou le contrôle pour déposer votre notebook.</p>
+        {% else %}
+        <h1>TAL et programmation — choix du semestre</h1>
+        <p>Choisissez votre semestre pour accéder aux correcteurs.</p>
+        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p role="alert">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
         <div class="grid">
+            {% if semester %}
             {% for id, (label, module) in evaluators.items() %}
             <a href="{{ url_for('main.route_evaluator', eval_name=id) }}"
-               class="card {{ 'td' if id.startswith('td') else 'controle' }}">
-                <span class="badge {{ 'badge-td' if id.startswith('td') else 'badge-ctrl' }}">
-                    {{ 'Formation' if id.startswith('td') else 'Certification' }}
+               class="card {{ evaluator_modes[id] }}">
+                <span class="badge {{ 'badge-td' if evaluator_modes[id] == 'td' else 'badge-ctrl' }}">
+                    {{ 'TD — auto-évaluation' if evaluator_modes[id] == 'td' else 'Contrôle — dépôt' }}
                 </span>
-                <h3>{{ label }}</h3>
+                <h2>{{ label }}</h2>
                 <p style="color: var(--secondary); font-size: 0.9rem;">Cliquer pour accéder au dépôt de fichier.</p>
             </a>
             {% endfor %}
+            {% else %}
+            {% for level in semesters %}
+            <a href="{{ url_for('main.semester_evaluators', semester=level) }}" class="card semester">
+                <h2>{{ level }}</h2>
+                <p>Accéder aux correcteurs du semestre {{ level[1:] }}.</p>
+            </a>
+            {% endfor %}
+            {% endif %}
         </div>
-    </div>
+    </main>
 </body>
 </html>
