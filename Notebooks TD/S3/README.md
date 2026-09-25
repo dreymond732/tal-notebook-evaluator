@@ -19,7 +19,8 @@ Huit TD de **deux heures** conduisent de la mesure élémentaire à un rapport v
 2. Enregistrer sa propre copie, compléter nom, prénom et classe, puis suivre les cellules dans l’ordre. La première cellule Markdown et les métadonnées contiennent les mêmes règles du tuteur : il accompagne le raisonnement sans réaliser le travail.
 3. Exécuter la préparation fournie : elle installe les versions prévues si nécessaire et récupère les données à un commit fixé. Une connexion est nécessaire au premier téléchargement ; les données locales sont ensuite vérifiées par empreinte. Après une nouvelle session Colab, relancer la préparation.
 4. Conserver les sorties et télécharger le notebook ainsi que l’export JSON de fin de séance. Les fichiers laissés seulement dans le runtime Colab sont temporaires. Les séances fournissent leurs données de départ, même si un export précédent manque.
-5. Déposer le notebook exécuté sur le [site d’autoévaluation TAL](https://example.invalid/universite/tal/) en choisissant la séance correspondante. Les résultats automatiques contrôlent des traces enregistrées ; l’enseignant relit les interprétations et les choix méthodologiques.
+
+Les résultats automatiques contrôlent des traces enregistrées ; l’enseignant relit les interprétations et les choix méthodologiques.
 
 ## Données et remédiations
 
