@@ -9,6 +9,7 @@ import tokenize
 from typing import Dict, List
 
 import outils
+from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata
 
 
 def _sources(cells: List[Dict]) -> str:
@@ -47,10 +48,15 @@ def _outputs(cells: List[Dict]) -> str:
 def check_formative_notebook(content_str, checks, max_score):
     try:
         notebook = json.loads(content_str)
-    except json.JSONDecodeError as exc:
+        validate_cell_metadata(notebook)
+        cells = evaluation_cells(notebook)
+        info = outils.extract_identification_info(cells)
+    except (json.JSONDecodeError, ContractError) as exc:
         return 0.0, [], max_score, {"nom": "Erreur", "prenom": "JSON"}, f"Erreur JSON: {exc}"
 
-    cells = notebook.get("cells", [])
+    # Les critères historiques portent sur l'ensemble du travail, exemples inclus.
+    # Les métadonnées ne changent pas ce barème ; seules les cellules de dépôt
+    # et d'infrastructure sont exclues de la recherche de code et de sorties.
     source, output = _sources(cells), _outputs(cells)
     details, score = [], 0.0
 
@@ -78,6 +84,5 @@ def check_formative_notebook(content_str, checks, max_score):
             "max_points": check["points"],
         })
 
-    info = outils.extract_identification_info(cells)
     info["score_brut"] = round(score, 2)
     return score, details, max_score, info, None

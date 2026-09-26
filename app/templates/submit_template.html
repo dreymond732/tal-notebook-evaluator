@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAL — déposer un notebook</title>
+    <style>
+        body { font-family: sans-serif; margin: 2rem auto; padding: 0 1rem; max-width: 48rem; line-height: 1.6; background: #f4f7f6; color: #263238; }
+        main { padding: 2rem; background: white; border-radius: .7rem; }
+        form { padding: 1rem 0; } button { padding: .7rem 1rem; background: #005a9c; color: white; border: 0; border-radius: .3rem; cursor: pointer; }
+        input { display: block; margin: .8rem 0; max-width: 100%; } a { color: #005a9c; }
+        :focus-visible { outline: 3px solid #005a9c; outline-offset: 3px; }
+    </style>
+</head>
+<body><main>
+    <h1>Déposer mon notebook</h1>
+    <p>Le TD ou le contrôle est reconnu automatiquement à partir de votre notebook. Enregistrez vos réponses et les sorties de vos cellules avant de le télécharger.</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<p role="alert">{{ message }}</p>{% endfor %}
+    {% endwith %}
+    {% include 'submit_form.html' %}
+    <p>Vous utilisez une ancienne version sans identification automatique ? Retrouvez son dépôt par semestre :</p>
+    <nav aria-label="Anciens dépôts">
+        {% for semester in semesters %}<a href="{{ url_for('main.semester_evaluators', semester=semester) }}">{{ semester }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </nav>
+    <p><a href="{{ url_for('main.index') }}">Retour à l’accueil</a></p>
+</main></body>
+</html>

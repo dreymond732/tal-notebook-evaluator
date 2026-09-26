@@ -118,6 +118,8 @@ class S3RouteTests(unittest.TestCase):
         nb = json.loads(path.read_text())
         identity = next(c for c in nb['cells'] if c['cell_type'] == 'code' and 'Complétez les informations entre les guillemets.' in ''.join(c['source']))
         identity = json.loads(json.dumps(identity))
+        # Le scénario utilise les anciennes traces synthétiques sans métadonnées.
+        identity.get('metadata', {}).pop('tal', None)
         source = ''.join(identity['source'])
         import re
         for name, value in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3')]:

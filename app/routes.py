@@ -1,11 +1,13 @@
 # Fichier: app/routes.py
 import os
+import json
 from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort
 from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
 from markupsafe import escape
 import outils
+from notebook_contract import ContractError, resolve_notebook, validate_catalog
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -130,6 +132,7 @@ def validate_evaluator_semesters():
         raise ValueError('Chaque correcteur actif doit être associé à un semestre.')
     if any(semester not in SEMESTERS for semester in EVALUATOR_SEMESTERS.values()):
         raise ValueError('Semestre de correcteur invalide : S1, S2 ou S3 attendu.')
+    validate_catalog(EVALUATORS, EVALUATOR_MODES, EVALUATOR_SEMESTERS)
 
 
 @main_bp.context_processor
@@ -163,6 +166,52 @@ def index():
     return render_template('selector_template.html', semesters=SEMESTERS, semester=None)
 
 
+@main_bp.route('/health', methods=['GET'])
+def health():
+    return {'status': 'ok', 'evaluators': len(EVALUATORS)}
+
+
+def read_notebook(content_bytes):
+    try:
+        content_str = content_bytes.decode('utf-8-sig')
+    except UnicodeDecodeError:
+        content_str = content_bytes.decode('windows-1252')
+
+    def unique_keys(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ContractError('Le notebook contient des champs JSON dupliqués.')
+            result[key] = value
+        return result
+
+    try:
+        notebook = json.loads(content_str, object_pairs_hook=unique_keys)
+    except (ValueError, UnicodeError) as exc:
+        raise ContractError('Erreur JSON : le fichier ne contient pas un notebook JSON valide.') from exc
+    return content_str, notebook
+
+
+@main_bp.route('/submit', methods=['GET', 'POST'])
+def submit_notebook():
+    if request.method == 'GET':
+        return render_template('submit_template.html', semesters=SEMESTERS)
+    file = request.files.get('file')
+    try:
+        if not file or not file.filename:
+            raise ContractError('Aucun fichier sélectionné.')
+        if not file.filename.lower().endswith('.ipynb'):
+            raise ContractError('Le fichier doit être au format .ipynb.')
+        _, notebook = read_notebook(file.read())
+        entry = resolve_notebook(notebook)
+        # The same legacy handler owns correction, confidentiality and storage.
+        file.stream.seek(0)
+        return route_evaluator(entry['evaluator'])
+    except (ContractError, UnicodeError) as exc:
+        flash(str(exc), 'error')
+        return render_template('submit_template.html', semesters=SEMESTERS), 400
+
+
 @main_bp.route('/semestre/<semester>', methods=['GET'])
 def semester_evaluators(semester):
     if semester not in SEMESTERS:
@@ -186,13 +235,11 @@ def route_evaluator(eval_module, display_name, eval_name):
             flash("Aucun fichier sélectionné.", 'error')
             return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
 
-        if file.filename.endswith(allowed_ext):
+        if file.filename.lower().endswith(allowed_ext):
             try:
                 content_bytes = file.read()
-                try:
-                    content_str = content_bytes.decode('utf-8')
-                except UnicodeDecodeError:
-                    content_str = content_bytes.decode('windows-1252', errors='ignore')
+                content_str, notebook = read_notebook(content_bytes)
+                resolve_notebook(notebook, expected_evaluator=eval_name, require_metadata=False)
 
                 # Appel de la fonction de correction du module chargé
                 if hasattr(eval_module, 'check_notebook'):
@@ -227,6 +274,9 @@ def route_evaluator(eval_module, display_name, eval_name):
                                            allowed_extension=allowed_ext)
                 else:
                     raise Exception("Fonction check_notebook manquante")
+            except ContractError as e:
+                flash(str(e), 'error')
+                return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
             except Exception as e:
                 if is_td:
                     flash(f"Erreur: {e}", 'error')

@@ -1,0 +1,5 @@
+<form method="post" action="{{ url_for('main.submit_notebook') }}" enctype="multipart/form-data">
+    <label for="notebook-file">Votre fichier notebook (.ipynb)</label>
+    <input id="notebook-file" type="file" name="file" accept=".ipynb" required>
+    <button type="submit">Déposer mon notebook</button>
+</form>

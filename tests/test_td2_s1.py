@@ -220,6 +220,9 @@ class TD2Tests(unittest.TestCase):
                 identification = next(cell for cell in subject["cells"]
                                       if cell.get("cell_type") == "code" and
                                       re.search(r'^nom = "Modele"$', "".join(cell["source"]), re.M))
+                # Cette fixture vérifie le dépôt historique, sans métadonnées
+                # de réponses ; ne pas mélanger sa version avec l'identité migrée.
+                identification.get("metadata", {}).pop("tal", None)
                 nb["cells"].insert(0, identification)
                 info = grade(nb)[3]
                 self.assertEqual((info["nom"], info["prenom"], info["classe"]), ("Modele", "Test", "S1"))
