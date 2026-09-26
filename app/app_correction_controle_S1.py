@@ -10,6 +10,7 @@ from typing import List, Dict, Any, Tuple, Optional
 
 # --- Importation de vos outils ---
 import outils
+from notebook_contract import ContractError, validate_cell_metadata
 # --- Constantes de Correction (Total 35.0 pts) ---
 
 POINTS_IDENTIFICATION = 1.0
@@ -98,12 +99,13 @@ def check_notebook(notebook_content_str: str, filename: str) -> Tuple[float, Lis
     try:
         notebook_content = json.loads(notebook_content_str)
         cells = notebook_content.get('cells', [])
-    except json.JSONDecodeError as e:
+        validate_cell_metadata(notebook_content)
+        student_info = outils.extract_identification_info(cells)
+    except (json.JSONDecodeError, ContractError) as e:
         error_msg = f"Erreur de décodage JSON: {e}"
         return 0.0, [], MAX_SCORE_TOTAL, {'nom': 'Erreur', 'prenom': 'JSON', 'classe': 'N/A'}, error_msg
 
     # Utilisation de outils.py pour l'identification
-    student_info = outils.extract_identification_info(cells)
     
     details = []
     score = 0.0

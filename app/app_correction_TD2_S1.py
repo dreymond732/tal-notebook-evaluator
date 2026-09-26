@@ -8,6 +8,7 @@ import json
 import re
 
 import outils
+from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata
 
 EVAL_ID = "td2-s1"
 MAX_SCORE_TOTAL = 7.0
@@ -58,8 +59,11 @@ def _nodes(expr, bindings):
 
 
 def _read_traces(cells):
+    notebook = {'cells': cells}
+    index = validate_cell_metadata(notebook)
+    explicit = any(role not in {'submission', 'infrastructure'} for _, role in index)
     bindings, displays, outputs, warnings = {}, {}, {}, []
-    for cell_index, cell in enumerate(cells):
+    for cell_index, cell in enumerate(evaluation_cells(notebook)):
         if not isinstance(cell, dict) or cell.get("cell_type") != "code":
             continue
         source = _text(cell.get("source", ""))
@@ -98,6 +102,8 @@ def _read_traces(cells):
                 if not match or match.group(2):
                     continue
                 marker = match.group(1)
+                if explicit and index.get((marker.rstrip('b'), 'answer')) is not cell:
+                    continue
                 dependencies = tuple(node for arg in call.args[1:] for node in _nodes(arg, bindings))
                 displays.setdefault(marker, []).append((cell_index, dependencies, len(call.args) - 1, errors))
         # Un print peut être réparti entre plusieurs blocs stream par Jupyter.
@@ -106,7 +112,8 @@ def _read_traces(cells):
         for line in stdout.splitlines():
             match = MARKER.fullmatch(line)
             if match:
-                outputs.setdefault(match.group(1), []).append((cell_index, match.group(2)))
+                if not explicit or index.get((match.group(1).rstrip('b'), 'answer')) is cell:
+                    outputs.setdefault(match.group(1), []).append((cell_index, match.group(2)))
     return displays, outputs, sorted(set(warnings))
 
 
@@ -217,7 +224,11 @@ def check_notebook(content_str, filename):
         if cell.get("cell_type") == "code":
             if not isinstance(cell.get("outputs", []), list) or not all(isinstance(v, dict) for v in cell.get("outputs", [])):
                 return 0.0, [], MAX_SCORE_TOTAL, {}, "Erreur notebook : sorties mal formées."
-    displays, outputs, warnings = _read_traces(cells)
+    try:
+        displays, outputs, warnings = _read_traces(cells)
+        info = outils.extract_identification_info(cells)
+    except ContractError as exc:
+        return 0.0, [], MAX_SCORE_TOTAL, {}, f"Erreur notebook : {exc}"
 
     def inspect(marker):
         sources, records = displays.get(marker, []), outputs.get(marker, [])
@@ -253,6 +264,5 @@ def check_notebook(content_str, filename):
             "correct_answer": feedback + " " + LIMIT_NOTE + (" " + " ".join(warnings) if warnings else ""),
             "status": "✅" if points == 1.0 else "❌", "points": points, "max_points": 1.0,
         })
-    info = outils.extract_identification_info(cells)
     info["score_brut"] = score
     return score, details, MAX_SCORE_TOTAL, info, None

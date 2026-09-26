@@ -4,6 +4,7 @@ import math
 import re
 from typing import List, Dict, Any, Tuple, Optional
 import outils
+from notebook_contract import ContractError, evaluation_cells, resolve_cells, validate_cell_metadata
 
 
 def get_cell_output_text(cell: Dict[str, Any]) -> str:
@@ -109,11 +110,11 @@ def run_evaluation(
 ) -> Tuple[float, List[Dict[str, Any]], float, Dict[str, str], Optional[str]]:
     try:
         nb_json = json.loads(notebook_content_str)
-        cells = nb_json.get('cells', [])
-    except json.JSONDecodeError as e:
+        validate_cell_metadata(nb_json)
+        cells = evaluation_cells(nb_json)
+        student_info = outils.extract_identification_info(cells)
+    except (json.JSONDecodeError, ContractError) as e:
         return 0.0, [], max_score_total, {'nom': 'Erreur', 'prenom': 'JSON'}, f"Erreur JSON: {e}"
-
-    student_info = outils.extract_identification_info(cells)
 
     details = []
     score = 0.0
@@ -123,6 +124,8 @@ def run_evaluation(
                          key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else 0)
 
     for q_key in sorted_keys:
+        question_cells = resolve_cells(nb_json, q_key, legacy=lambda *_: cells)
+        question_notebook = dict(nb_json, cells=question_cells)
         max_pts = points_breakdown.get(q_key, 0.0)
         correct_val = correct_answers.get(q_key)
 
@@ -133,8 +136,8 @@ def run_evaluation(
         # On ne le fait QUE pour ce cas précis où l'AST est fiable (valeurs constantes)
         # et où le print peut être ambigu.
         if q_key == 'Q2' and isinstance(correct_val, dict) and 'deb' in correct_val:
-            deb = outils.extract_code_variable(nb_json, 'valeur_Q2_deb', mode='numeric')
-            fin = outils.extract_code_variable(nb_json, 'valeur_Q2_fin', mode='numeric')
+            deb = outils.extract_code_variable(question_notebook, 'valeur_Q2_deb', mode='numeric')
+            fin = outils.extract_code_variable(question_notebook, 'valeur_Q2_fin', mode='numeric')
             # Si on trouve au moins le début, on considère que l'étudiant a utilisé cette méthode
             if deb is not None:
                 student_val = {'deb': int(deb), 'fin': int(fin) if fin is not None else None}
@@ -144,7 +147,7 @@ def run_evaluation(
         # C'est la seule façon d'avoir le résultat d'une boucle (Q10) ou d'un if/else (Q3)
         if source_found == "Aucune":
             keyword = f"Résultat {q_key} :"
-            for cell in cells:
+            for cell in question_cells:
                 output_text = get_cell_output_text(cell)
                 if keyword in output_text:
                     parsed = parse_student_answer(output_text, keyword, expected_type=correct_val)
@@ -158,7 +161,7 @@ def run_evaluation(
         if source_found == "Aucune":
             potential_vars = [f"reponse_{q_key}", f"valeur_{q_key}", f"resultat_{q_key}"]
             for var_name in potential_vars:
-                val = outils.extract_code_variable(nb_json, var_name, mode='auto')
+                val = outils.extract_code_variable(question_notebook, var_name, mode='auto')
                 if val is not None:
                     # Fix pour éviter de capturer un dict partiel si Q2 échoue en étape 1
                     if q_key == 'Q2' and not isinstance(val, dict):

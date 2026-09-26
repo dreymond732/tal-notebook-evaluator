@@ -29,8 +29,11 @@
         <h1>Correcteurs — {{ semester }}</h1>
         <p>Choisissez le TD ou le contrôle pour déposer votre notebook.</p>
         {% else %}
-        <h1>TAL et programmation — choix du semestre</h1>
-        <p>Choisissez votre semestre pour accéder aux correcteurs.</p>
+        <h1>TAL et programmation — dépôt de notebook</h1>
+        <p>Déposez votre notebook : le TD ou le contrôle sera reconnu automatiquement.</p>
+        {% include 'submit_form.html' %}
+        <h2>Dépôts par semestre</h2>
+        <p>Pour les anciennes versions, vous pouvez choisir votre semestre et votre activité.</p>
         {% endif %}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% for category, message in messages %}

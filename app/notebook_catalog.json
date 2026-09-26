@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "notebooks": [
+    {
+      "id": "td1-s1",
+      "version": 1,
+      "evaluator": "td1-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD1_S1_python_texte.ipynb",
+      "tutor_session": "TD1_S1"
+    },
+    {
+      "id": "td0-s3",
+      "version": 1,
+      "evaluator": "td0-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb",
+      "tutor_session": "TD0_S3"
+    },
+    {
+      "id": "Controletilt-s1",
+      "version": 1,
+      "evaluator": "Controletilt-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/DevoirS1.ipynb",
+      "tutor_session": "CONTROLE_S1"
+    },
+    {
+      "id": "td2-s1",
+      "version": 1,
+      "evaluator": "td2-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD2_S1_python_texte.ipynb",
+      "tutor_session": "TD2_S1"
+    },
+    {
+      "id": "td3-s1",
+      "version": 1,
+      "evaluator": "td3-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD3_S1_python_texte.ipynb",
+      "tutor_session": "TD3_S1"
+    },
+    {
+      "id": "td4-s1",
+      "version": 1,
+      "evaluator": "td4-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4_S1_python_texte.ipynb",
+      "tutor_session": "TD4_S1"
+    },
+    {
+      "id": "td5-s1",
+      "version": 1,
+      "evaluator": "td5-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD5_S1_python_texte.ipynb",
+      "tutor_session": "TD5_S1"
+    },
+    {
+      "id": "td6-s1",
+      "version": 1,
+      "evaluator": "td6-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD6_S1_python_texte.ipynb",
+      "tutor_session": "TD6_S1"
+    },
+    {
+      "id": "td7-s1",
+      "version": 1,
+      "evaluator": "td7-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD7_S1_python_texte.ipynb",
+      "tutor_session": "TD7_S1"
+    },
+    {
+      "id": "td-r0-s3",
+      "version": 1,
+      "evaluator": "td-r0-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/R0_S3_python_texte.ipynb",
+      "tutor_session": "R0_S3"
+    },
+    {
+      "id": "td1-s3",
+      "version": 1,
+      "evaluator": "td1-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
+      "tutor_session": "TD1_S3"
+    },
+    {
+      "id": "td-r1-s3",
+      "version": 1,
+      "evaluator": "td-r1-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/R1_S3_doc_spacy.ipynb",
+      "tutor_session": "R1_S3"
+    },
+    {
+      "id": "td-r2-s3",
+      "version": 1,
+      "evaluator": "td-r2-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb",
+      "tutor_session": "R2_S3"
+    },
+    {
+      "id": "td2-s3",
+      "version": 1,
+      "evaluator": "td2-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb",
+      "tutor_session": "TD2_S3"
+    },
+    {
+      "id": "td3-S2",
+      "version": 1,
+      "evaluator": "td3-S2",
+      "active": true,
+      "semester": "S2",
+      "mode": "td",
+      "notebook": "Notebooks TD/TD3_S2.ipynb",
+      "tutor_session": "TD3_S2"
+    },
+    {
+      "id": "td5-S2",
+      "version": 1,
+      "evaluator": "td5-S2",
+      "active": true,
+      "semester": "S2",
+      "mode": "td",
+      "notebook": "Notebooks TD/TD5_S2.ipynb",
+      "tutor_session": "TD5_S2"
+    },
+    {
+      "id": "td6-S2",
+      "version": 1,
+      "evaluator": "td6-S2",
+      "active": true,
+      "semester": "S2",
+      "mode": "td",
+      "notebook": "Notebooks TD/TD6_S2.ipynb",
+      "tutor_session": "TD6_S2"
+    },
+    {
+      "id": "td2-S2",
+      "version": 1,
+      "evaluator": "td2-S2",
+      "active": true,
+      "semester": "S2",
+      "mode": "controle",
+      "notebook": "Notebooks TD/TD2 - S2.ipynb",
+      "tutor_session": "CONTROLE_TD2_S2"
+    },
+    {
+      "id": "td4-S2",
+      "version": 1,
+      "evaluator": "td4-S2",
+      "active": true,
+      "semester": "S2",
+      "mode": "controle",
+      "notebook": "Notebooks TD/TD4_S2.ipynb",
+      "tutor_session": "CONTROLE_TD4_S2"
+    },
+    {
+      "id": "ControleDevoirMaisonS2",
+      "version": 1,
+      "evaluator": "ControleDevoirMaisonS2",
+      "active": true,
+      "semester": "S2",
+      "mode": "controle",
+      "notebook": "Notebooks TD/devoirMaisonS2.ipynb",
+      "tutor_session": "DEVOIR_MAISON_S2"
+    },
+    {
+      "id": "controle-final-s2",
+      "version": 1,
+      "evaluator": null,
+      "active": false,
+      "semester": "S2",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/ControleFinalS2.ipynb",
+      "tutor_session": "CONTROLE_FINAL_S2"
+    },
+    {
+      "id": "td3-s3",
+      "version": 1,
+      "evaluator": "td3-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD3_S3_concordances_citations.ipynb",
+      "tutor_session": "TD3_S3"
+    },
+    {
+      "id": "td4-s3",
+      "version": 1,
+      "evaluator": "td4-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD4_S3_cooccurrences.ipynb",
+      "tutor_session": "TD4_S3"
+    },
+    {
+      "id": "td5-s3",
+      "version": 1,
+      "evaluator": "td5-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD5_S3_associations.ipynb",
+      "tutor_session": "TD5_S3"
+    },
+    {
+      "id": "td6-s3",
+      "version": 1,
+      "evaluator": "td6-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD6_S3_visualisations.ipynb",
+      "tutor_session": "TD6_S3"
+    },
+    {
+      "id": "td7-s3",
+      "version": 1,
+      "evaluator": "td7-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD7_S3_audit_llm.ipynb",
+      "tutor_session": "TD7_S3"
+    },
+    {
+      "id": "controle-td1-s3",
+      "version": 1,
+      "evaluator": "controle-td1-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD1_S3.ipynb",
+      "tutor_session": "CONTROLE_TD1_S3"
+    },
+    {
+      "id": "controle-td2-s3",
+      "version": 1,
+      "evaluator": "controle-td2-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD2_S3.ipynb",
+      "tutor_session": "CONTROLE_TD2_S3"
+    },
+    {
+      "id": "controle-td3-s3",
+      "version": 1,
+      "evaluator": "controle-td3-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD3_S3.ipynb",
+      "tutor_session": "CONTROLE_TD3_S3"
+    },
+    {
+      "id": "controle-td4-s3",
+      "version": 1,
+      "evaluator": "controle-td4-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD4_S3.ipynb",
+      "tutor_session": "CONTROLE_TD4_S3"
+    },
+    {
+      "id": "controle-td5-s3",
+      "version": 1,
+      "evaluator": "controle-td5-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD5_S3.ipynb",
+      "tutor_session": "CONTROLE_TD5_S3"
+    },
+    {
+      "id": "controle-td6-s3",
+      "version": 1,
+      "evaluator": "controle-td6-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD6_S3.ipynb",
+      "tutor_session": "CONTROLE_TD6_S3"
+    },
+    {
+      "id": "controle-td7-s3",
+      "version": 1,
+      "evaluator": "controle-td7-s3",
+      "active": true,
+      "semester": "S3",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S3/Controle_TD7_S3.ipynb",
+      "tutor_session": "CONTROLE_TD7_S3"
+    }
+  ]
+}

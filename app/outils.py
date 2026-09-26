@@ -7,9 +7,20 @@ import hashlib
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple, Union
 from werkzeug.utils import secure_filename
+from notebook_contract import evaluation_cells, resolve_cells, validate_cell_metadata
 
 # --- Constantes ---
 BASE_DIR = "soumissions"
+
+
+def _answer_cells(notebook, marker):
+    """Localise une réponse sans confondre ses métadonnées avec une preuve."""
+    validate_cell_metadata(notebook)
+    cells = evaluation_cells(notebook)
+    question = re.search(r'(?<![A-Za-z0-9])Q[1-9][0-9]*(?=_|\b)', marker)
+    if question:
+        return resolve_cells(notebook, question.group(), legacy=lambda *_: cells)
+    return cells
 
 
 def extract_code_variable(notebook_content: Dict[str, Any], var_name: str, mode: str = 'string') -> Optional[Any]:
@@ -19,7 +30,7 @@ def extract_code_variable(notebook_content: Dict[str, Any], var_name: str, mode:
     """
     last_value = None
 
-    for cell in notebook_content.get('cells', []):
+    for cell in _answer_cells(notebook_content, var_name):
         if cell.get('cell_type') == 'code':
             source_code = ''.join(cell.get('source', []))
 
@@ -107,10 +118,13 @@ def check_close(val_stud: Any, val_true: Union[float, int], tol: float = 0.01) -
 def extract_identification_info(cells):
     info = {'nom': 'NON_RENSEIGNE', 'prenom': 'NON_RENSEIGNE', 'classe': 'NON_RENSEIGNEE'}
     marker = "# Complétez les informations entre les guillemets."
-    for cell in cells:
+    notebook = {'cells': cells}
+    selected = resolve_cells(notebook, 'identity', role='identification',
+                             legacy=lambda *_: evaluation_cells(notebook))
+    for cell in selected:
         if cell.get('cell_type') == 'code':
             src = "".join(cell.get('source', []))
-            if marker in src:
+            if marker in src or cell.get('metadata', {}).get('tal', {}).get('role') == 'identification':
                 for k in ['nom', 'prenom', 'classe']:
                     m = re.search(rf'{k}\s*=\s*["\'“](.*?)["\'”]', src, re.I)
                     if m: info[k] = m.group(1).strip()
@@ -124,7 +138,7 @@ def check_identification(info):
 
 def extract_variable_from_notebook(nb_json: Dict[str, Any], var_name: str) -> Any:
     """Extrait les valeurs littérales en ignorant les expressions complexes."""
-    for cell in nb_json.get('cells', []):
+    for cell in _answer_cells(nb_json, var_name):
         if cell.get('cell_type') == 'code':
             src = "".join(cell.get('source', []))
             # On cherche une assignation simple suivie d'un nombre et d'une fin de ligne (ou commentaire)
@@ -145,7 +159,7 @@ def extract_variable_from_notebook(nb_json: Dict[str, Any], var_name: str) -> An
 
 def get_ipynb_raw_output(nb_json, keyword):
     """Cherche le mot-clé dans les flux stdout ou les résultats d'exécution."""
-    for cell in nb_json.get('cells', []):
+    for cell in _answer_cells(nb_json, keyword):
         if cell.get('cell_type') == 'code':
             for out in cell.get('outputs', []):
                 text = "".join(out.get('text', [])) if out.get('output_type') == 'stream' else ""

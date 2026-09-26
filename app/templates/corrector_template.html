@@ -80,7 +80,7 @@
             <div class="final-score">Note Finale : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
 
             <div class="nav-links">
-                <a href="{{ url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
+                <a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
                 <span style="color: #ccc;">|</span>
                 {% include 'semester_navigation.html' %}
             </div>

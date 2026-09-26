@@ -1,0 +1,72 @@
+name: TAL validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  contracts-and-notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: app/requirements.txt
+      - name: Install application and history-test dependencies
+        run: python -m pip install -r app/requirements.txt git-filter-repo==2.47.0
+      - name: Compile application and tests
+        run: python -m compileall -q app tests
+      - name: Run the complete regression suite
+        run: python -m unittest discover -s tests -v
+      - name: Verify tutor instructions and source notebooks
+        run: |
+          python app/tutor_metadata.py --check
+          python app/prepare_student_notebooks.py check
+      - name: Generate and verify a distribution with a neutral address
+        env:
+          TAL_PUBLIC_URL: https://example.test/universite/tal
+        run: |
+          python app/prepare_student_notebooks.py render --output-dir dist/ci
+          python app/prepare_student_notebooks.py verify --output-dir dist/ci
+          git diff --exit-code
+
+  container-smoke:
+    needs: contracts-and-notebooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the production image
+        run: docker build --tag tal-ci .
+      - name: Start and verify the container
+        env:
+          FLASK_SECRET_KEY: ci-only-not-for-production
+        run: |
+          docker run --detach --name tal-ci --publish 127.0.0.1:5001:5001 --env FLASK_SECRET_KEY tal-ci
+          curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-all-errors \
+            --connect-timeout 2 --max-time 5 --retry-max-time 60 \
+            --output /tmp/tal-health.json http://127.0.0.1:5001/health
+          python - <<'PY'
+          import json
+          import urllib.request
+          with open('/tmp/tal-health.json') as response:
+              assert json.load(response) == {'status': 'ok', 'evaluators': 32}
+          for path in ('/', '/submit'):
+              request = urllib.request.Request(
+                  'http://127.0.0.1:5001' + path,
+                  headers={'X-Forwarded-Prefix': '/universite/tal'})
+              with urllib.request.urlopen(request, timeout=10) as response:
+                  assert response.status == 200
+                  assert 'action="/universite/tal/submit"' in response.read().decode()
+          PY
+      - name: Container logs
+        if: failure()
+        run: docker logs tal-ci
+      - name: Remove the test container
+        if: always()
+        run: docker rm --force tal-ci || true

@@ -5,6 +5,7 @@ import math
 import re
 
 import outils
+from notebook_contract import evaluation_cells, validate_cell_metadata
 
 TRACE_RE = re.compile(r'^S3_TD([0-7])_Q([1-9][0-9]*):\s*(.*)$')
 LIMIT_NOTE = (
@@ -79,8 +80,11 @@ def read_notebook(content):
 
 
 def collect(cells, td, trace_re=TRACE_RE):
+    notebook = {'cells': cells}
+    index = validate_cell_metadata(notebook)
+    explicit = any(role not in {'submission', 'infrastructure'} for _, role in index)
     displays, records = {}, {}
-    for index, cell in enumerate(cells):
+    for cell_index, cell in enumerate(evaluation_cells(notebook)):
         if cell.get('cell_type') != 'code':
             continue
         source = text(cell.get('source', ''))
@@ -103,13 +107,15 @@ def collect(cells, td, trace_re=TRACE_RE):
                     continue
                 match = trace_re.fullmatch(first.value)
                 if match and int(match[1]) == td and not match[3]:
-                    displays.setdefault(int(match[2]), []).append((index, errors))
+                    if not explicit or index.get(('Q' + match[2], 'answer')) is cell:
+                        displays.setdefault(int(match[2]), []).append((cell_index, errors))
         stdout = ''.join(text(out.get('text', '')) for out in outputs
                          if out.get('output_type') == 'stream' and out.get('name', 'stdout') == 'stdout')
         for line in stdout.splitlines():
             match = trace_re.fullmatch(line)
             if match and int(match[1]) == td:
-                records.setdefault(int(match[2]), []).append((index, match[3]))
+                if not explicit or index.get(('Q' + match[2], 'answer')) is cell:
+                    records.setdefault(int(match[2]), []).append((cell_index, match[3]))
     return displays, records
 
 
