@@ -48,8 +48,9 @@ jobs:
           FLASK_SECRET_KEY: ci-only-not-for-production
         run: |
           docker run --detach --name tal-ci --publish 127.0.0.1:5001:5001 --env FLASK_SECRET_KEY tal-ci
-          curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-connrefused \
-            http://127.0.0.1:5001/health > /tmp/tal-health.json
+          curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-all-errors \
+            --connect-timeout 2 --max-time 5 --retry-max-time 60 \
+            --output /tmp/tal-health.json http://127.0.0.1:5001/health
           python - <<'PY'
           import json
           import urllib.request
