@@ -18,6 +18,7 @@ EVALUATORS = {
     'td3-s1': ('TD3 S1 - Collections', 'app_correction_TD3_S1'),
     'td4-s1': ('TD4 S1 - Boucles et conditions', 'app_correction_TD4_S1'),
     'td5-s1': ('TD5 S1 - Fonctions', 'app_correction_TD5_S1'),
+    'dm-intermediaire-s1': ('Devoir maison intermédiaire S1 - Après le TD5', 'app_correction_DM_intermediaire_S1'),
     'td6-s1': ('TD6 S1 - Fichiers et données', 'app_correction_TD6_S1'),
     'td7-s1': ('TD7 S1 - Expressions régulières', 'app_correction_TD7_S1'),
     'td2-S2': ('TD2 S2 - Bases', 'app_correction_TD2_S2'),
@@ -57,6 +58,7 @@ EVALUATOR_MODES = {
     'td3-s1': 'td',
     'td4-s1': 'td',
     'td5-s1': 'td',
+    'dm-intermediaire-s1': 'controle',
     'td6-s1': 'td',
     'td7-s1': 'td',
     'td2-S2': 'controle',
@@ -96,6 +98,7 @@ EVALUATOR_SEMESTERS = {
     'td3-s1': 'S1',
     'td4-s1': 'S1',
     'td5-s1': 'S1',
+    'dm-intermediaire-s1': 'S1',
     'td6-s1': 'S1',
     'td7-s1': 'S1',
     'Controletilt-s1': 'S1',
@@ -254,8 +257,13 @@ def route_evaluator(eval_module, display_name, eval_name):
                     report_template = 'corrector_template.html' if is_td else 'controle_corrector_template.html'
                     if not is_td and info.get('score_nature') == 'technique_provisoire':
                         report_template = 's3_controle_report_template.html'
-                        from s3_controls import HUMAN_REVIEW
-                        params['human_review'] = HUMAN_REVIEW
+                        if hasattr(eval_module, 'HUMAN_REVIEW'):
+                            params['human_review'] = eval_module.HUMAN_REVIEW
+                        else:
+                            # Compatibility for the existing S3 control modules.
+                            from s3_controls import HUMAN_REVIEW
+                            params['human_review'] = HUMAN_REVIEW
+                        params['human_review_dimensions'] = getattr(eval_module, 'HUMAN_REVIEW_DIMENSIONS', None)
                     if not is_td:
                         # Le template historique rend student_answer avec |safe.
                         # Un rapport enseignant ne doit pas exécuter du HTML étudiant.

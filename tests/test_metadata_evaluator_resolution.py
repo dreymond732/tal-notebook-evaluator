@@ -48,10 +48,16 @@ def control(cells):
 
 
 class MetadataResolutionTests(unittest.TestCase):
-    def test_all_catalogued_subjects_keep_existing_scores_and_feedback(self):
-        for entry in load_catalog():
-            if not entry['active']:
-                continue
+    def test_all_migrated_subjects_keep_existing_scores_and_feedback(self):
+        # This is a migration regression for the 32 pre-contract subjects.
+        # Newly authored subjects have no legacy version to compare with.
+        baseline = json.loads((ROOT / 'tests/fixtures/notebook_migration_baseline.json').read_text())
+        paths = set(baseline['active'])
+        self.assertEqual(len(paths), 32)
+        entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
+        self.assertEqual({entry['notebook'] for entry in entries}, paths)
+        self.assertTrue(all(entry['active'] for entry in entries))
+        for entry in entries:
             with self.subTest(evaluator=entry['evaluator']):
                 notebook = json.loads((ROOT / entry['notebook']).read_text())
                 legacy = copy.deepcopy(notebook)

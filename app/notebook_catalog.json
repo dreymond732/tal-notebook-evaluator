@@ -330,6 +330,16 @@
       "mode": "controle",
       "notebook": "Notebooks contrôles finaux/S3/Controle_TD7_S3.ipynb",
       "tutor_session": "CONTROLE_TD7_S3"
+    },
+    {
+      "id": "dm-intermediaire-s1",
+      "version": 1,
+      "evaluator": "dm-intermediaire-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "controle",
+      "notebook": "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
+      "tutor_session": "DM_INTERMEDIAIRE_S1"
     }
   ]
 }

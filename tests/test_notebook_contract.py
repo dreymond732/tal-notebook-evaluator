@@ -30,7 +30,7 @@ def cell(question='Q1', role='answer'):
 class NotebookContractTests(unittest.TestCase):
     def test_catalog_matches_registry_and_inactive_subject_is_explicit(self):
         catalog = load_catalog()
-        self.assertEqual(len(catalog), 33)
+        self.assertEqual(len(catalog), 34)
         self.assertEqual({e['evaluator'] for e in catalog if e['active']}, set(routes.EVALUATORS))
         inactive = [entry for entry in catalog if not entry['active']]
         self.assertEqual([e['id'] for e in inactive], ['controle-final-s2'])
@@ -111,7 +111,7 @@ class AutomaticSubmissionTests(unittest.TestCase):
             response = self.client.get(path, headers={'X-Forwarded-Prefix': '/universite/tal'})
             self.assertEqual(response.status_code, 200)
             self.assertIn('action="/universite/tal/submit"', response.get_data(as_text=True))
-        self.assertEqual(self.client.get('/health').json, {'status': 'ok', 'evaluators': 32})
+        self.assertEqual(self.client.get('/health').json, {'status': 'ok', 'evaluators': 33})
 
     def test_renamed_td_is_dispatched_and_saved(self):
         nb = notebook()

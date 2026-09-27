@@ -55,7 +55,7 @@ jobs:
           import json
           import urllib.request
           with open('/tmp/tal-health.json') as response:
-              assert json.load(response) == {'status': 'ok', 'evaluators': 32}
+              assert json.load(response) == {'status': 'ok', 'evaluators': 33}
           for path in ('/', '/submit'):
               request = urllib.request.Request(
                   'http://127.0.0.1:5001' + path,
