@@ -189,6 +189,9 @@ def log_grade_to_csv(eval_id, info, score, bonus=0.0):
         technical = info.get('score_nature') == 'technique_provisoire'
         extra_header = ['Nature du score', 'Maximum technique', 'Relecture humaine'] if technical else []
         extra_row = [info['score_nature'], info.get('score_max', ''), info.get('relecture_humaine', '')] if technical else []
+        if 'numero_etudiant' in info:
+            extra_header += ['Numéro étudiant']
+            extra_row += [info['numero_etudiant']]
         score_header = 'Score technique provisoire' if technical else 'Note'
         if write_h: w.writerow(['Date', 'Nom', 'Prénom', 'Classe', score_header, 'Bonus'] + extra_header)
         w.writerow([datetime.now().strftime("%d/%m/%Y %H:%M"), info.get('nom', '').upper(),

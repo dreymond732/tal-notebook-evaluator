@@ -2,7 +2,8 @@
 
 The fixture was computed from Git revision 2a367529963f66a186dff1658b5951d0dbc27642,
 never from the migrated working tree. Updating it requires a separately reviewed
-pedagogical change; normal CI does not regenerate it.
+pedagogical change; normal CI does not regenerate it. New subjects are listed
+explicitly below and never replace a frozen baseline notebook.
 """
 import copy
 import hashlib
@@ -15,6 +16,16 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import routes
+
+
+# New pedagogical additions are checked separately from the 42 frozen notebooks.
+# Adding a path here cannot relax any of their field/byte integrity checks.
+ADDED_ACTIVE_SUBJECTS = {
+    "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
+}
+ADDED_EXCLUDED_NOTEBOOKS = {
+    "Corrigés modèles/Contrôles finaux/dm-intermediaire-s1/DM_intermediaire_S1_corrige_non_execute.ipynb",
+}
 
 
 def without_routing_metadata(notebook):
@@ -57,8 +68,11 @@ class MigrationIntegrityTests(unittest.TestCase):
     def test_baseline_catalog_tutors_and_registry_cover_the_same_subjects(self):
         active = [entry for entry in self.catalog if entry["active"]]
         inactive = [entry for entry in self.catalog if not entry["active"]]
-        self.assertEqual(set(self.baseline["active"]), {e["notebook"] for e in active})
-        self.assertEqual(set(self.baseline["unchanged"]),
+        self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
+        self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
+        self.assertEqual(set(self.baseline["active"]) | ADDED_ACTIVE_SUBJECTS,
+                         {e["notebook"] for e in active})
+        self.assertEqual(set(self.baseline["unchanged"]) | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |
                          {e["notebook"] for e in self.tutors["excluded_notebooks"]})
         self.assertEqual({e["notebook"] for e in self.catalog},
@@ -73,6 +87,22 @@ class MigrationIntegrityTests(unittest.TestCase):
                 if entry["active"]:
                     self.assertEqual(entry["mode"], routes.EVALUATOR_MODES[entry["evaluator"]])
                     self.assertEqual(entry["semester"], routes.EVALUATOR_SEMESTERS[entry["evaluator"]])
+
+    def test_new_subject_is_resolvable_and_model_is_explicitly_excluded(self):
+        for path in ADDED_ACTIVE_SUBJECTS:
+            with self.subTest(notebook=path):
+                notebook = json.loads((ROOT / path).read_text())
+                entry = resolve_notebook(notebook)
+                self.assertEqual(entry["notebook"], path)
+                self.assertEqual(entry["semester"], "S1")
+                self.assertEqual(entry["mode"], "controle")
+                validate_cell_metadata(notebook)
+        exclusions = {e["notebook"]: e for e in self.tutors["excluded_notebooks"]}
+        for path in ADDED_EXCLUDED_NOTEBOOKS:
+            with self.subTest(notebook=path):
+                self.assertTrue((ROOT / path).is_file())
+                self.assertTrue(exclusions[path]["reason"].strip())
+                self.assertNotIn(path, {e["notebook"] for e in self.catalog})
 
 
 if __name__ == "__main__":

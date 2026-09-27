@@ -4424,6 +4424,20 @@
         "subprocess"
       ],
       "exercises": []
+    },
+    {
+      "id": "DM_INTERMEDIAIRE_S1",
+      "notebook": "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
+      "semester": 1,
+      "activity": "controle",
+      "title": "Devoir maison intermédiaire S1 — Une bibliothèque et ses ateliers multilingues",
+      "prerequisites": [
+        "TD1 à TD5 S1 : variables, expressions, chaînes, collections, boucles, conditions, fonctions et composition",
+        "Travail autonome ; consultation des TD autorisée, aucune assistance du tuteur pendant ce devoir maison"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": []
     }
   ],
   "excluded_notebooks": [
@@ -4462,6 +4476,10 @@
     {
       "notebook": "Notebooks contrôles finaux/DevoirS2.ipynb",
       "reason": "Corrigé enseignant mal nommé : titre TD6 (CORRIGÉ), Version Enseignant / Solution ; JSON tronqué préexistant, hors sujets et inchangé."
+    },
+    {
+      "notebook": "Corrigés modèles/Contrôles finaux/dm-intermediaire-s1/DM_intermediaire_S1_corrige_non_execute.ipynb",
+      "reason": "Corrigé modèle enseignant séparé du sujet et exclu de la distribution étudiante ; non exécuté."
     }
   ]
 }
