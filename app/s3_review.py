@@ -38,9 +38,16 @@ def review_evidence(notebook, questions):
             continue
         source = _text(cell.get('source', ''))
         outputs, figures, outputs_truncated = [], [], False
-        if len(cell.get('outputs', [])) > 30:
+        saved_outputs = cell.get('outputs', [])
+        # Revision evaluators report malformed answer outputs locally; the
+        # review collector must not turn that diagnostic into a global failure.
+        if not isinstance(saved_outputs, list):
+            saved_outputs = []
+        if len(saved_outputs) > 30:
             outputs_truncated = True
-        for output in cell.get('outputs', [])[:30]:
+        for output in saved_outputs[:30]:
+            if not isinstance(output, dict):
+                continue
             data = output.get('data', {})
             if isinstance(data, dict):
                 figures.extend(mime for mime in data if mime.startswith('image/') or mime == 'text/html')

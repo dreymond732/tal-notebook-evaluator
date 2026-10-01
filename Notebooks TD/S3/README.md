@@ -15,12 +15,14 @@ Huit TD de **deux heures** conduisent de la mesure élémentaire à un rapport v
 
 ## Démarrer dans Colab
 
-1. Ouvrir [Google Colab](https://colab.research.google.com/), choisir **Ouvrir un notebook → GitHub**, puis rechercher `dreymond732/tal-notebook-evaluator`. Sélectionner la branche de travail si la proposition n’est pas encore fusionnée, puis le chemin du TD.
-2. Enregistrer sa propre copie, compléter nom, prénom et classe, puis suivre les cellules dans l’ordre. La première cellule Markdown et les métadonnées contiennent les mêmes règles du tuteur : il accompagne le raisonnement sans réaliser le travail.
+1. Ouvrir dans [Google Colab](https://colab.research.google.com/) la copie distribuée par l’enseignant, issue de `dist/Notebooks TD/S3/` après déploiement. Les sources restent consultables via **Ouvrir un notebook → GitHub** et `dreymond732/tal-notebook-evaluator` ; leur adresse de restitution est un substitut, à remplacer uniquement par le déploiement.
+2. Enregistrer sa propre copie, compléter nom, prénom, classe et numéro étudiant, puis suivre les cellules dans l’ordre. La première cellule Markdown et les métadonnées contiennent les mêmes règles du tuteur : il accompagne le raisonnement sans réaliser le travail.
 3. Exécuter la préparation fournie : elle installe les versions prévues si nécessaire et récupère les données à un commit fixé. Une connexion est nécessaire au premier téléchargement ; les données locales sont ensuite vérifiées par empreinte. Après une nouvelle session Colab, relancer la préparation.
 4. Conserver les sorties et télécharger le notebook ainsi que l’export JSON de fin de séance. Les fichiers laissés seulement dans le runtime Colab sont temporaires. Les séances fournissent leurs données de départ, même si un export précédent manque.
 
 Les résultats automatiques contrôlent des traces enregistrées ; l’enseignant relit les interprétations et les choix méthodologiques.
+
+La dernière cellule affiche le lien de restitution. Elle contient seulement `__TAL_PUBLIC_URL__` dans les sources Git ; `bash deploy.sh` injecte la configuration locale dans les copies distribuées. Les onze supports S3 gardent le contrat de correction v2 : cette revue ajoute des appuis et complète les métadonnées sans changer les questions ni les traces attendues. Les anciennes copies v2 complètes restent compatibles ; les versions antérieures sont refusées avec « mauvaise version du notebook ».
 
 ## Données et remédiations
 

@@ -128,18 +128,18 @@ def evidence(value):
 
 
 CHECKS = [
-    {'label': 'Provenance', 'validate': provenance, 'feedback': 'Empreinte du fichier original, G1–G6, trois prompts et paramètres manquants. La pertinence des paramètres est à relire humainement.'},
+    {'label': 'Provenance', 'required_text_fields': ['limite'], 'validate': provenance, 'feedback': 'Empreinte du fichier original, G1–G6, trois prompts et paramètres manquants. La pertinence des paramètres est à relire humainement.'},
     {'label': 'Concordances exactes', 'validate': lambda v: same(v, {'concordances': concordances(TEXT3, 'droit'), 'absent': []}),
      'feedback': 'Trois occurrences exactes de droit, indices et contextes largeur 20 ; justice absent.'},
-    {'label': 'Modes de recherche', 'validate': research_modes,
+    {'label': 'Modes de recherche', 'required_text_fields': ['explication'], 'validate': research_modes,
      'feedback': 'Fragment et forme exacts ; lemmes contrôlés uniquement pour leur provenance, sans certifier le modèle.'},
-    {'label': 'Citations exactes', 'validate': exact_citations,
+    {'label': 'Citations exactes', 'required_text_fields': ['limite'], 'validate': exact_citations,
      'feedback': 'Comparaison exacte des trois citations, respectant casse, ponctuation et CRLF du texte original.'},
-    {'label': 'Passage source de C1', 'validate': altered_citation,
+    {'label': 'Passage source de C1', 'required_text_fields': ['difference', 'verdict'], 'validate': altered_citation,
      'feedback': 'Passage exact et position d’origine contenant légalement et naturellement. Qualification de l’altération à relire humainement.'},
-    {'label': 'Deux cas de test contrastés', 'validate': student_tests,
+    {'label': 'Deux cas de test contrastés', 'required_text_fields': ['regle_humaine'], 'validate': student_tests,
      'feedback': 'Un exact et un altéré ; valeurs attendues et observées conformes à une recherche exacte. La règle humaine n’est pas notée automatiquement.'},
-    {'label': 'Trois preuves distinctes', 'validate': evidence,
+    {'label': 'Trois preuves distinctes', 'required_text_fields': ['convention_proposee', 'limite'], 'validate': evidence,
      'feedback': 'Au moins trois occurrences distinctes du pivot dans les passages exacts : intelligence (G1) ou aptitude(s) (G2). Convention et interprétation à relire humainement.'},
 ]
 

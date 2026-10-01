@@ -163,7 +163,9 @@
             "with",
             "UTF-8",
             "len()",
-            "préserver source"
+            "préserver source",
+            "type/unité",
+            "dictionnaire de trace"
           ],
           "introduced_here": [
             "open()",
@@ -273,7 +275,10 @@
             "values()",
             "sum()",
             "return",
-            "liste vide"
+            "liste vide",
+            "invariants de comptage",
+            "somme des effectifs",
+            "nombre de clés"
           ],
           "introduced_here": [
             "get()",
@@ -1406,7 +1411,8 @@
             "print()",
             "dictionnaire",
             "chaîne vide",
-            "plusieurs appels de test"
+            "plusieurs appels de test",
+            "distinguer valeur retournée et affichage"
           ],
           "introduced_here": [],
           "allowed_libraries": []
@@ -1444,7 +1450,9 @@
             "return",
             "appel",
             "print()",
-            "plusieurs appels de test"
+            "plusieurs appels de test",
+            "initialisation du compteur",
+            "clé absente"
           ],
           "introduced_here": [],
           "allowed_libraries": []
@@ -1514,7 +1522,10 @@
             "idx",
             "len()",
             "is_punct",
-            "annotation manuelle"
+            "annotation manuelle",
+            "tranche à fin exclue",
+            "indice caractère versus indice token",
+            "dictionnaire d’annotation"
           ],
           "introduced_here": [
             "Doc",
@@ -1687,7 +1698,8 @@
             "indices",
             "tranches",
             "len()",
-            "preuve"
+            "preuve",
+            "indice caractère versus indice token"
           ],
           "introduced_here": [
             "nlp()",
@@ -1755,7 +1767,9 @@
             "tuple",
             "append()",
             "ordre des tokens",
-            "ponctuation"
+            "ponctuation",
+            "triple d’annotation construit",
+            "répétitions conservées"
           ],
           "introduced_here": [],
           "allowed_libraries": [
@@ -1847,7 +1861,9 @@
             "appel",
             "print()",
             "dict()",
-            "dictionnaire"
+            "dictionnaire",
+            "Counter sur liste distincte",
+            "None versus liste vide"
           ],
           "introduced_here": [
             "Counter"
@@ -1909,7 +1925,9 @@
             "dictionnaire",
             "exclusion par lemme",
             "comparaison sans et avec exclusions",
-            "révision de la fonction définie en Q1"
+            "révision de la fonction définie en Q1",
+            "None versus liste vide",
+            "exclusion par lemme et non forme"
           ],
           "introduced_here": [
             "collection d’exclusions"
@@ -1934,7 +1952,8 @@
             "dict()",
             "classement complet",
             "ex æquo",
-            "limite argumentée"
+            "limite argumentée",
+            "ordre libre des ex æquo"
           ],
           "introduced_here": [
             "most_common()",
@@ -2029,7 +2048,9 @@
             "lower()",
             "Counter",
             "None",
-            "return"
+            "return",
+            "None versus liste vide",
+            "exclusion par lemme"
           ],
           "introduced_here": [
             "nlp()",
@@ -2063,7 +2084,8 @@
             "appels",
             "Counter",
             "most_common()",
-            "comparaison"
+            "comparaison",
+            "filtre retirant tous les noms"
           ],
           "introduced_here": [
             "exclusions",
@@ -2096,7 +2118,8 @@
             "is_punct/is_space",
             "Counter",
             "most_common()",
-            "sum()"
+            "sum()",
+            "ordre libre des ex æquo"
           ],
           "introduced_here": [
             "Doc",
@@ -2162,7 +2185,8 @@
             "matplotlib",
             "bar",
             "imshow",
-            "hypothèse"
+            "hypothèse",
+            "reprise Q3 si données vides"
           ],
           "introduced_here": [
             "Counter",
@@ -3189,7 +3213,8 @@
             "lecture JSON",
             "paramètres absents",
             "conversation",
-            "empreinte fournie"
+            "empreinte fournie",
+            "lier source, convention et mesure"
           ],
           "introduced_here": [
             "provenance",
@@ -3223,7 +3248,10 @@
             "ValueError",
             "concordance",
             "try/except",
-            "raise ValueError"
+            "raise ValueError",
+            "find(motif, depart)",
+            "progression du départ de recherche",
+            "occurrences non chevauchantes"
           ],
           "introduced_here": [
             "find()",
@@ -3234,7 +3262,8 @@
             "ValueError",
             "concordance",
             "try/except",
-            "raise ValueError"
+            "raise ValueError",
+            "find(motif, depart)"
           ],
           "allowed_libraries": [
             "json"
@@ -3258,7 +3287,9 @@
             "len()",
             "find()",
             "PhraseMatcher",
-            "expression"
+            "expression",
+            "tokens contigus",
+            "expression versus mots dispersés"
           ],
           "introduced_here": [
             "nlp()",
@@ -3324,7 +3355,8 @@
             "find()",
             "indices/tranches",
             "normalisation",
-            "substitution"
+            "substitution",
+            "positions originales versus positions normalisées"
           ],
           "introduced_here": [
             "replace()",
@@ -3442,7 +3474,10 @@
             "len()",
             "marge",
             "contexte",
-            "présence"
+            "présence",
+            "doc.sents",
+            "token.text.lower()",
+            "token.is_alpha"
           ],
           "introduced_here": [
             "set()",
@@ -3475,14 +3510,17 @@
             "cooccurrence phrase",
             "symétrie",
             "assert",
-            "test de fonction"
+            "test de fonction",
+            "échec d’assertion",
+            "invariants"
           ],
           "introduced_here": [
             "set()",
             "in",
             "somme",
             "cooccurrence phrase",
-            "symétrie"
+            "symétrie",
+            "assert"
           ],
           "allowed_libraries": [
             "json",
@@ -3506,7 +3544,8 @@
             "set()",
             "union/somme",
             "paires",
-            "présence"
+            "présence",
+            "tableau de présence par contexte"
           ],
           "introduced_here": [
             "any()",
@@ -3539,7 +3578,11 @@
             "distance <= k",
             "fenêtre",
             "raise ValueError",
-            "refus k<1"
+            "refus k<1",
+            "token.i",
+            "token.idx",
+            "indice token/caractère",
+            "flux non filtré"
           ],
           "introduced_here": [
             "enumerate()",
@@ -3603,7 +3646,10 @@
             "normalisation",
             "comparaison",
             "PhraseMatcher TD3",
-            "expression multi-token"
+            "expression multi-token",
+            "token.is_space",
+            "indices d’origine",
+            "expression contiguë"
           ],
           "introduced_here": [
             "nlp()",
@@ -3635,7 +3681,8 @@
             "open()",
             "concordances",
             "paramètres",
-            "preuve"
+            "preuve",
+            "effectifs et indices sources"
           ],
           "introduced_here": [
             "json.dump/load",
@@ -3691,7 +3738,12 @@
             "round()",
             "marges",
             "proportions",
-            "univers commun"
+            "univers commun",
+            "dénominateur non nul",
+            "None",
+            "test avant division",
+            "tableau 2×2",
+            "vérification somme et marges"
           ],
           "introduced_here": [
             "division",
@@ -3782,7 +3834,9 @@
             "round()",
             "table 2x2",
             "symétrie",
-            "marges"
+            "marges",
+            "quatre effectifs d’un tableau 2×2",
+            "vérification somme et marges"
           ],
           "introduced_here": [
             "division",
@@ -3812,7 +3866,8 @@
             "None",
             "zéro/indéfini",
             "faible effectif",
-            "PMI/log2 optionnel"
+            "PMI/log2 optionnel",
+            "ne pas arrondir None"
           ],
           "introduced_here": [
             "None",
@@ -3843,7 +3898,9 @@
             "abs()",
             "any()",
             "fenêtres",
-            "couverture de pivots"
+            "couverture de pivots",
+            "pivot couvert au plus une fois",
+            "numérateur et dénominateur"
           ],
           "introduced_here": [
             "token.i",
@@ -3968,9 +4025,12 @@
             "tranches",
             "is_alpha",
             "segments",
-            "dénominateur",
+            "dénominateur nul",
             "int()",
-            "bornes exclues"
+            "bornes exclues",
+            "taux indéfini:None",
+            "somme des tailles",
+            "sans chevauchement"
           ],
           "introduced_here": [
             "len()",
@@ -3978,7 +4038,7 @@
             "tranches",
             "is_alpha",
             "segments",
-            "dénominateur"
+            "dénominateur nul"
           ],
           "allowed_libraries": [
             "json",
@@ -4006,7 +4066,9 @@
             "ticks",
             "échelle",
             "subplots",
-            "set_xticks/set_yticks"
+            "set_xticks/set_yticks",
+            "dénominateur nul",
+            "None/taux non défini"
           ],
           "introduced_here": [
             "matrice",
@@ -4075,7 +4137,8 @@
             "retour au texte",
             "token.idx",
             "min/max",
-            "join()"
+            "join()",
+            "indice token/caractère"
           ],
           "introduced_here": [
             "concordances",
@@ -4142,7 +4205,8 @@
             "interprétation",
             "savefig",
             "show",
-            "moyenne pondérée"
+            "moyenne pondérée",
+            "somme avant division"
           ],
           "introduced_here": [
             "json.dump/load",
@@ -4199,7 +4263,8 @@
             "lecture JSON",
             "paramètres absents",
             "protocole",
-            "reconstruction"
+            "reconstruction",
+            "clé absente/None"
           ],
           "introduced_here": [
             "lecture JSON",
@@ -4228,7 +4293,14 @@
             "réutilisation TD3–5",
             "marges/cooccurrences",
             "tests",
-            "phrases"
+            "phrases",
+            "indices/tranches",
+            "expression contiguë",
+            "formes minuscules",
+            "token.i",
+            "token.idx",
+            "token.is_space",
+            "ponctuation conservée"
           ],
           "introduced_here": [
             "réutilisation TD3–5",
@@ -4291,7 +4363,9 @@
             "round()",
             "intervalle",
             "comparaison conditionnelle",
-            "verdict"
+            "verdict",
+            "protocoles comparables",
+            "bornes inclusives ordonnées"
           ],
           "introduced_here": [
             "round()",
@@ -4354,7 +4428,8 @@
             "tests",
             "booléens",
             "attendu/observé",
-            "preuve"
+            "preuve",
+            "attendu/observé/décision"
           ],
           "introduced_here": [
             "cas nouveau",
