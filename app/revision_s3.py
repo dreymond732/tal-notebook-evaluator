@@ -8,6 +8,7 @@ import json
 
 from notebook_contract import (ContractError, WRONG_VERSION, resolve_notebook,
                                validate_cell_metadata, s3_contract_identity)
+from s3_review import review_evidence
 
 TEXT_R0 = 'Python est utile. Python sert au TAL et le TAL sert à analyser des textes.'
 # These tables are reference annotations for the pinned fr_core_news_sm 3.8.0 model.
@@ -168,7 +169,9 @@ def _return_slice(function):
     returns = [n for n in function.body if isinstance(n, ast.Return)]
     if not returns:
         return function
-    ret = returns[-1]
+    # Nothing after an unconditional return can justify the returned value.
+    # In particular, a correct-looking second return is dead code.
+    ret = returns[0]
     prefix = function.body[:function.body.index(ret)]
     body = _slice(prefix, _loads(ret)) + [ret]
     return ast.FunctionDef(name=function.name, args=function.args, body=body,
@@ -217,22 +220,108 @@ def _lemma_reference(node, function):
     return bool(_names(node) & aliases)
 
 
+def _skips_token(function, kind):
+    """Recognize a simple continue guard attached to the iterated token.
+
+    This is a source-shape check, not symbolic execution. An unrelated object's
+    is_stop flag cannot supply the exclusion proof for this loop's token.
+    """
+    for loop in ast.walk(function):
+        if not isinstance(loop, ast.For) or not isinstance(loop.target, ast.Name):
+            continue
+        token_name = loop.target.id
+
+        def token_attribute(node, attribute):
+            return any(isinstance(n, ast.Attribute) and n.attr == attribute
+                       and isinstance(n.value, ast.Name) and n.value.id == token_name
+                       for n in ast.walk(node))
+
+        aliases = {target.id for assignment in ast.walk(loop) if isinstance(assignment, ast.Assign)
+                   and token_attribute(assignment.value, 'lemma_')
+                   for target in assignment.targets if isinstance(target, ast.Name)}
+        for guard in ast.walk(loop):
+            if not (isinstance(guard, ast.If) and len(guard.body) == 1
+                    and isinstance(guard.body[0], ast.Continue)):
+                continue
+            test = guard.test
+            if (kind == 'stop' and isinstance(test, ast.Attribute)
+                    and test.attr == 'is_stop' and token_attribute(test, 'is_stop')):
+                return True
+            if (kind == 'lemma' and isinstance(test, ast.Compare) and len(test.ops) == 1
+                    and isinstance(test.ops[0], ast.In) and 'stopwords' in _names(test.comparators[0])
+                    and (token_attribute(test.left, 'lemma_') or _names(test.left) & aliases)):
+                return True
+    return False
+
+
+def _selects_pos(tree, wanted):
+    """Recognize the direction of a POS filter, including a skip guard.
+
+    This deliberately checks filtering conditions rather than the mere presence
+    of pos_ and a category string. It does not certify arbitrary Python control
+    flow or the authenticity of the saved values.
+    """
+    aliases = {target.id for assignment in ast.walk(tree) if isinstance(assignment, ast.Assign)
+               and isinstance(assignment.value, ast.Attribute) and assignment.value.attr == 'pos_'
+               for target in assignment.targets if isinstance(target, ast.Name)}
+
+    def operand(node):
+        return (isinstance(node, ast.Attribute) and node.attr == 'pos_'
+                or isinstance(node, ast.Name) and node.id in aliases)
+
+    def condition(node, include=True):
+        if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):
+            return condition(node.operand, not include)
+        if isinstance(node, ast.BoolOp):
+            # An AND needs one necessary selection criterion; an OR needs one
+            # in each branch before it establishes the same restriction.
+            checks = [condition(value, include) for value in node.values]
+            return any(checks) if isinstance(node.op, ast.And) == include else all(checks)
+        if not isinstance(node, ast.Compare) or len(node.ops) != 1:
+            return False
+        operator = ast.Eq if include else ast.NotEq
+        if not isinstance(node.ops[0], operator):
+            return False
+        left, right = node.left, node.comparators[0]
+        return ((operand(left) and isinstance(right, ast.Constant) and right.value == wanted)
+                or (operand(right) and isinstance(left, ast.Constant) and left.value == wanted))
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.comprehension) and any(condition(test) for test in node.ifs):
+            return True
+        if isinstance(node, ast.If):
+            skip = len(node.body) == 1 and isinstance(node.body[0], ast.Continue)
+            if condition(node.test, include=not skip):
+                return True
+    return False
+
+
 def _noun_function(tree, filtered=False):
     fn = _function(tree, 'frequences_lemmas', ['texte', 'stopwords'])
     if fn is None or not fn.args.defaults or not isinstance(fn.args.defaults[-1], ast.Constant) or fn.args.defaults[-1].value is not None:
         return False
     ok = (_has_call(fn, 'nlp') and _has_call(fn, 'Counter')
-          and {'lemma_', 'pos_'} <= _attrs(fn) and 'NOUN' in _strings(fn))
+          and {'lemma_', 'pos_'} <= _attrs(fn) and _selects_pos(fn, 'NOUN'))
     if filtered:
         ok = ok and 'is_stop' in _attrs(fn) and 'stopwords' in _names(fn)
-        ok = ok and any(isinstance(n, ast.Compare) and any(isinstance(op, ast.NotIn) for op in n.ops)
-                       and 'stopwords' in _names(n) and _lemma_reference(n.left, fn) for n in ast.walk(fn))
-        ok = ok and any((isinstance(n, ast.UnaryOp) and isinstance(n.op, ast.Not)
+        excluded_lemma = any(isinstance(n, ast.Compare) and any(isinstance(op, ast.NotIn) for op in n.ops)
+                             and 'stopwords' in _names(n) and _lemma_reference(n.left, fn) for n in ast.walk(fn))
+        ok = ok and (excluded_lemma or _skips_token(fn, 'lemma'))
+        negated_stop = any((isinstance(n, ast.UnaryOp) and isinstance(n.op, ast.Not)
                         and 'is_stop' in _attrs(n)) or
                        (isinstance(n, ast.Compare) and 'is_stop' in _attrs(n)
-                        and len(n.ops) == 1 and isinstance(n.ops[0], (ast.Eq, ast.Is))
-                        and any(isinstance(v, ast.Constant) and v.value is False
-                                for v in [n.left] + n.comparators)) for n in ast.walk(fn))
+                        and len(n.ops) == 1
+                        and ((isinstance(n.ops[0], (ast.Eq, ast.Is))
+                              and any(isinstance(v, ast.Constant) and v.value is False
+                                      for v in [n.left] + n.comparators))
+                             or (isinstance(n.ops[0], (ast.NotEq, ast.IsNot))
+                                 and any(isinstance(v, ast.Constant) and v.value is True
+                                         for v in [n.left] + n.comparators)))) for n in ast.walk(fn))
+        # A loop may skip stop words before appending the surviving lemmas.
+        # Require the positive attribute itself and an unconditional continue;
+        # merely mentioning is_stop near an unrelated continue is insufficient.
+        skipped_stop = _skips_token(fn, 'stop')
+        ok = ok and (negated_stop or skipped_stop)
     return bool(ok)
 
 
@@ -265,13 +354,15 @@ def _check(r, q, tree, relevant, prior, value):
         if q == 1:
             return (_has_call(relevant, 'nlp') and _has_call(relevant, 'len')
                     and {'doc', 'texte'} <= _names(relevant) and _equal(value, len(R1_TOKENS)))
-        if 1 not in prior or not _has_call(prior[1], 'nlp'):
+        document_available = (1 in prior and _has_call(prior[1], 'nlp')
+                              or _has_call(relevant, 'nlp') and 'texte' in _names(relevant))
+        if not document_available:
             return False
         if q == 2:
             return _tokens_shape(relevant) and 'doc' in _names(relevant) and _equal(value, R1_TOKENS)
         target = 'NOUN' if q == 3 else 'VERB'
         return ({'lemma_', 'pos_'} <= _attrs(relevant) and 'doc' in _names(relevant)
-                and target in _strings(relevant)
+                and _selects_pos(relevant, target)
                 and _equal(value, [lemma for _, lemma, pos in R1_TOKENS if pos == target]))
     if r == 2:
         expected = _noun_freq(R2_TOKENS)
@@ -279,7 +370,11 @@ def _check(r, q, tree, relevant, prior, value):
         if q == 1:
             return _noun_function(relevant) and _has_call(relevant, 'frequences_lemmas') and _equal(value, expected)
         if q == 2:
-            return (1 in prior and _noun_function(prior[1]) and _tokens_shape(relevant)
+            # This question analyses texte anew: a missing Q1 implementation
+            # does not invalidate independently recorded token annotations.
+            document_available = (_has_call(relevant, 'nlp') and 'texte' in _names(relevant)
+                                  or 1 in prior and _noun_function(prior[1]))
+            return (document_available and _tokens_shape(relevant)
                     and _equal(value, R2_TOKENS))
         if q == 3:
             return (_noun_function(relevant, filtered=True) and _has_call(relevant, 'frequences_lemmas')
@@ -346,5 +441,6 @@ def check_revision(content_str, evaluator):
                         + observation, 
                         'correct_answer': '', 'status': 'ℹ️', 'points': 0, 'max_points': 0})
     info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
-                contract_version=2, relecture_humaine='Interprétation et reproductibilité à relire.')
+                contract_version=2, relecture_humaine='Interprétation et reproductibilité à relire.',
+                review_evidence=review_evidence(notebook, 4))
     return score, details, maximum, info, None

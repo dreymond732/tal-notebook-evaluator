@@ -148,7 +148,11 @@ class MigrationIntegrityTests(unittest.TestCase):
                 self.assertEqual({q for q, role in indexed if role == "answer"},
                                  {f"Q{q}" for q in range(1, (4 if path in R012_REVISED_SUBJECTS else 6 if evaluator == "td1-s3" else 7) + 1)})
                 self.assertIn(("identity", "identification"), indexed)
-                self.assertNotIn(("submission", "submission"), indexed)
+                if path in S3_REVISED_SUBJECTS and evaluator.startswith("controle-"):
+                    self.assertNotIn(("submission", "submission"), indexed)
+                else:
+                    self.assertIn(("submission", "submission"), indexed)
+                    self.assertEqual(notebook["cells"][-1], submission_cell())
                 for cell in notebook["cells"]:
                     if cell["cell_type"] == "code":
                         self.assertEqual(cell.get("outputs", []), [])
@@ -159,9 +163,13 @@ class MigrationIntegrityTests(unittest.TestCase):
         baseline = json.loads((ROOT / "tests/fixtures/s3_complete_v2_source_baseline.json").read_text())
         self.assertEqual(baseline["source_commit"], "02f435dc770834b21e242592804d231e0836a4b7")
         self.assertEqual(set(baseline["subjects"]), set(S3_REVISED_SUBJECTS))
+        # Chain the older reviewed proof through the frozen parent of this
+        # additive TD review. Controls are still checked directly, byte for byte.
+        parent = json.loads((ROOT / "tests/fixtures/s3_progression_review_source_baseline.json").read_text())
+        self.assertEqual(parent["source_commit"], "933b0df6565fbd7d64f02db941eda5e8358eb16e")
         prefixes, reviews = 0, 0
         for path, expected in baseline["subjects"].items():
-            notebook = json.loads((ROOT / path).read_text())
+            notebook = copy.deepcopy(parent["subjects"][path]) if path in parent["subjects"] else json.loads((ROOT / path).read_text())
             cells = notebook.pop("cells")
             with self.subTest(notebook=path):
                 self.assertEqual(canonical_hash(notebook), expected["notebook_without_cells_sha256"])

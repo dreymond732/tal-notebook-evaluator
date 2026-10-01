@@ -15,11 +15,11 @@ CHECKS = [
     {'label': 'Filtres conformes au pipeline',
      'validate': lambda v: check.filters(v, {1: {'annotations': REFERENCE['annotations']}}, REFERENCE['filters']),
      'feedback': 'Les trois listes concordent avec le pipeline fixé ; ordre et répétitions sont conservés, mots vides exclus des mots pleins. ' + NOTE},
-    {'label': 'Repères de dépendance', 'validate': lambda v: check.dependency_td1(v, TEXT1),
+    {'label': 'Repères de dépendance', 'required_text_fields': ['interpretation'], 'validate': lambda v: check.dependency_td1(v, TEXT1),
      'feedback': 'Le point porte sur deux tokens distincts localisés dans la première phrase et une relation renseignée. La pertinence du verbe, la relation et son sens nécessitent une relecture humaine. ' + NOTE},
-    {'label': 'Comparaison des découpages', 'validate': lambda v: check.counts_td1(v, TEXT0, REFERENCE['counts']),
+    {'label': 'Comparaison des découpages', 'required_text_fields': ['interpretation'], 'validate': lambda v: check.counts_td1(v, TEXT0, REFERENCE['counts']),
      'feedback': 'split vaut 47, tous les tokens 56 et les tokens hors ponctuation et espaces 41 pour le pipeline fixé. ' + NOTE},
-    {'label': 'Transfert documenté', 'validate': check.transfer,
+    {'label': 'Transfert documenté', 'required_text_fields': ['question'], 'validate': check.transfer,
      'feedback': 'Extrait de 2–4 phrases ; cinq annotations couvrant le début du texte sans omission hors blancs, listes et question. Segmentation et analyse de cet extrait libre restent humaines. ' + NOTE},
 ]
 
