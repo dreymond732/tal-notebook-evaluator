@@ -1,6 +1,6 @@
 # Consolidation TAL : identification et dépôt automatique
 
-> Mise à jour du 1er octobre 2026 : ce document conserve l’état historique de la migration. La distribution actuelle comprend 33 copies ; les TD S1 comportent désormais une cellule source finale avec le substitut `__TAL_PUBLIC_URL__`, remplacé au déploiement. Voir [la procédure actuelle de distribution S1](s1_distribution.md).
+> Mise à jour du 1er octobre 2026 : ce document conserve l’état historique de la migration. La [consolidation S2 v2](s2_complete_review.md) remplace les anciens chemins et contrats S2 décrits ci-dessous : six supports actifs à redistribuer ; final restructuré mais toujours inactif. La distribution actuelle comprend 33 copies ; les TD S1 comportent désormais une cellule source finale avec le substitut `__TAL_PUBLIC_URL__`, remplacé au déploiement. Voir [la procédure actuelle de distribution S1](s1_distribution.md).
 
 Mission : transposer la refonte TQR (#51, #54 et correction #56) au cours TAL.
 Branche : `integration/tal-metadata-submit`. Base : `2a367529963f66a186dff1658b5951d0dbc27642`.

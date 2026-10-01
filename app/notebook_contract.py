@@ -21,8 +21,11 @@ S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
 STRICT_S3 = frozenset(S3_QUESTION_COUNTS)
 S1_QUESTION_COUNTS = {f'td{n}-s1': count for n, count in enumerate((6, 7, 6, 7, 6, 6, 7), 1)}
 STRICT_S1 = frozenset(S1_QUESTION_COUNTS)
-STRICT_V2 = STRICT_S3 | STRICT_S1
-QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS}
+S2_QUESTION_COUNTS = {'td2-S2': 13, 'td3-S2': 30, 'td4-S2': 14,
+                      'td5-S2': 25, 'td6-S2': 10, 'ControleDevoirMaisonS2': 30}
+STRICT_S2 = frozenset(S2_QUESTION_COUNTS)
+STRICT_V2 = STRICT_S3 | STRICT_S1 | STRICT_S2
+QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS, **S2_QUESTION_COUNTS}
 
 
 CELL_ROLES = frozenset({'answer', 'prompt', 'example', 'provided',
@@ -191,7 +194,7 @@ def literal_identity(source, fields=('nom', 'prenom', 'classe'), strict=False):
 
 
 def strict_contract_identity(notebook, evaluator=None):
-    """Gate supported S1/S3 v2 and return the four required identity fields before correction."""
+    """Gate supported S1/S2/S3 v2 and return the four required identity fields before correction."""
     entry = resolve_notebook(notebook, expected_evaluator=evaluator, require_metadata=True)
     if entry['evaluator'] not in STRICT_V2 or entry['version'] != 2:
         raise ContractError(WRONG_VERSION)

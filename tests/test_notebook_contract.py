@@ -22,6 +22,12 @@ from test_td2_s1 import fixture as s1_v2_notebook
 def notebook(evaluator='td2-s1'):
     if evaluator == 'td2-s1':
         return s1_v2_notebook()
+    if evaluator in {'td2-S2', 'td3-S2', 'td4-S2', 'td5-S2', 'td6-S2', 'ControleDevoirMaisonS2'}:
+        entry = next(e for e in load_catalog() if e['id'] == evaluator)
+        nb = json.loads((Path(__file__).resolve().parents[1] / entry['notebook']).read_text())
+        identity = next(c for c in nb['cells'] if c.get('metadata', {}).get('tal', {}).get('role') == 'identification')
+        identity['source'] = ['nom="Exemple"\nprenom="Test"\nclasse="S2"\nnumero_etudiant="TEST001"']
+        return nb
     return {'nbformat': 4, 'nbformat_minor': 5, 'metadata': {
         'tal': {'id': evaluator, 'version': 1, 'evaluator': evaluator}}, 'cells': []}
 
@@ -56,7 +62,9 @@ class NotebookContractTests(unittest.TestCase):
     def test_legacy_requires_explicit_route_and_mismatch_never_falls_back(self):
         with self.assertRaises(ContractError):
             resolve_notebook({'cells': []})
-        self.assertIsNone(resolve_notebook({'cells': []}, 'td2-S2', require_metadata=False))
+        self.assertIsNone(resolve_notebook({'cells': []}, 'Controletilt-s1', require_metadata=False))
+        with self.assertRaises(ContractError):
+            resolve_notebook({'cells': []}, 'td2-S2', require_metadata=False)
         with self.assertRaises(ContractError):
             resolve_notebook({'cells': []}, 'td2-s1', require_metadata=False)
         with self.assertRaises(ContractError):
@@ -184,14 +192,14 @@ class AutomaticSubmissionTests(unittest.TestCase):
         self.checker.assert_not_called()
         self.assertEqual(list(self.root.rglob('*')), [])
 
-    def test_s1_control_and_s2_explicit_routes_keep_legacy_compatibility(self):
-        for evaluator in ('Controletilt-s1', 'td2-S2'):
+    def test_s1_control_explicit_route_keeps_legacy_compatibility(self):
+        for evaluator in ('Controletilt-s1',):
             with self.subTest(evaluator=evaluator):
                 response = self.post({'cells': []}, '/eval/' + evaluator)
                 self.assertEqual(response.status_code, 200)
                 self.assertNotIn('mauvaise version du notebook', response.get_data(as_text=True))
-        self.assertEqual(self.checker.call_count, 2)
-        self.assertEqual(len(list(self.root.rglob('*.IPYNB'))), 2)
+        self.assertEqual(self.checker.call_count, 1)
+        self.assertEqual(len(list(self.root.rglob('*.IPYNB'))), 1)
 
     def test_persistence_failure_cannot_be_a_successful_control_receipt(self):
         with patch.object(routes, 'process_submission', side_effect=OSError('PRIVATE_SOLUTION')):

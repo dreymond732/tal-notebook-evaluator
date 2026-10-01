@@ -21,11 +21,11 @@ EVALUATORS = {
     'dm-intermediaire-s1': ('Devoir maison intermédiaire S1 - Après le TD5', 'app_correction_DM_intermediaire_S1'),
     'td6-s1': ('TD6 S1 - Fichiers et données', 'app_correction_TD6_S1'),
     'td7-s1': ('TD7 S1 - Expressions régulières', 'app_correction_TD7_S1'),
-    'td2-S2': ('TD2 S2 - Bases', 'app_correction_TD2_S2'),
-    'td3-S2': ('TD3 S2 - Structures', 'app_correction_TD3_S2'),
-    'td4-S2': ('TD4 S2 - Logique', 'app_correction_TD4_S2'),
-    'td5-S2': ('TD5 S2 - Algorithmique avancée', 'app_correction_TD5_S2'),
-    'td6-S2': ('TD6 S2 - Fichiers', 'app_correction_TD6_S2'),
+    'td2-S2': ('Contrôle TD2 S2 — Algorithmique', 'app_correction_TD2_S2'),
+    'td3-S2': ('TD3 S2 — Algorithmique et structures', 'app_correction_TD3_S2'),
+    'td4-S2': ('Contrôle TD4 S2 — Ensembles', 'app_correction_TD4_S2'),
+    'td5-S2': ('TD5 S2 — Algorithmes du texte', 'app_correction_TD5_S2'),
+    'td6-S2': ('TD6 S2 — Fichiers et ressources', 'app_correction_TD6_S2'),
     'td0-s3': ('TD0 S3 - Diagnostic texte et mesures', 'app_correction_TD0_S3'),
     'td1-s3': ('TD1 S3 - Annoter avec spaCy', 'app_correction_TD1_S3'),
     'td2-s3': ('TD2 S3 - Fréquences et objets recherchés', 'app_correction_TD2_S3'),
@@ -46,7 +46,7 @@ EVALUATORS = {
     'td-r2-s3': ('R2 S3 - Fréquences réutilisables', 'app_correction_R2_S3'),
     'Controletilt-s1': ('Contrôle TAL - S1', 'app_correction_controle_S1'),
     #'ControleS2': ('Contrôle S2', 'app_correction_controle_S2'),
-    'ControleDevoirMaisonS2': ('Contrôle DM S2', 'app_correction_devoirMaisonS2'),
+    'ControleDevoirMaisonS2': ('Devoir maison S2 — Approfondissement', 'app_correction_devoirMaisonS2'),
 }
 
 # Mode pédagogique explicite, indépendant du nom et de l'URL.
@@ -307,7 +307,7 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
     """Sauvegarde les fichiers et log la note."""
     try:
-        # S1/S3 v2 contracts have richer CSV schemas: keep historical files intact.
+        # S1/S2/S3 v2 contracts have richer CSV schemas: keep historical files intact.
         strict_v2 = eval_name in STRICT_V2 and info.get('contract_version') == 2
         storage_id = f'{eval_name}-v2' if strict_v2 else eval_name
         outils.log_grade_to_csv(storage_id, info, score)
