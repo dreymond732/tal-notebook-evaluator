@@ -39,7 +39,7 @@ class ControlFeedbackTests(unittest.TestCase):
     def submit(self, name='Controletilt-s1', filename='copie.ipynb', **kwargs):
         # Arbitrary submitted source is data only; the fake evaluator never executes it.
         nb = {'cells': [{'cell_type': 'code', 'source': ['raise RuntimeError()']}]}
-        if name == 'td1-s1':
+        if name in {'td1-s1', 'td2-S2', 'td4-S2'}:
             from notebook_contract import load_catalog
             path = next(e['notebook'] for e in load_catalog() if e['id'] == name)
             nb = json.loads((Path(__file__).resolve().parents[1] / path).read_text())

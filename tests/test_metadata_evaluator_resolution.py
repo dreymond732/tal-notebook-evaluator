@@ -52,13 +52,13 @@ def control(cells):
 class MetadataResolutionTests(unittest.TestCase):
     def test_all_migrated_subjects_keep_existing_scores_and_feedback(self):
         # This is a migration regression for the 32 pre-contract subjects.
-        # New subjects have no legacy version; the twenty-five reviewed S1/S3 v2
+        # New subjects have no legacy version; the thirty-one reviewed S1/S2/S3 v2
         # revisions explicitly reject their old contract (tested separately).
         baseline = json.loads((ROOT / 'tests/fixtures/notebook_migration_baseline.json').read_text())
         paths = set(baseline['active'])
         self.assertEqual(len(paths), 32)
         paths -= set(REVISED_SUBJECTS)
-        self.assertEqual(len(paths), 7)
+        self.assertEqual(len(paths), 1)
         paths = {S1_RENAMED_SUBJECTS.get(path, path) for path in paths}
         entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
         self.assertEqual({entry['notebook'] for entry in entries}, paths)

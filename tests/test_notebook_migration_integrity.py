@@ -21,7 +21,7 @@ from prepare_student_notebooks import submission_cell
 
 
 # Reviewed S3 v2 revisions are explicit. The historical fixture stays frozen;
-# the other 17 original notebooks retain all field/byte integrity assertions.
+# unrevised originals retain their complete field/byte integrity assertions.
 # The fifteen later revisions also retain a separate pre-change cell baseline.
 R012_REVISED_SUBJECTS = {
     "Notebooks TD/S3/R0_S3_python_texte.ipynb": "td-r0-s3",
@@ -41,7 +41,18 @@ S3_REVISED_SUBJECTS = {
        f"controle-td{n}-s3" for n in range(1, 8)},
 }
 S1_REVISED_SUBJECTS = {f"Notebooks TD/S1/TD{n}_S1_python_texte.ipynb": f"td{n}-s1" for n in range(1, 8)}
-REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS
+S2_RENAMED_SUBJECTS = {
+    "Notebooks TD/TD3_S2.ipynb": "Notebooks TD/S2/TD3_S2_algorithmique_structures.ipynb",
+    "Notebooks TD/TD5_S2.ipynb": "Notebooks TD/S2/TD5_S2_algorithmes_texte.ipynb",
+    "Notebooks TD/TD6_S2.ipynb": "Notebooks TD/S2/TD6_S2_fichiers_ressources.ipynb",
+    "Notebooks TD/TD2 - S2.ipynb": "Notebooks contrôles finaux/S2/Controle_TD2_S2_algorithmique.ipynb",
+    "Notebooks TD/TD4_S2.ipynb": "Notebooks contrôles finaux/S2/Controle_TD4_S2_ensembles.ipynb",
+    "Notebooks TD/devoirMaisonS2.ipynb": "Notebooks contrôles finaux/S2/Devoir_maison_S2_approfondissement.ipynb",
+    "Notebooks contrôles finaux/ControleFinalS2.ipynb": "Notebooks contrôles finaux/S2/Controle_final_S2_algorithmique_fichiers.ipynb",
+}
+S2_REVISED_SUBJECTS = dict(zip(list(S2_RENAMED_SUBJECTS)[:6],
+    ("td3-S2", "td5-S2", "td6-S2", "td2-S2", "td4-S2", "ControleDevoirMaisonS2")))
+REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS | S2_REVISED_SUBJECTS
 ADDED_ACTIVE_SUBJECTS = {
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
@@ -108,7 +119,7 @@ class MigrationIntegrityTests(unittest.TestCase):
 
     def test_unrevised_subjects_preserve_every_field_except_routing_metadata(self):
         self.assertEqual(len(self.baseline["active"]), 32)
-        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 7)
+        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 1)
         self.assertTrue(set(REVISED_SUBJECTS) <= set(self.baseline["active"]))
         for path, expected in self.baseline["active"].items():
             if path in REVISED_SUBJECTS:
@@ -134,7 +145,7 @@ class MigrationIntegrityTests(unittest.TestCase):
                                  self.baseline["active"][old_path])
 
     def test_reviewed_revisions_have_explicit_version_two_contracts(self):
-        self.assertEqual(len(REVISED_SUBJECTS), 25)
+        self.assertEqual(len(REVISED_SUBJECTS), 31)
         for path, evaluator in (R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS).items():
             with self.subTest(notebook=path):
                 notebook = json.loads((ROOT / path).read_text())
@@ -192,9 +203,25 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertEqual(prefixes, 37)  # two common cells per subject + seven named prompts
         self.assertEqual(reviews, 49)
 
-    def test_inactive_subject_and_nine_excluded_notebooks_are_byte_identical(self):
+    def test_s2_frozen_parent_retains_original_migration_proof(self):
+        parent = json.loads((ROOT / "tests/fixtures/s2_complete_review_source_baseline.json").read_text())
+        self.assertEqual(parent["source_commit"], "b7650e3d035846a67014b94e463a08cd43b67fb5")
+        self.assertEqual(set(parent["subjects"]), set(S2_RENAMED_SUBJECTS))
+        for path in S2_REVISED_SUBJECTS:
+            with self.subTest(notebook=path):
+                self.assertEqual(canonical_hash(without_routing_metadata(parent["subjects"][path])),
+                                 self.baseline["active"][path])
+        final = "Notebooks contrôles finaux/ControleFinalS2.ipynb"
+        # The inactive original is preserved in full in the new independent fixture.
+        raw = parent["inactive_source_raw"].encode("utf-8")
+        self.assertEqual(json.loads(raw), parent["subjects"][final])
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), self.baseline["unchanged"][final])
+
+    def test_nine_excluded_notebooks_are_byte_identical(self):
         self.assertEqual(len(self.baseline["unchanged"]), 10)
         for path, expected in self.baseline["unchanged"].items():
+            if path in S2_RENAMED_SUBJECTS:
+                continue
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected)
 
@@ -203,10 +230,10 @@ class MigrationIntegrityTests(unittest.TestCase):
         inactive = [entry for entry in self.catalog if not entry["active"]]
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
         self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
-        current_original_paths = {S1_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["active"]}
+        current_original_paths = {S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path)) for path in self.baseline["active"]}
         self.assertEqual(current_original_paths | ADDED_ACTIVE_SUBJECTS,
                          {e["notebook"] for e in active})
-        self.assertEqual(set(self.baseline["unchanged"]) | ADDED_EXCLUDED_NOTEBOOKS,
+        self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |
                          {e["notebook"] for e in self.tutors["excluded_notebooks"]})
         self.assertEqual({e["notebook"] for e in self.catalog},

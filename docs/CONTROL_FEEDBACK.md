@@ -24,17 +24,16 @@ Une erreur de sauvegarde ne produit jamais d'accusé de réception positif.
 La persistance existante n'est pas transactionnelle : un échec tardif peut
 laisser un CSV ou une copie partielle, à contrôler par l'enseignant.
 
-## Supports ambigus du semestre 2
+## Supports du semestre 2
 
-| Identifiant | Support | Titre présent | Mode provisoire |
-|---|---|---|---|
-| `td2-S2` | `Notebooks TD/TD2 - S2.ipynb` | Contrôle S2 : renforcement et algorithmique | `controle` |
-| `td4-S2` | `Notebooks TD/TD4_S2.ipynb` | Contrôle S3 : manipulation des ensembles | `controle` |
+La [consolidation S2](s2_complete_review.md) confirme le mode contrôle des deux supports historiquement nommés TD2 et TD4. Le titre erroné du second est corrigé en S2 ; les identifiants publics et routes restent stables.
 
-Ces deux supports sont traités comme des contrôles pour ne pas divulguer de
-retour pendant une épreuve. L'enseignant doit arbitrer leur statut et le
-semestre annoncé avant une éventuelle reclassification. Leurs URL, modules
-et titres du sélecteur restent inchangés pour préserver les liens existants.
+| Identifiant | Support actuel | Mode |
+|---|---|---|
+| `td2-S2` | `Notebooks contrôles finaux/S2/Controle_TD2_S2_algorithmique.ipynb` | `controle` |
+| `td4-S2` | `Notebooks contrôles finaux/S2/Controle_TD4_S2_ensembles.ipynb` | `controle` |
+
+Ces copies suivent le contrat v2 et sont conservées dans `soumissions/<identifiant>-v2/<classe>/`. Le numéro étudiant distingue les homonymes. Le refus d’une mauvaise version ou d’une identité incomplète précède correction et sauvegarde.
 
 ## Restitution après clôture
 

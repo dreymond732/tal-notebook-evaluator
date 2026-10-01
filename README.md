@@ -9,7 +9,7 @@ Une plateforme web légère et conteneurisée pour l'évaluation automatique de 
 * **Navigation par semestre** : accueil → S1, S2 ou S3 → correcteurs du semestre. Les liens directs des notebooks restent valables.
 * **Correction instantanée** : Les étudiants reçoivent un feedback immédiat (note + détails) pour les TD (mode formatif).
 * **Mode examen** : Pour les contrôles, le feedback est masqué (mode sommatif).
-* **Analyse hybride** : Combine l'exécution de code (lecture des `print`) et l'analyse statique (AST) pour une robustesse maximale.
+* **Analyse sans exécution** : lecture des sorties déjà enregistrées et analyse statique du code (AST). Le serveur ne lance jamais le code des copies ; les scores techniques restent provisoires.
 * **Centralisation** : Toutes les copies, rapports de correction et notes sont archivés automatiquement sur le serveur.
 * **Architecture modulaire** : Ajout facile de nouveaux sujets sans toucher au cœur de l'application.
 
@@ -24,6 +24,10 @@ L'application suit une architecture micro-service simple basée sur **Flask** et
 *Le schéma ci-dessus illustre le flux de données depuis le dépôt de l'étudiant jusqu'à l'archivage des notes.*
 
 ---
+
+## Supports et distribution S2
+
+Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le contrôle final reste inactif. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
 
 ## 3. Organisation des dossiers
 

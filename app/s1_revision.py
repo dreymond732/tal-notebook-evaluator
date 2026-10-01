@@ -222,6 +222,20 @@ class Slicer:
                 self.functions.pop(name, None)
                 self.aliases[name] = (statement.module or '') + '.' + alias.name
             return
+        if isinstance(statement, ast.Try):
+            # Saved non-error output can support the nominal path. Exception
+            # handlers are alternatives, not evidence that a file was read.
+            # Never run the submitted try block or inspect student files.
+            for child in statement.body:
+                if isinstance(child, ast.Raise):
+                    break
+                self.update(child, (*controls, statement))
+            else:
+                for child in statement.orelse:
+                    self.update(child, (*controls, statement))
+            for child in statement.finalbody:
+                self.update(child, (*controls, statement))
+            return
         # Ignore statically dead branches rather than awarding their keywords.
         if _dead_loop(statement):
             for child in statement.orelse:
@@ -337,10 +351,23 @@ def collect(notebook):
 
 
 def check_s1(content_str, filename, td, checks):
-    maximum = float(len(checks))
+    """Stable S1 entry point, sharing the inert evaluator with S2."""
+    return check_saved_notebook(content_str, filename, f'td{td}-s1', checks)
+
+
+def check_saved_notebook(content_str, filename, evaluator, checks):
+    """Grade explicitly identified saved traces with a trusted weighted rubric.
+
+    `checks` is application-owned; neither callbacks nor weights come from the
+    submitted notebook. No submitted statement or function is executed.
+    """
+    weights = [float(check.get('points', 1.0)) for check in checks]
+    if any(not math.isfinite(weight) or weight < 0 for weight in weights):
+        raise ValueError('Barème applicatif invalide.')
+    maximum = sum(weights)
     try:
         notebook = read_notebook(content_str)
-        info = strict_contract_identity(notebook, f'td{td}-s1')
+        info = strict_contract_identity(notebook, evaluator)
         sources, records = collect(notebook)
     except ContractError as exc:
         return 0.0, [], maximum, {}, str(exc)
@@ -397,13 +424,14 @@ def check_s1(content_str, filename, td, checks):
         else:
             state = 'conforme'
             diagnostic = 'Critère technique conforme.'
-        score += float(valid)
+        points = weights[number - 1]
+        score += points if valid else 0.0
         details.append({'check': f'Q{number} — ' + check['label'],
                         'student_answer': '\n'.join(m + ': ' + context[m]['raw'] for m in traces if m in context) or 'Preuve absente.',
                         'correct_answer': check['feedback'], 'status': '✅' if valid else '⚠️' if absent else '❌',
                         'diagnostic': diagnostic, 'evaluation_status': state,
-                        'points': float(valid), 'max_points': 1.0})
-    details.append({'check': 'Portée du score', 'student_answer': LIMIT_NOTE, 'correct_answer': 'Un point par question. Les justifications sont à relire humainement.', 'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
+                        'points': points if valid else 0.0, 'max_points': points})
+    details.append({'check': 'Portée du score', 'student_answer': LIMIT_NOTE, 'correct_answer': ('Un point par question. ' if all(weight == 1.0 for weight in weights) else 'Barème par question indiqué dans le sujet. ') + 'Les justifications sont à relire humainement.', 'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
     info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
                 relecture_humaine='requise', contract_version=2, review_evidence=review_evidence(notebook, len(checks)))
     return score, details, maximum, info, None

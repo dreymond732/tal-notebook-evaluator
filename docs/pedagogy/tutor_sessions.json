@@ -2245,12 +2245,13 @@
     },
     {
       "id": "TD3_S2",
-      "notebook": "Notebooks TD/TD3_S2.ipynb",
+      "notebook": "Notebooks TD/S2/TD3_S2_algorithmique_structures.ipynb",
       "semester": 2,
       "activity": "td",
-      "title": "Renforcement Python et algorithmique",
+      "title": "Algorithmes et structures, 2 × 2 h",
       "prerequisites": [
-        "S1 : variables, chaînes, collections, conditions, boucles, fonctions"
+        "S1 : variables, chaînes, collections, conditions, boucles, fonctions, à réactiver sans présumer leur maîtrise",
+        "Séances A puis B du même support ; toutes les activités restent obligatoires avant le contrôle TD2 S2"
       ],
       "allowed_libraries": [
         "math"
@@ -2261,7 +2262,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Coût et types",
+          "topic": "Coût",
           "available_concepts": [
             "conversion",
             "arithmétique",
@@ -2272,7 +2273,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Sous-chaîne",
+          "topic": "Indices",
           "available_concepts": [
             "indices",
             "tranches",
@@ -2283,18 +2284,19 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Condition composée",
+          "topic": "Condition",
           "available_concepts": [
             "comparaisons",
             "booléens",
-            "if/else"
+            "if/else",
+            "formatage .2f"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Nettoyage",
+          "topic": "Nettoyage",
           "available_concepts": [
             "strip",
             "lower",
@@ -2305,7 +2307,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Structure adaptée",
+          "topic": "Structure",
           "available_concepts": [
             "liste",
             "set",
@@ -2318,11 +2320,13 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Modification de liste",
+          "topic": "Liste",
           "available_concepts": [
             "insert",
             "pop",
-            "indices"
+            "indices",
+            "indice insert",
+            "avant/après"
           ],
           "introduced_here": [
             "insert",
@@ -2332,12 +2336,13 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Comptage",
+          "topic": "Comptage",
           "available_concepts": [
             "for",
             "enumerate",
             "len",
-            "compteur"
+            "compteur",
+            "indice/valeur"
           ],
           "introduced_here": [
             "enumerate"
@@ -2346,32 +2351,34 @@
         },
         {
           "id": "Q8",
-          "topic": "Exercice 8 — Compréhension",
+          "topic": "Compréhension",
           "available_concepts": [
             "range",
             "modulo",
             "filtrage",
-            "compréhension de liste"
+            "compréhension liste"
           ],
           "introduced_here": [
-            "compréhension de liste"
+            "compréhension liste"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q9",
-          "topic": "Exercice 9 — Occurrences",
+          "topic": "Fréquences",
           "available_concepts": [
             "dictionnaire",
             "boucle",
-            "accumulation"
+            "accumulation",
+            "get",
+            "présence"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q10",
-          "topic": "Exercice 10 — Boucle conditionnelle",
+          "topic": "While",
           "available_concepts": [
             "while",
             "append",
@@ -2382,36 +2389,40 @@
         },
         {
           "id": "Q11",
-          "topic": "Exercice 11 — Fonction",
+          "topic": "Fonction",
           "available_concepts": [
             "paramètre",
             "return",
-            "méthodes de chaîne"
+            "méthodes de chaîne",
+            "rstrip"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q12",
-          "topic": "Exercice 12 — Paramètre par défaut",
+          "topic": "Défaut",
           "available_concepts": [
             "fonction",
             "addition",
-            "paramètre par défaut"
+            "paramètre défaut"
           ],
           "introduced_here": [
-            "paramètre par défaut"
+            "paramètre défaut"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q13",
-          "topic": "Exercice 13 — Tri avec clé",
+          "topic": "Tri",
           "available_concepts": [
             "tuple",
             "sorted",
             "key",
-            "reverse"
+            "reverse",
+            "clé du tri",
+            "lambda",
+            "ex æquo"
           ],
           "introduced_here": [
             "key",
@@ -2421,21 +2432,29 @@
         },
         {
           "id": "Q14",
-          "topic": "Exercice 14 — Ensembles",
+          "topic": "Ensembles",
           "available_concepts": [
-            "intersection",
-            "union"
+            "intersection &",
+            "union |",
+            "différence",
+            "différence symétrique ^",
+            "inclusion",
+            "sur-ensemble"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q15",
-          "topic": "Exercice 15 — Gestion d’erreur",
+          "topic": "Exception",
           "available_concepts": [
             "division",
             "try/except",
-            "None"
+            "None",
+            "ZeroDivisionError",
+            "cas impossible",
+            "int",
+            "ValueError"
           ],
           "introduced_here": [
             "try/except"
@@ -2444,20 +2463,21 @@
         },
         {
           "id": "Q16",
-          "topic": "Exercice 16 — Factorielle itérative",
+          "topic": "Factorielle",
           "available_concepts": [
             "for",
             "range",
-            "produit accumulé"
+            "produit",
+            "borne inclusive"
           ],
           "introduced_here": [
-            "produit accumulé"
+            "produit"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q17",
-          "topic": "Exercice 17 — Maximum et position",
+          "topic": "Maximum",
           "available_concepts": [
             "max",
             "index"
@@ -2467,13 +2487,15 @@
         },
         {
           "id": "Q18",
-          "topic": "Exercice 18 — Bigrammes",
+          "topic": "Bigrammes",
           "available_concepts": [
             "tuple",
             "indices",
             "bornes",
             "boucle",
-            "bigramme"
+            "bigramme",
+            "fenêtre 2",
+            "borne n-1"
           ],
           "introduced_here": [
             "bigramme"
@@ -2482,7 +2504,7 @@
         },
         {
           "id": "Q19",
-          "topic": "Exercice 19 — Association",
+          "topic": "Zip",
           "available_concepts": [
             "dict",
             "zip"
@@ -2494,7 +2516,7 @@
         },
         {
           "id": "Q20",
-          "topic": "Exercice 20 — Filtrage",
+          "topic": "Filtrage",
           "available_concepts": [
             "compréhension",
             "modulo",
@@ -2505,25 +2527,28 @@
         },
         {
           "id": "Q21",
-          "topic": "Exercice 21 — Complexité",
+          "topic": "Complexité",
           "available_concepts": [
             "dictionnaire",
-            "accès par clé",
-            "complexité moyenne"
+            "accès clé",
+            "coût moyen",
+            "non instantané"
           ],
           "introduced_here": [
-            "complexité moyenne"
+            "coût moyen"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q22",
-          "topic": "Exercice 22 — Moyenne et écart-type",
+          "topic": "Dispersion",
           "available_concepts": [
             "sum",
             "len",
             "variance population",
-            "math.sqrt"
+            "math.sqrt",
+            "écart moyenne",
+            "division par n"
           ],
           "introduced_here": [
             "variance population",
@@ -2535,7 +2560,7 @@
         },
         {
           "id": "Q23",
-          "topic": "Exercice 23 — Formes distinctes",
+          "topic": "Types",
           "available_concepts": [
             "set",
             "len",
@@ -2546,60 +2571,70 @@
         },
         {
           "id": "Q24",
-          "topic": "Exercice 24 — Recherche sans in",
+          "topic": "Recherche",
           "available_concepts": [
             "fonction",
             "for",
             "égalité",
             "return",
-            "recherche linéaire"
+            "recherche O(n)",
+            "présent/absent",
+            "return anticipé"
           ],
           "introduced_here": [
-            "recherche linéaire"
+            "recherche O(n)"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q25",
-          "topic": "Exercice 25 — Récursivité",
+          "topic": "Récursivité",
           "available_concepts": [
             "fonction",
             "cas de base",
-            "appel récursif"
+            "récursion",
+            "diminution",
+            "appels",
+            "len récursif",
+            "tranche"
           ],
           "introduced_here": [
-            "appel récursif"
+            "récursion"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q26",
-          "topic": "Exercice 26 — Dictionnaire par compréhension",
+          "topic": "Dict",
           "available_concepts": [
             "dictionnaire",
             "compréhension",
             "len",
-            "compréhension de dictionnaire"
+            "compréhension dict"
           ],
           "introduced_here": [
-            "compréhension de dictionnaire"
+            "compréhension dict"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q27",
-          "topic": "Exercice 27 — Deux plus grandes valeurs",
+          "topic": "Top 2",
           "available_concepts": [
             "sorted",
             "reverse",
-            "tranche"
+            "tranche",
+            "anagrammes",
+            "set",
+            "multiplicité",
+            "fonction"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q28",
-          "topic": "Exercice 28 — Mots vides",
+          "topic": "Stopwords",
           "available_concepts": [
             "split",
             "ensemble",
@@ -2614,28 +2649,33 @@
         },
         {
           "id": "Q29",
-          "topic": "Exercice 29 — Toutes les paires",
+          "topic": "Paires",
           "available_concepts": [
-            "boucles imbriquées",
+            "for imbriqués",
             "tuple",
-            "append"
+            "append",
+            "aplatissement",
+            "produit cartésien"
           ],
           "introduced_here": [
-            "boucles imbriquées"
+            "for imbriqués"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q30",
-          "topic": "Exercice 30 — Euclide",
+          "topic": "Euclide",
           "available_concepts": [
             "while",
             "modulo",
-            "affectation multiple",
-            "algorithme d’Euclide"
+            "a,b = b,r",
+            "Euclide",
+            "invariant",
+            "terminaison",
+            "Fibonacci (seuil valeur)"
           ],
           "introduced_here": [
-            "algorithme d’Euclide"
+            "Euclide"
           ],
           "allowed_libraries": []
         }
@@ -2643,19 +2683,20 @@
     },
     {
       "id": "TD5_S2",
-      "notebook": "Notebooks TD/TD5_S2.ipynb",
+      "notebook": "Notebooks TD/S2/TD5_S2_algorithmes_texte.ipynb",
       "semester": 2,
       "activity": "td",
-      "title": "Approfondissement et algorithmique avancée",
+      "title": "Algorithmes pour le texte — deux séances de 2 h",
       "prerequisites": [
-        "S1 et TD3 S2 : Python, compréhensions, tri, ensembles"
+        "S1 et TD3 S2 complet : compréhensions, boucles, fonctions, tri, ensembles",
+        "Séances A puis B du même support ; ensemble des activités avant contrôle des ensembles et devoir maison"
       ],
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Carrés des pairs",
+          "topic": "Carrés des pairs",
           "available_concepts": [
             "compréhension",
             "range",
@@ -2667,7 +2708,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Filtrage de mots",
+          "topic": "Filtrage de mots",
           "available_concepts": [
             "compréhension",
             "indice",
@@ -2678,7 +2719,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Dictionnaire de longueurs",
+          "topic": "Dictionnaire de longueurs",
           "available_concepts": [
             "split",
             "set",
@@ -2690,7 +2731,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Inversion des mots",
+          "topic": "Inversion des mots",
           "available_concepts": [
             "split",
             "tranche",
@@ -2701,7 +2742,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Association",
+          "topic": "Association",
           "available_concepts": [
             "zip",
             "dict"
@@ -2711,12 +2752,13 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Palindrome",
+          "topic": "Palindrome",
           "available_concepts": [
             "chaîne",
             "tranche",
             "égalité",
-            "palindrome"
+            "palindrome",
+            "casse conservée"
           ],
           "introduced_here": [
             "palindrome"
@@ -2725,12 +2767,13 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Anagrammes",
+          "topic": "Anagrammes",
           "available_concepts": [
             "tri",
             "fréquences",
             "égalité",
-            "anagramme"
+            "anagramme",
+            "multiplicité des lettres"
           ],
           "introduced_here": [
             "anagramme"
@@ -2739,12 +2782,13 @@
         },
         {
           "id": "Q8",
-          "topic": "Exercice 8 — Distance de Hamming",
+          "topic": "Distance de Hamming",
           "available_concepts": [
             "parcours parallèle",
             "comparaison",
             "compteur",
-            "distance de Hamming"
+            "distance de Hamming",
+            "longueurs égales"
           ],
           "introduced_here": [
             "distance de Hamming"
@@ -2753,13 +2797,14 @@
         },
         {
           "id": "Q9",
-          "topic": "Exercice 9 — Acronyme",
+          "topic": "Acronyme",
           "available_concepts": [
             "split",
             "indice",
             "upper",
             "join",
-            "acronyme"
+            "acronyme",
+            "initiales de tous les mots"
           ],
           "introduced_here": [
             "acronyme"
@@ -2768,12 +2813,13 @@
         },
         {
           "id": "Q10",
-          "topic": "Exercice 10 — Chiffrement de César",
+          "topic": "Chiffrement de César",
           "available_concepts": [
             "ord",
             "chr",
             "décalage",
-            "boucle"
+            "boucle",
+            "alphabet restreint"
           ],
           "introduced_here": [
             "ord",
@@ -2783,18 +2829,20 @@
         },
         {
           "id": "Q11",
-          "topic": "Exercice 11 — Aplatissement",
+          "topic": "Aplatissement",
           "available_concepts": [
             "listes imbriquées",
             "boucles",
-            "append"
+            "append",
+            "transposition de matrice",
+            "indices ligne/colonne"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q12",
-          "topic": "Exercice 12 — Fusion de dictionnaires",
+          "topic": "Fusion de dictionnaires",
           "available_concepts": [
             "dictionnaire",
             "clés",
@@ -2809,12 +2857,13 @@
         },
         {
           "id": "Q13",
-          "topic": "Exercice 13 — Inversion de dictionnaire",
+          "topic": "Inversion de dictionnaire",
           "available_concepts": [
             "items",
             "liste",
             "regroupement",
-            "append"
+            "append",
+            "groupes à plusieurs valeurs"
           ],
           "introduced_here": [
             "regroupement"
@@ -2823,19 +2872,22 @@
         },
         {
           "id": "Q14",
-          "topic": "Exercice 14 — Tri complexe",
+          "topic": "Tri complexe",
           "available_concepts": [
             "tuple",
             "sorted",
             "key",
-            "reverse"
+            "reverse",
+            "fonction de clé",
+            "lambda",
+            "ex æquo"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q15",
-          "topic": "Exercice 15 — Mode",
+          "topic": "Mode",
           "available_concepts": [
             "fréquences",
             "dictionnaire",
@@ -2849,7 +2901,7 @@
         },
         {
           "id": "Q16",
-          "topic": "Exercice 16 — Tokenisation",
+          "topic": "Tokenisation",
           "available_concepts": [
             "replace",
             "lower",
@@ -2860,7 +2912,7 @@
         },
         {
           "id": "Q17",
-          "topic": "Exercice 17 — Stopwords",
+          "topic": "Stopwords",
           "available_concepts": [
             "ensemble",
             "appartenance",
@@ -2871,25 +2923,27 @@
         },
         {
           "id": "Q18",
-          "topic": "Exercice 18 — Bigrammes",
+          "topic": "Bigrammes",
           "available_concepts": [
             "indices",
             "tuple",
             "boucle",
-            "bornes"
+            "bornes",
+            "n-1"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q19",
-          "topic": "Exercice 19 — Trigrammes",
+          "topic": "Trigrammes",
           "available_concepts": [
             "indices",
             "tuple",
             "boucle",
             "bornes",
-            "trigramme"
+            "trigramme",
+            "n-2"
           ],
           "introduced_here": [
             "trigramme"
@@ -2898,13 +2952,15 @@
         },
         {
           "id": "Q20",
-          "topic": "Exercice 20 — Jaccard",
+          "topic": "Jaccard",
           "available_concepts": [
             "intersection",
             "union",
             "len",
             "rapport",
-            "indice de Jaccard"
+            "indice de Jaccard",
+            "union vide",
+            "convention explicite"
           ],
           "introduced_here": [
             "indice de Jaccard"
@@ -2913,12 +2969,13 @@
         },
         {
           "id": "Q21",
-          "topic": "Exercice 21 — Fréquence normalisée",
+          "topic": "Fréquence normalisée",
           "available_concepts": [
             "occurrences",
             "len",
             "rapport",
-            "TF"
+            "TF",
+            "dénominateur"
           ],
           "introduced_here": [
             "TF"
@@ -2927,12 +2984,13 @@
         },
         {
           "id": "Q22",
-          "topic": "Exercice 22 — Produit scalaire",
+          "topic": "Produit scalaire",
           "available_concepts": [
             "parcours parallèle",
             "produit",
             "somme",
-            "produit scalaire"
+            "produit scalaire",
+            "longueur égale"
           ],
           "introduced_here": [
             "produit scalaire"
@@ -2941,7 +2999,7 @@
         },
         {
           "id": "Q23",
-          "topic": "Exercice 23 — Préfixe commun",
+          "topic": "Préfixe commun",
           "available_concepts": [
             "indices",
             "comparaison",
@@ -2956,24 +3014,29 @@
         },
         {
           "id": "Q24",
-          "topic": "Exercice 24 — Cooccurrence simplifiée",
+          "topic": "Fréquences du vocabulaire",
           "available_concepts": [
             "vocabulaire",
             "comptage",
-            "dictionnaire"
+            "dictionnaire",
+            "fréquences marginales",
+            "vocabulaire limité",
+            "pas de cooccurrence"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q25",
-          "topic": "Exercice 25 — Pipeline",
+          "topic": "Pipeline",
           "available_concepts": [
             "strip",
             "lower",
             "replace",
             "split",
-            "composition de traitements"
+            "composition de traitements",
+            "ordre des transformations",
+            "perte d’information"
           ],
           "introduced_here": [
             "composition de traitements"
@@ -2984,25 +3047,31 @@
     },
     {
       "id": "TD6_S2",
-      "notebook": "Notebooks TD/TD6_S2.ipynb",
+      "notebook": "Notebooks TD/S2/TD6_S2_fichiers_ressources.ipynb",
       "semester": 2,
       "activity": "td",
-      "title": "Fichiers et ressources linguistiques — sans Regex",
+      "title": "Fichiers et ressources linguistiques — une séance de 2 h, sans regex",
       "prerequisites": [
-        "TD précédents : chaînes, collections, boucles, fonctions, fréquences"
+        "S1 et TD3 puis TD5 S2 complets : chaînes, collections, boucles, fonctions, fréquences et tri"
       ],
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Lecture simple",
+          "topic": "Lecture simple",
           "available_concepts": [
             "with",
             "open",
             "UTF-8",
             "read",
-            "lecture de fichier"
+            "lecture de fichier",
+            "texte brut préservé",
+            "reponse_Q1",
+            "mode lecture",
+            "write",
+            "écriture",
+            "repr"
           ],
           "introduced_here": [
             "lecture de fichier"
@@ -3011,11 +3080,13 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Lecture ligne à ligne",
+          "topic": "Lecture ligne à ligne",
           "available_concepts": [
             "readlines",
             "list",
-            "itération sur fichier"
+            "itération sur fichier",
+            "saut de ligne final absent",
+            "repr"
           ],
           "introduced_here": [
             "readlines"
@@ -3024,20 +3095,21 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Nettoyer une ligne",
+          "topic": "Nettoyer une ligne",
           "available_concepts": [
             "fonction",
             "lower",
             "replace",
             "boucle",
-            "return"
+            "return",
+            "espaces multiples conservés"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Tokenisation",
+          "topic": "Tokenisation",
           "available_concepts": [
             "split",
             "liste"
@@ -3047,12 +3119,13 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Filtrage numérique",
+          "topic": "Filtrage numérique",
           "available_concepts": [
             "isdigit",
             "boucle",
             "condition",
-            "append"
+            "append",
+            "limites de isdigit"
           ],
           "introduced_here": [
             "isdigit"
@@ -3061,7 +3134,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Stopwords",
+          "topic": "Stopwords",
           "available_concepts": [
             "ensemble",
             "appartenance",
@@ -3072,30 +3145,37 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Pipeline complet",
+          "topic": "Pipeline complet",
           "available_concepts": [
             "lecture",
             "boucles imbriquées",
             "nettoyage",
-            "filtrage"
+            "filtrage",
+            "ponctuation élargie",
+            "apostrophe",
+            "parenthèses",
+            "nettoyage paramétré"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q8",
-          "topic": "Exercice 8 — Fréquences sans Counter",
+          "topic": "Fréquences sans Counter",
           "available_concepts": [
             "dictionnaire",
             "boucle",
-            "compteur"
+            "compteur",
+            "get",
+            "if/else",
+            "conservation du total"
           ],
           "introduced_here": [],
           "allowed_libraries": []
         },
         {
           "id": "Q9",
-          "topic": "Exercice 9 — Écriture CSV sans bibliothèque",
+          "topic": "Écriture CSV sans bibliothèque",
           "available_concepts": [
             "open",
             "write",
@@ -3103,7 +3183,10 @@
             "chaîne",
             "en-tête",
             "UTF-8",
-            "écriture CSV"
+            "écriture CSV",
+            "relecture complète",
+            "trace Q9b",
+            "ordre des données libre"
           ],
           "introduced_here": [
             "écriture CSV"
@@ -3112,14 +3195,24 @@
         },
         {
           "id": "Q10",
-          "topic": "Exercice 10 — CSV trié",
+          "topic": "CSV trié",
           "available_concepts": [
             "sorted",
             "items",
             "key",
             "lambda",
             "reverse",
-            "écriture"
+            "écriture",
+            "trace Q10b",
+            "en-tête",
+            "ex æquo libres",
+            "reproductibilité",
+            "open",
+            "readline",
+            "readlines",
+            "int",
+            "split",
+            "relecture CSV"
           ],
           "introduced_here": [
             "lambda"
@@ -3130,7 +3223,7 @@
     },
     {
       "id": "CONTROLE_TD2_S2",
-      "notebook": "Notebooks TD/TD2 - S2.ipynb",
+      "notebook": "Notebooks contrôles finaux/S2/Controle_TD2_S2_algorithmique.ipynb",
       "semester": 2,
       "activity": "controle",
       "title": "Contrôle S2 : renforcement et algorithmique",
@@ -3141,7 +3234,7 @@
     },
     {
       "id": "CONTROLE_TD4_S2",
-      "notebook": "Notebooks TD/TD4_S2.ipynb",
+      "notebook": "Notebooks contrôles finaux/S2/Controle_TD4_S2_ensembles.ipynb",
       "semester": 2,
       "activity": "controle",
       "title": "Contrôle : manipulation des ensembles",
@@ -3152,7 +3245,7 @@
     },
     {
       "id": "DEVOIR_MAISON_S2",
-      "notebook": "Notebooks TD/devoirMaisonS2.ipynb",
+      "notebook": "Notebooks contrôles finaux/S2/Devoir_maison_S2_approfondissement.ipynb",
       "semester": 2,
       "activity": "controle",
       "title": "Devoir maison intermédiaire d’approfondissement",
@@ -3163,7 +3256,7 @@
     },
     {
       "id": "CONTROLE_FINAL_S2",
-      "notebook": "Notebooks contrôles finaux/ControleFinalS2.ipynb",
+      "notebook": "Notebooks contrôles finaux/S2/Controle_final_S2_algorithmique_fichiers.ipynb",
       "semester": 2,
       "activity": "controle",
       "title": "Contrôle final S2 : algorithmique et fichiers",

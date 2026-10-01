@@ -1,28 +1,25 @@
 # Classement des supports S2 pour le tuteur
 
-Le contenu des sujets et le registre `EVALUATOR_MODES` de `app/routes.py` fondent le classement ci-dessous. L'ajout des deux représentations des instructions conserve les activités, données, cellules étudiantes, marqueurs et barèmes. Les corrigés sont exclus. Aucun code étudiant n'a été exécuté.
+La révision complète S2 est spécifiée dans [la matrice de couverture](s2_complete_review_coverage.md) et [le contrat des productions](s2_v2_answer_contract.md). Les numéros historiques sont conservés ; TD2 et TD4 désignent des contrôles, non des séances formatives. Les identifiants de routage ne changent pas.
 
-| Support | Mode | Couverture source → cible | Justification |
+| Support révisé | Mode | Couverture conservée | Position |
 |---|---|---|---|
-| `Notebooks TD/TD3_S2.ipynb` | TD | Q1–Q30 : conservées | Trente exercices de renforcement ; registre `td3-S2` formatif. |
-| `Notebooks TD/TD5_S2.ipynb` | TD | Q1–Q25 : conservées | Vingt-cinq exercices d'approfondissement ; registre `td5-S2` formatif. |
-| `Notebooks TD/TD6_S2.ipynb` | TD | Q1–Q10 et préparation des données : conservées | Dix exercices de fichiers et ressources ; registre `td6-S2` formatif. |
-| `Notebooks TD/TD2 - S2.ipynb` | Contrôle | Q1–Q13 : conservées | Titre « Contrôle S2 » et registre `td2-S2` sommatif. |
-| `Notebooks TD/TD4_S2.ipynb` | Contrôle | Q1–Q14 : conservées | Titre « Contrôle S3 », mais fichier et registre `td4-S2` dans le parcours S2 ; le profil conserve le semestre 2, sans réécrire le sujet. |
-| `Notebooks TD/devoirMaisonS2.ipynb` | Contrôle | Q1–Q30 : conservées | Devoir noté ; registre `ControleDevoirMaisonS2` explicitement en mode contrôle. |
-| `Notebooks contrôles finaux/ControleFinalS2.ipynb` | Contrôle | Q1–Q18 et données : conservées | Titre, durée et consignes de contrôle final S2. |
+| `Notebooks TD/S2/TD3_S2_algorithmique_structures.ipynb` | TD | Q1–Q30 | Deux séances de 2 h après S1 |
+| `Notebooks TD/S2/TD5_S2_algorithmes_texte.ipynb` | TD | Q1–Q25 | Deux séances de 2 h après TD3 |
+| `Notebooks TD/S2/TD6_S2_fichiers_ressources.ipynb` | TD | Q1–Q10 et génération du corpus | Une séance de 2 h après TD5 |
+| `Notebooks contrôles finaux/S2/Controle_TD2_S2_algorithmique.ipynb` | Contrôle | Q1–Q13 | Après TD3 complet et ateliers préparatoires |
+| `Notebooks contrôles finaux/S2/Controle_TD4_S2_ensembles.ipynb` | Contrôle | Q1–Q14 | Après TD5 et travail sur les ensembles |
+| `Notebooks contrôles finaux/S2/Devoir_maison_S2_approfondissement.ipynb` | Contrôle | Q1–Q30 | Après TD5, y compris la transposition |
+| `Notebooks contrôles finaux/S2/Controle_final_S2_algorithmique_fichiers.ipynb` | Contrôle inactif | Q1–Q18 et données | Après TD6, sous réserve d’un correcteur et barème détaillé conformes |
 
-Les trois TD reçoivent un profil par exercice, sans réponse attendue. Les quatre contrôles ne reçoivent aucun guidage, quiz, cours, exemple, correction ou validation de réponse ; leurs profils n'exposent aucune progression tutorielle.
+Les trois TD possèdent 65 profils d’exercice couvrant les notions et essais associés. Le tuteur guide par le dialogue ; en S2 un petit exemple distinct peut suivre l’échange, sans donner directement la solution. Les quatre contrôles, devoir compris, ne reçoivent aucun guidage, quiz, cours, exemple, correction ou validation de réponse par le tuteur. Le contexte est identique dans la première cellule Markdown et les métadonnées.
 
-Pour TD3, les importations initiales `math` et `collections.Counter` sont des éléments fournis. Seul `math` est autorisé pour l'exercice 22 qui utilise explicitement `math.sqrt` ; aucun autre exercice n'autorise de bibliothèque. La présence de `Counter` importé ne constitue pas une autorisation de résoudre les exercices avec ce raccourci. TD5 et TD6 ne nécessitent aucune bibliothèque. TD6 exclut explicitement les expressions régulières et `Counter` à Q8 ; la lecture et l'écriture CSV reposent sur les fonctions natives demandées.
+Pour TD3, l’import historique de `collections.Counter` est conservé comme préparation fournie, sans autoriser son utilisation dans les exercices. `math` n’est autorisé que pour Q22. TD5 et TD6 restent en Python natif ; TD6 sans regex et sans Counter. La restitution HTML fournie appartient à l’infrastructure et n’étend pas les bibliothèques autorisées pour résoudre les questions.
 
-Les instructions TD s'appliquent aux exercices existants : elles ne corrigent pas leurs incohérences historiques et n'introduisent pas de nouvelle progression curriculaire. Les notions `introduced_here` repèrent les notions mobilisées explicitement par la question ; elles ne constituent pas la preuve qu'un cours détaillé les précède.
+Les cellules d’essais et d’exemples ne comptent pas comme preuves notées. Les trois TD conservent toutes leurs activités obligatoires ; leur découpage explicite en cinq séances ne transfère pas de travail obligatoire hors classe. Les supports contiennent le numéro étudiant, les métadonnées v2 et une cellule finale de restitution dont l’URL est injectée au déploiement. Six supports S2 sont distribués, le final inactif reste exclu.
 
-## Exclusions et limites
+## Archives et limites
 
-- Les fichiers portant « corrigé » dans leur nom restent exclus et inchangés.
-- `Notebooks contrôles finaux/DevoirS2.ipynb` est un corrigé enseignant mal nommé : son texte débute par « TD6 […] (CORRIGÉ) », « Version Enseignant / Solution », et une identité `CORRECTION`. Le JSON est tronqué à la ligne 382. Il reste exclu et n'est pas réparé dans cette mission.
-- L'incohérence S3/S2 du titre de TD4 est signalée, sans décision de reclassement ni changement de route.
-- Le comportement effectif dans Colab reste à essayer sur ces supports ; une instruction embarquée n'est pas un contrôle d'accès.
+Les fichiers portant « corrigé » restent exclus et inchangés. `Notebooks contrôles finaux/DevoirS2.ipynb` est une solution enseignant mal nommée (identité CORRECTION) dont le JSON est tronqué ; elle reste exclue. Aucun TD1 absent n’est inventé. Le correcteur historique du final porte 11 réponses d’un autre sujet et ne permet pas de corriger ses 18 questions ; son existence ne justifie pas une activation.
 
-Critères d'acceptation : 7 profils S2 (3 TD, 4 contrôles), 65 exercices TD cartographiés, contenu étudiant inchangé, instructions identiques dans les métadonnées et la première cellule Markdown, aucun corrigé modifié. La validation indépendante relève du réviseur pédagogique.
+Une instruction de tuteur embarquée n’est pas un contrôle d’accès au service Colab. La conformité vérifiable concerne sa présence, sa synchronisation et son périmètre ; le comportement du service reste à observer en situation. La validation indépendante relève des réviseurs pédagogique et technique.

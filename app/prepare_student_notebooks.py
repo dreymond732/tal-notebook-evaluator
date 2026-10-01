@@ -125,7 +125,7 @@ def check_sources(root=ROOT, expected_url=None):
         if resolved["id"] != entry["id"]:
             raise ValueError(f"Identité incohérente : {entry['notebook']}")
         check_source(nb, expected_url)
-        if entry["semester"] in {"S1", "S3"} and entry["mode"] == "td":
+        if entry["semester"] == "S2" or (entry["semester"] in {"S1", "S3"} and entry["mode"] == "td"):
             if not nb["cells"] or nb["cells"][-1] != submission_cell():
                 raise ValueError(f"Cellule source de restitution absente : {entry['notebook']}")
         count += 1
