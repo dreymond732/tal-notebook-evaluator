@@ -55,7 +55,7 @@ def research_modes(value):
     rows = value['lemme']
     return (isinstance(rows, list) and len(rows) >= 1 and all(
         keys(row, ['forme', 'debut', 'fin']) and integer(row['debut']) and integer(row['fin'])
-        and row['fin'] > row['debut'] and source[row['debut']:row['fin']] == row['forme'] for row in rows)
+        and row['debut'] < row['fin'] <= len(source) and source[row['debut']:row['fin']] == row['forme'] for row in rows)
         and isinstance(value['explication'], str))
 
 
@@ -108,14 +108,22 @@ def evidence(value):
     if not isinstance(rows, list) or len(rows) < 3:
         return False
     positions = set()
+    pattern = r'\b' + ('intelligence' if value['affirmation'] == 'G1' else 'aptitudes?') + r'\b'
+    occurrences = [(m.start(), m.end()) for m in re.finditer(pattern, source, re.IGNORECASE)]
     for row in rows:
         if not keys(row, ['debut', 'fin', 'passage']) or not integer(row['debut']) or not integer(row['fin']):
             return False
         passage = row['passage']
-        if (row['fin'] <= row['debut'] or not isinstance(passage, str) or source[row['debut']:row['fin']] != passage
-                or not re.search(r'\b' + ('intelligence' if value['affirmation'] == 'G1' else 'aptitudes?') + r'\b', passage, re.IGNORECASE)):
+        if (not row['debut'] < row['fin'] <= len(source) or not isinstance(passage, str)
+                or source[row['debut']:row['fin']] != passage):
             return False
-        positions.add((row['debut'], row['fin']))
+        # Frontières de mots dans la source, pas créées par une fenêtre tronquée.
+        covered = {(start, end) for start, end in occurrences
+                   if row['debut'] <= start and end <= row['fin']}
+        if not covered:
+            return False
+        # Compter les occurrences du pivot, pas plusieurs fenêtres sur le même mot.
+        positions.update(covered)
     return len(positions) >= 3 and isinstance(value['convention_proposee'], str) and isinstance(value['limite'], str)
 
 
@@ -132,7 +140,7 @@ CHECKS = [
     {'label': 'Deux cas de test contrastés', 'validate': student_tests,
      'feedback': 'Un exact et un altéré ; valeurs attendues et observées conformes à une recherche exacte. La règle humaine n’est pas notée automatiquement.'},
     {'label': 'Trois preuves distinctes', 'validate': evidence,
-     'feedback': 'Au moins trois positions distinctes et passages exacts contenant le pivot intelligence (G1) ou aptitude(s) (G2). Convention et interprétation à relire humainement.'},
+     'feedback': 'Au moins trois occurrences distinctes du pivot dans les passages exacts : intelligence (G1) ou aptitude(s) (G2). Convention et interprétation à relire humainement.'},
 ]
 
 

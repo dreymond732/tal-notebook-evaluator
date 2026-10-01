@@ -63,7 +63,7 @@
                 <tbody>
                     {% for d in details %}
                     <tr>
-                        <td><strong>{{ d.check }}</strong></td>
+                        <td><strong>{{ d.check }}</strong>{% if d.diagnostic %}<p>{{ d.diagnostic }}</p>{% endif %}</td>
                         <td><pre>{{ d.student_answer }}</pre></td>
                         <td class="solution-col"><pre>{{ d.correct_answer }}</pre></td>
                         <td class="status">
@@ -84,6 +84,10 @@
             la qualité de l’interprétation linguistique ni l’exécution réelle. Une solution correcte
             non reconnue peut être signalée à l’enseignant.</p>
             {% endif %}
+            {% if student_info.points_a_reexaminer %}
+            <p>{{ student_info.points_a_reexaminer }} point(s) restent à réexaminer après restauration des preuves manquantes dans les questions dont ils dépendent. Le barème reste inchangé.</p>
+            {% endif %}
+            {% if student_info.review_evidence %}{% include 's3_review_evidence.html' %}{% endif %}
             <div class="nav-links">
                 <a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
                 <span style="color: #ccc;">|</span>

@@ -19,14 +19,27 @@ from notebook_contract import load_catalog, resolve_notebook, validate_cell_meta
 import routes
 
 
-# New additions and the three reviewed R0–R2 revisions are explicit.
-# The frozen fixture remains unchanged; the other 39 historical notebooks
-# retain every original field/byte integrity assertion. See r012_v2_spec.md.
-REVISED_SUBJECTS = {
+# Reviewed S3 v2 revisions are explicit. The historical fixture stays frozen;
+# the other 24 original notebooks retain all field/byte integrity assertions.
+# The fifteen later revisions also retain a separate pre-change cell baseline.
+R012_REVISED_SUBJECTS = {
     "Notebooks TD/S3/R0_S3_python_texte.ipynb": "td-r0-s3",
     "Notebooks TD/S3/R1_S3_doc_spacy.ipynb": "td-r1-s3",
     "Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb": "td-r2-s3",
 }
+S3_REVISED_SUBJECTS = {
+    "Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb": "td0-s3",
+    "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb": "td1-s3",
+    "Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb": "td2-s3",
+    "Notebooks TD/S3/TD3_S3_concordances_citations.ipynb": "td3-s3",
+    "Notebooks TD/S3/TD4_S3_cooccurrences.ipynb": "td4-s3",
+    "Notebooks TD/S3/TD5_S3_associations.ipynb": "td5-s3",
+    "Notebooks TD/S3/TD6_S3_visualisations.ipynb": "td6-s3",
+    "Notebooks TD/S3/TD7_S3_audit_llm.ipynb": "td7-s3",
+    **{f"Notebooks contrôles finaux/S3/Controle_TD{n}_S3.ipynb":
+       f"controle-td{n}-s3" for n in range(1, 8)},
+}
+REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS
 ADDED_ACTIVE_SUBJECTS = {
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
@@ -57,7 +70,7 @@ class MigrationIntegrityTests(unittest.TestCase):
 
     def test_unrevised_subjects_preserve_every_field_except_routing_metadata(self):
         self.assertEqual(len(self.baseline["active"]), 32)
-        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 29)
+        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 14)
         self.assertTrue(set(REVISED_SUBJECTS) <= set(self.baseline["active"]))
         for path, expected in self.baseline["active"].items():
             if path in REVISED_SUBJECTS:
@@ -71,7 +84,7 @@ class MigrationIntegrityTests(unittest.TestCase):
                 validate_cell_metadata(notebook)
 
     def test_reviewed_revisions_have_explicit_version_two_contracts(self):
-        self.assertEqual(len(REVISED_SUBJECTS), 3)
+        self.assertEqual(len(REVISED_SUBJECTS), 18)
         for path, evaluator in REVISED_SUBJECTS.items():
             with self.subTest(notebook=path):
                 notebook = json.loads((ROOT / path).read_text())
@@ -80,16 +93,46 @@ class MigrationIntegrityTests(unittest.TestCase):
                 entry = resolve_notebook(notebook)
                 self.assertEqual(entry["notebook"], path)
                 self.assertEqual((entry["semester"], entry["mode"], entry["version"]),
-                                 ("S3", "td", 2))
+                                 ("S3", "controle" if evaluator.startswith("controle-") else "td", 2))
                 indexed = validate_cell_metadata(notebook)
                 self.assertEqual({q for q, role in indexed if role == "answer"},
-                                 {"Q1", "Q2", "Q3", "Q4"})
+                                 {f"Q{q}" for q in range(1, (4 if path in R012_REVISED_SUBJECTS else 6 if evaluator == "td1-s3" else 7) + 1)})
                 self.assertIn(("identity", "identification"), indexed)
                 self.assertNotIn(("submission", "submission"), indexed)
                 for cell in notebook["cells"]:
                     if cell["cell_type"] == "code":
                         self.assertEqual(cell.get("outputs", []), [])
                         self.assertIsNone(cell.get("execution_count"))
+
+    def test_fifteen_revisions_preserve_frozen_cells_and_only_append_declared_text(self):
+        # Captured from the parent merge commit, never regenerated from revisions.
+        baseline = json.loads((ROOT / "tests/fixtures/s3_complete_v2_source_baseline.json").read_text())
+        self.assertEqual(baseline["source_commit"], "02f435dc770834b21e242592804d231e0836a4b7")
+        self.assertEqual(set(baseline["subjects"]), set(S3_REVISED_SUBJECTS))
+        prefixes, reviews = 0, 0
+        for path, expected in baseline["subjects"].items():
+            notebook = json.loads((ROOT / path).read_text())
+            cells = notebook.pop("cells")
+            with self.subTest(notebook=path):
+                self.assertEqual(canonical_hash(notebook), expected["notebook_without_cells_sha256"])
+                self.assertEqual(len(cells), len(expected["cells"]))
+            for number, (cell, previous) in enumerate(zip(cells, expected["cells"])):
+                with self.subTest(notebook=path, cell=number):
+                    self.assertEqual(cell.get("id"), previous["id"])
+                    if "review_question" in previous:
+                        self.assertEqual(cell["metadata"].pop("tal_review"),
+                                         {"question": previous["review_question"]})
+                        reviews += 1
+                    if "source_prefix" in previous:
+                        self.assertTrue("".join(cell.pop("source")).startswith(previous["source_prefix"]),
+                                        "The original instructions and identity code must remain an exact prefix")
+                        self.assertEqual(canonical_hash(cell), previous["other_fields_sha256"])
+                        prefixes += 1
+                    else:
+                        self.assertEqual(canonical_hash(cell), previous["sha256"],
+                                         "Undeclared changes to content, examples, figures or tutor policy")
+        self.assertEqual(prefixes, 37)  # two common cells per subject + seven named prompts
+        self.assertEqual(reviews, 49)
 
     def test_inactive_subject_and_nine_excluded_notebooks_are_byte_identical(self):
         self.assertEqual(len(self.baseline["unchanged"]), 10)

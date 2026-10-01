@@ -20,6 +20,7 @@ from notebook_contract import load_catalog
 from routes import EVALUATORS
 from test_td2_s1 import fixture as td2_fixture, grade as td2_grade
 from test_notebook_migration_integrity import REVISED_SUBJECTS
+from s3_v2_fixture import notebook as v2_notebook
 
 
 def cell(source='', output='', question=None, role='answer'):
@@ -39,25 +40,25 @@ def engine(cells):
 
 
 def audit(cells):
-    return check_audit(encoded(cells), 'renamed.ipynb', 1,
+    return check_audit(json.dumps(v2_notebook(cells, 'td1-s3')), 'renamed.ipynb', 1,
                        [{'label': 'Mesure', 'validate': lambda v: v == {'n': 3}, 'feedback': 'Mesure'}])
 
 
 def control(cells):
-    return check_control(encoded(cells), 'renamed.ipynb', 1,
+    return check_control(json.dumps(v2_notebook(cells, 'controle-td1-s3')), 'renamed.ipynb', 1,
                          [{'label': 'Mesure', 'validate': lambda v, ctx: v == {'n': 3}, 'feedback': 'Mesure'}] * 7)
 
 
 class MetadataResolutionTests(unittest.TestCase):
     def test_all_migrated_subjects_keep_existing_scores_and_feedback(self):
         # This is a migration regression for the 32 pre-contract subjects.
-        # New subjects have no legacy version; the three reviewed R012 v2
+        # New subjects have no legacy version; the eighteen reviewed S3 v2
         # revisions explicitly reject their old contract (tested separately).
         baseline = json.loads((ROOT / 'tests/fixtures/notebook_migration_baseline.json').read_text())
         paths = set(baseline['active'])
         self.assertEqual(len(paths), 32)
         paths -= set(REVISED_SUBJECTS)
-        self.assertEqual(len(paths), 29)
+        self.assertEqual(len(paths), 14)
         entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
         self.assertEqual({entry['notebook'] for entry in entries}, paths)
         self.assertTrue(all(entry['active'] for entry in entries))

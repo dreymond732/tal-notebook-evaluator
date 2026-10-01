@@ -4,8 +4,8 @@ import json
 import math
 import re
 
-import outils
-from notebook_contract import evaluation_cells, validate_cell_metadata
+from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, s3_contract_identity
+from s3_review import review_evidence
 
 TRACE_RE = re.compile(r'^S3_TD([0-7])_Q([1-9][0-9]*):\s*(.*)$')
 LIMIT_NOTE = (
@@ -82,7 +82,6 @@ def read_notebook(content):
 def collect(cells, td, trace_re=TRACE_RE):
     notebook = {'cells': cells}
     index = validate_cell_metadata(notebook)
-    explicit = any(role not in {'submission', 'infrastructure'} for _, role in index)
     displays, records = {}, {}
     for cell_index, cell in enumerate(evaluation_cells(notebook)):
         if cell.get('cell_type') != 'code':
@@ -107,60 +106,94 @@ def collect(cells, td, trace_re=TRACE_RE):
                     continue
                 match = trace_re.fullmatch(first.value)
                 if match and int(match[1]) == td and not match[3]:
-                    if not explicit or index.get(('Q' + match[2], 'answer')) is cell:
+                    if index.get(('Q' + match[2], 'answer')) is cell:
                         displays.setdefault(int(match[2]), []).append((cell_index, errors))
         stdout = ''.join(text(out.get('text', '')) for out in outputs
                          if out.get('output_type') == 'stream' and out.get('name', 'stdout') == 'stdout')
         for line in stdout.splitlines():
             match = trace_re.fullmatch(line)
             if match and int(match[1]) == td:
-                if not explicit or index.get(('Q' + match[2], 'answer')) is cell:
+                if index.get(('Q' + match[2], 'answer')) is cell:
                     records.setdefault(int(match[2]), []).append((cell_index, match[3]))
     return displays, records
+
+
+def grade_traces(displays, records, checks, weights, contextual=False):
+    """Statuts distincts : mesure fausse, preuve absente, dépendance inutilisable."""
+    context, answers, proof_errors = {}, {}, {}
+    for number in range(1, len(checks) + 1):
+        sources, traces = displays.get(number, []), records.get(number, [])
+        if len(sources) != 1 or len(traces) != 1 or sources[0][0] != traces[0][0]:
+            proof_errors[number] = 'Un print et une sortie JSON uniques sont attendus dans la même cellule.'
+            continue
+        raw = traces[0][1]
+        answers[number] = raw[:2500]
+        if sources[0][1]:
+            proof_errors[number] = 'Erreur enregistrée dans la cellule ; réexécutez-la après correction.'
+        elif len(raw) > 100000:
+            proof_errors[number] = 'Trace trop longue : imprimez la synthèse demandée.'
+        else:
+            try:
+                context[number] = json.loads(raw, parse_constant=_reject_constant, object_pairs_hook=_unique_object)
+            except (ValueError, TypeError, RecursionError):
+                proof_errors[number] = 'JSON mal formé : la preuve quantitative ne peut pas être lue.'
+    details, score, deferred = [], 0.0, 0.0
+    for number, (check, weight) in enumerate(zip(checks, weights), 1):
+        blocked = []
+        for dependency, usable in check.get('dependencies', {}).items():
+            try:
+                available = dependency in context and usable(context[dependency])
+            except (ValueError, TypeError, KeyError, IndexError, AttributeError, RecursionError, OverflowError):
+                available = False
+            if not available:
+                blocked.append('Q' + str(dependency))
+        valid = False
+        if number in proof_errors:
+            state, diagnostic = 'preuve_absente', 'Preuve absente ou inexploitable. ' + proof_errors[number]
+        elif blocked:
+            state = 'non_verifiable'
+            diagnostic = 'Non vérifiable : dépendance ' + ', '.join(blocked) + ' absente ou de structure invalide. À réexaminer après restauration de cette preuve ; aucune erreur de calcul indépendante n’est conclue.'
+            deferred += weight
+        else:
+            try:
+                valid = bool(check['validate'](context[number], context) if contextual or check.get('contextual') else check['validate'](context[number]))
+            except (ValueError, TypeError, KeyError, IndexError, AttributeError, RecursionError, OverflowError):
+                valid = False
+            state = 'conforme' if valid else 'incorrect'
+            diagnostic = 'Critère technique conforme.' if valid else 'Résultat ou structure non conforme au critère technique.'
+        missing_fields = [field for field in check.get('required_text_fields', [])
+                          if not isinstance(context.get(number), dict)
+                          or not isinstance(context[number].get(field), str)
+                          or not context[number][field].strip()]
+        if missing_fields:
+            diagnostic += ' Production rédigée absente : ' + ', '.join(missing_fields) + '. Présence à compléter ; qualité à relire humainement, sans point automatique.'
+        points = float(weight if valid else 0)
+        score += points
+        details.append({
+            'check': 'Q' + str(number) + ' — ' + check['label'],
+            'student_answer': answers.get(number, proof_errors.get(number, 'Preuve absente.')),
+            'correct_answer': check['feedback'], 'status': '✅' if valid else ('❌' if state == 'incorrect' else '⚠️'),
+            'evaluation_status': state, 'diagnostic': diagnostic,
+            'dependencies': blocked, 'missing_fields': missing_fields, 'points': points, 'max_points': float(weight),
+        })
+    return score, details, deferred
 
 
 def check_audit(content_str, filename, td, checks):
     maximum = float(len(checks))
     try:
         notebook = read_notebook(content_str)
+        info = s3_contract_identity(notebook, f'td{td}-s3')
         displays, records = collect(notebook['cells'], td)
+    except ContractError as exc:
+        return 0.0, [], maximum, {}, str(exc)
     except (ValueError, TypeError, RecursionError, OverflowError) as exc:
         return 0.0, [], maximum, {}, 'Erreur JSON/notebook : ' + str(exc)
-    context = {}
-    for question, entries in records.items():
-        sources = displays.get(question, [])
-        if len(entries) == len(sources) == 1 and entries[0][0] == sources[0][0] and not sources[0][1] and len(entries[0][1]) <= 100000:
-            try:
-                context[question] = json.loads(entries[0][1], parse_constant=_reject_constant, object_pairs_hook=_unique_object)
-            except (ValueError, TypeError, RecursionError):
-                pass
-    details, score = [], 0.0
-    for number, check in enumerate(checks, 1):
-        sources, traces = displays.get(number, []), records.get(number, [])
-        valid, answer = False, 'Un print et une sortie JSON uniques sont attendus dans la même cellule.'
-        if len(sources) == len(traces) == 1 and sources[0][0] == traces[0][0]:
-            raw = traces[0][1]
-            answer = raw[:2500]
-            if sources[0][1]:
-                answer = 'Erreur enregistrée dans la cellule ; réexécutez-la après correction.'
-            elif len(raw) > 100000:
-                answer = 'Trace trop longue : imprimez la synthèse demandée, pas le corpus complet.'
-            else:
-                try:
-                    value = json.loads(raw, parse_constant=_reject_constant, object_pairs_hook=_unique_object)
-                    valid = check['validate'](value, context) if check.get('contextual') else check['validate'](value)
-                except (ValueError, TypeError, KeyError, IndexError, AttributeError, RecursionError, OverflowError):
-                    answer = 'JSON mal formé ou structure non conforme. ' + raw[:1000]
-        score += float(bool(valid))
-        details.append({
-            'check': 'Q' + str(number) + ' — ' + check['label'],
-            'student_answer': answer,
-            'correct_answer': check['feedback'],
-            'status': '✅' if valid else '❌', 'points': float(bool(valid)), 'max_points': 1.0,
-        })
+    score, details, deferred = grade_traces(displays, records, checks, [1.0] * len(checks))
     details.append({'check': 'Portée du score', 'student_answer': LIMIT_NOTE,
                     'correct_answer': '1 point par vérification déclarée dans le sujet ; aucune note automatique sur la qualité de l’argumentation.',
                     'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
-    info = outils.extract_identification_info(notebook['cells'])
-    info['score_brut'] = score
+    info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
+                relecture_humaine='requise', contract_version=2, points_a_reexaminer=deferred,
+                review_evidence=review_evidence(notebook, len(checks)))
     return score, details, maximum, info, None

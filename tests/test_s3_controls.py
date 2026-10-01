@@ -18,6 +18,7 @@ import outils
 import routes
 from s3_audit import same
 from s3_controls import check_control
+from s3_v2_fixture import notebook as v2_notebook
 
 
 def trace(control, q, value):
@@ -25,8 +26,8 @@ def trace(control, q, value):
             'outputs': [{'output_type': 'stream', 'name': 'stdout', 'text': f'S3_C{control}_Q{q}: ' + json.dumps(value, ensure_ascii=False) + '\n'}]}
 
 
-def notebook(cells):
-    return json.dumps({'nbformat': 4, 'nbformat_minor': 5, 'cells': cells})
+def notebook(cells, control=1):
+    return json.dumps(v2_notebook(cells, f'controle-td{control}-s3'))
 
 
 class ControlTraceTests(unittest.TestCase):
@@ -102,17 +103,18 @@ class ControlRouteTests(unittest.TestCase):
                 nb = json.loads(paths[0].read_text())
                 identity = next(c for c in nb['cells'] if c['cell_type'] == 'code' and 'Complétez les informations entre les guillemets.' in ''.join(c['source']))
                 source = ''.join(identity['source'])
-                for k, v in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3')]:
+                for k, v in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3'), ('numero_etudiant', 'TEST001')]:
                     source = re.sub(rf'(?m)^{k}\s*=.*$', f'{k} = "{v}"', source)
                 identity['source'] = source
-                nb['cells'].append(trace(n, 1, {'private': '<script>SECRET_COPIE</script>'}))
+                answer = next(c for c in nb['cells'] if c.get('metadata', {}).get('tal') == {'question': 'Q1', 'role': 'answer'})
+                answer.update(trace(n, 1, {'private': '<script>SECRET_COPIE</script>'}))
                 payload = json.dumps(nb).encode()
                 response = self.client.post('/eval/' + identifier, data={'file': (io.BytesIO(payload), 'copie.ipynb')}, content_type='multipart/form-data')
                 public = response.get_data(as_text=True)
                 self.assertIn('Copie reçue et enregistrée', public)
                 for secret in ('SECRET_COPIE', 'Score technique', 'Critère technique', '✅', '❌'):
                     self.assertNotIn(secret, public)
-                base = Path(self.directory.name) / identifier / 'S3'
+                base = Path(self.directory.name) / (identifier + '-v2') / 'S3'
                 report_path = next(base.rglob('*.html'))
                 report = report_path.read_text()
                 self.assertIn('Score technique provisoire', report)
@@ -127,10 +129,9 @@ class ControlRouteTests(unittest.TestCase):
 
     def test_private_report_escapes_student_trace(self):
         details = [{'check': 'Mesure', 'student_answer': '<script>SECRET</script>', 'correct_answer': 'GOLD_PRIVE', 'status': '❌', 'points': 0, 'max_points': 2}]
-        result = (0, details, 20, {'nom': 'X', 'prenom': 'Y', 'classe': 'S3', 'score_nature': 'technique_provisoire', 'score_max': 20, 'relecture_humaine': 'requise'}, None)
+        result = (0, details, 20, {'nom': 'X', 'prenom': 'Y', 'classe': 'S3', 'score_nature': 'technique_provisoire', 'score_max': 20, 'relecture_humaine': 'requise', 'numero_etudiant': 'TEST001', 'contract_version': 2}, None)
         from types import SimpleNamespace
-        content = json.dumps({'cells': [], 'metadata': {'tal': {
-            'id': 'controle-td1-s3', 'evaluator': 'controle-td1-s3', 'version': 1}}}).encode()
+        content = notebook([]).encode()
         with patch.object(routes, 'import_module', return_value=SimpleNamespace(check_notebook=lambda *args: result)):
             response = self.client.post('/eval/controle-td1-s3', data={'file': (io.BytesIO(content), 'copie.ipynb')}, content_type='multipart/form-data')
         public = response.get_data(as_text=True)
@@ -249,7 +250,7 @@ class QuantitativeContractTests(unittest.TestCase):
 
     def evaluate(self, control, values):
         module = importlib.import_module(f'app_correction_Controle_TD{control}_S3')
-        return module.check_notebook(notebook([trace(control, q, v) for q, v in enumerate(values, 1)]), 'copie.ipynb')
+        return module.check_notebook(notebook([trace(control, q, v) for q, v in enumerate(values, 1)], control), 'copie.ipynb')
 
     def test_independent_designer_oracles_match_recomputed_backend_all_28_checks(self):
         # Les valeurs arrondies proviennent du contrat Designer ; le backend les recalcule.

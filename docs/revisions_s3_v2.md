@@ -1,5 +1,7 @@
 # Révisions S3 : évaluation et distribution v2
 
+> Historique de la PR17 (R0–R2), fusionnée le 1er octobre 2026. La consolidation ultérieure des quinze autres supports est décrite dans [s3_complete_v2.md](s3_complete_v2.md) ; les indications ci-dessous sur le périmètre des correcteurs et les trois exceptions se rapportent à PR17.
+
 ## Mise en service
 
 R0, R1 et R2 changent de contrat : **ne pas redistribuer les anciennes copies de `dist/`**. Après fusion et déploiement du correctif, régénérer la distribution avec `app/prepare_student_notebooks.py` et la configuration `TAL_PUBLIC_URL`, puis vérifier les copies produites. Distribuer les trois notebooks **version 2**. Les sources Git n’ont ni URL privée ni cellule de dépôt ; le générateur injecte cette cellule HTML finale dans les copies. Aucune copie ancienne n’est migrée.
