@@ -1,0 +1,951 @@
+{
+  "audit_date": "2026-10-01",
+  "base_commit": "c649cfe51f0dce66efcaef7aad652c0b92d606ad",
+  "scope": {
+    "evaluators": 15,
+    "td_questions": 55,
+    "control_questions": 49,
+    "total_questions": 104
+  },
+  "student_notebook_code_executed": false,
+  "product_modified": false,
+  "observations": {
+    "transverse.json": {
+      "scope": 15,
+      "identity": [
+        {
+          "id": "td0-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td1-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td2-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td3-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td4-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td5-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td6-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "td7-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td1-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td2-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td3-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td4-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td5-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td6-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        },
+        {
+          "id": "controle-td7-s3",
+          "status": 200,
+          "notebooks": 1,
+          "reports": 1
+        }
+      ],
+      "homonyms": [
+        {
+          "id": "td0-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td1-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td2-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td3-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td4-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td5-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td6-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "td7-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td1-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td2-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td3-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td4-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td5-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td6-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        },
+        {
+          "id": "controle-td7-s3",
+          "notebooks_after_two": 1,
+          "reports_after_two": 1,
+          "csv_rows": 2,
+          "student_number_column": false
+        }
+      ],
+      "metadata_fallback": {
+        "tagged": {
+          "status": 200,
+          "persisted": true,
+          "score": 0.0
+        },
+        "no_cell_metadata": {
+          "status": 200,
+          "persisted": true,
+          "score": 1.0
+        }
+      },
+      "identity_parser": {
+        "reordered": {
+          "nom": "Alice",
+          "prenom": "Alice",
+          "classe": "G1"
+        },
+        "comment": {
+          "nom": "Commentaire",
+          "prenom": "Alice",
+          "classe": "G1"
+        }
+      }
+    },
+    "td0_3_results.json": {
+      "TD1_false_but_plausible": {
+        "score": 6.0,
+        "max": 6.0,
+        "questions": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4",
+          "Q5",
+          "Q6"
+        ],
+        "error": null
+      },
+      "TD1_Q1_out_of_range_fin": {
+        "score": 1.0,
+        "max": 6.0,
+        "questions": [
+          "Q1"
+        ],
+        "error": null
+      },
+      "TD1_Q3_reversed_mots_pleins": {
+        "score": 2.0,
+        "max": 6.0,
+        "questions": [
+          "Q1",
+          "Q3"
+        ],
+        "error": null
+      },
+      "TD2_false_but_plausible": {
+        "score": 7.0,
+        "max": 7.0,
+        "questions": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4",
+          "Q5",
+          "Q6",
+          "Q7"
+        ],
+        "error": null
+      },
+      "TD2_invalid_parent_propagation": {
+        "score": 3.0,
+        "max": 7.0,
+        "questions": [
+          "Q3",
+          "Q6",
+          "Q7"
+        ],
+        "error": null
+      },
+      "TD3_Q7_same_occurrence_three_windows": {
+        "score": 1.0,
+        "max": 7.0,
+        "questions": [
+          "Q7"
+        ],
+        "error": null
+      },
+      "TD3_Q7_out_of_range_fin_helper": true,
+      "TD3_Q3_out_of_range_fin": {
+        "score": 1.0,
+        "max": 7.0,
+        "questions": [
+          "Q3"
+        ],
+        "error": null
+      },
+      "TD0_empty_required_explanation": {
+        "score": 1.0,
+        "max": 7.0,
+        "questions": [
+          "Q7"
+        ],
+        "error": null
+      },
+      "TD0_correct": {
+        "score": 6.0,
+        "max": 7.0,
+        "questions": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4",
+          "Q5",
+          "Q6"
+        ],
+        "error": null
+      },
+      "TD0_false_value": {
+        "score": 0.0,
+        "max": 7.0,
+        "questions": [],
+        "error": null
+      },
+      "TD0_recorded_error": {
+        "score": 0.0,
+        "max": 7.0,
+        "questions": [],
+        "error": null
+      },
+      "TD0_source_comments_only": {
+        "score": 0.0,
+        "max": 7.0,
+        "questions": [],
+        "error": null
+      },
+      "TD0_source_wrong_role": {
+        "score": 0.0,
+        "max": 7.0,
+        "questions": [],
+        "error": null
+      },
+      "TD0_print_inside_if": {
+        "score": 0.0,
+        "max": 7.0,
+        "questions": [],
+        "error": null
+      },
+      "TD0_source_crashes_before_print_but_no_error_trace": {
+        "score": 1.0,
+        "max": 7.0,
+        "questions": [
+          "Q1"
+        ],
+        "error": null
+      }
+    },
+    "td0_3_spacy_reference.json": {
+      "versions": [
+        "3.8.7",
+        "3.8.0"
+      ],
+      "td1": {
+        "1": {
+          "annotations": [
+            {
+              "forme": "Les",
+              "lemme": "le",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 0,
+              "fin": 3
+            },
+            {
+              "forme": "étudiantes",
+              "lemme": "étudiant",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 4,
+              "fin": 14
+            },
+            {
+              "forme": "analysent",
+              "lemme": "analyser",
+              "pos": "ADV",
+              "tag": "ADV",
+              "debut": 15,
+              "fin": 24
+            },
+            {
+              "forme": "des",
+              "lemme": "un",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 25,
+              "fin": 28
+            },
+            {
+              "forme": "corpus",
+              "lemme": "corpus",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 29,
+              "fin": 35
+            },
+            {
+              "forme": "français",
+              "lemme": "français",
+              "pos": "ADJ",
+              "tag": "ADJ",
+              "debut": 36,
+              "fin": 44
+            },
+            {
+              "forme": "Elles",
+              "lemme": "lui",
+              "pos": "PRON",
+              "tag": "PRON",
+              "debut": 46,
+              "fin": 51
+            },
+            {
+              "forme": "comparent",
+              "lemme": "comparer",
+              "pos": "VERB",
+              "tag": "VERB",
+              "debut": 52,
+              "fin": 61
+            },
+            {
+              "forme": "ensuite",
+              "lemme": "ensuite",
+              "pos": "ADV",
+              "tag": "ADV",
+              "debut": 62,
+              "fin": 69
+            },
+            {
+              "forme": "les",
+              "lemme": "le",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 70,
+              "fin": 73
+            },
+            {
+              "forme": "résultats",
+              "lemme": "résultat",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 74,
+              "fin": 83
+            },
+            {
+              "forme": "et",
+              "lemme": "et",
+              "pos": "CCONJ",
+              "tag": "CCONJ",
+              "debut": 84,
+              "fin": 86
+            },
+            {
+              "forme": "rédigent",
+              "lemme": "rédiger",
+              "pos": "VERB",
+              "tag": "VERB",
+              "debut": 87,
+              "fin": 95
+            },
+            {
+              "forme": "une",
+              "lemme": "un",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 96,
+              "fin": 99
+            },
+            {
+              "forme": "interprétation",
+              "lemme": "interprétation",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 100,
+              "fin": 114
+            }
+          ]
+        },
+        "2": {
+          "phrases": [
+            {
+              "texte": "Les étudiantes analysent des corpus français.",
+              "tokens": 7
+            },
+            {
+              "texte": "Elles comparent ensuite les résultats et rédigent une interprétation.",
+              "tokens": 10
+            }
+          ]
+        },
+        "3": {
+          "noms": [
+            "étudiant",
+            "corpus",
+            "résultat",
+            "interprétation"
+          ],
+          "verbes": [
+            "comparer",
+            "rédiger"
+          ],
+          "mots_pleins": [
+            "étudiant",
+            "corpus",
+            "français",
+            "comparer",
+            "résultat",
+            "rédiger",
+            "interprétation"
+          ]
+        },
+        "4": {
+          "verbe": "analysent",
+          "verbe_debut": 15,
+          "dependant": "étudiantes",
+          "dependant_debut": 4,
+          "relation": "nsubj",
+          "interpretation": ""
+        },
+        "5": {
+          "split": 47,
+          "tokens": 56,
+          "non_ponctuation": 43,
+          "interpretation": ""
+        },
+        "6": {
+          "texte": "Les étudiantes analysent des corpus français. Elles comparent ensuite les résultats et rédigent une interprétation.",
+          "phrases": 2,
+          "annotations": [
+            {
+              "forme": "Les",
+              "lemme": "le",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 0,
+              "fin": 3
+            },
+            {
+              "forme": "étudiantes",
+              "lemme": "étudiant",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 4,
+              "fin": 14
+            },
+            {
+              "forme": "analysent",
+              "lemme": "analyser",
+              "pos": "ADV",
+              "tag": "ADV",
+              "debut": 15,
+              "fin": 24
+            },
+            {
+              "forme": "des",
+              "lemme": "un",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 25,
+              "fin": 28
+            },
+            {
+              "forme": "corpus",
+              "lemme": "corpus",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 29,
+              "fin": 35
+            }
+          ],
+          "noms": [
+            "étudiant",
+            "corpus",
+            "résultat",
+            "interprétation"
+          ],
+          "verbes": [
+            "comparer",
+            "rédiger"
+          ],
+          "question": ""
+        }
+      },
+      "td2": {
+        "1": {
+          "caracteres": 106,
+          "phrases": 3,
+          "tokens": 18,
+          "annotations": [
+            {
+              "forme": "Les",
+              "lemme": "le",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 0,
+              "fin": 3
+            },
+            {
+              "forme": "bibliothécaires",
+              "lemme": "bibliothécaire",
+              "pos": "ADJ",
+              "tag": "ADJ",
+              "debut": 4,
+              "fin": 19
+            },
+            {
+              "forme": "comparent",
+              "lemme": "comparer",
+              "pos": "ADV",
+              "tag": "ADV",
+              "debut": 20,
+              "fin": 29
+            },
+            {
+              "forme": "des",
+              "lemme": "de",
+              "pos": "ADP",
+              "tag": "ADP",
+              "debut": 30,
+              "fin": 33
+            },
+            {
+              "forme": "notices",
+              "lemme": "notice",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 34,
+              "fin": 41
+            },
+            {
+              "forme": "Une",
+              "lemme": "un",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 43,
+              "fin": 46
+            },
+            {
+              "forme": "notice",
+              "lemme": "notice",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 47,
+              "fin": 53
+            },
+            {
+              "forme": "décrit",
+              "lemme": "décrire",
+              "pos": "VERB",
+              "tag": "VERB",
+              "debut": 54,
+              "fin": 60
+            },
+            {
+              "forme": "un",
+              "lemme": "un",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 61,
+              "fin": 63
+            },
+            {
+              "forme": "livre",
+              "lemme": "livre",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 64,
+              "fin": 69
+            }
+          ]
+        },
+        "2": {
+          "noms": {
+            "notice": 2,
+            "livre": 2,
+            "lecteur": 1
+          },
+          "verbes": {
+            "décrire": 1,
+            "consulter": 1
+          }
+        },
+        "3": {
+          "exclusions": [
+            "notice"
+          ],
+          "avant": {
+            "notice": 2,
+            "livre": 2,
+            "lecteur": 1
+          },
+          "apres": {
+            "livre": 2,
+            "lecteur": 1
+          },
+          "justification": ""
+        },
+        "4": {
+          "pos": {
+            "DET": 5,
+            "ADJ": 1,
+            "ADV": 1,
+            "ADP": 1,
+            "NOUN": 5,
+            "VERB": 2
+          },
+          "top3": [
+            [
+              "DET",
+              5
+            ],
+            [
+              "NOUN",
+              5
+            ],
+            [
+              "VERB",
+              2
+            ]
+          ],
+          "limite": ""
+        },
+        "5": {
+          "lemmes": [
+            "bibliothécaire",
+            "notice",
+            "notice",
+            "décrire",
+            "livre",
+            "lecteur",
+            "consulter",
+            "livre"
+          ],
+          "controle": [
+            {
+              "forme": "Les",
+              "lemme": "le",
+              "pos": "DET",
+              "tag": "DET",
+              "debut": 0,
+              "fin": 3,
+              "jugement": ""
+            },
+            {
+              "forme": "bibliothécaires",
+              "lemme": "bibliothécaire",
+              "pos": "ADJ",
+              "tag": "ADJ",
+              "debut": 4,
+              "fin": 19,
+              "jugement": ""
+            },
+            {
+              "forme": "comparent",
+              "lemme": "comparer",
+              "pos": "ADV",
+              "tag": "ADV",
+              "debut": 20,
+              "fin": 29,
+              "jugement": ""
+            },
+            {
+              "forme": "des",
+              "lemme": "de",
+              "pos": "ADP",
+              "tag": "ADP",
+              "debut": 30,
+              "fin": 33,
+              "jugement": ""
+            },
+            {
+              "forme": "notices",
+              "lemme": "notice",
+              "pos": "NOUN",
+              "tag": "NOUN",
+              "debut": 34,
+              "fin": 41,
+              "jugement": ""
+            }
+          ],
+          "limite_modele": ""
+        },
+        "6": {
+          "frequences": {
+            "livre": 2,
+            "lecteur": 1
+          },
+          "hypothese": "",
+          "verification": ""
+        },
+        "7": {
+          "general_noms": {
+            "notice": 2,
+            "livre": 2,
+            "lecteur": 1
+          },
+          "specialise_noms": {
+            "notice": 2,
+            "livre": 2,
+            "lecteur": 1
+          },
+          "general_verbes": {
+            "décrire": 1,
+            "consulter": 1
+          },
+          "specialise_verbes": {
+            "décrire": 1,
+            "consulter": 1
+          },
+          "combine": {
+            "notice": 2,
+            "livre": 2,
+            "lecteur": 1,
+            "décrire": 1,
+            "consulter": 1
+          },
+          "comparaison": ""
+        }
+      }
+    },
+    "c1_4-results.json": {
+      "synthetic_consistent_traces_score": {
+        "1": 20.0,
+        "2": 20.0,
+        "3": 20.0,
+        "4": 20.0
+      },
+      "note": "C1-C3 annotations deliberately synthetic: proves consistency-only scope, NOT linguistic truth.",
+      "C4_wrong_integer_bool_leaf_mutations_rejected": 122,
+      "C1_missing_Q2": {
+        "score": 8.0,
+        "zero_questions": [
+          "Q2 — Annotations localisées",
+          "Q3 — Phrases et tailles cohérentes",
+          "Q4 — Filtres liés aux annotations",
+          "Q5 — Repères de dépendance"
+        ],
+        "dependent_feedback": "Listes dérivées exactement des annotations Q2 selon les filtres annoncés."
+      },
+      "C2_missing_Q1": {
+        "score": 6.0,
+        "zero_questions": [
+          "Q1 — Corpus et annotations",
+          "Q2 — Fréquences des noms et verbes",
+          "Q3 — Exclusion documentée",
+          "Q4 — Catégories et classement",
+          "Q6 — Données des représentations"
+        ],
+        "dependent_feedback": "Comptages POS exacts par rapport à Q1 ; trois premiers décroissants, ex aequo libres."
+      },
+      "C1_blank_identity_route": {
+        "received": true,
+        "score_leaked": false,
+        "saved_notebooks": 1
+      },
+      "C2_blank_identity_route": {
+        "received": true,
+        "score_leaked": false,
+        "saved_notebooks": 1
+      },
+      "C3_blank_identity_route": {
+        "received": true,
+        "score_leaked": false,
+        "saved_notebooks": 1
+      },
+      "C4_blank_identity_route": {
+        "received": true,
+        "score_leaked": false,
+        "saved_notebooks": 1
+      },
+      "student_number_returned": null,
+      "C4_changed_provided_data_score": 20.0,
+      "C4_all_cell_ids_removed_score": 20.0,
+      "C4_Q1_example_role_score": 18.0,
+      "reordered_identity": {
+        "nom": "Alice",
+        "prenom": "Alice",
+        "classe": "S3"
+      },
+      "comment_shadow_identity": {
+        "nom": "Commentaire",
+        "prenom": "Alice",
+        "classe": "S3"
+      }
+    }
+  },
+  "session_validation": {
+    "full_suite": {
+      "status": "PASS",
+      "tests": 169,
+      "seconds": 3.646,
+      "reported_by": "orchestrator"
+    },
+    "tutors": {
+      "status": "PASS",
+      "count": 34
+    },
+    "distribution": {
+      "status": "PASS",
+      "count": 33,
+      "url": "https://example.test/universite/tal"
+    },
+    "colab": "NOT_TESTED",
+    "production": "NOT_TESTED",
+    "docker_this_audit": "NOT_TESTED"
+  },
+  "specialist_reports": {
+    "td0_3.md": {
+      "sha256": "4e559eec68c7552ca138e6ce6dde773e3fd1fa004d9fac9a630539b9a961b073",
+      "matrix_rows": 27
+    },
+    "td4_7.md": {
+      "sha256": "05a1af1a8ecc1ef5c5a90fbbc8c6a69fa70765426445c6efa2bde755b41e892b",
+      "matrix_rows": 28
+    },
+    "c1_4.md": {
+      "sha256": "f6aa43863449dd6078fc254097b77ebb3c46d2cf1ef8691859e3cf044ca602ac",
+      "matrix_rows": 28
+    },
+    "c5_7.md": {
+      "sha256": "e98b866d560d76cd9e792b485306bc97aab9176713d9d640bf539aefafb770b0",
+      "matrix_rows": 21
+    },
+    "pedagogy.md": {
+      "sha256": "7ae72eaa11e2ea8504a5c3a4a4fab4a9ec3d6d6e73b43d7d71ad3f7368feaf50",
+      "matrix_rows": 15
+    }
+  }
+}
