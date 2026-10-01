@@ -195,7 +195,7 @@ class RevisionRoutes(unittest.TestCase):
                         self.assertIn('mauvaise version du notebook',response.get_data(as_text=True))
                     persist.assert_not_called()
         self.assertEqual(list(Path(self.temp.name).rglob('*')),[])
-        for evaluator in ['td2-s1','td2-S2']:
+        for evaluator in ['Controletilt-s1','td2-S2']:
             self.assertIsNone(resolve_notebook({'cells':[]},evaluator,require_metadata=False))
 
     def test_new_reference_persists_and_renders_technical_score_safely(self):

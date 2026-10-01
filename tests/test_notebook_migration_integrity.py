@@ -21,7 +21,7 @@ from prepare_student_notebooks import submission_cell
 
 
 # Reviewed S3 v2 revisions are explicit. The historical fixture stays frozen;
-# the other 24 original notebooks retain all field/byte integrity assertions.
+# the other 17 original notebooks retain all field/byte integrity assertions.
 # The fifteen later revisions also retain a separate pre-change cell baseline.
 R012_REVISED_SUBJECTS = {
     "Notebooks TD/S3/R0_S3_python_texte.ipynb": "td-r0-s3",
@@ -40,7 +40,8 @@ S3_REVISED_SUBJECTS = {
     **{f"Notebooks contrôles finaux/S3/Controle_TD{n}_S3.ipynb":
        f"controle-td{n}-s3" for n in range(1, 8)},
 }
-REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS
+S1_REVISED_SUBJECTS = {f"Notebooks TD/S1/TD{n}_S1_python_texte.ipynb": f"td{n}-s1" for n in range(1, 8)}
+REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS
 ADDED_ACTIVE_SUBJECTS = {
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
@@ -49,8 +50,8 @@ ADDED_EXCLUDED_NOTEBOOKS = {
 }
 
 
-# A rename is not a pedagogical revision: these seven subjects retain their
-# original frozen hashes after removing the sole deployment placeholder cell.
+# The PR19 rename remains independently checked against the historical fixture.
+# The seven newly revised subjects are separately checked against PR19 below.
 S1_RENAMED_SUBJECTS = {
     f"Notebooks TD/S1/TD{n}_S1_python_texte.ipynb": f"Notebooks TD/S1/TD{n}_S1_{topic}.ipynb"
     for n, topic in enumerate((
@@ -107,7 +108,7 @@ class MigrationIntegrityTests(unittest.TestCase):
 
     def test_unrevised_subjects_preserve_every_field_except_routing_metadata(self):
         self.assertEqual(len(self.baseline["active"]), 32)
-        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 14)
+        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 7)
         self.assertTrue(set(REVISED_SUBJECTS) <= set(self.baseline["active"]))
         for path, expected in self.baseline["active"].items():
             if path in REVISED_SUBJECTS:
@@ -122,9 +123,19 @@ class MigrationIntegrityTests(unittest.TestCase):
                 self.assertEqual(entry["notebook"], current_path)
                 validate_cell_metadata(notebook)
 
+    def test_pr19_frozen_s1_baseline_retains_original_migration_proof(self):
+        baseline = json.loads((ROOT / "tests/fixtures/s1_progression_v2_source_baseline.json").read_text())
+        self.assertEqual(baseline["source_commit"], "322abf53b4a1ff96c1652acfa21b4d27185bfa1a")
+        self.assertEqual(set(baseline["subjects"]), set(S1_RENAMED_SUBJECTS.values()))
+        for old_path, current_path in S1_RENAMED_SUBJECTS.items():
+            with self.subTest(notebook=current_path):
+                original = original_s1_content(baseline["subjects"][current_path])
+                self.assertEqual(canonical_hash(without_routing_metadata(original)),
+                                 self.baseline["active"][old_path])
+
     def test_reviewed_revisions_have_explicit_version_two_contracts(self):
-        self.assertEqual(len(REVISED_SUBJECTS), 18)
-        for path, evaluator in REVISED_SUBJECTS.items():
+        self.assertEqual(len(REVISED_SUBJECTS), 25)
+        for path, evaluator in (R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS).items():
             with self.subTest(notebook=path):
                 notebook = json.loads((ROOT / path).read_text())
                 self.assertEqual(notebook["metadata"]["tal"], {

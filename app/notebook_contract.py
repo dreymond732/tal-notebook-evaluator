@@ -19,10 +19,14 @@ S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
                       **{f'controle-td{n}-s3': 7 for n in range(1, 8)},
                       **{name: 4 for name in STRICT_REVISIONS}}
 STRICT_S3 = frozenset(S3_QUESTION_COUNTS)
+S1_QUESTION_COUNTS = {f'td{n}-s1': count for n, count in enumerate((6, 7, 6, 7, 6, 6, 7), 1)}
+STRICT_S1 = frozenset(S1_QUESTION_COUNTS)
+STRICT_V2 = STRICT_S3 | STRICT_S1
+QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS}
 
 
 CELL_ROLES = frozenset({'answer', 'prompt', 'example', 'provided',
-                        'identification', 'submission', 'infrastructure'})
+                        'identification', 'submission', 'infrastructure', 'practice'})
 
 
 def load_catalog():
@@ -116,9 +120,9 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
     if not isinstance(notebook, dict):
         raise ContractError('Le fichier ne contient pas un notebook valide.')
     metadata = _metadata(notebook)
-    strict_s3 = any(entry['evaluator'] == expected_evaluator and entry['semester'] == 'S3'
+    strict_v2 = any(entry['evaluator'] == expected_evaluator and entry['evaluator'] in STRICT_V2
                     for entry in load_catalog() if entry['active']) if expected_evaluator else False
-    require_metadata = require_metadata or strict_s3
+    require_metadata = require_metadata or strict_v2
     if (require_metadata or 'tal' in metadata) and not isinstance(notebook.get('cells'), list):
         raise ContractError('Le notebook doit contenir une liste de cellules.')
     if 'tal' not in metadata:
@@ -142,18 +146,18 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
         raise ContractError('L’identifiant et le correcteur du notebook sont incohérents.')
     if expected_evaluator is not None and expected_evaluator != entry['evaluator']:
         raise ContractError('Ce notebook ne correspond pas au dépôt sélectionné. Utilisez le dépôt automatique.')
-    if entry['semester'] == 'S3':
-        _s3_cell_contract(notebook, entry['evaluator'])
+    if entry['evaluator'] in STRICT_V2:
+        _strict_cell_contract(notebook, entry['evaluator'])
     else:
         validate_cell_metadata(notebook)
     return dict(entry)
 
 
-def _s3_cell_contract(notebook, evaluator):
+def _strict_cell_contract(notebook, evaluator):
     """A complete cell contract is required even when all responses are blank."""
     try:
         index = validate_cell_metadata(notebook)
-        questions = {(f'Q{q}', 'answer') for q in range(1, S3_QUESTION_COUNTS[evaluator] + 1)}
+        questions = {(f'Q{q}', 'answer') for q in range(1, QUESTION_COUNTS[evaluator] + 1)}
         answers = {key for key in index if key[1] == 'answer'}
         identities = {key for key in index if key[1] == 'identification'}
         if answers != questions or identities != {('identity', 'identification')}:
@@ -186,12 +190,12 @@ def literal_identity(source, fields=('nom', 'prenom', 'classe'), strict=False):
     return info
 
 
-def s3_contract_identity(notebook, evaluator=None):
-    """Gate S3 v2 and return the four required identity fields before correction."""
+def strict_contract_identity(notebook, evaluator=None):
+    """Gate supported S1/S3 v2 and return the four required identity fields before correction."""
     entry = resolve_notebook(notebook, expected_evaluator=evaluator, require_metadata=True)
-    if entry['semester'] != 'S3' or entry['version'] != 2:
+    if entry['evaluator'] not in STRICT_V2 or entry['version'] != 2:
         raise ContractError(WRONG_VERSION)
-    index = _s3_cell_contract(notebook, entry['evaluator'])
+    index = _strict_cell_contract(notebook, entry['evaluator'])
     fields = ('nom', 'prenom', 'classe', 'numero_etudiant')
     try:
         info = literal_identity(index[('identity', 'identification')].get('source', ''),
@@ -205,3 +209,8 @@ def s3_contract_identity(notebook, evaluator=None):
     except (ValueError, TypeError, SyntaxError, RecursionError) as exc:
         raise ContractError(str(exc)) from exc
     return {key: info[key].strip() for key in fields}
+
+
+def s3_contract_identity(notebook, evaluator=None):
+    """Compatibility entry point for the existing S3 engines."""
+    return strict_contract_identity(notebook, evaluator)

@@ -62,10 +62,14 @@ OUTPUTS = [
 
 
 def fixture():
-    return {"cells": [{"cell_type": "code", "source": source,
-                       "outputs": [{"output_type": "stream", "name": "stdout", "text": output}]}
-                      for source, output in zip(SOURCES, OUTPUTS)],
-            "nbformat": 4, "nbformat_minor": 5}
+    cells = [{"cell_type": "code", "source": source,
+              "metadata": {"tal": {"question": f"Q{q}", "role": "answer"}},
+              "outputs": [{"output_type": "stream", "name": "stdout", "text": output}]}
+             for q, (source, output) in enumerate(zip(SOURCES, OUTPUTS), 1)]
+    cells.append({"cell_type": "code", "source": 'nom="Modele"\nprenom="Test"\nclasse="S1"\nnumero_etudiant="TEST001"',
+                  "metadata": {"tal": {"question": "identity", "role": "identification"}}, "outputs": []})
+    return {"cells": cells, "nbformat": 4, "nbformat_minor": 5,
+            "metadata": {"tal": {"id": "td2-s1", "evaluator": "td2-s1", "version": 2}}}
 
 
 def filled_subject():
@@ -75,7 +79,7 @@ def filled_subject():
         if cell.get("cell_type") != "code":
             continue
         source = "".join(cell["source"])
-        for field, value in (("nom", "Modele"), ("prenom", "Test"), ("classe", "S1")):
+        for field, value in (("nom", "Modele"), ("prenom", "Test"), ("classe", "S1"), ("numero_etudiant", "TEST001")):
             source = re.sub(rf'^{field} = "\.\.\."$', f'{field} = "{value}"', source, flags=re.M)
         cell["source"] = source.splitlines(keepends=True)
     return nb
@@ -114,7 +118,7 @@ class TD2Tests(unittest.TestCase):
         nb = fixture()
         nb["cells"].insert(0, {"cell_type": "code", "source": 'raise RuntimeError("NEVER RUN")\nimport os', "outputs": []})
         self.assertEqual(grade(nb)[0], 7)
-        self.assertIn("import", grade(nb)[1][0]["correct_answer"])
+        self.assertIn("Analyse statique", grade(nb)[1][0]["correct_answer"])
 
     def test_wrong_values_and_types_are_not_full_credit(self):
         changes = [(0, "35 29", "35 28"), (1, "True False", "False True"),
@@ -216,18 +220,10 @@ class TD2Tests(unittest.TestCase):
             client = app.test_client()
             for valid in (True, False):
                 nb = fixture()
-                subject = filled_subject()
-                identification = next(cell for cell in subject["cells"]
-                                      if cell.get("cell_type") == "code" and
-                                      re.search(r'^nom = "Modele"$', "".join(cell["source"]), re.M))
-                # Cette fixture vérifie le dépôt historique, sans métadonnées
-                # de réponses ; ne pas mélanger sa version avec l'identité migrée.
-                identification.get("metadata", {}).pop("tal", None)
-                nb["cells"].insert(0, identification)
                 info = grade(nb)[3]
                 self.assertEqual((info["nom"], info["prenom"], info["classe"]), ("Modele", "Test", "S1"))
                 if not valid:
-                    nb["cells"][1]["outputs"][0]["text"] = OUTPUTS[0].replace("35 29", "1 2")
+                    nb["cells"][0]["outputs"][0]["text"] = OUTPUTS[0].replace("35 29", "1 2")
                 response = client.post('/eval/td2-s1', data={"file": (io.BytesIO(json.dumps(nb).encode()), "copie.ipynb")}, content_type="multipart/form-data")
                 self.assertEqual(response.status_code, 200)
                 html = response.get_data(as_text=True)
@@ -235,10 +231,10 @@ class TD2Tests(unittest.TestCase):
                 self.assertIn("périmée", html)
                 if not valid:
                     self.assertIn("différent de l’attendu", html)
-            root = Path(directory) / "td2-s1" / "S1"
-            self.assertTrue((root / "rapport" / "MODELE_Test_td2-s1.html").is_file())
-            self.assertTrue((root / "nb" / "MODELE_Test_copie.ipynb").is_file())
-            csv = root / "notes_td2-s1_S1.csv"
+            root = Path(directory) / "td2-s1-v2" / "S1"
+            self.assertTrue((root / "rapport" / "MODELE_Test_TEST001_td2-s1.html").is_file())
+            self.assertTrue((root / "nb" / "MODELE_Test_TEST001_copie.ipynb").is_file())
+            csv = root / "notes_td2-s1-v2_S1.csv"
             self.assertTrue(csv.is_file())
             self.assertIn("MODELE;Test;S1;6,50", csv.read_text())
             self.assertFalse(list(Path(directory).rglob("*NON_RENSEIGNE*")))

@@ -45,25 +45,20 @@ class S1FormativeTests(unittest.TestCase):
             self.assertIn(identifier, routes.EVALUATORS)
             self.assertEqual(self.client.get(f"/eval/{identifier}").status_code, 200)
 
-    def test_all_s1_correctors_are_static_and_complete(self):
+    def test_all_s1_correctors_reject_unversioned_copies_without_execution(self):
         for number in range(1, 8):
-            module = importlib.import_module(f"app_correction_TD{number}_S1")
-            source = 'raise RuntimeError("le code étudiant ne doit pas être exécuté")\n'
-            source += "\n".join(fragment for check in module.CHECKS for fragment in check["source"])
-            outputs = "\n".join(check["output"] + " ok" for check in module.CHECKS)
-            score, details, maximum, _, error = module.check_notebook(
-                notebook(source, outputs), f"td{number}.ipynb"
-            )
-            self.assertIsNone(error)
-            if number == 2:
-                self.assertEqual(score, 0.0)  # Des marqueurs « ok » ne sont pas des réponses.
-            else:
-                self.assertEqual(score, maximum)
-            self.assertEqual(len(details), len(module.CHECKS))
+            with self.subTest(number=number):
+                module = importlib.import_module(f"app_correction_TD{number}_S1")
+                source = 'raise RuntimeError("le code étudiant ne doit pas être exécuté")'
+                score, details, maximum, _, error = module.check_notebook(
+                    notebook(source, "Résultat Q1 : ok"), f"td{number}.ipynb")
+                self.assertEqual(score, 0)
+                self.assertEqual(error, "mauvaise version du notebook")
+                self.assertEqual(maximum, module.MAX_SCORE_TOTAL)
 
     def test_invalid_json_is_controlled(self):
         module = importlib.import_module("app_correction_TD1_S1")
         score, _, maximum, _, error = module.check_notebook("{invalide", "td1.ipynb")
         self.assertEqual(score, 0.0)
         self.assertEqual(maximum, module.MAX_SCORE_TOTAL)
-        self.assertIn("Erreur JSON", error)
+        self.assertIn("Erreur notebook", error)

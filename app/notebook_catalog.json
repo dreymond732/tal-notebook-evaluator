@@ -3,7 +3,7 @@
   "notebooks": [
     {
       "id": "td1-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td1-s1",
       "active": true,
       "semester": "S1",
@@ -33,7 +33,7 @@
     },
     {
       "id": "td2-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td2-s1",
       "active": true,
       "semester": "S1",
@@ -43,7 +43,7 @@
     },
     {
       "id": "td3-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td3-s1",
       "active": true,
       "semester": "S1",
@@ -53,7 +53,7 @@
     },
     {
       "id": "td4-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td4-s1",
       "active": true,
       "semester": "S1",
@@ -63,7 +63,7 @@
     },
     {
       "id": "td5-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td5-s1",
       "active": true,
       "semester": "S1",
@@ -73,7 +73,7 @@
     },
     {
       "id": "td6-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td6-s1",
       "active": true,
       "semester": "S1",
@@ -83,7 +83,7 @@
     },
     {
       "id": "td7-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "td7-s1",
       "active": true,
       "semester": "S1",

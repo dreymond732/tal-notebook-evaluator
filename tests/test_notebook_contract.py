@@ -16,9 +16,12 @@ import routes
 from notebook_contract import (ContractError, evaluation_cells, load_catalog,
                                resolve_cells, resolve_notebook, validate_cell_metadata)
 from s3_v2_fixture import notebook as v2_notebook
+from test_td2_s1 import fixture as s1_v2_notebook
 
 
 def notebook(evaluator='td2-s1'):
+    if evaluator == 'td2-s1':
+        return s1_v2_notebook()
     return {'nbformat': 4, 'nbformat_minor': 5, 'metadata': {
         'tal': {'id': evaluator, 'version': 1, 'evaluator': evaluator}}, 'cells': []}
 
@@ -42,7 +45,7 @@ class NotebookContractTests(unittest.TestCase):
     def test_unknown_inactive_malformed_and_version_mismatch_are_rejected(self):
         bad_contracts = [None, [], {}, {'id': []},
                          {'id': 'td2-s1', 'evaluator': 'td2-s1', 'version': True},
-                         {'id': 'td2-s1', 'evaluator': 'td2-s1', 'version': 2},
+                         {'id': 'td2-s1', 'evaluator': 'td2-s1', 'version': 1},
                          {'id': 'td2-s1', 'evaluator': 'os', 'version': 1},
                          {'id': 'absent', 'evaluator': 'os', 'version': 1},
                          {'id': 'controle-final-s2', 'evaluator': None, 'version': 1}]
@@ -53,7 +56,9 @@ class NotebookContractTests(unittest.TestCase):
     def test_legacy_requires_explicit_route_and_mismatch_never_falls_back(self):
         with self.assertRaises(ContractError):
             resolve_notebook({'cells': []})
-        self.assertIsNone(resolve_notebook({'cells': []}, 'td2-s1', require_metadata=False))
+        self.assertIsNone(resolve_notebook({'cells': []}, 'td2-S2', require_metadata=False))
+        with self.assertRaises(ContractError):
+            resolve_notebook({'cells': []}, 'td2-s1', require_metadata=False)
         with self.assertRaises(ContractError):
             resolve_notebook(notebook(), 'Controletilt-s1', require_metadata=False)
 
@@ -98,7 +103,8 @@ class AutomaticSubmissionTests(unittest.TestCase):
         self.checker = Mock(return_value=(13.37, [{'check': 'PRIVATE_CHECK',
             'student_answer': 'PRIVATE_ANSWER', 'correct_answer': 'PRIVATE_SOLUTION',
             'status': '✅', 'points': 13.37, 'max_points': 20}], 20,
-            {'nom': 'Exemple', 'prenom': 'Test', 'classe': 'G1'}, None))
+            {'nom': 'Exemple', 'prenom': 'Test', 'classe': 'G1',
+             'numero_etudiant': 'TEST001', 'contract_version': 2}, None))
         imports = patch.object(routes, 'import_module', return_value=SimpleNamespace(check_notebook=self.checker))
         self.importer = imports.start()
         self.addCleanup(imports.stop)
@@ -116,7 +122,6 @@ class AutomaticSubmissionTests(unittest.TestCase):
 
     def test_renamed_td_is_dispatched_and_saved(self):
         nb = notebook()
-        nb['cells'].append(cell())
         response = self.post(nb)
         self.assertEqual(response.status_code, 200)
         self.importer.assert_called_once_with('app_correction_TD2_S1')
@@ -179,8 +184,8 @@ class AutomaticSubmissionTests(unittest.TestCase):
         self.checker.assert_not_called()
         self.assertEqual(list(self.root.rglob('*')), [])
 
-    def test_s1_s2_explicit_routes_keep_legacy_compatibility(self):
-        for evaluator in ('td2-s1', 'td2-S2'):
+    def test_s1_control_and_s2_explicit_routes_keep_legacy_compatibility(self):
+        for evaluator in ('Controletilt-s1', 'td2-S2'):
             with self.subTest(evaluator=evaluator):
                 response = self.post({'cells': []}, '/eval/' + evaluator)
                 self.assertEqual(response.status_code, 200)
