@@ -159,6 +159,34 @@ class AutomaticSubmissionTests(unittest.TestCase):
         self.checker.assert_not_called()
         self.assertEqual(list(self.root.rglob('*.html')), [])
 
+    def test_old_s3_versions_never_correct_or_persist(self):
+        s3 = [entry for entry in load_catalog()
+              if entry['active'] and entry['semester'] == 'S3']
+        for entry in s3:
+            obsolete = {'cells': []}
+            for path in ('/submit', '/eval/' + entry['evaluator']):
+                with self.subTest(evaluator=entry['evaluator'], path=path):
+                    response = self.post(obsolete, path)
+                    self.assertIn('mauvaise version du notebook', response.get_data(as_text=True))
+        for evaluator in ('td-r0-s3', 'td-r1-s3', 'td-r2-s3'):
+            for path in ('/submit', '/eval/' + evaluator):
+                with self.subTest(evaluator=evaluator, path=path, version=1):
+                    response = self.post(notebook(evaluator), path)
+                    self.assertIn('mauvaise version du notebook', response.get_data(as_text=True))
+        # Explicit /eval routes load a trusted module in their decorator;
+        # neither those routes nor /submit may call correction or save a file.
+        self.checker.assert_not_called()
+        self.assertEqual(list(self.root.rglob('*')), [])
+
+    def test_s1_s2_explicit_routes_keep_legacy_compatibility(self):
+        for evaluator in ('td2-s1', 'td2-S2'):
+            with self.subTest(evaluator=evaluator):
+                response = self.post({'cells': []}, '/eval/' + evaluator)
+                self.assertEqual(response.status_code, 200)
+                self.assertNotIn('mauvaise version du notebook', response.get_data(as_text=True))
+        self.assertEqual(self.checker.call_count, 2)
+        self.assertEqual(len(list(self.root.rglob('*.IPYNB'))), 2)
+
     def test_persistence_failure_cannot_be_a_successful_control_receipt(self):
         with patch.object(routes, 'process_submission', side_effect=OSError('PRIVATE_SOLUTION')):
             with self.assertLogs(self.app.logger, level='ERROR'):

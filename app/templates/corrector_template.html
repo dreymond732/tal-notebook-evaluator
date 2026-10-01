@@ -77,8 +77,13 @@
                 </tbody>
             </table>
 
-            <div class="final-score">Note Finale : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
+            <div class="final-score">{% if student_info.score_nature == 'technique_provisoire' %}Score technique provisoire{% else %}Note Finale{% endif %} : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
 
+            {% if student_info.score_nature == 'technique_provisoire' %}
+            <p>Ce score vérifie la concordance du code et des sorties enregistrées ; il ne valide pas
+            la qualité de l’interprétation linguistique ni l’exécution réelle. Une solution correcte
+            non reconnue peut être signalée à l’enseignant.</p>
+            {% endif %}
             <div class="nav-links">
                 <a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
                 <span style="color: #ccc;">|</span>

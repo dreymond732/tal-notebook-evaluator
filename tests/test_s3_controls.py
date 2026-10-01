@@ -129,8 +129,10 @@ class ControlRouteTests(unittest.TestCase):
         details = [{'check': 'Mesure', 'student_answer': '<script>SECRET</script>', 'correct_answer': 'GOLD_PRIVE', 'status': '❌', 'points': 0, 'max_points': 2}]
         result = (0, details, 20, {'nom': 'X', 'prenom': 'Y', 'classe': 'S3', 'score_nature': 'technique_provisoire', 'score_max': 20, 'relecture_humaine': 'requise'}, None)
         from types import SimpleNamespace
+        content = json.dumps({'cells': [], 'metadata': {'tal': {
+            'id': 'controle-td1-s3', 'evaluator': 'controle-td1-s3', 'version': 1}}}).encode()
         with patch.object(routes, 'import_module', return_value=SimpleNamespace(check_notebook=lambda *args: result)):
-            response = self.client.post('/eval/controle-td1-s3', data={'file': (io.BytesIO(b'{}'), 'copie.ipynb')}, content_type='multipart/form-data')
+            response = self.client.post('/eval/controle-td1-s3', data={'file': (io.BytesIO(content), 'copie.ipynb')}, content_type='multipart/form-data')
         public = response.get_data(as_text=True)
         self.assertNotIn('GOLD_PRIVE', public)
         report = next(Path(self.directory.name).rglob('*.html')).read_text()

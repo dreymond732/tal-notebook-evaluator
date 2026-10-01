@@ -65,39 +65,25 @@ class S3FormativeTests(unittest.TestCase):
         self.assertEqual((score, maximum), (0.0, 7.0))
         self.assertIn("S3", check_notebook.__module__)
 
-    def test_comments_do_not_satisfy_r0_code_check(self):
-        content = notebook([
-            code('# def compter_mots(texte): return 0\n', stdout("Résultat Q1 : 0\nRésultat Q2 : []\nRésultat Q3 : {}\nRésultat Q4 : limite\n")),
-        ])
-        score, _, maximum, _, error = check_r0(content, "r0.ipynb")
-        self.assertIsNone(error)
-        self.assertLess(score, maximum)
-
-    def test_r0_r1_r2_accept_expected_code_forms(self):
-        output = stdout("Résultat Q1 : ok\nRésultat Q2 : ok\nRésultat Q3 : ok\nRésultat Q4 : ok\n")
-        r0 = notebook([code(
-            "def compter_mots(texte):\n    return len(texte.split())\n"
+    def test_revision_modules_reject_old_presence_only_contract(self):
+        # This formerly earned full credit with incorrect saved values.
+        # Version two must reject the whole legacy submission, not grade it.
+        content = notebook([code(
+            "def compter_mots(texte): return len(texte.split())\n"
             "mots = texte.lower().split()\n"
-            "def frequences(texte):\n    return {mot: mots.get(mot, 0) for mot in []}\n",
-            output,
+            "def frequences(texte): return {}\n"
+            "doc = nlp(texte)\n"
+            "noms = [t.lemma_ for t in doc if t.pos_ == 'NOUN']\n"
+            "verbes = [t.lemma_ for t in doc if t.pos_ == 'VERB']\n"
+            "def frequences_lemmas(texte, stopwords=None): return Counter().most_common()\n",
+            stdout("Résultat Q1 : ok\nRésultat Q2 : ok\nRésultat Q3 : ok\nRésultat Q4 : ok\n"),
         )])
-        r1 = notebook([code(
-            "doc = nlp(texte)\nfor token in doc:\n    print(token.text)\n"
-            "noms = [token.lemma_ for token in doc if token.pos_ == 'NOUN']\n"
-            "verbes = [token.lemma_ for token in doc if token.pos_ == 'VERB']\n",
-            output,
-        )])
-        r2 = notebook([code(
-            "from collections import Counter\n"
-            "def frequences_lemmas(texte, stopwords=None):\n"
-            "    return Counter(token.lemma_ for token in nlp(texte) "
-            "if token.pos_ in {'NOUN'} and not token.is_stop).most_common()\n",
-            output,
-        )])
-        for checker, content in ((check_r0, r0), (check_r1, r1), (check_r2, r2)):
-            score, _, maximum, _, error = checker(content, "passerelle.ipynb")
-            self.assertIsNone(error)
-            self.assertEqual(score, maximum)
+        for checker in (check_r0, check_r1, check_r2):
+            with self.subTest(evaluator=checker.__module__):
+                score, details, maximum, _, error = checker(content, "passerelle.ipynb")
+                self.assertEqual(error, "mauvaise version du notebook")
+                self.assertEqual((score, maximum), (0.0, 4.0))
+                self.assertEqual(details, [])
 
     def test_invalid_json_returns_controlled_page(self):
         response = self.client.post(

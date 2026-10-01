@@ -93,7 +93,7 @@
     },
     {
       "id": "td-r0-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td-r0-s3",
       "active": true,
       "semester": "S3",
@@ -113,7 +113,7 @@
     },
     {
       "id": "td-r1-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td-r1-s3",
       "active": true,
       "semester": "S3",
@@ -123,7 +123,7 @@
     },
     {
       "id": "td-r2-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td-r2-s3",
       "active": true,
       "semester": "S3",

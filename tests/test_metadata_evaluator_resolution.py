@@ -19,6 +19,7 @@ import app_correction_controle_S1 as control_s1
 from notebook_contract import load_catalog
 from routes import EVALUATORS
 from test_td2_s1 import fixture as td2_fixture, grade as td2_grade
+from test_notebook_migration_integrity import REVISED_SUBJECTS
 
 
 def cell(source='', output='', question=None, role='answer'):
@@ -50,10 +51,13 @@ def control(cells):
 class MetadataResolutionTests(unittest.TestCase):
     def test_all_migrated_subjects_keep_existing_scores_and_feedback(self):
         # This is a migration regression for the 32 pre-contract subjects.
-        # Newly authored subjects have no legacy version to compare with.
+        # New subjects have no legacy version; the three reviewed R012 v2
+        # revisions explicitly reject their old contract (tested separately).
         baseline = json.loads((ROOT / 'tests/fixtures/notebook_migration_baseline.json').read_text())
         paths = set(baseline['active'])
         self.assertEqual(len(paths), 32)
+        paths -= set(REVISED_SUBJECTS)
+        self.assertEqual(len(paths), 29)
         entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
         self.assertEqual({entry['notebook'] for entry in entries}, paths)
         self.assertTrue(all(entry['active'] for entry in entries))

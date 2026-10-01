@@ -7,7 +7,7 @@ from importlib import import_module
 from functools import wraps
 from markupsafe import escape
 import outils
-from notebook_contract import ContractError, resolve_notebook, validate_catalog
+from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_REVISIONS
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -304,23 +304,28 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
     """Sauvegarde les fichiers et log la note."""
     try:
-        outils.log_grade_to_csv(eval_name, info, score)
+        # New revision contracts have a richer CSV schema: keep historical files intact.
+        revision_v2 = eval_name in STRICT_REVISIONS and info.get('contract_version') == 2
+        storage_id = f'{eval_name}-v2' if revision_v2 else eval_name
+        outils.log_grade_to_csv(storage_id, info, score)
 
         classe = info.get('classe', 'SANS_CLASSE')
         # Nettoyage des noms pour éviter les problèmes de chemin de fichier
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
         s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
 
+        student_suffix = ('_' + secure_filename(info['numero_etudiant'])) if revision_v2 else ''
+
         # 1. Sauvegarde Notebook
-        nb_name = f"{s_nom}_{s_prenom}_{secure_filename(file.filename)}"
-        nb_path = outils.get_nb_path(eval_name, classe, nb_name)
+        nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"
+        nb_path = outils.get_nb_path(storage_id, classe, nb_name)
         os.makedirs(os.path.dirname(nb_path), exist_ok=True)
         with open(nb_path, 'wb') as f:
             f.write(nb_bytes)
 
         # 2. Sauvegarde Rapport HTML
-        rep_name = f"{s_nom}_{s_prenom}_{eval_name}.html"
-        rep_path = outils.get_rapport_path(eval_name, classe, rep_name)
+        rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{eval_name}.html"
+        rep_path = outils.get_rapport_path(storage_id, classe, rep_name)
         os.makedirs(os.path.dirname(rep_path), exist_ok=True)
         with open(rep_path, 'w', encoding='utf-8') as f:
             f.write(html_report)
