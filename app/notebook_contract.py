@@ -11,6 +11,10 @@ class ContractError(ValueError):
     """An uploaded notebook cannot be resolved unambiguously."""
 
 
+WRONG_VERSION = 'mauvaise version du notebook'
+STRICT_REVISIONS = frozenset({'td-r0-s3', 'td-r1-s3', 'td-r2-s3'})
+
+
 CELL_ROLES = frozenset({'answer', 'prompt', 'example', 'provided',
                         'identification', 'submission', 'infrastructure'})
 
@@ -24,7 +28,7 @@ def load_catalog():
     for entry in entries:
         if (not isinstance(entry, dict) or not isinstance(entry.get('id'), str)
                 or not entry['id'] or entry['id'] in ids
-                or entry.get('version') != 1 or type(entry['version']) is not int
+                or type(entry.get('version')) is not int or entry['version'] < 1
                 or entry.get('mode') not in {'td', 'controle'}
                 or entry.get('semester') not in {'S1', 'S2', 'S3'}
                 or type(entry.get('active')) is not bool
@@ -106,25 +110,28 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
     if not isinstance(notebook, dict):
         raise ContractError('Le fichier ne contient pas un notebook valide.')
     metadata = _metadata(notebook)
+    strict_s3 = any(entry['evaluator'] == expected_evaluator and entry['semester'] == 'S3'
+                    for entry in load_catalog() if entry['active']) if expected_evaluator else False
+    require_metadata = require_metadata or strict_s3
     if (require_metadata or 'tal' in metadata) and not isinstance(notebook.get('cells'), list):
         raise ContractError('Le notebook doit contenir une liste de cellules.')
     validate_cell_metadata(notebook)
     if 'tal' not in metadata:
         if require_metadata:
-            raise ContractError("Ce notebook ne contient pas d’identifiant TAL. Utilisez le dépôt de son semestre pour une ancienne version.")
+            raise ContractError(WRONG_VERSION)
         return None
     contract = metadata['tal']
     if (not isinstance(contract, dict) or not isinstance(contract.get('id'), str)
             or type(contract.get('version')) is not int
             or not isinstance(contract.get('evaluator'), (str, type(None)))):
-        raise ContractError('Identification TAL invalide ou incomplète.')
+        raise ContractError(WRONG_VERSION)
     entry = next((entry for entry in load_catalog() if entry['id'] == contract['id']), None)
     if entry is None:
         raise ContractError('Ce notebook ne correspond à aucun sujet enregistré.')
     if not entry['active']:
         raise ContractError('Le dépôt de ce sujet n’est pas activé. Contactez l’enseignant.')
     if contract['version'] != entry['version']:
-        raise ContractError('Cette version du notebook n’est pas prise en charge.')
+        raise ContractError(WRONG_VERSION)
     if contract.get('evaluator') != entry['evaluator']:
         raise ContractError('L’identifiant et le correcteur du notebook sont incohérents.')
     if expected_evaluator is not None and expected_evaluator != entry['evaluator']:

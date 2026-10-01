@@ -3,7 +3,8 @@
 The fixture was computed from Git revision 2a367529963f66a186dff1658b5951d0dbc27642,
 never from the migrated working tree. Updating it requires a separately reviewed
 pedagogical change; normal CI does not regenerate it. New subjects are listed
-explicitly below and never replace a frozen baseline notebook.
+explicitly below. Pedagogically reviewed revisions keep the original baseline
+fixture intact and are checked against their new contract separately.
 """
 import copy
 import hashlib
@@ -18,8 +19,14 @@ from notebook_contract import load_catalog, resolve_notebook, validate_cell_meta
 import routes
 
 
-# New pedagogical additions are checked separately from the 42 frozen notebooks.
-# Adding a path here cannot relax any of their field/byte integrity checks.
+# New additions and the three reviewed R0–R2 revisions are explicit.
+# The frozen fixture remains unchanged; the other 39 historical notebooks
+# retain every original field/byte integrity assertion. See r012_v2_spec.md.
+REVISED_SUBJECTS = {
+    "Notebooks TD/S3/R0_S3_python_texte.ipynb": "td-r0-s3",
+    "Notebooks TD/S3/R1_S3_doc_spacy.ipynb": "td-r1-s3",
+    "Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb": "td-r2-s3",
+}
 ADDED_ACTIVE_SUBJECTS = {
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
@@ -48,9 +55,13 @@ class MigrationIntegrityTests(unittest.TestCase):
         cls.catalog = load_catalog()
         cls.tutors = json.loads((ROOT / "docs/pedagogy/tutor_sessions.json").read_text())
 
-    def test_all_subjects_preserve_every_field_except_new_routing_metadata(self):
+    def test_unrevised_subjects_preserve_every_field_except_routing_metadata(self):
         self.assertEqual(len(self.baseline["active"]), 32)
+        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 29)
+        self.assertTrue(set(REVISED_SUBJECTS) <= set(self.baseline["active"]))
         for path, expected in self.baseline["active"].items():
+            if path in REVISED_SUBJECTS:
+                continue
             with self.subTest(notebook=path):
                 notebook = json.loads((ROOT / path).read_text())
                 self.assertEqual(canonical_hash(without_routing_metadata(notebook)), expected,
@@ -58,6 +69,27 @@ class MigrationIntegrityTests(unittest.TestCase):
                 entry = resolve_notebook(notebook)
                 self.assertEqual(entry["notebook"], path)
                 validate_cell_metadata(notebook)
+
+    def test_reviewed_revisions_have_explicit_version_two_contracts(self):
+        self.assertEqual(len(REVISED_SUBJECTS), 3)
+        for path, evaluator in REVISED_SUBJECTS.items():
+            with self.subTest(notebook=path):
+                notebook = json.loads((ROOT / path).read_text())
+                self.assertEqual(notebook["metadata"]["tal"], {
+                    "id": evaluator, "evaluator": evaluator, "version": 2})
+                entry = resolve_notebook(notebook)
+                self.assertEqual(entry["notebook"], path)
+                self.assertEqual((entry["semester"], entry["mode"], entry["version"]),
+                                 ("S3", "td", 2))
+                indexed = validate_cell_metadata(notebook)
+                self.assertEqual({q for q, role in indexed if role == "answer"},
+                                 {"Q1", "Q2", "Q3", "Q4"})
+                self.assertIn(("identity", "identification"), indexed)
+                self.assertNotIn(("submission", "submission"), indexed)
+                for cell in notebook["cells"]:
+                    if cell["cell_type"] == "code":
+                        self.assertEqual(cell.get("outputs", []), [])
+                        self.assertIsNone(cell.get("execution_count"))
 
     def test_inactive_subject_and_nine_excluded_notebooks_are_byte_identical(self):
         self.assertEqual(len(self.baseline["unchanged"]), 10)

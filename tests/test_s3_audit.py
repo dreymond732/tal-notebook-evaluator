@@ -118,15 +118,16 @@ class S3RouteTests(unittest.TestCase):
         nb = json.loads(path.read_text())
         identity = next(c for c in nb['cells'] if c['cell_type'] == 'code' and 'Complétez les informations entre les guillemets.' in ''.join(c['source']))
         identity = json.loads(json.dumps(identity))
-        # Le scénario utilise les anciennes traces synthétiques sans métadonnées.
-        identity.get('metadata', {}).pop('tal', None)
+        # Contrat courant requis sur toutes les routes S3.
         source = ''.join(identity['source'])
         import re
         for name, value in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3')]:
             source = re.sub(rf'(?m)^{name}\s*=.*$', f'{name} = "{value}"', source)
         identity['source'] = source
         hostile = trace(4, 1, {'html': '<script>alert(1)</script>'})
-        content = notebook([identity, hostile]).encode()
+        hostile['metadata'] = {'tal': {'question': 'Q1', 'role': 'answer'}}
+        content = json.dumps({'nbformat': 4, 'nbformat_minor': 5,
+                              'metadata': nb['metadata'], 'cells': [identity, hostile]}).encode()
         response = self.client.post('/eval/td4-s3', data={'file': (io.BytesIO(content), 'copie.ipynb')},
                                     content_type='multipart/form-data', headers={'X-Forwarded-Prefix': '/universite/tal'})
         html = response.get_data(as_text=True)
