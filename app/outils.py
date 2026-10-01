@@ -7,7 +7,7 @@ import hashlib
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple, Union
 from werkzeug.utils import secure_filename
-from notebook_contract import evaluation_cells, resolve_cells, validate_cell_metadata
+from notebook_contract import evaluation_cells, resolve_cells, validate_cell_metadata, literal_identity
 
 # --- Constantes ---
 BASE_DIR = "soumissions"
@@ -125,15 +125,19 @@ def extract_identification_info(cells):
         if cell.get('cell_type') == 'code':
             src = "".join(cell.get('source', []))
             if marker in src or cell.get('metadata', {}).get('tal', {}).get('role') == 'identification':
-                for k in ['nom', 'prenom', 'classe']:
-                    m = re.search(rf'{k}\s*=\s*["\'“](.*?)["\'”]', src, re.I)
-                    if m: info[k] = m.group(1).strip()
+                try:
+                    values = literal_identity(src)
+                    info.update({key: value.strip() for key, value in values.items()
+                                 if isinstance(value, str)})
+                except (ValueError, TypeError, SyntaxError, RecursionError):
+                    pass
     return info
 
 
 def check_identification(info):
     inv = ["NON_RENSEIGNE", "NON_RENSEIGNEE", "..."]
-    return all(info.get(k) not in inv for k in ['nom', 'prenom', 'classe'])
+    return all(isinstance(info.get(k), str) and info[k].strip()
+               and info[k].strip() not in inv for k in ['nom', 'prenom', 'classe'])
 
 
 def extract_variable_from_notebook(nb_json: Dict[str, Any], var_name: str) -> Any:

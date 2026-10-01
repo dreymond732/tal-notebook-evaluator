@@ -15,7 +15,8 @@ CHECKS = [{'label': label, 'validate': lambda value, expected=expected: same(val
            'feedback': 'Résultat du texte fixé : ' + repr(expected)} for label, expected in zip(LABELS, EXPECTED)]
 CHECKS.append({'label': 'Preuve du découpage et limites à relire',
                'validate': lambda value: keys(value, ['split', 'limites']) and same(value['split'], ['L’analyse,', 'c’est', 'utile', '!']) and isinstance(value['limites'], str),
-               'feedback': 'Le point porte sur la liste exacte issue du découpage du microcas. La synthèse limites est à relire humainement, sans note automatique de qualité.'})
+               'required_text_fields': ['limites'],
+               'feedback': 'Le point porte sur la liste exacte issue du découpage du microcas. La présence de la synthèse est signalée séparément. La synthèse limites est à relire humainement, sans note automatique de qualité.'})
 
 
 def check_notebook(content_str, filename):

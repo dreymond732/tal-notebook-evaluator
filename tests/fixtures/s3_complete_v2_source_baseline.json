@@ -1,0 +1,1846 @@
+{
+  "source_commit": "02f435dc770834b21e242592804d231e0836a4b7",
+  "subjects": {
+    "Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb": {
+      "notebook_without_cells_sha256": "d666e08697b4c02250b01346fc356105eb4bcd5685d1288036fa9d65e70fe21e",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "b9d10d767b11e4e7a68d90864fe9eff153c4f30761a9b7a30d655c7689af1001"
+        },
+        {
+          "id": "d2a36b6fd59b",
+          "source_prefix": "# TD0 S3 — Du texte à une mesure vérifiable\n\n**Durée : 2 h.**\n\nRéactiver fichiers UTF-8, chaînes, listes, ensembles, boucles, dictionnaires et fonctions. Distinguer occurrence et forme ; comprendre pourquoi un découpage par espaces ne constitue pas une analyse linguistique. Le diagnostic prépare l’audit des affirmations de Gemini.\n\n## Parcours de la séance\n\nPréparation 10 min ; lecture et découpage Q1–Q3 25 min ; formes et fréquences Q4–Q5 30 min ; normalisation Q6 20 min ; critique et transfert Q7 25 min ; export 10 min.\n\nTravaillez en quatre temps : prédire sans exécuter, construire, vérifier sur un petit texte, puis transférer à Faguet. Notez vos interprétations dans vos cellules ; elles seront relues par l’enseignant. Les traces JSON évaluent des résultats enregistrés, pas la qualité de votre argumentation. Le serveur ne lance jamais votre code.\n\nLe texte historique contient des représentations des sexes à replacer dans leur contexte. Compter leur présence ne signifie ni y adhérer, ni attribuer automatiquement une position à l’auteur.",
+          "other_fields_sha256": "5df3f1f4c1a901fd0d0173c05d64ff9c816cda1787880bf1ddee8f16856d95a9"
+        },
+        {
+          "id": "7edf54ca77fa",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "ff9061bfb9a7421f7cae8cbbe2167f710182e5e54703b34b00c1220c4d059000"
+        },
+        {
+          "id": "a2f022dfb70b",
+          "sha256": "04b2a19d14553a0431868aa26014c51b4e738591139aa9aed4dd09e48887be3b"
+        },
+        {
+          "id": "9c91a155b847",
+          "sha256": "b2b00232391a063f5325a3d90c007f1e70dc7762da1e257bb2bcf75e851b5597"
+        },
+        {
+          "id": "598e99d0c0de",
+          "sha256": "e945b2131e3ad3e17bb89c24e4ce8ea658e6e1dcce35e829a05e6658b42e2a1a"
+        },
+        {
+          "id": "c3143beb1527",
+          "sha256": "48848528d54a49c7a23ea2f8de99a22122fc88c7f8cc2d13627a49f0bb376b61"
+        },
+        {
+          "id": "e8a48edb5ed9",
+          "sha256": "0e4f9e307407c306e5c4585626b03bd8ba883cb1368ffd232fb9eed6634b5841"
+        },
+        {
+          "id": "ccc6eb92c41a",
+          "sha256": "0a5de9221825b7cd20433d93dc6e3ae8dca6b752bc3034678d44b0801e8c4b6d"
+        },
+        {
+          "id": "858c537e315c",
+          "sha256": "04141c53693238c309bd9d43af49b1f1b9ef91d94f8fc3b9ccdec8e2cf8b7ef7"
+        },
+        {
+          "id": "57598382bdb7",
+          "sha256": "b2f74fe568a3d04bebb9e18aeee28439193995efa2dd252e0fcb62b98fa5a560"
+        },
+        {
+          "id": "758d6135f7b7",
+          "sha256": "6b4ad3f91b96d6945ce2f6a29771d0684b1730b670818fb25218c6d2f2609e32"
+        },
+        {
+          "id": "0f76c3c59928",
+          "sha256": "082059d16ded02c0f2c613680bbc1e63a4e9e8d26e86051020e058d64716adc1"
+        },
+        {
+          "id": "cf7f90869cb3",
+          "sha256": "a67e4763b2d4f911a5ae3e0bfe4e36b44265a1d211667ba8b2fd081bc54974f2"
+        },
+        {
+          "id": "5ac71380afda",
+          "sha256": "78796153893ca8259fa424e718b5a4459c17ac91b843f840cf5f9020f8b30b44"
+        },
+        {
+          "id": "e9b18e8b65f8",
+          "sha256": "2ef091adc6f94d35526729df5c208166ff1010329da76934e891b4307c0bfb05"
+        },
+        {
+          "id": "20727c88a8b5",
+          "sha256": "a600c733f29b7e5d50d63d0069d2b89b13cd591c7522cd53775a064d610e3b74"
+        },
+        {
+          "id": "2cb1dc7be530",
+          "sha256": "a1d15c4b4fe569eab752da00b40e31e22b39c19e34c01fc3af32d58a24959d2f"
+        },
+        {
+          "id": "741502c4fe30",
+          "sha256": "66d4dc086f4a0ff81cc9dece380e0e62eea054d69948e86a5026d58b27edf1a9"
+        },
+        {
+          "id": "e9d76b692bd5",
+          "sha256": "379ab510d08b0de14be5f6167aed1ead7e7ccf261436f62780e96d3331473d87"
+        },
+        {
+          "id": "3f10c1bdf6b3",
+          "sha256": "c9b54e1309c1f61a34ba9b96baf1628f84b4408560386971f2b389a289a4fc69"
+        },
+        {
+          "id": "cb390cc6574d",
+          "sha256": "aaf71f4d3a334c30d9c89f10bfad8728777f18a0971dc77bd8a87309b6106e97"
+        },
+        {
+          "id": "754a2ce1198c",
+          "sha256": "22e0b10cc367c94a89bd9584d6cc5803a89099c1065b04ef19d02fa2a3950646"
+        },
+        {
+          "id": "fa2e4a9c7f88",
+          "sha256": "df040b204155c560005b611b04cc2bd7d7ea672a238a21a24b6dedb002d32c95"
+        },
+        {
+          "id": "66db62787fb2",
+          "sha256": "66c8f3b37639fda4d3419a3c45e8980051f2b465a96a41e6e72599032d22f9d4"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb": {
+      "notebook_without_cells_sha256": "f130494f84ed27731cbe523cb3c76229a36559fffb5b2eddbe5445783f64f8ee",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "dd4ce078aaf73e6bb042b3b4fdc6d6588528af84d27676b3b724de4070333100"
+        },
+        {
+          "id": "f1c4b87024c7",
+          "source_prefix": "# TD1 S3 — Du texte aux annotations spaCy\n\n**Durée : 2 h.**\n\nCharger un pipeline, lire `Doc`, tokens, phrases, lemmes et catégories. Confronter les prédictions à une référence manuelle. Préserver les positions pour pouvoir retrouver les preuves.\n\n## Parcours de la séance\n\nPréparation 15 min ; Q1 20 min ; Q2 15 min ; Q3 20 min ; Q4 15 min ; Q5 15 min ; Q6 15 min ; export 5 min.\n\nTravaillez en quatre temps : prédire sans exécuter, construire, vérifier sur un petit texte, puis transférer à Faguet. Notez vos interprétations dans vos cellules ; elles seront relues par l’enseignant. Les traces JSON évaluent des résultats enregistrés, pas la qualité de votre argumentation. Le serveur ne lance jamais votre code.\n\nLe texte historique contient des représentations des sexes à replacer dans leur contexte. Compter leur présence ne signifie ni y adhérer, ni attribuer automatiquement une position à l’auteur.",
+          "other_fields_sha256": "95827cea30a86e2d1d6ca4dea5590f4299842edad1750b1cd2d614709204818f"
+        },
+        {
+          "id": "6b4dae8286d3",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "67769e977d1ad05cbfc25501ac0c46f48e546137de96928a7b5a9f59d3151a5c"
+        },
+        {
+          "id": "f4b6126fce82",
+          "sha256": "0915c73138906b9f828e28702677c461127e42eeff6a5e7d761d44195c5c1184"
+        },
+        {
+          "id": "c4eb9544f889",
+          "sha256": "cb8bc10a92ed621ad07ca857d0e8cacffe772cedad094acd52fae5afc4ed16f5"
+        },
+        {
+          "id": "6f0e96146419",
+          "sha256": "2e5e8d5aeee7fa3a3fd345b3b6d7dc63b1dd0e2e303a4d4d5813376568ee674c"
+        },
+        {
+          "id": "2dbae0751060",
+          "sha256": "5b4757ba091bbed4dc65eb942cd30f220bc278dd6a872e22d79fdf78baf6b427"
+        },
+        {
+          "id": "5516945566d9",
+          "sha256": "94a32ecf6d6ef553371f0950531d9a9010984216dcec68686d27a3ef738a7e72"
+        },
+        {
+          "id": "74ca682aaf0f",
+          "source_prefix": "## Exercice 1 — Lire puis contrôler les annotations\n\nPrédisez les lemmes d’`étudiantes` et `analysent`, puis produisez pour chaque token non ponctuation de `doc` forme, lemme, POS, tag, positions début/fin en caractères (`token.idx`, `token.idx + len(token.text)`). Commentez deux écarts entre forme et lemme. Expliquez ce que `tag_` apporte réellement ici. Ensuite annotez le texte de `exemples[\"annotation_manuelle\"]` et comparez cinq entrées à sa référence manuelle : signalez accord, désaccord ou alignement impossible, sans modifier le résultat du modèle.\n\n**Trace à produire :** `resultat_q1` est un dictionnaire contenant `annotations` : liste de dictionnaires à clés `forme`, `lemme`, `pos`, `tag`, `debut`, `fin` pour les tokens non ponctuation de `doc`. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "7cd5a3c4c4f3bec74a6d92f40fef51a2ff33b10140c84a69f094f4f624c4de60"
+        },
+        {
+          "id": "f0868b90c1ec",
+          "sha256": "6e36fd964d127e57b4a4d7679d2a97d1eeb4017cea6ebcac37d0ea7527d33dd4"
+        },
+        {
+          "id": "3fd4db7ab180",
+          "sha256": "8c493f63729432b7c40f8de68a6461475475ed52718d046e67ee539a0fa94d5f"
+        },
+        {
+          "id": "3780d7aaf39b",
+          "sha256": "7714eca22a0e27dc570fa1bbbc3250ccdecc5bffe9065e01b31da6170f15783e"
+        },
+        {
+          "id": "6f8e948b3277",
+          "sha256": "1860a6c77b7f3f15a7519916656b3d35f121d2a71d37751d4e466d9238da6a53"
+        },
+        {
+          "id": "2319f64ee6f1",
+          "sha256": "a01e97382a1e17fdb9c4674c3c658a0ec8c34e35f932622123bf63282b50a06c"
+        },
+        {
+          "id": "e807c249b2b2",
+          "sha256": "0337f81c15308ddaf5710f3eefc69a6912a7a864f81dae329fe1adaea669ddb6"
+        },
+        {
+          "id": "0d6d764a0ba2",
+          "sha256": "78c78d86832eb2a79b4e93f630a0aa651ef0e9f6727a36ce6670c0a0ad7a647a"
+        },
+        {
+          "id": "fd2acde816dc",
+          "sha256": "c8d666feb1e95aac37a81ec5e72c06bb3e5128b847f7344b28d427939dd859d0"
+        },
+        {
+          "id": "2dfebbd9b871",
+          "source_prefix": "## Exercice 4 — Visualiser puis expliquer\n\nAffichez la première phrase de `doc` avec `displacy.render(..., style=\"dep\", jupyter=True)`. Identifiez le verbe principal et une relation avec un autre mot. Vérifiez avec `token.dep_` et `token.head.text`, puis décrivez un cas où confondre le locuteur cité avec l’auteur fausserait une interprétation de Faguet.\n\n**Trace à produire :** `resultat_q4` est un dictionnaire contenant `verbe`, `relation`, `interpretation` : chaînes explicitant votre observation ; `verbe_debut`, `dependant_debut` : positions en caractères dans `texte` ; `dependant` : forme du mot relié au verbe ; la qualité de l’interprétation relève de la lecture humaine. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "9ddfbdc215f1fa7b1188e7bcb29145d0339a177b4d8d73c3228841469211cad8"
+        },
+        {
+          "id": "6026f523bc1f",
+          "sha256": "5dd022483589225d00123fdccb2e170c245ad280757e59ae14e70f62231d371b"
+        },
+        {
+          "id": "95fec9ddcc6b",
+          "source_prefix": "## Exercice 5 — Comparer deux découpages sur une même donnée\n\nRetrouvez le texte du TD0 dans `texte_td0` (secours fourni si votre export manque). Comparez `split()`, tous les tokens spaCy et les tokens non ponctuation. Gardez `is_space` sous observation : un espace seul ne devrait pas devenir un mot. Expliquez deux écarts précis avec des formes du texte, puis comparez à votre export TD0 si disponible.\n\n**Trace à produire :** `resultat_q5` est un dictionnaire contenant `split`, `tokens`, `non_ponctuation` : entiers ; `interpretation` : explication des écarts. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "7e5fbe4a5c456eb2144af054ef913c34c2b91622c18c65982151d66e77a644bf"
+        },
+        {
+          "id": "951832c4e554",
+          "sha256": "cf9f6c721d9785105d52adb9cc4806feefe4c3ab63e4569ca1d093eecf63b813"
+        },
+        {
+          "id": "8d36933011cd",
+          "source_prefix": "## Exercice 6 — Réinvestissement autonome et export de preuves\n\nChoisissez un extrait de 2 à 4 phrases, personnel ou prélevé exactement dans Faguet. Créez un nouveau Doc ; comptez les phrases, gardez les cinq premiers tokens avec forme, lemme, POS et positions début/fin en caractères, puis les noms et verbes lemmatisés. Vérifiez manuellement ces cinq tokens. Proposez une question de corpus accessible par ces annotations et une limite de sa réponse.\n\n**Trace à produire :** `resultat_q6` est un dictionnaire contenant `texte` : extrait ; `phrases` : entier ; `annotations` : cinq dictionnaires `forme`, `lemme`, `pos`, `debut`, `fin` ; `noms`, `verbes` : listes ; `question` : chaîne. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "2a0a2cbc519731203fc5302cd47dac80b823a14655cdc86c5b3c2a343ff9ab38"
+        },
+        {
+          "id": "4b47b9af0c87",
+          "sha256": "52b7bd268b73c8bcf35e7f04d21b43e293cfbbbb9750245746e27a32313027a2"
+        },
+        {
+          "id": "94811d622eb5",
+          "sha256": "51062282fa0c9e53e1c6c42b2fd5f1106bc51f394b12b8baadff439744945eeb"
+        },
+        {
+          "id": "99a0e23ee2db",
+          "sha256": "2b2c1d1b21f546b044ffd4ab5c59a8344ac58a301fc1b93768e68f4b1879cc71"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb": {
+      "notebook_without_cells_sha256": "b07370e6531e2bccea0179b4e78c553c937987710d5be2a8c21cd01bfef5a815",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "9fd4e01edee239d2367c26a145807f3e7c8f9570f0d07284ff1f732f81b97633"
+        },
+        {
+          "id": "d9004bded2d6",
+          "source_prefix": "# TD2 S3 — Fréquences, filtres et objets de recherche\n\n**Durée : 2 h.**\n\nConstruire des fonctions de fréquences, comparer formes et lemmes, justifier les exclusions et contrôler les annotations. Produire un nuage de mots sans confondre taille, fréquence et importance.\n\n## Parcours de la séance\n\nPréparation 10 min ; Q1 10 min ; Q2 20 min ; Q3 15 min ; Q4 10 min ; Q5 15 min ; Q6 15 min ; Q7 20 min ; export 5 min.\n\nTravaillez en quatre temps : prédire sans exécuter, construire, vérifier sur un petit texte, puis transférer à Faguet. Notez vos interprétations dans vos cellules ; elles seront relues par l’enseignant. Les traces JSON évaluent des résultats enregistrés, pas la qualité de votre argumentation. Le serveur ne lance jamais votre code.\n\nLe texte historique contient des représentations des sexes à replacer dans leur contexte. Compter leur présence ne signifie ni y adhérer, ni attribuer automatiquement une position à l’auteur.",
+          "other_fields_sha256": "e8a03c8e7dcefc2994feeb057a957862659404ffbfb934119ef86cfaa3337125"
+        },
+        {
+          "id": "52ac07677aa8",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "3adb0a3f5ccbd2c87092f05d96961f318a40f729f7f2fc546ab060d7d8e360c0"
+        },
+        {
+          "id": "15ef07a88916",
+          "sha256": "43e90ab4a82314fa83f4522810e6dced396b1e9e394dbf4291a97491d16a6028"
+        },
+        {
+          "id": "9d8f07519e51",
+          "sha256": "88c7d9ff3bf24fa8b5c2dded3fb3a9c74e23adc1f37dac86e62376eacb148f02"
+        },
+        {
+          "id": "fa8551859586",
+          "sha256": "f65b0d6da12c9c11ea49132f8fc269f50d6c1d75c2a42b83814e0a1715e848b7"
+        },
+        {
+          "id": "9a7ec0599e40",
+          "sha256": "b376cdaa94de434df85088acd9cf4faef4ffc4fa6ed5253bf5ef7975a6142355"
+        },
+        {
+          "id": "675bc8a82eba",
+          "sha256": "39663dbf36ceceb399409dfee3f20602f48b475e929a0d0cc14d6c947dcac060"
+        },
+        {
+          "id": "0910116a4331",
+          "sha256": "0703aee4185a4c2e4d30ad78fdd9006e20a9d5a439047af3cb4610c877ff9d4b"
+        },
+        {
+          "id": "418a064ebdbf",
+          "sha256": "269ad94b72b623c8d31939e5a16baa34be04db03504eb18ebfafc8a19836c60d"
+        },
+        {
+          "id": "ae6b43107e62",
+          "sha256": "39b9bebca56e5427a8ebed00ed1352685d0be07d90ba66d58578bcf0297d076e"
+        },
+        {
+          "id": "6b03a2dee4a6",
+          "sha256": "93d8bb110030f26730f7b09e74067b5fa8e11d8311f95bab18c8d4271fd9fe44"
+        },
+        {
+          "id": "67c5c98fd3c1",
+          "sha256": "dcbce2c5f9b340b9712e9b7dfa5b07fbe6b4ac0a60f592fdf02c47588c0aaf83"
+        },
+        {
+          "id": "3b1b9b29051e",
+          "sha256": "86995ee10c30c9a75e0abaceebc2a61499cb9bf0397883412307ab1da2b692d0"
+        },
+        {
+          "id": "dbb99a0dfe33",
+          "sha256": "8e8cdf029acbb16164b4f8891f79d417ac1539e9a6519436c919e9b3ba22bd5a"
+        },
+        {
+          "id": "fcf3b662854d",
+          "sha256": "257df797f3e621feb63315d7a8c057381fc4605cf003b2c940fd9b87c8ccd4ab"
+        },
+        {
+          "id": "97e0baba0c8c",
+          "source_prefix": "## Exercice 4 — Fréquences grammaticales\n\nComptez les POS de `doc_corpus` en excluant ponctuation et espaces. Affichez les trois catégories les plus fréquentes. Vérifiez que la somme correspond au nombre de tokens conservés. Indiquez une observation possible et une conclusion thématique impossible avec ce seul tableau.\n\n**Trace à produire :** `resultat_q4` est un dictionnaire contenant `pos` : dictionnaire complet catégorie → effectif ; `top3` : liste des trois paires ; `limite` : chaîne. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "3b649304d57cb30ecdc7fd5a6834802a92ea2d34b7e7d8fc176b11c98baa0cf1"
+        },
+        {
+          "id": "e0f8f66130f9",
+          "sha256": "468f460bf9e758ca3b780d30c310999b66ff684d53ac1bb8e346145da2bddcf7"
+        },
+        {
+          "id": "89811c301428",
+          "sha256": "05eab19319f25b7ab33413c447032480f90212b6d4055e88384f4cd2099bef11"
+        },
+        {
+          "id": "e1fafdbee7f2",
+          "source_prefix": "## Exercice 5 — Contrôle qualité et objets recherchés\n\nConstruisez `lemmes_contenu` pour NOUN, VERB et ADJ non vides et non ponctuation. Contrôlez manuellement cinq tokens : donnez forme, lemme, POS, accord/désaccord et justification ; n’inventez pas une erreur si vous n’en trouvez pas. Repérez une forme que vous excluriez autrement. Sur les affirmations Gemini, distinguez « intelligence », « intelligentes » et « bon sens » ; expliquez pourquoi cette dernière expression exige de considérer plusieurs tokens. Le TD3 vous fera adapter le motif de l’exemple ; ici, identifiez seulement ce qu’il recherche et ce qu’il manque.\n\n**Trace à produire :** `resultat_q5` est un dictionnaire contenant `lemmes` : liste ; `controle` : cinq dictionnaires `forme`, `lemme`, `pos`, `jugement` ; `limite_modele` : chaîne. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "d8c6630f5ec3a1b1e59c7e7190ce3397ef085065d5fd067770475530024e6f6c"
+        },
+        {
+          "id": "ec2180a45a4a",
+          "sha256": "17f56c5a34a2bc91f6ea7a6612729b7e66e74701be67ae541d352056a2041673"
+        },
+        {
+          "id": "td2-visual-demo",
+          "sha256": "ce281a16eb86782bd01ab84959670341c272d0a6e08e2357280ac01ee2091e6c"
+        },
+        {
+          "id": "8bac30105f01",
+          "sha256": "083cd2c06b48eaf5f47fcba0e2dba51ade35921f919d1812cea38d2857e23a4d"
+        },
+        {
+          "id": "fd7ae731fa55",
+          "sha256": "6750e42359b6856182412b222ea5f82026e529566622487eee2f780ed5afc0e0"
+        },
+        {
+          "id": "2ef5275cac37",
+          "sha256": "8cbd1c6821491db3af5f06645bdd6e336407a80086eb40f276addc12ab57476a"
+        },
+        {
+          "id": "f20324e1bcaa",
+          "sha256": "c45b53369a97178213a2defc7a7cde97284076b6659dd85fc5b2f15a3b059659"
+        },
+        {
+          "id": "21e4483b0e6e",
+          "sha256": "af91a77aadd05d1ce78c238ac4b35a697268f7ea617cb9018660f42407c81fe1"
+        },
+        {
+          "id": "f52984a8ce39",
+          "sha256": "b50fdc91a5af68ac96cc19789d454f85d5efbbb98caa5201ec93308b32efe2cb"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD3_S3_concordances_citations.ipynb": {
+      "notebook_without_cells_sha256": "fff1dbbe79f97f3bb0a78b14a477b61b7b5bbc830ab0993d71b7981e838e24f8",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "d547ea83101d420ae8cdb5015cd96a427069a9416237dbefde15894f497b6aa5"
+        },
+        {
+          "id": "48080e883892",
+          "source_prefix": "# TD3 S3 — Concordances et fidélité des citations\n\n**Durée : 2 h.**\n\nRetrouver les passages qui étayent une affirmation, conserver leurs positions et différencier citation exacte, normalisation annoncée et rapprochement approximatif. Construire des preuves lisibles avant de calculer des cooccurrences.\n\n## Parcours de la séance\n\nPréparation 10 min ; Q1 10 min ; Q2 20 min ; Q3 15 min ; Q4 15 min ; Q5 15 min ; Q6 15 min ; Q7 15 min ; export 5 min.\n\nTravaillez en quatre temps : prédire sans exécuter, construire, vérifier sur un petit texte, puis transférer à Faguet. Notez vos interprétations dans vos cellules ; elles seront relues par l’enseignant. Les traces JSON évaluent des résultats enregistrés, pas la qualité de votre argumentation. Le serveur ne lance jamais votre code.\n\nLe texte historique contient des représentations des sexes à replacer dans leur contexte. Compter leur présence ne signifie ni y adhérer, ni attribuer automatiquement une position à l’auteur.",
+          "other_fields_sha256": "54e4fb6b8b6ef2e9ff4c5fc8a636dd73a7113d882d83ebccc8a15280b1344c8b"
+        },
+        {
+          "id": "d2a0749109f5",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "3092ec55d48d31c79cfa93480866ca4aee0f3ef808edd0408b50e3a7fdc41dd6"
+        },
+        {
+          "id": "8b0e7baaa220",
+          "sha256": "8bda7bcb0a4cab56eaa5de6ae0078cbc648cdf9b5c395b3e531130d31baea99d"
+        },
+        {
+          "id": "2e0135db7ee8",
+          "sha256": "9897bca3db4f4f530792daa03f3c401e0860bc2a2003a48bb089232eeb7582eb"
+        },
+        {
+          "id": "193593634364",
+          "sha256": "e81dcd84d95333f7a244d213d4904f0f46aa9708d9efad71a7207aeab5f87bf8"
+        },
+        {
+          "id": "9216175f65f1",
+          "sha256": "09123cea01902e9a9a2e4141fcbbc4160e90ee3f816f70a52dc86ff8608dbadc"
+        },
+        {
+          "id": "27055699398e",
+          "sha256": "f6f57a9f077c927ffd42535b4d5c011b24c6606b8edc7b89ec81b5d1eeb3fec3"
+        },
+        {
+          "id": "ede8b619b42d",
+          "sha256": "01f24e2d7246a76c0bc2162e25c813bffa9af6c9fea539e232163e7c05e0a2db"
+        },
+        {
+          "id": "6718b4974b81",
+          "sha256": "6d0fc4284cbcff1a94445ce5f2822efccc796d9143e2988eafcb564337a80a29"
+        },
+        {
+          "id": "b0ef51e9351a",
+          "sha256": "f25e273adf3d75401dcafa2acfc21aa13abbe3f6892b497dcff94b75e63f67fc"
+        },
+        {
+          "id": "6dfa6e72ddd7",
+          "sha256": "a0788e10b374883c217895e4e3ca30c24e480de0321e1375ab9f7bd59baf9c30"
+        },
+        {
+          "id": "35be237012b3",
+          "sha256": "6c1ac56af582b26e8b3bd8e5041a0aa42222b8836479549969556a4b2a9e1430"
+        },
+        {
+          "id": "02f7fe89fe85",
+          "sha256": "168d022d27a10b7ff3c4a11d51e7689ee1db6cd5373308b55c06474371856de4"
+        },
+        {
+          "id": "b3861304ce29",
+          "sha256": "2d32e745f7c3a2c53a44a23a75c476cbf4fd381b477c0d4152a4025f715d789f"
+        },
+        {
+          "id": "fa88bc41845b",
+          "sha256": "342ada68c590fb1b7d961b75a5242bfc985c2bf716ebb1cb8e5c5b59823b411e"
+        },
+        {
+          "id": "aa31f6af9aeb",
+          "sha256": "39c5f68158c65f863a7dcd122db09035cc947e4c8de6e93f95b75fa0f223eb33"
+        },
+        {
+          "id": "97d7d4a5cc8a",
+          "sha256": "de06a0509b1d3030a381ff1c769071a1dd9659e9db2bb45d5e165e671ff624b9"
+        },
+        {
+          "id": "452f77b1e069",
+          "sha256": "90e03af943433b7efd83ec49f013643766485567239aeb413e672b56d6858cd0"
+        },
+        {
+          "id": "a81cf330c3da",
+          "sha256": "3376e7a0f65f90fc3ad6a9d479a25b318da619a4c9c41aa638d7e424000e0398"
+        },
+        {
+          "id": "b31d99ea1907",
+          "sha256": "9496757935d3cdae940ff5780919041078763019fc39df5ac1c2071664ae3448"
+        },
+        {
+          "id": "8373304e4726",
+          "sha256": "6fc1c75b19f869f9159f0bc3f48df54d7327d54fd442bff6c77640655f16ad52"
+        },
+        {
+          "id": "b711b3f23e0a",
+          "sha256": "170207d9b1253d9eb2fcc4951edb52ae8ff54914cd638f19a8dfd5fdb77f5883"
+        },
+        {
+          "id": "abcdbeabe3b2",
+          "source_prefix": "## Exercice 7 — Assembler un dossier de preuves\n\nChoisissez G1 ou G2. Produisez au moins trois concordances d’un pivot dans Faguet, avec indices début/fin et passage exact. Expliquez ce que ces passages permettent de vérifier et ce qu’ils ne permettent pas de compter tant que la fenêtre et l’agrégation manquent. Rédigez votre convention provisoire pour le TD4 ; son statut doit rester « proposition » et non « méthode employée par Gemini ».\n\n**Trace à produire :** `resultat_q7` est un dictionnaire contenant `affirmation` : G1 ou G2 ; `preuves` : au moins trois dictionnaires `debut`, `fin`, `passage` ; `convention_proposee`, `limite` : chaînes. Construisez ses valeurs à partir de vos calculs, puis activez l’affichage.",
+          "other_fields_sha256": "82fbc7b5e7dbf4aeb571d51a7851ef5fe6a4ab734f4e9697a8ddd83ac2956521"
+        },
+        {
+          "id": "3f1aba846994",
+          "sha256": "f5a0d26a3d3ea75f2af930b5a2c5db1a1aafb940ecc11d79cb3cd1921b3a95c2"
+        },
+        {
+          "id": "bdd62cc8142b",
+          "sha256": "10026325762702ef41af2f087820f35cfd069772896ac060ce59d7ab5ab05da0"
+        },
+        {
+          "id": "b931816fa50a",
+          "sha256": "cf1209fdb8bbf4b37d7cf3878c58b673120cc5f86da3d505cf9794a6389ed515"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD4_S3_cooccurrences.ipynb": {
+      "notebook_without_cells_sha256": "9b45cdc24c0773fc6ef7ef5c6b594643ee0985aaa2bbd1fc949512c8199d0d83",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "90505a9b9a9c4319c6a88766003bfaf8858ff82fdaaaff2b37bba79e24845d9d"
+        },
+        {
+          "id": "s3-td4-00",
+          "source_prefix": "# TD4 — Définir et vérifier les cooccurrences\n\n**Objectif :** Construire des comptages qui distinguent présence dans une phrase, nombre de paires de positions et réunion de contextes.\n\n**Durée : 2 h.** Installation et rappel : 8 min ; exercices : 12 + 14 + 14 + 17 + 15 + 18 + 16 min ; sauvegarde et bilan : 6 min. Ces temps sont indicatifs. Les prolongements signalés sont hors de ces 120 min.\n\n**À mobiliser :** TD3 : retrouver une occurrence et ses positions ; listes, ensembles, fonctions, phrases spaCy. Ouvrir un nouveau notebook ne conserve pas les variables d'un autre : reprenez vos **fonctions** antérieures dans les cellules prévues ; relisez vos résultats JSON avec `json.load`. Un fichier JSON transporte des données, pas le code d'une fonction. Si une fonction manque, reconstruisez-la à partir du petit cas travaillé avant de traiter Faguet.\n\nPour chaque exercice : prédire sans exécuter, écrire et tester, puis commenter. Utilisez `round(valeur, 6)` pour arrondir les quotients affichés, en conservant les effectifs entiers pour les calculs suivants. Les exemples portent sur d'autres données que les exercices. Les sorties `S3_TD4_Q1` à `S3_TD4_Q7` contiennent des dictionnaires JSON : gardez les marqueurs et noms de clés, arrondissez seulement les valeurs finales à six décimales. Le correcteur formatif lit ces traces enregistrées : **il n'exécute pas vos fonctions et ne certifie ni leur généralité ni vos interprétations**. Les sept contrôles techniques valent chacun un point ; l'enseignant relit graphiques, preuves et rapport séparément.\n\nTravaillez sur le texte figé fourni et la conversation Gemini associée. Les trois prompts s'enchaînent dans une même conversation : ce ne sont pas trois essais indépendants. Les valeurs calculées sur Faguet doivent être accompagnées de la méthode et de passages sources. Aucun résultat attendu sur l'œuvre ne vous est imposé.",
+          "other_fields_sha256": "be99da364b0c4a1abbe6af66fae0bcf35f4ae6108def6c5ef8e128400af43ec6"
+        },
+        {
+          "id": "s3-td4-01",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"",
+          "other_fields_sha256": "b749c2575b49b336771ea2ce771bb313034f504fbd076be8e25dc220267926ec"
+        },
+        {
+          "id": "s3-td4-02",
+          "sha256": "aa7da6414ebef0cb7517f3d51ac454e80a05bd88b693e68342dcb86e2bd30c0f"
+        },
+        {
+          "id": "s3-td4-03",
+          "sha256": "551b2677d504ad0359688f4c085ca9534ad02c1783f774237008c20d104e01b9"
+        },
+        {
+          "id": "s3-td4-04",
+          "sha256": "6da6f57222c2cdd81750fade1834ed1681861205a91607c68739fe419098cfa1"
+        },
+        {
+          "id": "s3-td4-05",
+          "sha256": "d3496cddefcc5082306c5d945f29602324ee960378adcd2b36ad8ab78c43b2ef"
+        },
+        {
+          "id": "s3-td4-06",
+          "sha256": "d17e2c00b9190f40dd714253cdd748c7e292f23d44f6ec59536596d731f8335b"
+        },
+        {
+          "id": "s3-td4-07",
+          "sha256": "4dc99ef30857a79f39754e1b1db4ac5e8c4be60ef2c45580c9934dc3de31fdde"
+        },
+        {
+          "id": "s3-td4-08",
+          "sha256": "32061baccaa5105465b9481c87390db400b16759b03c9129e3f0b04d83b986f1"
+        },
+        {
+          "id": "s3-td4-09",
+          "sha256": "f4710c5afdf0b1db61fa9267874b6e20bd6900c6474ce04d3fa29a6cdf17d518"
+        },
+        {
+          "id": "s3-td4-10",
+          "sha256": "b5dd93eb4858d2be219616170cb7dda8be0c52b6c893e9b2921bce9530687de9"
+        },
+        {
+          "id": "s3-td4-11",
+          "sha256": "bf79451af0161b729f74096ef03810ceeda4dd88085007909e3eb97fb0a6ab7b"
+        },
+        {
+          "id": "s3-td4-12",
+          "sha256": "073d369b4f0935483f1c846caeaee6aa0f472c1cd47e149ccbfbe009c3f8e878"
+        },
+        {
+          "id": "s3-td4-13",
+          "sha256": "316505eac0d813794c611fe89f7923e02e03e88c5e1203adde2468e3befcf499"
+        },
+        {
+          "id": "s3-td4-14",
+          "sha256": "1609c764a05c567defac5f1ba79bbae76a75d8ca14d97dc5321c18c0ff8ec6de"
+        },
+        {
+          "id": "s3-td4-15",
+          "sha256": "4861f4996c01f22997de4466d325b57dcf38a35cc9d4e016446389fd71d55f43"
+        },
+        {
+          "id": "s3-td4-16",
+          "sha256": "a1243569c1ad916fbf332d7d770fac57e2a12e07bf4943bf13df77c22b9d1c60"
+        },
+        {
+          "id": "s3-td4-17",
+          "sha256": "6eb377d259827773674cac21452fc10249b4182c64a88089fd6a2db86054b4fd"
+        },
+        {
+          "id": "s3-td4-18",
+          "sha256": "79781a8441f372a09e953a8bca5987030d8354e003bfd4be3f32ec4044f602e3"
+        },
+        {
+          "id": "s3-td4-19",
+          "sha256": "07c7915a7ff3f4c41902e09965372d337a5f808782d5077fd11b347d407ccaf8"
+        },
+        {
+          "id": "s3-td4-20",
+          "sha256": "e08bf531c887db4afb017fdf1754a784dfd88307ea8ae4315237b553074e8663"
+        },
+        {
+          "id": "s3-td4-21",
+          "sha256": "8a2e782bb456c87d59e2e780151a08e961327f936bfe2527ebaddee37f52735b"
+        },
+        {
+          "id": "s3-td4-22",
+          "sha256": "2e7d7e77df0d9a190af362935b4d5968a225de25bf90d5920d521f883667b8ec"
+        },
+        {
+          "id": "s3-td4-23",
+          "sha256": "96fecf05a63684f490081f6cde209785194043131bd8efcac0142599c946df7b"
+        },
+        {
+          "id": "s3-td4-24",
+          "sha256": "b18442f1a701a495bc899078d088e2ce4b56dd5c0d89521e569203ef3bc5149f"
+        },
+        {
+          "id": "s3-td4-25",
+          "sha256": "c870658289ad1a96282d948ca31574d183ae0470f376c68ed0284a8be6aaf039"
+        },
+        {
+          "id": "s3-td4-26",
+          "sha256": "a48272092c63ab585b6906bafa4c37875ee69b15a476b9411ce2e364f83783ad"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD5_S3_associations.ipynb": {
+      "notebook_without_cells_sha256": "f4ee3d3684d79f96a6e3dad8684970690116f822c65f9267990ebfb35fcd885f",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "f4c844f4b7e44501c2c720dc15b9b93f5869bca49c3ccdacee3ad5d6712bb470"
+        },
+        {
+          "id": "s3-td5-00",
+          "source_prefix": "# TD5 — Comparer fréquences et associations\n\n**Objectif :** Interpréter un effectif à partir de ses marges et de son dénominateur ; distinguer fréquence, association et interprétation.\n\n**Durée : 2 h.** Installation et rappel : 8 min ; exercices : 12 + 14 + 14 + 17 + 15 + 18 + 16 min ; sauvegarde et bilan : 6 min. Ces temps sont indicatifs. Les prolongements signalés sont hors de ces 120 min.\n\n**À mobiliser :** TD4 : marge, cooccurrence booléenne par phrase, fenêtres et export JSON ; division, conditions et fonctions. Ouvrir un nouveau notebook ne conserve pas les variables d'un autre : reprenez vos **fonctions** antérieures dans les cellules prévues ; relisez vos résultats JSON avec `json.load`. Un fichier JSON transporte des données, pas le code d'une fonction. Si une fonction manque, reconstruisez-la à partir du petit cas travaillé avant de traiter Faguet.\n\nPour chaque exercice : prédire sans exécuter, écrire et tester, puis commenter. Utilisez `round(valeur, 6)` pour arrondir les quotients affichés, en conservant les effectifs entiers pour les calculs suivants. Les exemples portent sur d'autres données que les exercices. Les sorties `S3_TD5_Q1` à `S3_TD5_Q7` contiennent des dictionnaires JSON : gardez les marqueurs et noms de clés, arrondissez seulement les valeurs finales à six décimales. Le correcteur formatif lit ces traces enregistrées : **il n'exécute pas vos fonctions et ne certifie ni leur généralité ni vos interprétations**. Les sept contrôles techniques valent chacun un point ; l'enseignant relit graphiques, preuves et rapport séparément.\n\nTravaillez sur le texte figé fourni et la conversation Gemini associée. Les trois prompts s'enchaînent dans une même conversation : ce ne sont pas trois essais indépendants. Les valeurs calculées sur Faguet doivent être accompagnées de la méthode et de passages sources. Aucun résultat attendu sur l'œuvre ne vous est imposé.",
+          "other_fields_sha256": "102503f636a45d6cc5ee15b3bb2219a3c748f060dff336b808bf96e0dd4f6904"
+        },
+        {
+          "id": "s3-td5-01",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"",
+          "other_fields_sha256": "62259ada4fd9527f4b1e08048604ffcbc582cb6e2d0304e9eda61f13721f5b80"
+        },
+        {
+          "id": "s3-td5-02",
+          "sha256": "bd1ec222a60f27b4e5f12a668d672845b5e221485022f1060a35146628fd6d7e"
+        },
+        {
+          "id": "s3-td5-03",
+          "sha256": "475133cdd8bf9b151325734db1907426dfaa00586ea986eafeac01cd01c3c8df"
+        },
+        {
+          "id": "s3-td5-04",
+          "sha256": "0d5925e0d84407f4319abbb30ad98c998271adce424fd6bf04569b27790bbe2e"
+        },
+        {
+          "id": "s3-td5-05",
+          "sha256": "aa01facf7d37e00d2994921d45dc0efadc89cb6da41dc22e1d01172c5e9d1df9"
+        },
+        {
+          "id": "s3-td5-06",
+          "sha256": "5e51d31cfe500fc0c9e9de8c8213fdef58d933a15a2528e553ed85d218d753a0"
+        },
+        {
+          "id": "s3-td5-07",
+          "sha256": "c5be9da45b9e55eb62cfc14c7d90544521f5edba926a42c1b4fdf2a4e22a60b3"
+        },
+        {
+          "id": "s3-td5-08",
+          "sha256": "80d1de9eb28e2bafeb0ed6489eaf776f3d55ed0f2faf8b949ec3fa40e6921050"
+        },
+        {
+          "id": "s3-td5-09",
+          "sha256": "433fc574334d92f014744640d4028cb9c825873b7ebfe448c335c8a094ac8ae7"
+        },
+        {
+          "id": "s3-td5-10",
+          "sha256": "67df4f3634ce4ec02505b34e3a399dceaf4da48215d9212ccdd7e703a5075c68"
+        },
+        {
+          "id": "s3-td5-11",
+          "sha256": "29d9626a222906d1e2f3a6f0446c74779d41a1219e0d1d0cd5332cce286c3a4a"
+        },
+        {
+          "id": "s3-td5-12",
+          "sha256": "2ff052ffca4960a40338e0d5cb148540113a8c74fa1b66e3f40a61bd540d1b9b"
+        },
+        {
+          "id": "s3-td5-13",
+          "sha256": "abd740e9edc5a2d44c016e95a8f2703ac87545556f6127a400e516c9c8f7e950"
+        },
+        {
+          "id": "s3-td5-14",
+          "sha256": "f75ad8bb0d20f3b5c500a5fc9ebb60cd6c847c1e90e71826897f66393624b453"
+        },
+        {
+          "id": "s3-td5-15",
+          "sha256": "9c25e00964550dc9fe96149f3480eb88b5cd21b1d56472e618c3ac3ccd38c8ae"
+        },
+        {
+          "id": "s3-td5-16",
+          "sha256": "14b6dd0d4334d7ee05e2e704f41973dcf9c649280278eb2187e150c408d86185"
+        },
+        {
+          "id": "s3-td5-17",
+          "sha256": "fa372f531c4513c1e80898bb7926ad5e4e230fb1768952c7ded4bf8d7f8fed0f"
+        },
+        {
+          "id": "s3-td5-18",
+          "sha256": "2a0d2be27da12e91d78b2a748029fc350f4f3f1b67c634d5e6d4250d232eeef2"
+        },
+        {
+          "id": "s3-td5-19",
+          "sha256": "b73f706248e100e2a5c2db5c8b1d9eec3917439be50d2336f5d8d1c1a5e09178"
+        },
+        {
+          "id": "s3-td5-20",
+          "sha256": "38cd5fff67481d0c7439cab4af6ad53717adcee47d3d1c31d820f8aa764733ec"
+        },
+        {
+          "id": "s3-td5-21",
+          "sha256": "c5dd47a0866061bbb95dc933a451eef30a867fb02e7657fc04d8dcee0557dbc7"
+        },
+        {
+          "id": "s3-td5-22",
+          "sha256": "f4efc31ed2e42288949f3fda86915dcca1dd60993451a468ec7ce4e1ff3209ff"
+        },
+        {
+          "id": "s3-td5-23",
+          "sha256": "3036444a563851435eef40627df63048293d4eea97808aede839a9595cd7320f"
+        },
+        {
+          "id": "s3-td5-24",
+          "sha256": "820d0b0f5d93c89f7889863f84836394406913959c18a37bf6774390dcd41795"
+        },
+        {
+          "id": "s3-td5-25",
+          "sha256": "62b0d42d7cb228492fa5cf9a0f9cfc4104090ca554fbc100cc0e81d5e508d6b3"
+        },
+        {
+          "id": "s3-td5-26",
+          "sha256": "0dee0905713bb0dc3abc1b8bef7938efb724058f8024f6a7e99d45b00d41e782"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD6_S3_visualisations.ipynb": {
+      "notebook_without_cells_sha256": "d37b30f2ec77114522c9a76952e8e4070eae8d7284f620f51487244cbc5edb1d",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "18c5638628cc373392a494c19cba7a9853c5c08b497eee2c787009bbfc7b6e8d"
+        },
+        {
+          "id": "s3-td6-00",
+          "source_prefix": "# TD6 — Lire à distance et revenir au texte\n\n**Objectif :** Produire des visualisations dont chaque valeur est vérifiable, puis examiner la sensibilité de la lecture aux paramètres.\n\n**Durée : 2 h.** Installation et rappel : 8 min ; exercices : 12 + 14 + 14 + 17 + 15 + 18 + 16 min ; sauvegarde et bilan : 6 min. Ces temps sont indicatifs. Les prolongements signalés sont hors de ces 120 min.\n\n**À mobiliser :** TD4–TD5 : positions, mesures, dénominateurs et export JSON ; listes et fonctions. Ouvrir un nouveau notebook ne conserve pas les variables d'un autre : reprenez vos **fonctions** antérieures dans les cellules prévues ; relisez vos résultats JSON avec `json.load`. Un fichier JSON transporte des données, pas le code d'une fonction. Si une fonction manque, reconstruisez-la à partir du petit cas travaillé avant de traiter Faguet.\n\nPour chaque exercice : prédire sans exécuter, écrire et tester, puis commenter. Utilisez `round(valeur, 6)` pour arrondir les quotients affichés, en conservant les effectifs entiers pour les calculs suivants. Les exemples portent sur d'autres données que les exercices. Les sorties `S3_TD6_Q1` à `S3_TD6_Q7` contiennent des dictionnaires JSON : gardez les marqueurs et noms de clés, arrondissez seulement les valeurs finales à six décimales. Le correcteur formatif lit ces traces enregistrées : **il n'exécute pas vos fonctions et ne certifie ni leur généralité ni vos interprétations**. Les sept contrôles techniques valent chacun un point ; l'enseignant relit graphiques, preuves et rapport séparément.\n\nTravaillez sur le texte figé fourni et la conversation Gemini associée. Les trois prompts s'enchaînent dans une même conversation : ce ne sont pas trois essais indépendants. Les valeurs calculées sur Faguet doivent être accompagnées de la méthode et de passages sources. Aucun résultat attendu sur l'œuvre ne vous est imposé.",
+          "other_fields_sha256": "74120ad193bf27bc83eec61a69095a714eae7d2243e4a8b37b77dad6c99706fa"
+        },
+        {
+          "id": "s3-td6-01",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"",
+          "other_fields_sha256": "5ce1dded7c70390aeeb38dcab20a39470c05c4f56a30522e00f60986d00073e5"
+        },
+        {
+          "id": "s3-td6-02",
+          "sha256": "c8be9b220fea542d48e6a53ae16aa38c5150c47b0b7348c81355bea761a921cf"
+        },
+        {
+          "id": "s3-td6-03",
+          "sha256": "56dfb50238697bb4f2180c067dfe0bd19dd9d4dc1c4bd2ea178b6a8b48db5cc6"
+        },
+        {
+          "id": "s3-td6-04",
+          "sha256": "9aad169d12d1c4bade43d1f691d8f212eef99961c85bbeefd0c9b0e7685f60f5"
+        },
+        {
+          "id": "s3-td6-05",
+          "sha256": "12cddecf77e20894e88cb004e3abfe0096f93c2a24219f4b240727aa481e2926"
+        },
+        {
+          "id": "s3-td6-06",
+          "sha256": "4e8ce63b27737fddd53ef7924178c8a32d21520084adb9e4678201a84fda960c"
+        },
+        {
+          "id": "s3-td6-07",
+          "sha256": "872226778c52ba2d258dae7721c808638c7cd8a879ca57aa31c13307dc7055d4"
+        },
+        {
+          "id": "s3-td6-08",
+          "sha256": "c57d5c5c0d0f4756402129c654c7bb17b27525aa49972938c1b2e7428e55c0cb"
+        },
+        {
+          "id": "s3-td6-09",
+          "sha256": "e0042872408eceefe7ba6286961098fadfd685f321bf6d5d58f634f081999081"
+        },
+        {
+          "id": "s3-td6-10",
+          "sha256": "dccc070a2fb83edc0ff5c418820cc28d76ba080baee79f366b4c2e9da3656ccb"
+        },
+        {
+          "id": "s3-td6-11",
+          "sha256": "aac01d4bdbaae940403a5ea3ad945f731339718e72f31e0cfbe6a72eaaf91672"
+        },
+        {
+          "id": "s3-td6-12",
+          "sha256": "62e2722c3114bea6d0a5178c04a16e0b1e9c1d0d240ea516de0f24fbb82b3bbf"
+        },
+        {
+          "id": "s3-td6-13",
+          "sha256": "fbe6f1319ca92a719555824dd5c6cbf4ef91ded3d1ae9bef9dcb9c3750ab95ef"
+        },
+        {
+          "id": "s3-td6-14",
+          "sha256": "ced66c610bd39bebc2460acd1ca1ef0e0e4c1105c1a43de0ef02871c2718c03e"
+        },
+        {
+          "id": "s3-td6-15",
+          "sha256": "4f84684124418d599a114f6e5d74f63fe9b867e8d0d5eece90df884ddf22a93b"
+        },
+        {
+          "id": "s3-td6-16",
+          "sha256": "82f0e5733b38273a137de06ad15838b5ef4d251ad592ec9a063618f0f009ef80"
+        },
+        {
+          "id": "s3-td6-17",
+          "sha256": "bd8553077b6aaef3c63af7d1561988bf7a09e2718607f095d5731827fce1e30a"
+        },
+        {
+          "id": "s3-td6-18",
+          "sha256": "0443ed59278b986f0c6cf5976c9f59ac7a06ffd0795c509fd31f2590f5218a99"
+        },
+        {
+          "id": "s3-td6-19",
+          "sha256": "941f287b5d1677189ee2216718f43c54937ee6cb80bee8b9de770f9ce2760e77"
+        },
+        {
+          "id": "s3-td6-20",
+          "sha256": "a2114df3b9efc1762d89d331b49e0ba0d04b5d449ab802bd95ba94f29857706f"
+        },
+        {
+          "id": "s3-td6-21",
+          "sha256": "695149f42110b8bf061533a58621a0f673c1845aa101dd8608b0fa651b63b735"
+        },
+        {
+          "id": "s3-td6-22",
+          "sha256": "baf3477857d77210a28054cca90070fa07e6aa906795226bd9f0b6e9d2495b2d"
+        },
+        {
+          "id": "s3-td6-23",
+          "sha256": "cb8710a69b084d97ea75064943182ab17c9ff529a8f9684f2baa35fda5fbbb25"
+        },
+        {
+          "id": "s3-td6-24",
+          "sha256": "34c4afa29769910166c088bccbcfbcea65c99384d7a274f05e28a92f7661a021"
+        },
+        {
+          "id": "s3-td6-25",
+          "sha256": "39266d50923b30a2b640f50bda299bd0a3fc5d86e59b31124961061588a969d4"
+        },
+        {
+          "id": "s3-td6-26",
+          "sha256": "a2299226037f5d9838cd7dcc8a093be7ff5a650eec2c5b793354f6257c7a21cf"
+        },
+        {
+          "id": "s3-td6-27",
+          "sha256": "02f32d3376d909303b68964239be7effe9582539aef51345cbd3936537e34ee8"
+        }
+      ]
+    },
+    "Notebooks TD/S3/TD7_S3_audit_llm.ipynb": {
+      "notebook_without_cells_sha256": "123326709aa407b94f284ca6781ad04c4d4d5bce37ae8215e3f3e1fc0f5ae705",
+      "cells": [
+        {
+          "id": "tal-tutor-instructions",
+          "sha256": "ced2bf50dd6bc2b24ee031c2f5c2703a7a5f1857ff4d9057654bd84dbda38122"
+        },
+        {
+          "id": "s3-td7-00",
+          "source_prefix": "# TD7 — Auditer une analyse textométrique produite par un LLM\n\n**Objectif :** Assembler un outil paramétrable qui mesure réellement les données, retrouve les preuves et rend des verdicts proportionnés aux informations disponibles.\n\n**Durée : 2 h.** Installation et rappel : 8 min ; exercices : 12 + 20 + 14 + 12 + 16 + 14 + 18 min ; sauvegarde et bilan : 6 min. Ces temps sont indicatifs. Les prolongements signalés sont hors de ces 120 min.\n\n**À mobiliser :** TD3 : expressions et citations ; TD4 : cooccurrences et marges ; TD5 : proportions ; TD6 : visualisations et retour au texte. Ouvrir un nouveau notebook ne conserve pas les variables d'un autre : reprenez vos **fonctions** antérieures dans les cellules prévues ; relisez vos résultats JSON avec `json.load`. Un fichier JSON transporte des données, pas le code d'une fonction. Si une fonction manque, reconstruisez-la à partir du petit cas travaillé avant de traiter Faguet.\n\nPour chaque exercice : prédire sans exécuter, écrire et tester, puis commenter. Utilisez `round(valeur, 6)` pour arrondir les quotients affichés, en conservant les effectifs entiers pour les calculs suivants. Les exemples portent sur d'autres données que les exercices. Les sorties `S3_TD7_Q1` à `S3_TD7_Q7` contiennent des dictionnaires JSON : gardez les marqueurs et noms de clés, arrondissez seulement les valeurs finales à six décimales. Le correcteur formatif lit ces traces enregistrées : **il n'exécute pas vos fonctions et ne certifie ni leur généralité ni vos interprétations**. Les sept contrôles techniques valent chacun un point ; l'enseignant relit graphiques, preuves et rapport séparément.\n\nTravaillez sur le texte figé fourni et la conversation Gemini associée. Les trois prompts s'enchaînent dans une même conversation : ce ne sont pas trois essais indépendants. Les valeurs calculées sur Faguet doivent être accompagnées de la méthode et de passages sources. Aucun résultat attendu sur l'œuvre ne vous est imposé.",
+          "other_fields_sha256": "54187b4a42fb07cb354d6b34f0b6a007ba8b0bad519f99f3ae2155066073e99d"
+        },
+        {
+          "id": "s3-td7-01",
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"",
+          "other_fields_sha256": "899c16bee94b6c36fc41fc07b4bdba50991f7a5580e46f66281af46d03007631"
+        },
+        {
+          "id": "s3-td7-02",
+          "sha256": "4c881869e760882cd6a4830d3056af4af0173e124f320f9b09715326bc006ad6"
+        },
+        {
+          "id": "s3-td7-03",
+          "sha256": "70ef8dee17908998081b4a0dbd20c17d0912b7c06a3867087b52fd5fc1bf75b3"
+        },
+        {
+          "id": "s3-td7-04",
+          "sha256": "31fe8848b6a700719a5819735fe162a87a3e634f9e2b96c7acf28d276a7d4a49"
+        },
+        {
+          "id": "s3-td7-05",
+          "sha256": "188434505808aa84bdd5faf7a4ea101222d62e391edcdbbf0c3756f5015c42f6"
+        },
+        {
+          "id": "s3-td7-06",
+          "sha256": "89f484545e95dd65d723bb14b5afb1cf6ceac3173b6e80b0333712e9b3a4c14a"
+        },
+        {
+          "id": "s3-td7-07",
+          "sha256": "ed251c16983d591f7e097d25d1912b8a0cff058bdf00b236a49bb39cbf92ae2e"
+        },
+        {
+          "id": "s3-td7-08",
+          "sha256": "c87e8bdd08213aa433371bb890985c0fe8ecce9d2e1ec7bb161495a9786baa10"
+        },
+        {
+          "id": "s3-td7-09",
+          "sha256": "a72ae2613f4e7858de85ce7a344dd489976ba08dfb1a3f7cb6d918396ead3ce4"
+        },
+        {
+          "id": "s3-td7-10",
+          "sha256": "aae96809cae5866e973e26d773b96d14801307b1f5528d001cc5acb23ad438cc"
+        },
+        {
+          "id": "s3-td7-11",
+          "sha256": "c9bceb4c9ddc4d28273896b69dea3f760c56f278bddb7730fc24a3128932aa21"
+        },
+        {
+          "id": "s3-td7-12",
+          "sha256": "53680ce2365633db4ed0754579609903d11d62a8169325f994ec636d4af05051"
+        },
+        {
+          "id": "s3-td7-13",
+          "sha256": "40acfa3e32f4d358ce8479ef74250e81a3f321df60e7dcb7cd750e164ed8f197"
+        },
+        {
+          "id": "s3-td7-14",
+          "sha256": "0903ad64b9743d68a0ec7cd4ad7946caefbfac60a7f2e4d32b5ad8ad2ffdd466"
+        },
+        {
+          "id": "s3-td7-15",
+          "sha256": "3d51382e4210ab8c71e339db40ee3f7e1e26527cf76a7f13faf5b1abdbe3318b"
+        },
+        {
+          "id": "s3-td7-16",
+          "sha256": "6ea29ff5eac4f39698165e263baa5deb1737385fc328976038d8cf77efe0d165"
+        },
+        {
+          "id": "s3-td7-17",
+          "sha256": "9ce05d4c3a063b2e17a58bda952bb6be8353a1dd70fa056eef9cf7ecd9b58aed"
+        },
+        {
+          "id": "s3-td7-18",
+          "sha256": "bb3bb8c979184dc2dfb1041f795dcc2740890775d9daceff6dafcd6fc36909ed"
+        },
+        {
+          "id": "s3-td7-19",
+          "sha256": "57eea55c9b898dfcb3d9e30caed9bacf7245f2135c916d5cedc9d9cc6cda5b20"
+        },
+        {
+          "id": "s3-td7-20",
+          "sha256": "9a34a278432907b067011a35210243c8e9f611094344d85b8efe6ac09af533a7"
+        },
+        {
+          "id": "s3-td7-21",
+          "sha256": "17da4f53b817e8e76fd34fb03002760e45537dbebb9f650a9685f6bcd9bed2b5"
+        },
+        {
+          "id": "s3-td7-22",
+          "sha256": "e323a923783d99470a53e631abe1d4a34eae065925e7656faea7b66b0448c6b1"
+        },
+        {
+          "id": "s3-td7-23",
+          "sha256": "77b276f437044b8fc433e0c32f58a062f217ee987eead9136646e2a479a44abb"
+        },
+        {
+          "id": "s3-td7-24",
+          "sha256": "33c7c9eeb1c0adf9b6c513ab263313cf0d43259e0d6c91da9ce5da7ba42e7d07"
+        },
+        {
+          "id": "s3-td7-25",
+          "sha256": "42c082648744faaf622efe46d62e6448c507235f493df2fbdccd958527660682"
+        },
+        {
+          "id": "s3-td7-26",
+          "sha256": "e64a88e7692ededc38720844ef868030dc3a11d41b9ca2328ebd32f3ab517850"
+        },
+        {
+          "id": "s3-td7-27",
+          "sha256": "701f9acfd94cd2aefce7be0c79cb87bc0000a89c0cebb4cffca6af1369890b4d"
+        },
+        {
+          "id": "s3-td7-28",
+          "sha256": "72be92e0d2953c2264b51c90f51ab9b81e61816e9fca2112a1fc7886f2428c1a"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD1_S3.ipynb": {
+      "notebook_without_cells_sha256": "7b3ea27814d73175b93c70243e39739c942d3942bf5868fb28501e5a9507fb1c",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "7d22b2202f8922b13b6b8497f239fc1acabad5c087069998c9eb306e668d45fa"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle TD1 S3 — Annotations linguistiques et décisions de lecture\n\n**Durée prévisionnelle : 2 h.** Ce contrôle porte principalement sur le TD1 et mobilise les acquis des TD0 à TD1. Vous préparez une fiche de lecture linguistique pour un musée, puis évaluez sa réutilisation sur des annonces de transport et un bulletin météorologique.\n\nLes textes et situations sont des données pédagogiques originales et fictives. Ils ne décrivent pas une enquête réelle. Les contextes distincts sont indépendants de Faguet et ne nécessitent aucun export d'un TD.\n\n**Conditions :** travail individuel. Vos notes de TD et les fonctions que vous avez vous-même écrites sont autorisées : vous devez les adapter, expliquer leur fonctionnement et calculer les résultats sur les nouvelles données. Aucun ancien fichier n'est nécessaire au fonctionnement de ce notebook. La consultation des corrigés et toute assistance du tuteur, d'un LLM ou d'un service de génération de code sont interdites. Aucune fonction de résolution n'est fournie. Écrivez vos réponses dans les cellules prévues et conservez vos sorties. Les conventions de mesure et les formats JSON font partie de l'énoncé.\n\n**Évaluation :** Q1 vaut 2 points techniques ; Q2–Q7 valent chacune 3 points, soit un indicateur technique provisoire sur 20. Ce résultat ne constitue pas la note globale : la qualité du code, le contrôle linguistique, les figures et l'argumentation font l'objet d'une relecture humaine distincte. Une sortie enregistrée ne prouve ni son authenticité ni la correction du programme ; vous devez pouvoir expliquer et refaire vos traitements. Aucun détail de correction n'est communiqué pendant le contrôle.\n\n**Organisation :** préparation 10 min ; Q1 10 min ; Q2–Q6 15 min chacune ; Q7 20 min ; sauvegarde 5 min. La durée reste à confirmer en situation de classe.\n\n**Périmètre :** Python et notions déjà travaillées jusqu'au TD1, avec json, spaCy et displaCy ; sans Counter, PhraseMatcher ni bibliothèque de visualisation supplémentaire. Les imports de préparation ne sont pas des méthodes supplémentaires à employer dans les réponses.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "5ce3a90e08e67df1b4a0e2eedfe792bbc7bdead64fc8ad8303ec356df11d3dc1"
+        },
+        {
+          "id": null,
+          "sha256": "30b25c9ba4dfb9378914335e417b46237ca83041f7d4b9fcb52cb80d4dbea622"
+        },
+        {
+          "id": null,
+          "sha256": "4b092d732f878611b51da74f97a4f33c4c7a9aa2c36dbc4cfae3becbf0940495"
+        },
+        {
+          "id": null,
+          "sha256": "35f9961181fa705d635d4b3cb644fa0ec9c3aa25844374295039b433c0cb8c26"
+        },
+        {
+          "id": null,
+          "sha256": "49e241e6e0988a6d124750bf887f741c905ba3157ef5678c3638ef1cee9a75f1"
+        },
+        {
+          "id": null,
+          "sha256": "b009204a70205fb01af2b4296569c1a8a6a56f98481f6a1d01765c3a202bf1e5"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "3de74685f0dbbff430eb1dea39fbb5ea15262e5017dbe2cb16cf8fc51e3b7094"
+        },
+        {
+          "id": null,
+          "sha256": "c08bc103c67ae731d679b721452d534cdbe67e2a077aef8bb95170d828239a42"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "e699fcb27f8a67143bbaf53492a5e26db1b17fabde3ac170943cbbcfffd5edd7"
+        },
+        {
+          "id": null,
+          "sha256": "f197543f788f847725e099ed8dbd74eb89f4f4a4aa6f73b7309d1b74f99e49c3"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "a0d7309b240d39084e010df6033c41a51337341b8dec6703fc17aed21c61d2fa"
+        },
+        {
+          "id": null,
+          "sha256": "44709a0143225f91beda4935b60de593c0715a54eaae92be798357d6c75cbda6"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "8dc2d653f3e919697d8edbc07773f41d0f46a729548f1e92733a4851c44dbf1e"
+        },
+        {
+          "id": null,
+          "sha256": "93653aa22ef99ac97b97ff3fdc6d1573594e895334038d68dd06c9e9f053de4f"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "9fe88aa0a8e5a940927c1676de4e7e07d5b14297332aad6a7f6a832e13883f23"
+        },
+        {
+          "id": null,
+          "sha256": "6c13d18a63b98cd53910226c3bb5a53e360541216a6cd849070e8c683513e4cc"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "559ad06f21a2bfad15e05d812e1bb976b5d004d0ed603d97ebee9be7b0b4b4a1"
+        },
+        {
+          "id": null,
+          "sha256": "78062ee24d6d22619a9ac4374e50f3e9db3f1c4cf233d5526b9f66e0531d2b6f"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "0599c64bbdf3c015298ce1be0f1104891f85d754041a61dc6b317da6e04ce10f"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD2_S3.ipynb": {
+      "notebook_without_cells_sha256": "890d12e0c27c999acf44967022dcabbd14bbf494263b4076b5cc6fed1c0430c2",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "7359a8a0808b0c59a6bdbdf42eae4304c3e8ac8041f951bc59d604867e218ac0"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle TD2 S3 — Fréquences et choix de représentation\n\n**Durée prévisionnelle : 2 h.** Ce contrôle porte principalement sur le TD2 et mobilise les acquis des TD0 à TD2. Vous analysez un journal d’atelier de réparation, puis transférez vos fonctions à des annotations portuaires et à des annonces alimentaires.\n\nLes textes et situations sont des données pédagogiques originales et fictives. Ils ne décrivent pas une enquête réelle. Les contextes distincts sont indépendants de Faguet et ne nécessitent aucun export d'un TD.\n\n**Conditions :** travail individuel. Vos notes de TD et les fonctions que vous avez vous-même écrites sont autorisées : vous devez les adapter, expliquer leur fonctionnement et calculer les résultats sur les nouvelles données. Aucun ancien fichier n'est nécessaire au fonctionnement de ce notebook. La consultation des corrigés et toute assistance du tuteur, d'un LLM ou d'un service de génération de code sont interdites. Aucune fonction de résolution n'est fournie. Écrivez vos réponses dans les cellules prévues et conservez vos sorties. Les conventions de mesure et les formats JSON font partie de l'énoncé.\n\n**Évaluation :** Q1 vaut 2 points techniques ; Q2–Q7 valent chacune 3 points, soit un indicateur technique provisoire sur 20. Ce résultat ne constitue pas la note globale : la qualité du code, le contrôle linguistique, les figures et l'argumentation font l'objet d'une relecture humaine distincte. Une sortie enregistrée ne prouve ni son authenticité ni la correction du programme ; vous devez pouvoir expliquer et refaire vos traitements. Aucun détail de correction n'est communiqué pendant le contrôle.\n\n**Organisation :** préparation 10 min ; Q1 10 min ; Q2–Q6 15 min chacune ; Q7 20 min ; sauvegarde 5 min. La durée reste à confirmer en situation de classe.\n\n**Périmètre :** Python et notions déjà travaillées jusqu'au TD2, avec json, spaCy, displaCy, collections.Counter, Matplotlib et WordCloud. Les imports de préparation ne sont pas des méthodes supplémentaires à employer dans les réponses.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "5ce3a90e08e67df1b4a0e2eedfe792bbc7bdead64fc8ad8303ec356df11d3dc1"
+        },
+        {
+          "id": null,
+          "sha256": "3519adf42516f0c3108dad8db6c5814d0a0a058a8aaf4dfe0fe54092488bfb5d"
+        },
+        {
+          "id": null,
+          "sha256": "12b325c5b6b086692bb6a472b6f7acd735c174dd8f4da2eb50cafc096e24d6cb"
+        },
+        {
+          "id": null,
+          "sha256": "55178ff0f552b0b08b22372b23d21d9e06eeff761f69bda82678cf648e19290d"
+        },
+        {
+          "id": null,
+          "sha256": "4113724b0d9f72f610b536dc3b1ab9f2ae6daa5a38a72f92f121802a2984fd52"
+        },
+        {
+          "id": null,
+          "sha256": "7fcec4839784d574109ee995182bb31387b43f7f35a90953e7f81d1447c1fcaa"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "079ec563b07db0f286903698e8f72f13c6424c9ba190d03a5d5ff9372f24a548"
+        },
+        {
+          "id": null,
+          "sha256": "87f4d2693098f8c2a81ebef53301b08482aae4a0d32d03603c5256c333c4194a"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "d653c7329814ab0b134c60f88c6baf864df6db54f04f22d86fc0ce2848bac1f6"
+        },
+        {
+          "id": null,
+          "sha256": "02e811b60fdcd36678d98ef6c7e8fb2f64877ac39e4ad4a6075c4751702ffa25"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "cf7a114fa20a6fb16f26230df2672f250b72e031dc22d06173c96a719c68947b"
+        },
+        {
+          "id": null,
+          "sha256": "9fd80e10c0973047046d86b0a8fbaefe15d6c0b920b430f53bf073cea2f32c6a"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "caece77ffba8787ff9f02a9782ba4d48e2f4576d308a6a4fd0997b1665785c53"
+        },
+        {
+          "id": null,
+          "sha256": "1a91eea80f56872f69b4d9955da2f34bb95453b4752e0ecb217d81a2213f958a"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "a7e19c35c2e3147c35b7310320e9dfc081069e929026e72de7760eb602dc18d2"
+        },
+        {
+          "id": null,
+          "sha256": "d42fd73dc2783c333cb518d32f6ca187ff454acd2ead2ff441ffbe013d8c89cc"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "649efed7a68e88ba68355af2f419faf80b390a8b14eb7443fa8aa99ea4df8cde"
+        },
+        {
+          "id": null,
+          "sha256": "412d063d788936abedf8ef7c20acb5fb7c752b227bcc9946e2d6bc661cb3c309"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "0599c64bbdf3c015298ce1be0f1104891f85d754041a61dc6b317da6e04ce10f"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD3_S3.ipynb": {
+      "notebook_without_cells_sha256": "ff243c70c7eec848b32df214733ace58feb8ff6db002063723f15436a096f3a4",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "90b6328825017fb297e59fc8dd0be3849379ab298aa9b3417987041dc6d364a5"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle TD3 S3 — Concordances et fidélité documentaire\n\n**Durée prévisionnelle : 2 h.** Ce contrôle porte principalement sur le TD3 et mobilise les acquis des TD0 à TD3. Vous vérifiez des citations attribuées à un bulletin patrimonial, puis adaptez votre dispositif à des messages radio.\n\nLes textes et situations sont des données pédagogiques originales et fictives. Ils ne décrivent pas une enquête réelle. Les contextes distincts sont indépendants de Faguet et ne nécessitent aucun export d'un TD.\n\n**Conditions :** travail individuel. Vos notes de TD et les fonctions que vous avez vous-même écrites sont autorisées : vous devez les adapter, expliquer leur fonctionnement et calculer les résultats sur les nouvelles données. Aucun ancien fichier n'est nécessaire au fonctionnement de ce notebook. La consultation des corrigés et toute assistance du tuteur, d'un LLM ou d'un service de génération de code sont interdites. Aucune fonction de résolution n'est fournie. Écrivez vos réponses dans les cellules prévues et conservez vos sorties. Les conventions de mesure et les formats JSON font partie de l'énoncé.\n\n**Évaluation :** Q1 vaut 2 points techniques ; Q2–Q7 valent chacune 3 points, soit un indicateur technique provisoire sur 20. Ce résultat ne constitue pas la note globale : la qualité du code, le contrôle linguistique, les figures et l'argumentation font l'objet d'une relecture humaine distincte. Une sortie enregistrée ne prouve ni son authenticité ni la correction du programme ; vous devez pouvoir expliquer et refaire vos traitements. Aucun détail de correction n'est communiqué pendant le contrôle.\n\n**Organisation :** préparation 10 min ; Q1 10 min ; Q2–Q6 15 min chacune ; Q7 20 min ; sauvegarde 5 min. La durée reste à confirmer en situation de classe.\n\n**Périmètre :** Python et notions déjà travaillées jusqu'au TD3, avec json, spaCy, spacy.matcher.PhraseMatcher et les bibliothèques déjà vues aux TD précédents. Les imports de préparation ne sont pas des méthodes supplémentaires à employer dans les réponses.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "5ce3a90e08e67df1b4a0e2eedfe792bbc7bdead64fc8ad8303ec356df11d3dc1"
+        },
+        {
+          "id": null,
+          "sha256": "3519adf42516f0c3108dad8db6c5814d0a0a058a8aaf4dfe0fe54092488bfb5d"
+        },
+        {
+          "id": null,
+          "sha256": "0c1a3c59504f9732d81f0c44bb228b5e8c956680026d2c9cbc6b57223fff7660"
+        },
+        {
+          "id": null,
+          "sha256": "cac2aecb1ed0bbe2b79186958f54f6d83797d5d47721f3dfa8ed5c85c0d0800e"
+        },
+        {
+          "id": null,
+          "sha256": "b25c44bad994da34ff49db2b4ad8a15420ddca05bd198de1d5d2d6b8119b084c"
+        },
+        {
+          "id": null,
+          "sha256": "5904dad404d86c5dc3ce22208cf7ea8303aa9bfb5eeb40d01758a157e0b7fc0a"
+        },
+        {
+          "id": null,
+          "sha256": "7a59ede7f279e51065b0836de0b8f93caa42663ec61392b8d801d559bfbe79f4"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "ed5fc8bcc6a1aca56c1466f0ae4f60669e145f3aeb8283cd10e7886586952a15"
+        },
+        {
+          "id": null,
+          "sha256": "5e0fb9f11a00c5981545e213ab460351fde905346636c84c8b7d7284f3cef398"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "519adab014ed9c4b25d30c0db5ec22057940f164b87378de5c9367c18cb1e346"
+        },
+        {
+          "id": null,
+          "sha256": "d388e9e5a241eed1cd0b7d69d630674a72e9b4bc9f4abdd4398423f88ffee5a0"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "218fa3b26efb79a2589301849a239114da27e072f375f456baf8999f53ca089f"
+        },
+        {
+          "id": null,
+          "sha256": "13be9e269f725b19cb734437b26351bab2d7ce5e1891801687dc737ea7649547"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "e3bb43893208831012ff713b7e85db0dec4a2c3de2f9e2ed501f5ef5682ba16d"
+        },
+        {
+          "id": null,
+          "sha256": "e212d52c347c08bf32c289b932467b3a735fd56b2add7e31e59fba79274fe490"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "31e07aff11e9580eebb3f0d132f90b5c6fc235790edc15dc8fa4368f6a5d0f1e"
+        },
+        {
+          "id": null,
+          "sha256": "3c07db2ff0f1aff81d160b73bf4c09f2d29f2b764685252e9c22d3dc29cb3eec"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "05bebe4ee4d608ff873586b0d351636c1dae9fe0deb0b6312fedaf3086dc14fe"
+        },
+        {
+          "id": null,
+          "sha256": "db1cb58460c5743b81fe12c8c6a4bf0479550a00e0c96afd5ed9aa97b619a4aa"
+        },
+        {
+          "id": null,
+          "sha256": "b8931fcf392d6d6f78adb2de83bb055ecc69e83f9901ca9ffac25ff72393d823",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "0599c64bbdf3c015298ce1be0f1104891f85d754041a61dc6b317da6e04ce10f"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD4_S3.ipynb": {
+      "notebook_without_cells_sha256": "88b067a3a07b91973deed264fe021e743896fa22d7ced31d7a9096ebcc6cea03",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "c36fba9de7665d9691b11c61609c2fa742144fafcd127029b2b7f8539f3d5945"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle du TD4 S3 — Cooccurrences entre fiches et documents\n\n**Durée prévisionnelle : 2 h.** Prise en main et préparation : 10 min ; exercices : 10 + 15 + 15 + 15 + 15 + 15 + 20 min ; relecture et sauvegarde : 5 min.\n\nCe contrôle porte principalement sur **les unités et protocoles de cooccurrence du TD4** et réinvestit les TD0 à TD3. Les deux contextes sont des situations pédagogiques fictives : les textes et relevés ont été créés pour cette évaluation, sans prétendre décrire une institution réelle. Aucun fichier ni résultat d'un ancien TD n'est nécessaire.\n\n**Travail individuel, sans assistance du tuteur.** Vos propres notes et fonctions réalisées pendant les TD sont autorisées : vous devez les adapter, expliquer leurs choix et recalculer les résultats sur les données du contrôle. Les corrigés et les assistants sont interdits. Le notebook contient toutes les données nécessaires et ne dépend d’aucun ancien fichier. Écrivez vos traitements et justifiez vos décisions. Aucune solution ni fonction de calcul n'est fournie. Les seules bibliothèques autorisées dans les réponses sont `json`, `collections.Counter`, `spacy`, `spacy.matcher` ; leurs usages restent limités aux acquis des TD0–TD4. Les modules de préparation technique ne sont pas des outils autorisés pour résoudre les exercices. Les fonctions demandées doivent recevoir leurs données et paramètres en arguments ; les nombres saisis à la place d'un calcul ne répondent pas à la consigne.\n\n**Évaluation.** Q1 vaut 2 points techniques ; Q2 à Q7 valent 3 points techniques chacune, soit **20 points techniques**. Ce résultat ne constitue pas une note globale : le code réutilisable, les justifications, la lecture linguistique et les figures relèvent d'une grille humaine distincte. Les cellules de commentaires sont à compléter au fil des exercices. Les données et les formats de restitution sont fournis ; les résultats restent à calculer.\n\n**Conventions de restitution.** Les indices commencent à 0, les bornes droites sont exclues. Les listes de positions sont croissantes ; les tableaux suivent l'ordre de données ou de termes indiqué. Arrondissez les quotients finaux à six décimales ; gardez les effectifs entiers. Une mesure non définie est représentée par `None`, donc `null` en JSON. Les sept traces doivent être des dictionnaires issus de vos calculs, affichés dans la cellule qui les produit. Le correcteur lit les sorties enregistrées et n'exécute pas votre code ; une trace conforme ne prouve pas à elle seule l'authenticité d'un calcul.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "b85c8993ff9b9d20ab630097be05614d4dba63d4fd9d364e2e517c696da5ef1f"
+        },
+        {
+          "id": null,
+          "sha256": "763f1237a56eafb0b620fac8b19340daea50336a3417380e4929e56e94ca9db4"
+        },
+        {
+          "id": null,
+          "sha256": "40a29d6cdfec564aaf003bff1458a77a249557bb12558071afc1e09d38ab4610"
+        },
+        {
+          "id": null,
+          "sha256": "03399b8ccf7b0831a23a74bf8b7c7fd5aa0e733eaee555952cc1e7db69d24226"
+        },
+        {
+          "id": null,
+          "sha256": "3c2248a372cfc0f6f145bfaafed881192717f568ed9fa4c108ac53ed29cf0dec"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "5524a4533c5b964f329c8641698196d0976f3369e4d10bbc3b6ea0c9888deb6e"
+        },
+        {
+          "id": null,
+          "sha256": "a71d798ce8bf37d419f0c096b44d63d93954b7d19ef6a171aa916a2bca9cb5ca"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "8a155c4a58b23d6d2a9a3b7795c07cdbabbc2ae19f2c8b70391e8d766848530b"
+        },
+        {
+          "id": null,
+          "sha256": "cedb05d76230a4c48552a47e48bd8f365ba2fa0d30db0e0e2eefd9ce2388f0f0"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "7fff809655d90acb0cdb353a1ea511fa43b6853923798beac04268172e2b1dee"
+        },
+        {
+          "id": null,
+          "sha256": "907fd8ed8ed8dc6bc5508582bbfe8c8c3911c7391620a46677a944dabb716c67"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "422c7bbd280a29f50239d5b8f3675814ad0ccac11b0b2f3d01cd2fb9a71b8a61"
+        },
+        {
+          "id": null,
+          "sha256": "e6782d44e37f1dbb34103ac0d1b575c2bf720c0a74a68a1e59b6ca22d9d9b97c"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "70a63c186c9917bfc0c5b01debbc73777e4f65dcc46e4c25132ecc3427435185"
+        },
+        {
+          "id": null,
+          "sha256": "4a2e5d21d7027f441328d624651526fd1e5570d2e349f593e744d2cc2c47e165"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "2799f0df7657c5d1f80f0a4dbf1336ea274b64cd7827ef6725159cb461831960"
+        },
+        {
+          "id": null,
+          "sha256": "25398a0380285af454a88686019cde6fe5877c4976597d5566ad033fab66db08"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "ab0237c82950172533912a4641507c948c7c51836161ad816d777f8a189b3c53"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD5_S3.ipynb": {
+      "notebook_without_cells_sha256": "af544f0748ffa8576140cafed891ee75297a767738d702433221f2a9f02d0777",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "cc5ac053511d80faba453aca8dfad87fabdcb1fe086ca99bce64931abc80477e"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle du TD5 S3 — Dénominateurs et portée des associations\n\n**Durée prévisionnelle : 2 h.** Prise en main et préparation : 10 min ; exercices : 10 + 15 + 15 + 15 + 15 + 15 + 20 min ; relecture et sauvegarde : 5 min.\n\nCe contrôle porte principalement sur **les proportions, dénominateurs et limites descriptives du TD5** et réinvestit les TD0 à TD4. Les deux contextes sont des situations pédagogiques fictives : les textes et relevés ont été créés pour cette évaluation, sans prétendre décrire une institution réelle. Aucun fichier ni résultat d'un ancien TD n'est nécessaire.\n\n**Travail individuel, sans assistance du tuteur.** Vos propres notes et fonctions réalisées pendant les TD sont autorisées : vous devez les adapter, expliquer leurs choix et recalculer les résultats sur les données du contrôle. Les corrigés et les assistants sont interdits. Le notebook contient toutes les données nécessaires et ne dépend d’aucun ancien fichier. Écrivez vos traitements et justifiez vos décisions. Aucune solution ni fonction de calcul n'est fournie. Les seules bibliothèques autorisées dans les réponses sont `json`, `collections.Counter`, `spacy`, `spacy.matcher` ; leurs usages restent limités aux acquis des TD0–TD5. Les modules de préparation technique ne sont pas des outils autorisés pour résoudre les exercices. Les fonctions demandées doivent recevoir leurs données et paramètres en arguments ; les nombres saisis à la place d'un calcul ne répondent pas à la consigne.\n\n**Évaluation.** Q1 vaut 2 points techniques ; Q2 à Q7 valent 3 points techniques chacune, soit **20 points techniques**. Ce résultat ne constitue pas une note globale : le code réutilisable, les justifications, la lecture linguistique et les figures relèvent d'une grille humaine distincte. Les cellules de commentaires sont à compléter au fil des exercices. Les données et les formats de restitution sont fournis ; les résultats restent à calculer.\n\n**Conventions de restitution.** Les indices commencent à 0, les bornes droites sont exclues. Les listes de positions sont croissantes ; les tableaux suivent l'ordre de données ou de termes indiqué. Arrondissez les quotients finaux à six décimales ; gardez les effectifs entiers. Une mesure non définie est représentée par `None`, donc `null` en JSON. Les sept traces doivent être des dictionnaires issus de vos calculs, affichés dans la cellule qui les produit. Le correcteur lit les sorties enregistrées et n'exécute pas votre code ; une trace conforme ne prouve pas à elle seule l'authenticité d'un calcul.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "b85c8993ff9b9d20ab630097be05614d4dba63d4fd9d364e2e517c696da5ef1f"
+        },
+        {
+          "id": null,
+          "sha256": "763f1237a56eafb0b620fac8b19340daea50336a3417380e4929e56e94ca9db4"
+        },
+        {
+          "id": null,
+          "sha256": "1169b1abc6c11c257c84fb2145fe2cda88512d8514c7513d861903434d9e4099"
+        },
+        {
+          "id": null,
+          "sha256": "1ddc8db4d60ecda49543887a6555623a0c05fe9dba8d2b649015a228b95d6d4f"
+        },
+        {
+          "id": null,
+          "sha256": "27ff097829ce4bec703ebe9bc5f4981edfcd958c4ca55dca97b4f2f90e8b3a8d"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "850f522afd36abf6c16b432f430e718bb58cfa0962fe2293ba40d5958da3b3d5"
+        },
+        {
+          "id": null,
+          "sha256": "5c889fc01817a1bf16ca44be2d2e2d57f5095427423dfbea5e7e461416dd556c"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "5767e769603c9b598732988110feffc388b6df5a87a633502ea213845e7acb21"
+        },
+        {
+          "id": null,
+          "sha256": "63131803be61385180657aab115cc01b4033c7df5bec9e536e8d7e33ad0f1d52"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "e6ec4527e06599b6cf47a96fd6ce403e3a42ce79f725f11a54f22723044e075a"
+        },
+        {
+          "id": null,
+          "sha256": "57fb47bbfc3449c645c89f048466b6515c04320104c93695588ccc49cf656212"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "baf3c17f27df521f2167d125f7536dac55ba47c90e1e766ed0115c410131f21c"
+        },
+        {
+          "id": null,
+          "sha256": "473bc8444711c852ecaa8404aa553c0d2a09dba89e5372b64970cc162e3a4ca1"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "c6e5adfa3a4c277321af58fb320ddeb44a1f02de3dc59472a90e6b2a01eb8714"
+        },
+        {
+          "id": null,
+          "sha256": "e7de6cade34a75be9a7ce2df2432e168a6188d91171a0bb844cd434715002bf0"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "5e2a244dd05f6812da8778b1e212e11fbe7c0ff17d129e7fd144967aa962fbcb"
+        },
+        {
+          "id": null,
+          "sha256": "3ef05a72399e86f1c3e284dc25c8cb566d3d08d0c78b757021fd1fb36cf695e8"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "d8dfd2d77587fb4803f7001b2c4b750bb2c3eea842003b252f1f67987e65e53e"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD6_S3.ipynb": {
+      "notebook_without_cells_sha256": "42961c5010fe5296cda08b8897e81ae6bd49177f9ebef22ee41a3ccb465ab3bc",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "e8470af7315de90704343a4f2cf77cbe88e96924da26ea64b0692543ad181650"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle du TD6 S3 — Figures vérifiables et retour aux passages\n\n**Durée prévisionnelle : 2 h.** Prise en main et préparation : 10 min ; exercices : 10 + 15 + 15 + 15 + 15 + 15 + 20 min ; relecture et sauvegarde : 5 min.\n\nCe contrôle porte principalement sur **la visualisation documentée et le retour au texte du TD6** et réinvestit les TD0 à TD5. Les deux contextes sont des situations pédagogiques fictives : les textes et relevés ont été créés pour cette évaluation, sans prétendre décrire une institution réelle. Aucun fichier ni résultat d'un ancien TD n'est nécessaire.\n\n**Travail individuel, sans assistance du tuteur.** Vos propres notes et fonctions réalisées pendant les TD sont autorisées : vous devez les adapter, expliquer leurs choix et recalculer les résultats sur les données du contrôle. Les corrigés et les assistants sont interdits. Le notebook contient toutes les données nécessaires et ne dépend d’aucun ancien fichier. Écrivez vos traitements et justifiez vos décisions. Aucune solution ni fonction de calcul n'est fournie. Les seules bibliothèques autorisées dans les réponses sont `json`, `collections.Counter`, `spacy`, `spacy.matcher`, `matplotlib.pyplot` ; leurs usages restent limités aux acquis des TD0–TD6. Les modules de préparation technique ne sont pas des outils autorisés pour résoudre les exercices. Les fonctions demandées doivent recevoir leurs données et paramètres en arguments ; les nombres saisis à la place d'un calcul ne répondent pas à la consigne.\n\n**Évaluation.** Q1 vaut 2 points techniques ; Q2 à Q7 valent 3 points techniques chacune, soit **20 points techniques**. Ce résultat ne constitue pas une note globale : le code réutilisable, les justifications, la lecture linguistique et les figures relèvent d'une grille humaine distincte. Les cellules de commentaires sont à compléter au fil des exercices. Les données et les formats de restitution sont fournis ; les résultats restent à calculer.\n\n**Conventions de restitution.** Les indices commencent à 0, les bornes droites sont exclues. Les listes de positions sont croissantes ; les tableaux suivent l'ordre de données ou de termes indiqué. Arrondissez les quotients finaux à six décimales ; gardez les effectifs entiers. Une mesure non définie est représentée par `None`, donc `null` en JSON. Les sept traces doivent être des dictionnaires issus de vos calculs, affichés dans la cellule qui les produit. Le correcteur lit les sorties enregistrées et n'exécute pas votre code ; une trace conforme ne prouve pas à elle seule l'authenticité d'un calcul.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "b85c8993ff9b9d20ab630097be05614d4dba63d4fd9d364e2e517c696da5ef1f"
+        },
+        {
+          "id": null,
+          "sha256": "f81d549a45da194e2c063d7509a3b792300d6081cd03f1e61db1f0866aa63aee"
+        },
+        {
+          "id": null,
+          "sha256": "73c8d42b35d46cc74c52b7f6149b0f9958d1d7c440499f9bad20d211210100db"
+        },
+        {
+          "id": null,
+          "sha256": "4bdc33f453efd5e2bf773f498db0f4856590e170d3872460fb8fdd188fb9a564"
+        },
+        {
+          "id": null,
+          "sha256": "160461508c0a954cb96a6f2b96d8f3bfc1267a170738dab03af1acd397b8dfa1"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "1fcfc124b893e3c3eee921dfe8f7870fcd813d62b3fb8c7bef2e4c6954a3ebdc"
+        },
+        {
+          "id": null,
+          "sha256": "bbad5c00840aa5fd9928f52790c637a6daa639bf4ccc7980e439819b81ae204b"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "a68dbdcbf4538173e13d1b8ed84b0e5bd2a84dab6fa40c931a88838ade0dc772"
+        },
+        {
+          "id": null,
+          "sha256": "6755546a75492bfc224858cec282b01aeb48e68bb15cedbf300d1ae8feacaaf3"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "5a90664857c33a9f5979398e7f17314121f8673b873629a526162bf8fbded06d"
+        },
+        {
+          "id": null,
+          "sha256": "26cf9ecf3705a06cd40a981e7d72f19c738c04e96979d16b117136dac10ba3dd"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "c29f1d67ba8e9101370d49d8bc406eba7b354567132cb2c52b6daf4d1f0c681c"
+        },
+        {
+          "id": null,
+          "sha256": "989c58c5a199be7c30d133163c40bdaa496368dfd11a80a1ebbe9250a04fe2d9"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "59a43cc6b8063250944c15ca1d3d756f956763f1eebcd0569ed491efd9d8fea5"
+        },
+        {
+          "id": null,
+          "sha256": "7fe2bd1f521680f47986114aa3715fa346f579b2e30f6dff969007f4dd29434b"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "d7ec53d5fe9209f306c685b52131e556e0a478104a9746cc7acb15e8c952e5bf"
+        },
+        {
+          "id": null,
+          "sha256": "99f3bf5de3cc792b9d2a2c47898ca32a625c42ed57704be1b86b9e24e787f598"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "0d05b64906003cd7940b45aec0c26a1ca3bc936baf219bc68afdf837cff7d704"
+        }
+      ]
+    },
+    "Notebooks contrôles finaux/S3/Controle_TD7_S3.ipynb": {
+      "notebook_without_cells_sha256": "08f80f0187a8c18a316d4e3065b9a041ec24cc412708f9cc55773781fabfd8ea",
+      "cells": [
+        {
+          "id": null,
+          "sha256": "73e91011f9e80b5d4a3f1b68e7086f44c0948171bc16a1c418effd2dd825a625"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Contrôle du TD7 S3 — Audit quantitatif d’un rapport synthétique\n\n**Durée prévisionnelle : 2 h.** Prise en main et préparation : 10 min ; exercices : 10 + 15 + 15 + 15 + 15 + 15 + 20 min ; relecture et sauvegarde : 5 min.\n\nCe contrôle porte principalement sur **l’audit paramétrable, traçable et transférable du TD7** et réinvestit les TD0 à TD6. Les deux contextes sont des situations pédagogiques fictives : les textes et relevés ont été créés pour cette évaluation, sans prétendre décrire une institution réelle. Aucun fichier ni résultat d'un ancien TD n'est nécessaire.\n\n**Travail individuel, sans assistance du tuteur.** Vos propres notes et fonctions réalisées pendant les TD sont autorisées : vous devez les adapter, expliquer leurs choix et recalculer les résultats sur les données du contrôle. Les corrigés et les assistants sont interdits. Le notebook contient toutes les données nécessaires et ne dépend d’aucun ancien fichier. Écrivez vos traitements et justifiez vos décisions. Aucune solution ni fonction de calcul n'est fournie. Les seules bibliothèques autorisées dans les réponses sont `json`, `collections.Counter`, `spacy`, `spacy.matcher`, `matplotlib.pyplot` ; leurs usages restent limités aux acquis des TD0–TD7. Les modules de préparation technique ne sont pas des outils autorisés pour résoudre les exercices. Les fonctions demandées doivent recevoir leurs données et paramètres en arguments ; les nombres saisis à la place d'un calcul ne répondent pas à la consigne.\n\n**Évaluation.** Q1 vaut 2 points techniques ; Q2 à Q7 valent 3 points techniques chacune, soit **20 points techniques**. Ce résultat ne constitue pas une note globale : le code réutilisable, les justifications, la lecture linguistique et les figures relèvent d'une grille humaine distincte. Les cellules de commentaires et le tableau d’audit sont à compléter au fil des exercices Q1–Q6. Les 20 minutes de Q7 servent à assembler et vérifier ces productions déjà constituées, puis à rédiger la synthèse finale. Les données et les formats de restitution sont fournis ; les résultats restent à calculer.\n\n**Conventions de restitution.** Les indices commencent à 0, les bornes droites sont exclues. Les listes de positions sont croissantes ; les tableaux suivent l'ordre de données ou de termes indiqué. Arrondissez les quotients finaux à six décimales ; gardez les effectifs entiers. Une mesure non définie est représentée par `None`, donc `null` en JSON. Les sept traces doivent être des dictionnaires issus de vos calculs, affichés dans la cellule qui les produit. Le correcteur lit les sorties enregistrées et n'exécute pas votre code ; une trace conforme ne prouve pas à elle seule l'authenticité d'un calcul.\n",
+          "other_fields_sha256": "210d0d1a04370c27781d349832b6ca7eefbcca9a486af5c1fb49715932c4d339"
+        },
+        {
+          "id": null,
+          "source_prefix": "# Complétez les informations entre les guillemets.\nnom = \"\"\nprenom = \"\"\nclasse = \"\"\n",
+          "other_fields_sha256": "e78337e1ae4fa06988af67020c1b47e5719a41db137fe2e1afa9f04aa1f6dbd9"
+        },
+        {
+          "id": null,
+          "sha256": "b85c8993ff9b9d20ab630097be05614d4dba63d4fd9d364e2e517c696da5ef1f"
+        },
+        {
+          "id": null,
+          "sha256": "f81d549a45da194e2c063d7509a3b792300d6081cd03f1e61db1f0866aa63aee"
+        },
+        {
+          "id": null,
+          "sha256": "2a992f40a1de54443d8ca192d4cd44a1d1c5a8b5cf0d3f7162a23e10b29c544a"
+        },
+        {
+          "id": null,
+          "sha256": "b4f7573091d471c7d51a6240e90b7843fab3f48a9cb61bb93f291890bbac05f9"
+        },
+        {
+          "id": null,
+          "sha256": "e82f8b773b7687632b331db8ce9605cfe84b42d39f6018c196a1c112dcbb3b24"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q1"
+        },
+        {
+          "id": null,
+          "sha256": "b67994a0cdbed34bf937f6158474fdcb36442188f529c8abbdd70bbc632832de"
+        },
+        {
+          "id": null,
+          "sha256": "572dfef1a432beb440df740b52c9ba11af3b54440e1016bec572b7c737dcc268"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q2"
+        },
+        {
+          "id": null,
+          "sha256": "8eae05ae9df24aaecf03828fbb611f30ad1bd1d5642934db59b8dfc372101d05"
+        },
+        {
+          "id": null,
+          "sha256": "aad75e446f6db21304ad267a0f0572c427888942a3606e7547fdb8716b82a66c"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q3"
+        },
+        {
+          "id": null,
+          "sha256": "0673409d29374dc008e915caa8e013531ac635c2f0c560270efe3f7da5c21481"
+        },
+        {
+          "id": null,
+          "sha256": "1c86a7e2d6ef2eb1c8bcd465c0e26947bd5b70ed404a64bddd4f18b514b22a9c"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q4"
+        },
+        {
+          "id": null,
+          "sha256": "d88fe48758cd06b5332f0a7f3b2560594b2105329fcfec2877ada824e0d00cd0"
+        },
+        {
+          "id": null,
+          "sha256": "4bbe738cd247070034761a87e7c60dbe353932b5f31f8287025bfbdd982c2579"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q5"
+        },
+        {
+          "id": null,
+          "sha256": "4efc729ab6fe568d6fcadd9eaaeeb53675db84959a2d294727392ec41e2cd5e8"
+        },
+        {
+          "id": null,
+          "sha256": "3fba305d622eca58f02cc16d4cc1a76d00ab7330300958046062c024eeafb5cd"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q6"
+        },
+        {
+          "id": null,
+          "sha256": "164fca05bf499f377d5ab2bb41f725408c5d524ad8eb74884400d175247b62d3"
+        },
+        {
+          "id": null,
+          "sha256": "ca6b6ee16c47df6eec641c824634e146f095b28778476d3abe187e99552e57cf"
+        },
+        {
+          "id": null,
+          "sha256": "ab2bd264b47e7c1c75f5fdab2534644baeab1d816c1348d470ac71827585fee2",
+          "review_question": "Q7"
+        },
+        {
+          "id": null,
+          "sha256": "5038f92dee26efc7d13af3e11ea5a102faf9917dab05e311b5d1196ea3b743a8"
+        }
+      ]
+    }
+  }
+}

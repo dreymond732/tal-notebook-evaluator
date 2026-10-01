@@ -15,6 +15,7 @@ import outils
 import routes
 from notebook_contract import (ContractError, evaluation_cells, load_catalog,
                                resolve_cells, resolve_notebook, validate_cell_metadata)
+from s3_v2_fixture import notebook as v2_notebook
 
 
 def notebook(evaluator='td2-s1'):
@@ -168,7 +169,7 @@ class AutomaticSubmissionTests(unittest.TestCase):
                 with self.subTest(evaluator=entry['evaluator'], path=path):
                     response = self.post(obsolete, path)
                     self.assertIn('mauvaise version du notebook', response.get_data(as_text=True))
-        for evaluator in ('td-r0-s3', 'td-r1-s3', 'td-r2-s3'):
+        for evaluator in (entry['evaluator'] for entry in s3):
             for path in ('/submit', '/eval/' + evaluator):
                 with self.subTest(evaluator=evaluator, path=path, version=1):
                     response = self.post(notebook(evaluator), path)
@@ -190,7 +191,7 @@ class AutomaticSubmissionTests(unittest.TestCase):
     def test_persistence_failure_cannot_be_a_successful_control_receipt(self):
         with patch.object(routes, 'process_submission', side_effect=OSError('PRIVATE_SOLUTION')):
             with self.assertLogs(self.app.logger, level='ERROR'):
-                response = self.post(notebook('controle-td1-s3'))
+                response = self.post(v2_notebook([], 'controle-td1-s3'))
         body = response.get_data(as_text=True)
         self.assertNotIn('Copie reçue et enregistrée', body)
         self.assertNotIn('PRIVATE_SOLUTION', body)

@@ -3,7 +3,9 @@
 Metadata is routing information, never permission to import a module or run code.
 Old notebooks remain supported only on an explicitly selected legacy route.
 """
+import ast
 import json
+import re
 from pathlib import Path
 
 
@@ -13,6 +15,10 @@ class ContractError(ValueError):
 
 WRONG_VERSION = 'mauvaise version du notebook'
 STRICT_REVISIONS = frozenset({'td-r0-s3', 'td-r1-s3', 'td-r2-s3'})
+S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
+                      **{f'controle-td{n}-s3': 7 for n in range(1, 8)},
+                      **{name: 4 for name in STRICT_REVISIONS}}
+STRICT_S3 = frozenset(S3_QUESTION_COUNTS)
 
 
 CELL_ROLES = frozenset({'answer', 'prompt', 'example', 'provided',
@@ -115,10 +121,10 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
     require_metadata = require_metadata or strict_s3
     if (require_metadata or 'tal' in metadata) and not isinstance(notebook.get('cells'), list):
         raise ContractError('Le notebook doit contenir une liste de cellules.')
-    validate_cell_metadata(notebook)
     if 'tal' not in metadata:
         if require_metadata:
             raise ContractError(WRONG_VERSION)
+        validate_cell_metadata(notebook)
         return None
     contract = metadata['tal']
     if (not isinstance(contract, dict) or not isinstance(contract.get('id'), str)
@@ -136,4 +142,66 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
         raise ContractError('L’identifiant et le correcteur du notebook sont incohérents.')
     if expected_evaluator is not None and expected_evaluator != entry['evaluator']:
         raise ContractError('Ce notebook ne correspond pas au dépôt sélectionné. Utilisez le dépôt automatique.')
+    if entry['semester'] == 'S3':
+        _s3_cell_contract(notebook, entry['evaluator'])
+    else:
+        validate_cell_metadata(notebook)
     return dict(entry)
+
+
+def _s3_cell_contract(notebook, evaluator):
+    """A complete cell contract is required even when all responses are blank."""
+    try:
+        index = validate_cell_metadata(notebook)
+        questions = {(f'Q{q}', 'answer') for q in range(1, S3_QUESTION_COUNTS[evaluator] + 1)}
+        answers = {key for key in index if key[1] == 'answer'}
+        identities = {key for key in index if key[1] == 'identification'}
+        if answers != questions or identities != {('identity', 'identification')}:
+            raise ContractError(WRONG_VERSION)
+        if any(index[key].get('cell_type') != 'code'
+               for key in questions | identities):
+            raise ContractError(WRONG_VERSION)
+        return index
+    except (ContractError, KeyError) as exc:
+        raise ContractError(WRONG_VERSION) from exc
+
+
+def literal_identity(source, fields=('nom', 'prenom', 'classe'), strict=False):
+    """Read exact, top-level literal assignments without evaluating any code."""
+    if isinstance(source, list) and all(isinstance(part, str) for part in source):
+        source = ''.join(source)
+    if not isinstance(source, str) or len(source) > 100000:
+        raise ValueError('Cellule d’identification invalide.')
+    tree = ast.parse(source)
+    info = {}
+    for node in tree.body:
+        targets = node.targets if isinstance(node, ast.Assign) else (
+            [node.target] if isinstance(node, ast.AnnAssign) else [])
+        for target in targets:
+            if isinstance(target, ast.Name) and target.id in fields:
+                if strict and target.id in info:
+                    raise ValueError('Une seule affectation est attendue pour chaque champ d’identification.')
+                # A non-literal reassignment cannot leave an earlier valid identity.
+                info[target.id] = node.value.value if isinstance(node.value, ast.Constant) else None
+    return info
+
+
+def s3_contract_identity(notebook, evaluator=None):
+    """Gate S3 v2 and return the four required identity fields before correction."""
+    entry = resolve_notebook(notebook, expected_evaluator=evaluator, require_metadata=True)
+    if entry['semester'] != 'S3' or entry['version'] != 2:
+        raise ContractError(WRONG_VERSION)
+    index = _s3_cell_contract(notebook, entry['evaluator'])
+    fields = ('nom', 'prenom', 'classe', 'numero_etudiant')
+    try:
+        info = literal_identity(index[('identity', 'identification')].get('source', ''),
+                                fields, strict=True)
+        if any(not isinstance(info.get(key), str) or not info[key].strip()
+               or info[key].strip() in {'...', 'NON_RENSEIGNE', 'NON_RENSEIGNEE'}
+               for key in fields):
+            raise ValueError('Complétez nom, prénom, classe et numéro étudiant dans la cellule d’identification.')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', info['numero_etudiant'].strip()):
+            raise ValueError('Numéro étudiant invalide : utilisez lettres, chiffres, tiret ou soulignement.')
+    except (ValueError, TypeError, SyntaxError, RecursionError) as exc:
+        raise ContractError(str(exc)) from exc
+    return {key: info[key].strip() for key in fields}

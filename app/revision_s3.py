@@ -5,10 +5,9 @@ The score checks source structure and saved traces, not execution authenticity.
 """
 import ast
 import json
-import re
 
 from notebook_contract import (ContractError, WRONG_VERSION, resolve_notebook,
-                               validate_cell_metadata)
+                               validate_cell_metadata, s3_contract_identity)
 
 TEXT_R0 = 'Python est utile. Python sert au TAL et le TAL sert à analyser des textes.'
 # These tables are reference annotations for the pinned fr_core_news_sm 3.8.0 model.
@@ -193,26 +192,6 @@ def _printed_tree(tree, number):
     return ast.Module(body=_slice(prefix, names) + [prints[0]], type_ignores=[])
 
 
-def _identity(index):
-    cell = index.get(('identity', 'identification'))
-    if cell is None:
-        raise ContractError(WRONG_VERSION)
-    tree = _tree(cell)
-    info = {}
-    for node in tree.body:
-        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Constant):
-            for target in node.targets:
-                if isinstance(target, ast.Name):
-                    info[target.id] = node.value.value
-    fields = ('nom', 'prenom', 'classe', 'numero_etudiant')
-    if any(not isinstance(info.get(key), str) or not info[key].strip()
-           or info[key].strip() in {'...', 'NON_RENSEIGNE', 'NON_RENSEIGNEE'} for key in fields):
-        raise ValueError('Complétez nom, prénom, classe et numéro étudiant dans la cellule d’identification.')
-    if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', info['numero_etudiant'].strip()):
-        raise ValueError('Numéro étudiant invalide : utilisez lettres, chiffres, tiret ou soulignement.')
-    return {key: info[key].strip() for key in fields}
-
-
 def _freq(words):
     result = {}
     for word in words:
@@ -335,7 +314,7 @@ def check_revision(content_str, evaluator):
         index = validate_cell_metadata(notebook)
         if any((f'Q{q}', 'answer') not in index for q in range(1, 5)):
             raise ContractError(WRONG_VERSION)
-        info = _identity(index)
+        info = s3_contract_identity(notebook, evaluator)
     except (ValueError, TypeError, SyntaxError, RecursionError) as exc:
         return 0.0, [], maximum, {}, str(exc)
     revision = int(evaluator[4])

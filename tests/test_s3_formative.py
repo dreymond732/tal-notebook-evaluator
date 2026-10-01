@@ -61,7 +61,8 @@ class S3FormativeTests(unittest.TestCase):
             stdout("Résultat Q1 : ok\nRésultat Q2 : ok\nRésultat Q7 : limite\n"),
         )])
         score, details, maximum, _, error = check_notebook(content, "td0.ipynb")
-        self.assertIsNone(error)
+        self.assertEqual(error, "mauvaise version du notebook")
+        self.assertEqual(details, [])
         self.assertEqual((score, maximum), (0.0, 7.0))
         self.assertIn("S3", check_notebook.__module__)
 

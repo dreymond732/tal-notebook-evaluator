@@ -9,8 +9,14 @@
 <p class="score">Score technique provisoire : {{ '%.2f'|format(score) }} / {{ max_score }}</p>
 <p class="scope">{{ human_review }}</p>
 <table><thead><tr><th>Vérification</th><th>Trace enregistrée</th><th>Critère technique</th><th>Points</th></tr></thead><tbody>
-{% for d in details %}<tr><td>{{ d.check }} {{ d.status }}</td><td><pre>{{ d.student_answer }}</pre></td><td>{{ d.correct_answer }}</td><td>{{ d.points }} / {{ d.max_points }}</td></tr>{% endfor %}
+{% for d in details %}<tr><td>{{ d.check }} {{ d.status }}{% if d.diagnostic %}<p>{{ d.diagnostic }}</p>{% endif %}</td><td><pre>{{ d.student_answer }}</pre></td><td>{{ d.correct_answer }}</td><td>{{ d.points }} / {{ d.max_points }}</td></tr>{% endfor %}
 </tbody></table>
+{% if student_info.points_a_reexaminer %}
+<p class="scope"><strong>{{ student_info.points_a_reexaminer }} point(s) à réexaminer :</strong>
+les vérifications bloquées par une dépendance ne sont pas des erreurs de calcul indépendantes.
+Ces points ne sont pas attribués automatiquement ; le barème total reste inchangé.</p>
+{% endif %}
+{% if student_info.review_evidence %}{% include 's3_review_evidence.html' %}{% endif %}
 <h2>Relecture humaine à compléter</h2>
 <p>Lire le code et les réponses argumentées dans la copie sauvegardée. Un point technique valide uniquement le critère indiqué ci-dessus.</p>
 <table><thead><tr><th>Dimension</th><th>Appréciation de l’enseignant</th></tr></thead><tbody>

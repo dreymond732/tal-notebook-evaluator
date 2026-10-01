@@ -1,0 +1,612 @@
+{
+  "provenance": {
+    "spacy": "3.8.7",
+    "model": "fr_core_news_sm",
+    "model_version": "3.8.0",
+    "text_sha256": {
+      "0": "1e49c038a27ff25e8fa5af2d022cf8991808bed8e425c2e6dc06beefec219391",
+      "1": "01eb39fb2603ebcd9b9d68414d2a7d3bd5af78712a3d0d9dddac367ead00b999",
+      "2": "1fc24b8202a61e2af19705bc5236c75cc183273979d0cdcfd2b3d9e17be0566e"
+    }
+  },
+  "td1": {
+    "annotations": [
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 0,
+        "fin": 3
+      },
+      {
+        "forme": "étudiantes",
+        "lemme": "étudiant",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 4,
+        "fin": 14
+      },
+      {
+        "forme": "analysent",
+        "lemme": "analyser",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 15,
+        "fin": 24
+      },
+      {
+        "forme": "des",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 25,
+        "fin": 28
+      },
+      {
+        "forme": "corpus",
+        "lemme": "corpus",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 29,
+        "fin": 35
+      },
+      {
+        "forme": "français",
+        "lemme": "français",
+        "pos": "ADJ",
+        "tag": "ADJ",
+        "debut": 36,
+        "fin": 44
+      },
+      {
+        "forme": "Elles",
+        "lemme": "lui",
+        "pos": "PRON",
+        "tag": "PRON",
+        "debut": 46,
+        "fin": 51
+      },
+      {
+        "forme": "comparent",
+        "lemme": "comparer",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 52,
+        "fin": 61
+      },
+      {
+        "forme": "ensuite",
+        "lemme": "ensuite",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 62,
+        "fin": 69
+      },
+      {
+        "forme": "les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 70,
+        "fin": 73
+      },
+      {
+        "forme": "résultats",
+        "lemme": "résultat",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 74,
+        "fin": 83
+      },
+      {
+        "forme": "et",
+        "lemme": "et",
+        "pos": "CCONJ",
+        "tag": "CCONJ",
+        "debut": 84,
+        "fin": 86
+      },
+      {
+        "forme": "rédigent",
+        "lemme": "rédiger",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 87,
+        "fin": 95
+      },
+      {
+        "forme": "une",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 96,
+        "fin": 99
+      },
+      {
+        "forme": "interprétation",
+        "lemme": "interprétation",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 100,
+        "fin": 114
+      }
+    ],
+    "all_annotations": [
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 0,
+        "fin": 3
+      },
+      {
+        "forme": "étudiantes",
+        "lemme": "étudiant",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 4,
+        "fin": 14
+      },
+      {
+        "forme": "analysent",
+        "lemme": "analyser",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 15,
+        "fin": 24
+      },
+      {
+        "forme": "des",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 25,
+        "fin": 28
+      },
+      {
+        "forme": "corpus",
+        "lemme": "corpus",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 29,
+        "fin": 35
+      },
+      {
+        "forme": "français",
+        "lemme": "français",
+        "pos": "ADJ",
+        "tag": "ADJ",
+        "debut": 36,
+        "fin": 44
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT",
+        "tag": "PUNCT",
+        "debut": 44,
+        "fin": 45
+      },
+      {
+        "forme": "Elles",
+        "lemme": "lui",
+        "pos": "PRON",
+        "tag": "PRON",
+        "debut": 46,
+        "fin": 51
+      },
+      {
+        "forme": "comparent",
+        "lemme": "comparer",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 52,
+        "fin": 61
+      },
+      {
+        "forme": "ensuite",
+        "lemme": "ensuite",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 62,
+        "fin": 69
+      },
+      {
+        "forme": "les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 70,
+        "fin": 73
+      },
+      {
+        "forme": "résultats",
+        "lemme": "résultat",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 74,
+        "fin": 83
+      },
+      {
+        "forme": "et",
+        "lemme": "et",
+        "pos": "CCONJ",
+        "tag": "CCONJ",
+        "debut": 84,
+        "fin": 86
+      },
+      {
+        "forme": "rédigent",
+        "lemme": "rédiger",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 87,
+        "fin": 95
+      },
+      {
+        "forme": "une",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 96,
+        "fin": 99
+      },
+      {
+        "forme": "interprétation",
+        "lemme": "interprétation",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 100,
+        "fin": 114
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT",
+        "tag": "PUNCT",
+        "debut": 114,
+        "fin": 115
+      }
+    ],
+    "phrases": [
+      {
+        "texte": "Les étudiantes analysent des corpus français.",
+        "tokens": 7
+      },
+      {
+        "texte": "Elles comparent ensuite les résultats et rédigent une interprétation.",
+        "tokens": 10
+      }
+    ],
+    "filters": {
+      "noms": [
+        "étudiant",
+        "corpus",
+        "résultat",
+        "interprétation"
+      ],
+      "verbes": [
+        "comparer",
+        "rédiger"
+      ],
+      "mots_pleins": [
+        "étudiant",
+        "corpus",
+        "français",
+        "comparer",
+        "résultat",
+        "rédiger",
+        "interprétation"
+      ]
+    },
+    "counts": {
+      "split": 47,
+      "tokens": 56,
+      "non_ponctuation": 41
+    }
+  },
+  "td2": {
+    "caracteres": 106,
+    "phrases": 3,
+    "tokens": 18,
+    "annotations": [
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 0,
+        "fin": 3
+      },
+      {
+        "forme": "bibliothécaires",
+        "lemme": "bibliothécaire",
+        "pos": "ADJ",
+        "tag": "ADJ",
+        "debut": 4,
+        "fin": 19
+      },
+      {
+        "forme": "comparent",
+        "lemme": "comparer",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 20,
+        "fin": 29
+      },
+      {
+        "forme": "des",
+        "lemme": "de",
+        "pos": "ADP",
+        "tag": "ADP",
+        "debut": 30,
+        "fin": 33
+      },
+      {
+        "forme": "notices",
+        "lemme": "notice",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 34,
+        "fin": 41
+      },
+      {
+        "forme": "Une",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 43,
+        "fin": 46
+      },
+      {
+        "forme": "notice",
+        "lemme": "notice",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 47,
+        "fin": 53
+      },
+      {
+        "forme": "décrit",
+        "lemme": "décrire",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 54,
+        "fin": 60
+      },
+      {
+        "forme": "un",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 61,
+        "fin": 63
+      },
+      {
+        "forme": "livre",
+        "lemme": "livre",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 64,
+        "fin": 69
+      },
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 71,
+        "fin": 74
+      },
+      {
+        "forme": "lecteurs",
+        "lemme": "lecteur",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 75,
+        "fin": 83
+      },
+      {
+        "forme": "consultent",
+        "lemme": "consulter",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 84,
+        "fin": 94
+      },
+      {
+        "forme": "les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 95,
+        "fin": 98
+      },
+      {
+        "forme": "livres",
+        "lemme": "livre",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 99,
+        "fin": 105
+      }
+    ],
+    "all_annotations": [
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 0,
+        "fin": 3
+      },
+      {
+        "forme": "bibliothécaires",
+        "lemme": "bibliothécaire",
+        "pos": "ADJ",
+        "tag": "ADJ",
+        "debut": 4,
+        "fin": 19
+      },
+      {
+        "forme": "comparent",
+        "lemme": "comparer",
+        "pos": "ADV",
+        "tag": "ADV",
+        "debut": 20,
+        "fin": 29
+      },
+      {
+        "forme": "des",
+        "lemme": "de",
+        "pos": "ADP",
+        "tag": "ADP",
+        "debut": 30,
+        "fin": 33
+      },
+      {
+        "forme": "notices",
+        "lemme": "notice",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 34,
+        "fin": 41
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT",
+        "tag": "PUNCT",
+        "debut": 41,
+        "fin": 42
+      },
+      {
+        "forme": "Une",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 43,
+        "fin": 46
+      },
+      {
+        "forme": "notice",
+        "lemme": "notice",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 47,
+        "fin": 53
+      },
+      {
+        "forme": "décrit",
+        "lemme": "décrire",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 54,
+        "fin": 60
+      },
+      {
+        "forme": "un",
+        "lemme": "un",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 61,
+        "fin": 63
+      },
+      {
+        "forme": "livre",
+        "lemme": "livre",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 64,
+        "fin": 69
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT",
+        "tag": "PUNCT",
+        "debut": 69,
+        "fin": 70
+      },
+      {
+        "forme": "Les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 71,
+        "fin": 74
+      },
+      {
+        "forme": "lecteurs",
+        "lemme": "lecteur",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 75,
+        "fin": 83
+      },
+      {
+        "forme": "consultent",
+        "lemme": "consulter",
+        "pos": "VERB",
+        "tag": "VERB",
+        "debut": 84,
+        "fin": 94
+      },
+      {
+        "forme": "les",
+        "lemme": "le",
+        "pos": "DET",
+        "tag": "DET",
+        "debut": 95,
+        "fin": 98
+      },
+      {
+        "forme": "livres",
+        "lemme": "livre",
+        "pos": "NOUN",
+        "tag": "NOUN",
+        "debut": 99,
+        "fin": 105
+      },
+      {
+        "forme": ".",
+        "lemme": ".",
+        "pos": "PUNCT",
+        "tag": "PUNCT",
+        "debut": 105,
+        "fin": 106
+      }
+    ],
+    "frequencies": {
+      "noms": {
+        "notice": 2,
+        "livre": 2,
+        "lecteur": 1
+      },
+      "verbes": {
+        "décrire": 1,
+        "consulter": 1
+      }
+    },
+    "pos": {
+      "DET": 5,
+      "ADJ": 1,
+      "ADV": 1,
+      "ADP": 1,
+      "NOUN": 5,
+      "VERB": 2
+    },
+    "lemmes": [
+      "bibliothécaire",
+      "notice",
+      "notice",
+      "décrire",
+      "livre",
+      "lecteur",
+      "consulter",
+      "livre"
+    ]
+  }
+}

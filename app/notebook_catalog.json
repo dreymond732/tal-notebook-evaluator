@@ -13,7 +13,7 @@
     },
     {
       "id": "td0-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td0-s3",
       "active": true,
       "semester": "S3",
@@ -103,7 +103,7 @@
     },
     {
       "id": "td1-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td1-s3",
       "active": true,
       "semester": "S3",
@@ -133,7 +133,7 @@
     },
     {
       "id": "td2-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td2-s3",
       "active": true,
       "semester": "S3",
@@ -213,7 +213,7 @@
     },
     {
       "id": "td3-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td3-s3",
       "active": true,
       "semester": "S3",
@@ -223,7 +223,7 @@
     },
     {
       "id": "td4-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td4-s3",
       "active": true,
       "semester": "S3",
@@ -233,7 +233,7 @@
     },
     {
       "id": "td5-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td5-s3",
       "active": true,
       "semester": "S3",
@@ -243,7 +243,7 @@
     },
     {
       "id": "td6-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td6-s3",
       "active": true,
       "semester": "S3",
@@ -253,7 +253,7 @@
     },
     {
       "id": "td7-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "td7-s3",
       "active": true,
       "semester": "S3",
@@ -263,7 +263,7 @@
     },
     {
       "id": "controle-td1-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td1-s3",
       "active": true,
       "semester": "S3",
@@ -273,7 +273,7 @@
     },
     {
       "id": "controle-td2-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td2-s3",
       "active": true,
       "semester": "S3",
@@ -283,7 +283,7 @@
     },
     {
       "id": "controle-td3-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td3-s3",
       "active": true,
       "semester": "S3",
@@ -293,7 +293,7 @@
     },
     {
       "id": "controle-td4-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td4-s3",
       "active": true,
       "semester": "S3",
@@ -303,7 +303,7 @@
     },
     {
       "id": "controle-td5-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td5-s3",
       "active": true,
       "semester": "S3",
@@ -313,7 +313,7 @@
     },
     {
       "id": "controle-td6-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td6-s3",
       "active": true,
       "semester": "S3",
@@ -323,7 +323,7 @@
     },
     {
       "id": "controle-td7-s3",
-      "version": 1,
+      "version": 2,
       "evaluator": "controle-td7-s3",
       "active": true,
       "semester": "S3",

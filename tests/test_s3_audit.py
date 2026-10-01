@@ -14,6 +14,7 @@ from app import create_app
 import outils
 import routes
 from s3_audit import check_audit, same
+from s3_v2_fixture import notebook as v2_notebook
 
 
 def cell(source, output='', name='stdout'):
@@ -26,8 +27,8 @@ def trace(td, question, value):
                 f'S3_TD{td}_Q{question}: ' + json.dumps(value, ensure_ascii=False) + '\n')
 
 
-def notebook(cells):
-    return json.dumps({'nbformat': 4, 'nbformat_minor': 5, 'cells': cells})
+def notebook(cells, td=0):
+    return json.dumps(v2_notebook(cells, f'td{td}-s3'))
 
 
 class TraceTests(unittest.TestCase):
@@ -35,7 +36,7 @@ class TraceTests(unittest.TestCase):
                'feedback': 'Le comptage attendu vaut 3.'}]
 
     def check(self, cells, td=0):
-        return check_audit(notebook(cells), 'copie.ipynb', td, self.checks)
+        return check_audit(notebook(cells, td), 'copie.ipynb', td, self.checks)
 
     def test_exact_recorded_value_and_type_required(self):
         for value, expected in [({'n': 3}, 1), ({'n': 2}, 0), ({'n': True}, 0), ('ok', 0), ({'n': 3.0}, 0)]:
@@ -104,7 +105,7 @@ class S3RouteTests(unittest.TestCase):
             identifier = f'td{number}-s3'
             self.assertEqual(routes.EVALUATOR_MODES[identifier], 'td')
             module = importlib.import_module(routes.EVALUATORS[identifier][1])
-            result = module.check_notebook(notebook([]), 'vide.ipynb')
+            result = module.check_notebook(notebook([], number), 'vide.ipynb')
             self.assertEqual(len(result), 5)
             self.assertEqual(result[0], 0)
             self.assertEqual(result[2], module.MAX_SCORE_TOTAL)
@@ -121,13 +122,12 @@ class S3RouteTests(unittest.TestCase):
         # Contrat courant requis sur toutes les routes S3.
         source = ''.join(identity['source'])
         import re
-        for name, value in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3')]:
+        for name, value in [('nom', 'Exemple'), ('prenom', 'Alice'), ('classe', 'S3'), ('numero_etudiant', 'TEST001')]:
             source = re.sub(rf'(?m)^{name}\s*=.*$', f'{name} = "{value}"', source)
         identity['source'] = source
         hostile = trace(4, 1, {'html': '<script>alert(1)</script>'})
         hostile['metadata'] = {'tal': {'question': 'Q1', 'role': 'answer'}}
-        content = json.dumps({'nbformat': 4, 'nbformat_minor': 5,
-                              'metadata': nb['metadata'], 'cells': [identity, hostile]}).encode()
+        content = json.dumps(v2_notebook([identity, hostile], 'td4-s3')).encode()
         response = self.client.post('/eval/td4-s3', data={'file': (io.BytesIO(content), 'copie.ipynb')},
                                     content_type='multipart/form-data', headers={'X-Forwarded-Prefix': '/universite/tal'})
         html = response.get_data(as_text=True)
@@ -147,7 +147,7 @@ class S3RouteTests(unittest.TestCase):
 class AuditCalculationTests(unittest.TestCase):
     def check(self, td, values):
         module = importlib.import_module(f'app_correction_TD{td}_S3')
-        return module.check_notebook(notebook([trace(td, q, value) for q, value in enumerate(values, 1)]), 'copie.ipynb')
+        return module.check_notebook(notebook([trace(td, q, value) for q, value in enumerate(values, 1)], td), 'copie.ipynb')
 
     def test_phrase_margins_union_and_pair_sum_are_not_confused(self):
         values = [{'chat': 2, 'livre': 2, 'N': 4}, {'chat_livre': 1, 'chat_plume': 1, 'livre_plume': 0},
@@ -221,7 +221,7 @@ class CorpusEvidenceTests(unittest.TestCase):
     def test_td0_counts_fixed_source_and_limit_microcase(self):
         from app_correction_TD0_S3 import check_notebook
         values = [(1, {'caracteres': 277}), (3, {'occurrences': 47}), (4, {'formes': 41}),
-                  (7, {'split': ['L’analyse,', 'c’est', 'utile', '!'], 'limites': ''})]
+                  (7, {'split': ['L’analyse,', 'c’est', 'utile', '!'], 'limites': 'La ponctuation reste attachée aux mots.'})]
         result = check_notebook(notebook([trace(0, q, value) for q, value in values]), 'td0.ipynb')
         self.assertEqual(result[0], 4)
         self.assertIn('qualité', result[1][6]['correct_answer'])
@@ -258,11 +258,11 @@ class CorpusEvidenceTests(unittest.TestCase):
             empty = Path(directory)
             td3.resources.cache_clear()
             with patch.object(td3, 'LOCAL_RESOURCES', empty):
-                result = td3.check_notebook(notebook([]), 'x.ipynb')
+                result = td3.check_notebook(notebook([], 3), 'x.ipynb')
                 self.assertEqual(result[0], 0)
                 self.assertIn('Ressource S3', result[4])
                 (empty / 'faguet_source.txt').write_text('corpus modifié')
-                self.assertIn('Empreinte', td3.check_notebook(notebook([]), 'x.ipynb')[4])
+                self.assertIn('Empreinte', td3.check_notebook(notebook([], 3), 'x.ipynb')[4])
             td3.resources.cache_clear()
 
     def test_evidence_rejects_duplicate_or_wrong_pivot_passages(self):
