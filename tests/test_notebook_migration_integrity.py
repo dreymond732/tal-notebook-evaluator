@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import routes
+from prepare_student_notebooks import submission_cell
 
 
 # Reviewed S3 v2 revisions are explicit. The historical fixture stays frozen;
@@ -48,6 +49,42 @@ ADDED_EXCLUDED_NOTEBOOKS = {
 }
 
 
+# A rename is not a pedagogical revision: these seven subjects retain their
+# original frozen hashes after removing the sole deployment placeholder cell.
+S1_RENAMED_SUBJECTS = {
+    f"Notebooks TD/S1/TD{n}_S1_python_texte.ipynb": f"Notebooks TD/S1/TD{n}_S1_{topic}.ipynb"
+    for n, topic in enumerate((
+        "variables_types", "chaines_sequences", "collections",
+        "boucles_conditions_comptages", "fonctions_reutilisation",
+        "fichiers_csv", "expressions_regulieres_pipeline"), 1)
+}
+
+
+def original_s1_content(notebook):
+    """Remove only the exact canonical final addition; reject any hidden edit."""
+    original = copy.deepcopy(notebook)
+    if not original["cells"] or original["cells"][-1] != submission_cell():
+        raise AssertionError("The S1 source must end with the canonical URL placeholder")
+    original["cells"].pop()
+    evaluator = original["metadata"]["tal"]["id"]
+    number = int(evaluator.split("-")[0][2:])
+    old_path = f"Notebooks TD/S1/TD{number}_S1_python_texte.ipynb"
+    session = original["metadata"]["tal_tutor"]["session"]
+    if session["notebook"] != S1_RENAMED_SUBJECTS[old_path]:
+        raise AssertionError("The tutor session must point to the renamed subject")
+    session["notebook"] = old_path
+    # At the frozen revision only the first tutor cell already had an ID.
+    # Verify the exact reviewed ID scheme before removing newly added IDs.
+    if original["cells"][0].get("id") != "tal-tutor-instructions":
+        raise AssertionError("The existing tutor ID must remain unchanged")
+    for cell in original["cells"][1:]:
+        contract = cell["metadata"]["tal"]
+        expected = f'{evaluator}-{contract["role"]}-{contract["question"]}'.lower()
+        if cell.pop("id", None) != expected:
+            raise AssertionError("Missing or modified reviewed S1 cell ID")
+    return original
+
+
 def without_routing_metadata(notebook):
     stripped = copy.deepcopy(notebook)
     stripped.get("metadata", {}).pop("tal", None)
@@ -76,11 +113,13 @@ class MigrationIntegrityTests(unittest.TestCase):
             if path in REVISED_SUBJECTS:
                 continue
             with self.subTest(notebook=path):
-                notebook = json.loads((ROOT / path).read_text())
-                self.assertEqual(canonical_hash(without_routing_metadata(notebook)), expected,
+                current_path = S1_RENAMED_SUBJECTS.get(path, path)
+                notebook = json.loads((ROOT / current_path).read_text())
+                original = original_s1_content(notebook) if path in S1_RENAMED_SUBJECTS else notebook
+                self.assertEqual(canonical_hash(without_routing_metadata(original)), expected,
                                  "Content, outputs, cell order, IDs and tutor policy must be unchanged")
                 entry = resolve_notebook(notebook)
-                self.assertEqual(entry["notebook"], path)
+                self.assertEqual(entry["notebook"], current_path)
                 validate_cell_metadata(notebook)
 
     def test_reviewed_revisions_have_explicit_version_two_contracts(self):
@@ -145,7 +184,8 @@ class MigrationIntegrityTests(unittest.TestCase):
         inactive = [entry for entry in self.catalog if not entry["active"]]
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
         self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
-        self.assertEqual(set(self.baseline["active"]) | ADDED_ACTIVE_SUBJECTS,
+        current_original_paths = {S1_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["active"]}
+        self.assertEqual(current_original_paths | ADDED_ACTIVE_SUBJECTS,
                          {e["notebook"] for e in active})
         self.assertEqual(set(self.baseline["unchanged"]) | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |

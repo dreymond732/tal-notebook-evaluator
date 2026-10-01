@@ -7,6 +7,7 @@ if [[ ! -f "$ENV_FILE" ]]; then
   exit 1
 fi
 # Aucun source/eval du fichier d'environnement : le script Python lit une seule clé.
+python3 app/prepare_student_notebooks.py check
 python3 app/prepare_student_notebooks.py render --env-file "$ENV_FILE"
 python3 app/prepare_student_notebooks.py verify --env-file "$ENV_FILE"
 docker compose --env-file "$ENV_FILE" up -d --build

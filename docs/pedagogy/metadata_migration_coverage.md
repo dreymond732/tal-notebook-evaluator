@@ -1,5 +1,7 @@
 # Couverture pédagogique de la migration des métadonnées TAL
 
+Note de suivi (1er octobre 2026) : les chemins S1 cités ci-dessous documentent les sources historiques. Les dénominations actuelles et leur correspondance sont données dans la [revue des TD S1](s1_td_review_distribution.md) ; les activités correspondantes restent conservées.
+
 Référence : commit `2a367529963f66a186dff1658b5951d0dbc27642`, branche `integration/tal-metadata-submit`.
 
 ## Mission et décision préalable

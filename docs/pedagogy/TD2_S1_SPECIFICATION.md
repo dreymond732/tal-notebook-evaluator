@@ -1,5 +1,7 @@
 # TD2 S1 — Chaînes et séquences
 
+Note de suivi (1er octobre 2026) : les chemins S1 cités ci-dessous documentent les sources historiques. Les dénominations actuelles et leur correspondance sont données dans la [revue des TD S1](s1_td_review_distribution.md) ; les activités correspondantes restent conservées.
+
 ## État, autorisation et périmètre
 
 Source comparée : `Notebooks TD/S1/TD2_S1_python_texte.ipynb`, base `ad28d093cd807729aaefa30aa8261f8e0d6947ca`. Cette fiche et sa matrice précèdent l'adaptation du support.

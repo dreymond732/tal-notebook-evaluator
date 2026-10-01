@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import copy
-import html
 import json
 import os
 from pathlib import Path
@@ -16,6 +15,7 @@ from notebook_contract import load_catalog, resolve_notebook
 
 ROOT = Path(__file__).resolve().parents[1]
 CELL_ID = "tal-submission"
+URL_PLACEHOLDER = "__TAL_PUBLIC_URL__"
 MANIFEST = ".tal-distribution.json"
 URL_RE = re.compile(r"https?://[^\s<>\"'\\]+", re.I)
 
@@ -60,24 +60,55 @@ def check_source(notebook, expected_url=None):
         if (expected_host and parsed.hostname == expected_host) or re.search(
                 r"/(?:universite/tal|submit|eval)(?:/|$)", parsed.path, re.I):
             raise ValueError("Une adresse de dépôt est présente dans un notebook source.")
-    if any(c.get("id") == CELL_ID or c.get("metadata", {}).get("tal", {}).get("role") == "submission"
-           for c in notebook.get("cells", [])):
-        raise ValueError("Une cellule de dépôt est déjà présente dans un notebook source.")
+    cells = notebook.get("cells", [])
+    candidates = [i for i, cell in enumerate(cells)
+                  if cell.get("id") == CELL_ID
+                  or cell.get("metadata", {}).get("tal", {}).get("role") == "submission"
+                  or cell.get("metadata", {}).get("tal", {}).get("question") == "submission"]
+    if candidates:
+        if candidates != [len(cells) - 1] or cells[-1] != submission_cell():
+            raise ValueError("La cellule source de restitution doit être unique, finale et canonique, sans sortie.")
+    # A placeholder elsewhere must never silently survive into the student copy.
+    remaining = copy.deepcopy(notebook)
+    if candidates:
+        remaining["cells"].pop()
+    if URL_PLACEHOLDER in json.dumps(remaining, ensure_ascii=False):
+        raise ValueError("Le marqueur URL est réservé à la cellule finale de restitution.")
 
 
-def submission_cell(base_url):
-    target = html.escape(base_url + "/submit", quote=True)
-    block = ('<div style="padding:1em;border:1px solid #245b78;border-radius:8px">'
-             '<h3>Déposer votre travail</h3><p>Enregistrez votre travail, puis téléchargez '
-             'le notebook au format .ipynb depuis le menu Fichier.</p>'
-             f'<p><a href="{target}" target="_blank" rel="noopener noreferrer">'
-             'Déposer mon notebook</a></p></div>')
-    code = ('# Outil fourni pour le dépôt — aucune modification demandée.\n'
-            'from IPython.display import HTML, display\n'
-            f'display(HTML({block!r}))\n')
+def submission_cell(base_url=URL_PLACEHOLDER):
+    """Canonical source cell, or the same cell with a validated deployment URL."""
+    if base_url != URL_PLACEHOLDER:
+        base_url = public_url(base_url)
+    code = ('# Restitution — (URL injectée lors du déploiement)\n'
+            'from IPython.display import display, HTML\n'
+            'from html import escape\n'
+            f'URL_SOUMISSION = {json.dumps(base_url, ensure_ascii=False)}.rstrip("/") + "/submit"\n\n'
+            'display(HTML(f"""\n'
+            '<div style="padding:20px;border:2px solid #005a9c;border-radius:8px;background:#f8f9fa">\n'
+            '<h3>Restitution de votre travail</h3>\n'
+            '<ol>\n'
+            '<li>Vérifiez que toutes les cellules ont été exécutées.</li>\n'
+            '<li>Téléchargez votre notebook au format <code>.ipynb</code> (menu Fichier).</li>\n'
+            '<li>Déposez ce fichier sur le serveur.</li>\n'
+            '</ol>\n'
+            '<p style="text-align:center"><a href="{escape(URL_SOUMISSION, quote=True)}" target="_blank" rel="noopener noreferrer"><strong>Accéder au serveur de dépôt</strong></a></p>\n'
+            '</div>\n'
+            '"""))\n')
     return {"cell_type": "code", "id": CELL_ID,
             "metadata": {"tal": {"question": "submission", "role": "submission"}},
             "source": code.splitlines(keepends=True), "execution_count": None, "outputs": []}
+
+
+def distributable(notebook, base_url):
+    """Replace a canonical source placeholder, or append a cell for older sources."""
+    check_source(notebook, base_url)
+    rendered = copy.deepcopy(notebook)
+    if rendered["cells"] and rendered["cells"][-1].get("id") == CELL_ID:
+        rendered["cells"][-1] = submission_cell(base_url)
+    else:
+        rendered["cells"].append(submission_cell(base_url))
+    return rendered
 
 
 def active_sources(root=ROOT):
@@ -94,17 +125,20 @@ def check_sources(root=ROOT, expected_url=None):
         if resolved["id"] != entry["id"]:
             raise ValueError(f"Identité incohérente : {entry['notebook']}")
         check_source(nb, expected_url)
+        if entry["semester"] == "S1" and entry["mode"] == "td":
+            if not nb["cells"] or nb["cells"][-1] != submission_cell():
+                raise ValueError(f"Cellule source de restitution absente : {entry['notebook']}")
         count += 1
     return count
 
 
 def verify_rendered(output, base_url, root=ROOT):
+    base_url = public_url(base_url)
     count = 0
     for entry, source in active_sources(root):
         original = json.loads(source.read_text(encoding="utf-8"))
         rendered = json.loads((output / entry["notebook"]).read_text(encoding="utf-8"))
-        expected = copy.deepcopy(original)
-        expected["cells"].append(submission_cell(base_url))
+        expected = distributable(original, base_url)
         if rendered != expected:
             raise ValueError(f"Copie distribuable incohérente : {entry['notebook']}")
         count += 1
@@ -152,7 +186,7 @@ def render(output, base_url, root=ROOT):
     try:
         for entry, source in active_sources(root):
             nb = json.loads(source.read_text(encoding="utf-8"))
-            nb["cells"].append(submission_cell(base_url))
+            nb = distributable(nb, base_url)
             target = temporary / entry["notebook"]
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

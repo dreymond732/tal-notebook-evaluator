@@ -1,5 +1,7 @@
 # Couverture du tutorat : tous les sujets présents et futurs
 
+Note de suivi (1er octobre 2026) : les chemins S1 cités ci-dessous documentent les sources historiques. Les dénominations actuelles et leur correspondance sont données dans la [revue des TD S1](s1_td_review_distribution.md) ; les activités correspondantes restent conservées.
+
 ## Décision et référence avant génération
 
 L'enseignant demande explicitement de généraliser le principe testé : un tuteur dans les métadonnées **et** une cellule Markdown dédiée placée à l'indice 0, pour chaque sujet de TD ou de contrôle, tous niveaux. Le TD guide ; le contrôle refuse toute assistance. Cette matrice est établie sur la branche `pedagogy/td2-markdown-tutor-reminder`, référence `fd77df71`, avant génération des notebooks. Elle doit être relue et validée avant l'intervention du Designer.

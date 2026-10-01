@@ -11,3 +11,5 @@ La [spécification du TD2 S1](TD2_S1_SPECIFICATION.md) fixe sa matrice source �
 La [progression S3 d’audit quantitatif](S3_AUDIT_SPECIFICATION.md) organise huit TD de deux heures, de la mesure élémentaire à la vérification des analyses LLM. La [matrice S3](S3_COVERAGE_MATRIX.md) distingue le tronc commun actif et les objectifs historiques déplacés.
 
 Les [contrôles cumulatifs S3](S3_CONTROLES_SPECIFICATION.md) suivent TD1 à TD7. Leur [matrice TD → contrôle](S3_CONTROLES_COVERAGE_MATRIX.md) relie les acquis aux tâches de transfert sur deux contextes nouveaux par séance et distingue le score technique de la relecture humaine.
+
+La [revue des sept TD S1 et de leur distribution](s1_td_review_distribution.md) recense les noms descriptifs, les métadonnées, la cellule de restitution injectée au déploiement et les points pédagogiques restant à renforcer. Les 45 questions principales et les sept compléments du TD2 restent conservés.

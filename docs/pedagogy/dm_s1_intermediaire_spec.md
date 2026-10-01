@@ -1,5 +1,7 @@
 # Devoir maison intermédiaire S1 — Spécification pédagogique
 
+Note de suivi (1er octobre 2026) : les chemins S1 cités ci-dessous documentent les sources historiques. Les dénominations actuelles et leur correspondance sont données dans la [revue des TD S1](s1_td_review_distribution.md) ; les activités correspondantes restent conservées.
+
 Statut : cadrage du TAL-Prof, soumis aux revues indépendantes. Nouvelle création demandée après le TD5 ; le document d'inspiration n'est ni remplacé ni modifié.
 
 ## Périmètre et sources effectivement examinées
