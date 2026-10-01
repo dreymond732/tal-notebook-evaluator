@@ -69,7 +69,7 @@ def fixture():
 
 
 def filled_subject():
-    path = Path(__file__).resolve().parents[1] / "Notebooks TD/S1/TD2_S1_python_texte.ipynb"
+    path = Path(__file__).resolve().parents[1] / "Notebooks TD/S1/TD2_S1_chaines_sequences.ipynb"
     nb = json.loads(path.read_text())
     for cell in nb["cells"]:
         if cell.get("cell_type") != "code":

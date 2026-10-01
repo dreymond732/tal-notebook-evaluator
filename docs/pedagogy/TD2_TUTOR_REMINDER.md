@@ -1,5 +1,7 @@
 # TD2 S1 : historique du pilote de rappel du tutorat
 
+Note de suivi (1er octobre 2026) : les chemins S1 cités ci-dessous documentent les sources historiques. Les dénominations actuelles et leur correspondance sont données dans la [revue des TD S1](s1_td_review_distribution.md) ; les activités correspondantes restent conservées.
+
 > **Historique, périmètre désormais dépassé.** L'enseignant rapporte que le pilote « marche parfaitement », puis demande sa généralisation à tous les TD et contrôles avec une cellule Markdown dédiée à l'indice0 et les métadonnées. La politique applicable est [TUTORING_POLICY.md](TUTORING_POLICY.md) et la nouvelle matrice [TUTOR_COVERAGE_MATRIX.md](TUTOR_COVERAGE_MATRIX.md). Les paragraphes ci-dessous documentent la version expérimentale initiale : ils ne prescrivent plus son implantation dans la cellule d'introduction. Le retour utilisateur est une observation favorable rapportée ; le protocole détaillé n'a pas été consigné et la généralisation reste à vérifier dans Colab.
 
 ## Constat et décision

@@ -8,7 +8,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD1_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD1_S1_variables_types.ipynb",
       "tutor_session": "TD1_S1"
     },
     {
@@ -38,7 +38,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD2_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD2_S1_chaines_sequences.ipynb",
       "tutor_session": "TD2_S1"
     },
     {
@@ -48,7 +48,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD3_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD3_S1_collections.ipynb",
       "tutor_session": "TD3_S1"
     },
     {
@@ -58,7 +58,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD4_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD4_S1_boucles_conditions_comptages.ipynb",
       "tutor_session": "TD4_S1"
     },
     {
@@ -68,7 +68,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD5_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD5_S1_fonctions_reutilisation.ipynb",
       "tutor_session": "TD5_S1"
     },
     {
@@ -78,7 +78,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD6_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD6_S1_fichiers_csv.ipynb",
       "tutor_session": "TD6_S1"
     },
     {
@@ -88,7 +88,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/TD7_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD7_S1_expressions_regulieres_pipeline.ipynb",
       "tutor_session": "TD7_S1"
     },
     {

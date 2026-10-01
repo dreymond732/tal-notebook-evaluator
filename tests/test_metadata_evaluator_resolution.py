@@ -19,7 +19,7 @@ import app_correction_controle_S1 as control_s1
 from notebook_contract import load_catalog
 from routes import EVALUATORS
 from test_td2_s1 import fixture as td2_fixture, grade as td2_grade
-from test_notebook_migration_integrity import REVISED_SUBJECTS
+from test_notebook_migration_integrity import REVISED_SUBJECTS, S1_RENAMED_SUBJECTS, original_s1_content
 from s3_v2_fixture import notebook as v2_notebook
 
 
@@ -59,13 +59,15 @@ class MetadataResolutionTests(unittest.TestCase):
         self.assertEqual(len(paths), 32)
         paths -= set(REVISED_SUBJECTS)
         self.assertEqual(len(paths), 14)
+        paths = {S1_RENAMED_SUBJECTS.get(path, path) for path in paths}
         entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
         self.assertEqual({entry['notebook'] for entry in entries}, paths)
         self.assertTrue(all(entry['active'] for entry in entries))
         for entry in entries:
             with self.subTest(evaluator=entry['evaluator']):
                 notebook = json.loads((ROOT / entry['notebook']).read_text())
-                legacy = copy.deepcopy(notebook)
+                legacy = (original_s1_content(notebook) if entry['notebook'] in S1_RENAMED_SUBJECTS.values()
+                          else copy.deepcopy(notebook))
                 legacy.get('metadata', {}).pop('tal', None)
                 for item in legacy['cells']:
                     item.get('metadata', {}).pop('tal', None)

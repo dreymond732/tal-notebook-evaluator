@@ -3,7 +3,7 @@
   "sessions": [
     {
       "id": "TD1_S1",
-      "notebook": "Notebooks TD/S1/TD1_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD1_S1_variables_types.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Variables, types et premières expressions",
@@ -358,7 +358,7 @@
     },
     {
       "id": "TD2_S1",
-      "notebook": "Notebooks TD/S1/TD2_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD2_S1_chaines_sequences.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Chaînes et séquences",
@@ -520,7 +520,7 @@
     },
     {
       "id": "TD3_S1",
-      "notebook": "Notebooks TD/S1/TD3_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD3_S1_collections.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Collections : listes, dictionnaires et ensembles",
@@ -652,7 +652,7 @@
     },
     {
       "id": "TD4_S1",
-      "notebook": "Notebooks TD/S1/TD4_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD4_S1_boucles_conditions_comptages.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Boucles, conditions et comptages",
@@ -801,7 +801,7 @@
     },
     {
       "id": "TD5_S1",
-      "notebook": "Notebooks TD/S1/TD5_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD5_S1_fonctions_reutilisation.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Fonctions et réutilisation du code",
@@ -939,7 +939,7 @@
     },
     {
       "id": "TD6_S1",
-      "notebook": "Notebooks TD/S1/TD6_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD6_S1_fichiers_csv.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Lire, transformer et écrire des fichiers",
@@ -1097,7 +1097,7 @@
     },
     {
       "id": "TD7_S1",
-      "notebook": "Notebooks TD/S1/TD7_S1_python_texte.ipynb",
+      "notebook": "Notebooks TD/S1/TD7_S1_expressions_regulieres_pipeline.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Motifs, expressions régulières et pipeline",
