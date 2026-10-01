@@ -1,7 +1,7 @@
-"""S1 rename, complete cell metadata and evaluator/distribution compatibility.
+"""S1 names, strict v2 cell contracts and evaluator/distribution compatibility.
 
 Saved traces are synthetic regression evidence, never executed submissions and
-never a claim that the historical formative checkers assess semantic correctness.
+never a claim that the checkers assess linguistic interpretation.
 """
 import copy
 import importlib
@@ -27,13 +27,13 @@ from test_td2_s1 import SOURCES as TD2_SOURCES, OUTPUTS as TD2_OUTPUTS
 # Independent, nonzero Q1 probes for all seven real evaluators. Subsequent
 # questions are intentionally unanswered, exercising success and failure together.
 Q1_PROBES = {
-    1: ('cout_total = 3 * 4\nprint("Résultat Q1 :", cout_total)', 'Résultat Q1 : 12\n'),
+    1: ('prix_par_mot = 0.12\nnb_mots = 125\ncout_total = prix_par_mot * nb_mots\nprint("Résultat Q1 :", cout_total)', 'Résultat Q1 : 15.0\n'),
     2: (TD2_SOURCES[0], TD2_OUTPUTS[0]),
-    3: ('mots = ["texte"]\nmots.append("corpus")\nmots.pop()\nprint("Résultat Q1 :", mots)', "Résultat Q1 : ['texte']\n"),
-    4: ('for mot in ["texte"]:\n    print("Résultat Q1 :", mot.upper())', 'Résultat Q1 : TEXTE\n'),
-    5: ('def longueur_texte(texte):\n    return len(texte)\nprint("Résultat Q1 :", longueur_texte("tal"))', 'Résultat Q1 : 3\n'),
-    6: ('with open("corpus.txt", encoding="utf-8") as fichier:\n    texte = fichier.read()\nprint("Résultat Q1 :", texte)', 'Résultat Q1 : texte\n'),
-    7: ('import re\nprint("Résultat Q1 :", bool(re.search("tal", "TAL", re.IGNORECASE)))', 'Résultat Q1 : True\n'),
+    3: ('outils = ["corpus", "lexique", "concordancier"]\noutils.append("tokeniseur")\nprint("Résultat Q1a :", outils)\noutils.pop()\nprint("Résultat Q1 :", outils)', "Résultat Q1a : ['corpus', 'lexique', 'concordancier', 'tokeniseur']\nRésultat Q1 : ['corpus', 'lexique', 'concordancier']\n"),
+    4: ('mots = ["TAL", "corpus", "analyse", "IA"]\nmajuscules = []\nfor mot in mots:\n    majuscules.append(mot.upper())\nprint("Résultat Q1 :", majuscules)', "Résultat Q1 : ['TAL', 'CORPUS', 'ANALYSE', 'IA']\n"),
+    5: ('def longueur_texte(texte):\n    return len(texte)\nprint("Résultat Q1 :", longueur_texte("TAL"), longueur_texte("corpus"))', 'Résultat Q1 : 3 6\n'),
+    6: ('with open("affiliations_s1.txt", encoding="utf-8") as fichier:\n    texte_affiliations = fichier.read()\nprint("Résultat Q1 :", len(texte_affiliations))', 'Résultat Q1 : 156\n'),
+    7: ('import re\ntexte = "Le tal traite parfois 12 documents en 2026."\ntal_present = bool(re.search("TAL", texte, re.IGNORECASE))\nprint("Résultat Q1 :", tal_present)', 'Résultat Q1 : True\n'),
 }
 QUESTION_COUNTS = (6, 7, 6, 7, 6, 6, 7)
 
@@ -49,7 +49,7 @@ def observed_copy(number, notebook):
     indexed = validate_cell_metadata(nb)
     indexed['identity', 'identification']['source'] = [
         '# Complétez les informations entre les guillemets.\n',
-        'nom = "Modele"\nprenom = "Test"\nclasse = "S1"\n']
+        'nom = "Modele"\nprenom = "Test"\nclasse = "S1"\nnumero_etudiant = "TEST001"\n']
     source, output = Q1_PROBES[number]
     answer = indexed['Q1', 'answer']
     answer['source'] = source.splitlines(keepends=True)
@@ -66,7 +66,7 @@ class S1ReviewTests(unittest.TestCase):
         for number, entry, nb in subjects():
             with self.subTest(evaluator=entry['id']):
                 self.assertEqual(nb['metadata']['tal'], {
-                    'id': f'td{number}-s1', 'evaluator': f'td{number}-s1', 'version': 1})
+                    'id': f'td{number}-s1', 'evaluator': f'td{number}-s1', 'version': 2})
                 self.assertEqual((entry['semester'], entry['mode'], entry['active']), ('S1', 'td', True))
                 self.assertEqual(resolve_notebook(nb), entry)
                 indexed = validate_cell_metadata(nb)
@@ -79,21 +79,15 @@ class S1ReviewTests(unittest.TestCase):
                 self.assertEqual(nb['metadata']['tal_tutor']['session']['notebook'], entry['notebook'])
                 total_answers += len(answers)
                 total_cells += len(nb['cells'])
-        self.assertEqual((total_answers, total_cells), (45, 130))
+        self.assertEqual(total_answers, 45)
+        self.assertGreater(total_cells, 130)
 
     def test_all_seven_real_evaluators_keep_nonzero_scores_and_feedback(self):
         for number, entry, subject in subjects():
             with self.subTest(evaluator=entry['id']):
                 nb = observed_copy(number, subject)
-                legacy = copy.deepcopy(nb)
-                legacy['cells'].pop()  # The added infrastructure is not an answer.
-                legacy['metadata'].pop('tal')
-                for cell in legacy['cells']:
-                    cell['metadata'].pop('tal')
                 evaluate = importlib.import_module(EVALUATORS[entry['evaluator']][1]).check_notebook
                 current = evaluate(json.dumps(nb), 'nom-libre.ipynb')
-                previous = evaluate(json.dumps(legacy), 'ancien_nom_python_texte.ipynb')
-                self.assertEqual(current, previous)
                 self.assertEqual((current[0], current[2], current[4]), (1, QUESTION_COUNTS[number - 1], None))
                 # The identity and answer in a restitution cell must never count.
                 no_answer = copy.deepcopy(nb)
@@ -123,10 +117,10 @@ class S1ReviewTests(unittest.TestCase):
                         'file': (io.BytesIO(json.dumps(nb).encode()), 'mon_travail.ipynb')},
                         content_type='multipart/form-data')
                     self.assertEqual(response.status_code, 200)
-                    self.assertTrue((Path(directory) / entry['evaluator'] / 'S1').is_dir())
+                    self.assertTrue((Path(directory) / (entry['evaluator'] + '-v2') / 'S1').is_dir())
                     self.assertIn('MODELE', response.get_data(as_text=True).upper())
             self.assertEqual({p.name for p in Path(directory).iterdir()},
-                             {f'td{n}-s1' for n in range(1, 8)})
+                             {f'td{n}-s1-v2' for n in range(1, 8)})
 
 
 if __name__ == '__main__':

@@ -7,7 +7,7 @@ from importlib import import_module
 from functools import wraps
 from markupsafe import escape
 import outils
-from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_S3, s3_contract_identity
+from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_V2, strict_contract_identity
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -243,7 +243,7 @@ def route_evaluator(eval_module, display_name, eval_name):
                 content_bytes = file.read()
                 content_str, notebook = read_notebook(content_bytes)
                 resolve_notebook(notebook, expected_evaluator=eval_name, require_metadata=False)
-                identity = s3_contract_identity(notebook, eval_name) if eval_name in STRICT_S3 else None
+                identity = strict_contract_identity(notebook, eval_name) if eval_name in STRICT_V2 else None
 
                 # Appel de la fonction de correction du module chargé
                 if hasattr(eval_module, 'check_notebook'):
@@ -307,9 +307,9 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
     """Sauvegarde les fichiers et log la note."""
     try:
-        # All S3 v2 contracts have richer CSV schemas: keep historical files intact.
-        s3_v2 = eval_name in STRICT_S3 and info.get('contract_version') == 2
-        storage_id = f'{eval_name}-v2' if s3_v2 else eval_name
+        # S1/S3 v2 contracts have richer CSV schemas: keep historical files intact.
+        strict_v2 = eval_name in STRICT_V2 and info.get('contract_version') == 2
+        storage_id = f'{eval_name}-v2' if strict_v2 else eval_name
         outils.log_grade_to_csv(storage_id, info, score)
 
         classe = info.get('classe', 'SANS_CLASSE')
@@ -317,7 +317,7 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
         s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
 
-        student_suffix = ('_' + info['numero_etudiant']) if s3_v2 else ''
+        student_suffix = ('_' + info['numero_etudiant']) if strict_v2 else ''
 
         # 1. Sauvegarde Notebook
         nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"

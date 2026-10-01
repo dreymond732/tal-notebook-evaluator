@@ -7,8 +7,8 @@ import ast
 import json
 import re
 
-import outils
-from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata
+from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, strict_contract_identity
+from s3_review import review_evidence
 
 EVAL_ID = "td2-s1"
 MAX_SCORE_TOTAL = 7.0
@@ -65,6 +65,8 @@ def _read_traces(cells):
     bindings, displays, outputs, warnings = {}, {}, {}, []
     for cell_index, cell in enumerate(evaluation_cells(notebook)):
         if not isinstance(cell, dict) or cell.get("cell_type") != "code":
+            continue
+        if explicit and cell.get("metadata", {}).get("tal", {}).get("role") != "answer":
             continue
         source = _text(cell.get("source", ""))
         try:
@@ -225,10 +227,10 @@ def check_notebook(content_str, filename):
             if not isinstance(cell.get("outputs", []), list) or not all(isinstance(v, dict) for v in cell.get("outputs", [])):
                 return 0.0, [], MAX_SCORE_TOTAL, {}, "Erreur notebook : sorties mal formées."
     try:
+        info = strict_contract_identity(notebook, EVAL_ID)
         displays, outputs, warnings = _read_traces(cells)
-        info = outils.extract_identification_info(cells)
     except ContractError as exc:
-        return 0.0, [], MAX_SCORE_TOTAL, {}, f"Erreur notebook : {exc}"
+        return 0.0, [], MAX_SCORE_TOTAL, {}, str(exc)
 
     def inspect(marker):
         sources, records = displays.get(marker, []), outputs.get(marker, [])
@@ -264,5 +266,6 @@ def check_notebook(content_str, filename):
             "correct_answer": feedback + " " + LIMIT_NOTE + (" " + " ".join(warnings) if warnings else ""),
             "status": "✅" if points == 1.0 else "❌", "points": points, "max_points": 1.0,
         })
-    info["score_brut"] = score
+    info.update(score_brut=score, score_nature="technique_provisoire", score_max=MAX_SCORE_TOTAL,
+                contract_version=2, relecture_humaine="requise", review_evidence=review_evidence(notebook, 7))
     return score, details, MAX_SCORE_TOTAL, info, None

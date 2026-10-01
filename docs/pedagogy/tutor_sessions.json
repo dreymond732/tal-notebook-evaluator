@@ -16,7 +16,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Q1 — Expression numérique et affectation (commentaire de cellule)",
+          "topic": "Q1 — Expression numérique et affectation (commentaire de cellule) (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -32,7 +32,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Q2 — Observation du type d'une valeur (commentaire de cellule)",
+          "topic": "Q2 — Observation du type d'une valeur (commentaire de cellule) (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -46,7 +46,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Comparaison et condition composée",
+          "topic": "Comparaison et condition composée (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -67,7 +67,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Chaîne et interpolation",
+          "topic": "Chaîne et interpolation (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -84,7 +84,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Conversion explicite d'une valeur",
+          "topic": "Conversion explicite d'une valeur (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -103,7 +103,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Longueur et appartenance dans une chaîne",
+          "topic": "Longueur et appartenance dans une chaîne (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -112,12 +112,14 @@
             "longueur d'une chaîne",
             "len()",
             "appartenance",
-            "affichage"
+            "affichage",
+            "repr fourni pour afficher la phrase"
           ],
           "introduced_here": [
             "longueur d'une chaîne",
             "len()",
-            "appartenance"
+            "appartenance",
+            "repr fourni pour afficher la phrase"
           ],
           "allowed_libraries": []
         }
@@ -532,24 +534,26 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Q1 — Modifier une liste",
+          "topic": "Q1 — Modifier une liste (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
             "liste",
             "append()",
             "pop()",
-            "print()"
+            "print()",
+            "état intermédiaire"
           ],
           "introduced_here": [
             "append()",
-            "pop()"
+            "pop()",
+            "état intermédiaire"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Liste ou tuple ?",
+          "topic": "Exercice 2 — Liste ou tuple ? (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -569,7 +573,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Lexique bilingue",
+          "topic": "Exercice 3 — Lexique bilingue (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "affectation",
@@ -591,7 +595,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Parcourir un dictionnaire",
+          "topic": "Exercice 4 — Parcourir un dictionnaire (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "dictionnaire",
@@ -602,18 +606,22 @@
             "append()",
             "chaîne",
             "f-string",
-            "print()"
+            "print()",
+            "indentation",
+            "déballage clé-valeur"
           ],
           "introduced_here": [
             "items()",
             "boucle for",
-            "paire clé-valeur"
+            "paire clé-valeur",
+            "indentation",
+            "déballage clé-valeur"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Formes distinctes",
+          "topic": "Exercice 5 — Formes distinctes (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -621,18 +629,20 @@
             "set()",
             "len()",
             "unicité",
-            "print()"
+            "print()",
+            "absence d’ordre des ensembles"
           ],
           "introduced_here": [
             "ensemble",
             "set()",
-            "unicité"
+            "unicité",
+            "absence d’ordre des ensembles"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Comparer deux vocabulaires",
+          "topic": "Exercice 6 — Comparer deux vocabulaires (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -640,11 +650,15 @@
             "set()",
             "intersection",
             "différence",
-            "print()"
+            "print()",
+            "intersection()",
+            "difference()"
           ],
           "introduced_here": [
             "intersection",
-            "différence"
+            "différence",
+            "intersection()",
+            "difference()"
           ],
           "allowed_libraries": []
         }
@@ -664,7 +678,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Q1 — Boucle et majuscules",
+          "topic": "Q1 — Boucle et majuscules (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -683,7 +697,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Filtrer, premier essai",
+          "topic": "Exercice 2 — Filtrer, premier essai (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -702,7 +716,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Filtrer, second essai",
+          "topic": "Exercice 3 — Filtrer, second essai (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -718,7 +732,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — range et positions",
+          "topic": "Exercice 4 — range et positions (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -729,18 +743,22 @@
             "pas",
             "condition if",
             "modulo",
-            "print()"
+            "print()",
+            "pas négatif",
+            "parcours inverse"
           ],
           "introduced_here": [
             "range()",
             "pas",
-            "modulo"
+            "modulo",
+            "pas négatif",
+            "parcours inverse"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — while avec condition d’arrêt",
+          "topic": "Exercice 5 — while avec condition d’arrêt (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -750,18 +768,22 @@
             "comparaison",
             "incrémentation",
             "arrêt",
-            "print()"
+            "print()",
+            "borne incluse",
+            "première valeur hors borne"
           ],
           "introduced_here": [
             "boucle while",
             "incrémentation",
-            "arrêt"
+            "arrêt",
+            "borne incluse",
+            "première valeur hors borne"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Compter des formes",
+          "topic": "Exercice 6 — Compter des formes (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -773,16 +795,18 @@
             "incrémentation",
             "lower()",
             "split()",
-            "print()"
+            "print()",
+            "alternative get ou if/else"
           ],
           "introduced_here": [
-            "get()"
+            "get()",
+            "alternative get ou if/else"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Compréhension de liste",
+          "topic": "Exercice 7 — Compréhension de liste (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -813,7 +837,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Première fonction",
+          "topic": "Exercice 1 — Première fonction (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -823,20 +847,22 @@
             "return",
             "appel",
             "print()",
-            "test"
+            "test",
+            "chaîne vide"
           ],
           "introduced_here": [
             "def",
             "paramètre",
             "return",
             "appel",
-            "test"
+            "test",
+            "chaîne vide"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Normaliser",
+          "topic": "Exercice 2 — Normaliser (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -846,14 +872,17 @@
             "paramètre",
             "return",
             "appel",
-            "print()"
+            "print()",
+            "chaîne vide"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "chaîne vide"
+          ],
           "allowed_libraries": []
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Compter les mots",
+          "topic": "Exercice 3 — Compter les mots (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -865,16 +894,20 @@
             "return",
             "appel",
             "composition",
-            "print()"
+            "print()",
+            "chaîne vide",
+            "paramètre par défaut"
           ],
           "introduced_here": [
-            "composition"
+            "composition",
+            "chaîne vide",
+            "paramètre par défaut"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Traduire un mot",
+          "topic": "Exercice 4 — Traduire un mot (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -888,14 +921,19 @@
             "paramètre",
             "return",
             "appel",
-            "print()"
+            "print()",
+            "normalisation avant recherche",
+            "get()"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "normalisation avant recherche",
+            "get()"
+          ],
           "allowed_libraries": []
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Traduire une phrase",
+          "topic": "Exercice 5 — Traduire une phrase (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -910,14 +948,19 @@
             "return",
             "appel",
             "composition",
-            "print()"
+            "print()",
+            "chaîne vide",
+            "compréhension de liste"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "chaîne vide",
+            "compréhension de liste"
+          ],
           "allowed_libraries": []
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Composer",
+          "topic": "Exercice 6 — Composer (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -930,9 +973,18 @@
             "return",
             "appel",
             "composition",
-            "print()"
+            "print()",
+            "longueur du texte normalisé",
+            "clés du résumé",
+            "chaîne vide",
+            "tranche [:1]"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "longueur du texte normalisé",
+            "clés du résumé",
+            "chaîne vide",
+            "tranche [:1]"
+          ],
           "allowed_libraries": []
         }
       ]
@@ -955,7 +1007,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Lire sans oublier de fermer",
+          "topic": "Exercice 1 — Lire sans oublier de fermer (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -978,7 +1030,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Lignes utiles",
+          "topic": "Exercice 2 — Lignes utiles (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -998,7 +1050,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Lire une ligne structurée",
+          "topic": "Exercice 3 — Lire une ligne structurée (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1008,16 +1060,18 @@
             "indice",
             "boucle for",
             "append()",
-            "print()"
+            "print()",
+            "maxsplit"
           ],
           "introduced_here": [
-            "split(séparateur,maxsplit)"
+            "split(séparateur,maxsplit)",
+            "maxsplit"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Normaliser une personne",
+          "topic": "Exercice 4 — Normaliser une personne (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1030,16 +1084,18 @@
             "return",
             "appel",
             "test",
-            "print()"
+            "print()",
+            "espaces intérieurs"
           ],
           "introduced_here": [
-            "title()"
+            "title()",
+            "espaces intérieurs"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Affiliations uniques",
+          "topic": "Exercice 5 — Affiliations uniques (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "liste",
@@ -1053,16 +1109,18 @@
             "if/else",
             "appartenance",
             "fonction",
-            "print()"
+            "print()",
+            "absence d’ordre des ensembles"
           ],
           "introduced_here": [
-            "add()"
+            "add()",
+            "absence d’ordre des ensembles"
           ],
           "allowed_libraries": []
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Écrire un CSV",
+          "topic": "Exercice 6 — Écrire un CSV (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1081,13 +1139,23 @@
             "écriture",
             "relecture",
             "Path.read_text fourni",
-            "print()"
+            "print()",
+            "newline",
+            "en-tête CSV",
+            "séparateur interne",
+            "ordre libre",
+            "repr fourni pour afficher le CSV"
           ],
           "introduced_here": [
             "csv.writer",
             "writerow()",
             "écriture",
-            "relecture"
+            "relecture",
+            "newline",
+            "en-tête CSV",
+            "séparateur interne",
+            "ordre libre",
+            "repr fourni pour afficher le CSV"
           ],
           "allowed_libraries": [
             "csv"
@@ -1111,7 +1179,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Rechercher",
+          "topic": "Exercice 1 — Rechercher (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1119,12 +1187,26 @@
             "re.search",
             "motif",
             "re.IGNORECASE",
-            "print()"
+            "print()",
+            "bool()",
+            "None",
+            "chaîne brute",
+            "re.match",
+            "début de chaîne",
+            "re.findall",
+            "point et échappement"
           ],
           "introduced_here": [
             "re.search",
             "motif",
-            "re.IGNORECASE"
+            "re.IGNORECASE",
+            "bool()",
+            "None",
+            "chaîne brute",
+            "re.match",
+            "début de chaîne",
+            "re.findall",
+            "point et échappement"
           ],
           "allowed_libraries": [
             "re"
@@ -1132,7 +1214,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Extraire plusieurs nombres",
+          "topic": "Exercice 2 — Extraire plusieurs nombres (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1141,12 +1223,16 @@
             "motif",
             "classe de caractères",
             "répétition",
-            "print()"
+            "print()",
+            "chaîne brute",
+            "échappement"
           ],
           "introduced_here": [
             "re.findall",
             "classe de caractères",
-            "répétition"
+            "répétition",
+            "chaîne brute",
+            "échappement"
           ],
           "allowed_libraries": [
             "re"
@@ -1154,7 +1240,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Extraire des mots",
+          "topic": "Exercice 3 — Extraire des mots (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1166,10 +1252,12 @@
             "split()",
             "comparaison",
             "commentaire",
-            "print()"
+            "print()",
+            "limites des classes de lettres"
           ],
           "introduced_here": [
-            "lettres accentuées"
+            "lettres accentuées",
+            "limites des classes de lettres"
           ],
           "allowed_libraries": [
             "re"
@@ -1177,7 +1265,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Remplacer des dates",
+          "topic": "Exercice 4 — Remplacer des dates (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1185,11 +1273,13 @@
             "classe de caractères",
             "répétition bornée",
             "motif",
-            "print()"
+            "print()",
+            "forme et validité calendaire"
           ],
           "introduced_here": [
             "re.sub",
-            "répétition bornée"
+            "répétition bornée",
+            "forme et validité calendaire"
           ],
           "allowed_libraries": [
             "re"
@@ -1197,7 +1287,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Fonction de nettoyage",
+          "topic": "Exercice 5 — Fonction de nettoyage (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1212,10 +1302,14 @@
             "paramètre",
             "return",
             "appel",
-            "print()"
+            "print()",
+            "ordre des transformations",
+            "marqueur DATE majuscule"
           ],
           "introduced_here": [
-            "espaces"
+            "espaces",
+            "ordre des transformations",
+            "marqueur DATE majuscule"
           ],
           "allowed_libraries": [
             "re"
@@ -1223,7 +1317,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Pipeline de synthèse",
+          "topic": "Exercice 6 — Pipeline de synthèse (appui, exemple et essai inclus)",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1239,16 +1333,21 @@
             "return",
             "appel",
             "composition",
-            "print()"
+            "print()",
+            "marqueur DATE et extraction",
+            "chaîne vide"
           ],
-          "introduced_here": [],
+          "introduced_here": [
+            "marqueur DATE et extraction",
+            "chaîne vide"
+          ],
           "allowed_libraries": [
             "re"
           ]
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Limite méthodologique",
+          "topic": "Exercice 7 — Limite méthodologique (appui, exemple et essai inclus)",
           "available_concepts": [
             "motif",
             "regex",
@@ -1256,11 +1355,21 @@
             "analyse linguistique",
             "contexte",
             "interprétation",
-            "print()"
+            "print()",
+            "re.findall",
+            "liste",
+            "len()",
+            "quantificateurs * et +",
+            "correspondance vide"
           ],
           "introduced_here": [
             "limite linguistique",
-            "contexte"
+            "contexte",
+            "re.findall",
+            "liste",
+            "len()",
+            "quantificateurs * et +",
+            "correspondance vide"
           ],
           "allowed_libraries": [
             "re"
