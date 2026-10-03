@@ -1,0 +1,149 @@
+# Reprise éditoriale intégrale : inventaire et ordre de travail
+
+Établi le 3 octobre 2026, rôle `TAL-Prof`. État des fichiers examiné : `4b79943f0a59a3e05eedc89d3783988682254a80`, tête de la révision S2 fusionnée par la PR 22. Sources du recensement : `git ls-files -z '*.ipynb'` et `app/notebook_catalog.json`. Lecture JSON uniquement : aucun code de notebook exécuté, aucune exploration d'anciens historiques contenant potentiellement des informations de dépôt retirées.
+
+**Ce document livre un inventaire exhaustif et un programme de reprise, pas une relecture ni une réécriture achevée des 44 notebooks.** Les deux exemples détaillés plus bas sont des sondages localisés. Chaque support reste à relire intégralement, passage par passage et question par question, puis à corriger et à faire valider indépendamment. Ni sa présence au catalogue, ni ses métadonnées, ni un ancien verdict technique ne permettent de le déclarer pédagogiquement conforme.
+
+## Périmètre vérifié
+
+| Ensemble | TD et révisions actifs | Contrôles/DM actifs | Contrôle inactif | Total catalogue |
+|---|---:|---:|---:|---:|
+| S1 | 7 | 2 | 0 | 9 |
+| S2 | 3 | 3 | 1 | 7 |
+| S3 | 11, dont R0/R1/R2 | 7 | 0 | 18 |
+| Total | 21 | 12 | 1 | 34 |
+
+Les **44 notebooks suivis** comprennent aussi **10 fichiers hors catalogue**, recensés sans exception en fin de document. Deux de ces fichiers ne sont pas des JSON valides. Il n'existe pas de notebook distribué `dist/` suivi dans cet inventaire : les copies sont générées depuis les sources. La reprise doit donc vérifier aussi la génération de la distribution, sans inscrire une URL serveur dans Git.
+
+Le destinataire de chaque passage pédagogique est **l'étudiant**, sauf dans les **corrigés de devoirs maison**. Un corrigé de TD, un contrôle, un fichier archivé ou un titre « enseignant » ne constituent pas d'autres exceptions. Les notes de conception, justifications de maintenance et rapports de validation vont dans la documentation appropriée. Les instructions du tuteur sont un dispositif explicite adressé au LLM, distinct de la prose du cours ; elles sont préservées dans leurs deux emplacements.
+
+## Vérifications obligatoires pour chaque support
+
+Chaque ligne des tableaux ci-dessous ouvre un dossier de reprise comprenant les points suivants. Un code de vérification n'est jamais un verdict acquis.
+
+- **P — Passages et progression :** classer et relire chaque passage comme cours/rappel, exemple, exercice guidé, problème autonome, vérification ou restitution ; séparer les fonctions actuellement confondues ; préciser objectif, données, action et production attendue sans donner la solution. Conserver les explications riches, puis renforcer les supports suivants si nécessaire. Vérifier les transitions et la charge prévue ; 2 h est une hypothèse à confronter à une lecture novice, pas un résultat mesuré.
+- **C — Couverture :** établir la matrice question par question à partir du sujet technique actuel ET de la référence pédagogique antérieure identifiée ; conserver notions, tutoriels, activités, données, exemples, interprétations et autonomie. Une destination future non livrée ne prouve pas qu'une activité a été déplacée. Une référence absente reste une réserve explicite ; elle ne permet pas de prononcer la conservation intégrale.
+- **A — Acquis :** rattacher chaque notion/bibliothèque à un enseignement situé avant l'exercice ; distinguer imports de préparation fournis et outils réellement appris. Introduire une bibliothèque par un cours et des exemples manipulables avant son emploi autonome. Dans un contrôle/DM, vérifier les acquis dans les TD antérieurs sans ajouter d'aide à la résolution.
+- **T — Tuteur :** vérifier la concordance du contexte complet `metadata.colab.aiContexts[...].context` et du commentaire HTML de la première cellule Markdown, délimité par `TAL_TUTOR_CONTEXT_START/END`, ainsi que la configuration `metadata.tal_tutor`. TD : questionnement, demande « résous » transformée en question ciblée/quiz, attente de la réponse, pas de solution immédiate ; S1 sans code ; S2/S3 seulement un fragment minimal distinct après échange. Toute aide reste limitée aux acquis déjà introduits avant l'exercice. Contrôles et DM classés `controle` : aucune assistance, aucun quiz. Ne pas confondre présence du contrat et garantie de son respect par Colab.
+- **M — Contrats :** préserver l'identité/version du notebook, les `cell.id`, rôles, questions, cellules de réponse et marqueurs/schémas de sorties ; vérifier les liens avec le correcteur. Toute modification réelle de ces contrats doit être déclarée et coordonnée avec le correcteur. Une réécriture des phrases ne justifie pas une renumérotation silencieuse.
+- **H — Distribution :** conserver une dernière cellule fournie de restitution HTML, rôle `submission`, avec `__TAL_PUBLIC_URL__` dans Git et injection seulement au déploiement. Vérifier que cette cellule n'entre pas dans la notation, que les sorties ne révèlent pas l'adresse et que seuls les supports actifs entrent dans la distribution.
+
+La future matrice détaillée de chaque support consigne pour chaque question : référence historique et cellule, objectif, activité/données, production, acquis autorisés, autonomie, statut cible, destination livrée le cas échéant, preuve de conservation et réserve éventuelle. **Les tableaux présents ne se substituent pas à cette validation préalable à la conception.** Le Prof spécifie, le Designer réécrit, les réviseurs contrôlent indépendamment le contenu et la clarté, et une lecture novice tente de reformuler la tâche sans aide de l'auteur.
+
+## Références et limites de la comparaison historique
+
+Les codes suivants indiquent où commencer la recherche, sans transformer une matrice antérieure en preuve de qualité actuelle.
+
+| Code | Référence disponible | Limite à résoudre avant de déclarer la couverture conservée |
+|---|---|---|
+| S1-T | `docs/pedagogy/S1_COVERAGE_MATRIX.md`, `s1_td_review_distribution.md`, `s1_progression_v2_coverage.md` | Identifier la version pédagogique antérieure de chaque sujet ; ne pas comparer seulement au dernier notebook technique. Pour TD2, utiliser aussi `TD2_S1_SPECIFICATION.md` et la copie modèle hors catalogue comme indices, non comme remplacement du sujet original. |
+| S1-DM | `docs/pedagogy/dm_s1_intermediaire_spec.md` et corrigé DM S1 suivi | Le devoir externe ayant servi d'inspiration n'est pas identifié par un fichier suivi dans cet inventaire ; indiquer cette limite et retrouver la référence si elle est nécessaire à la comparaison. |
+| S1-C | Sujet actuel et corrigé `Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb` | Le corrigé n'est pas un sujet historique ; identifier séparément la version distribuée et la progression effectivement enseignée. |
+| S2 | `docs/pedagogy/s2_complete_review_coverage.md`, `s2_v2_answer_contract.md` et corrigés historiques suivis | Les anciens chemins de sujets décrits par la matrice ne figurent plus dans les 44 fichiers actuels. Retrouver un instantané autorisé du sujet, sans réintroduire d'URL supprimée. Deux archives JSON sont invalides : elles ne constituent pas des références complètes. |
+| S3-T | `docs/pedagogy/S3_COVERAGE_MATRIX.md`, `s3_progression_review_coverage.md`, `s3_complete_v2_coverage.md` | Les anciens supports cités dans ces matrices ne sont pas suivis dans l'état actuel. Les annonces de prolongements non livrés doivent être réexaminées, sans les compter comme couverture acquise. |
+| S3-spaCy | S3-T + notebook `TD_0_Initiation_spacy.ipynb` fourni par l'enseignant dans l'échange | Référence reçue hors dépôt ; archiver une copie de référence autorisée et son empreinte avant la future comparaison détaillée. Comparer explicitement l'introduction de la bibliothèque et les activités historiques ; ne pas assimiler similarité, entités nommées et simple lecture syntaxique. |
+| S3-R | `docs/pedagogy/r012_v2_spec.md` et versions actuelles R0/R1/R2 | Identifier la version antérieure aux ajouts techniques et relever son contenu pédagogique ; une spécification de correcteur ne tient pas lieu de cours de référence. |
+| S3-C | `docs/pedagogy/S3_CONTROLES_COVERAGE_MATRIX.md`, `S3_CONTROLES_SPECIFICATION.md` | Reconstituer pour chaque question le TD préparatoire et ses acquis effectivement enseignés ; une ressemblance de titre ou de numéro ne suffit pas. |
+
+## Lots de reprise
+
+Le lot pilote examine **R2 et TD1 spaCy** pour fixer la qualité attendue, puis reprend leurs dépendances R0/TD0/R1 et le contrôle TD1. Il ne les déclare pas conformes avant cette vérification complète. Les autres lots peuvent être répartis entre rédacteurs, mais un contrôle n'est finalisé qu'après les TD qui préparent ses questions. Les sujets inactifs et les archives restent hors distribution pendant leur examen.
+
+Dans les tableaux : « actif » désigne uniquement le catalogue ; **toutes les lignes sont À REPRENDRE** et le protocole P/C/A/T/M/H s'applique à chacune. La colonne « priorité » oriente la lecture ; elle ne prétend pas diagnostiquer des défauts déjà constatés sur tous les supports. Le nombre Q est le nombre de cellules marquées `answer` dans l'état examiné, sans mesure de richesse pédagogique.
+
+### S1 — TD puis évaluations aux jalons utiles
+
+| Support et chemin exact | Statut, public, Q | Lot / référence | Priorité de relecture à vérifier |
+|---|---|---|---|
+| `td1-s1` — `Notebooks TD/S1/TD1_S1_variables_types.ipynb` | Actif ; étudiant ; 6 Q | S1-1 ; S1-T | Distinguer affectation, valeurs/types, comparaison et conversion ; introduire chaque syntaxe avant emploi. **À reprendre** : P/C/A/T/M/H. |
+| `td2-s1` — `Notebooks TD/S1/TD2_S1_chaines_sequences.ipynb` | Actif ; étudiant ; 7 Q | S1-2 ; S1-T | Conserver les prédictions, exemples et interprétations ; séparer manipulation de chaînes et restitution technique. **À reprendre** : P/C/A/T/M/H. |
+| `td3-s1` — `Notebooks TD/S1/TD3_S1_collections.ipynb` | Actif ; étudiant ; 6 Q | S1-3 ; S1-T | Clarifier le choix des collections et introduire le parcours nécessaire avant la question concernée. **À reprendre** : P/C/A/T/M/H. |
+| `td4-s1` — `Notebooks TD/S1/TD4_S1_boucles_conditions_comptages.ipynb` | Actif ; étudiant ; 7 Q | S1-4 ; S1-T | Séparer cours sur boucles/conditions, essais, comptage et problème de transfert. **À reprendre** : P/C/A/T/M/H. |
+| `td5-s1` — `Notebooks TD/S1/TD5_S1_fonctions_reutilisation.ipynb` | Actif ; étudiant ; 6 Q | S1-5 ; S1-T | Distinguer définition, paramètres, appel et valeur renvoyée ; préparer la composition de fonctions. **À reprendre** : P/C/A/T/M/H. |
+| `dm-intermediaire-s1` — `Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb` | Actif ; étudiant ; 18 Q | S1-6, après TD5 ; S1-DM | Contrôler chaque prérequis jusqu’au TD5 ; expliciter données/livrables sans amorce de solution. **À reprendre** : P/C/A/T/M/H. |
+| `td6-s1` — `Notebooks TD/S1/TD6_S1_fichiers_csv.ipynb` | Actif ; étudiant ; 6 Q | S1-7 ; S1-T | Distinguer préparation fournie, lecture/écriture et transformation ; expliquer CSV avant la tâche. **À reprendre** : P/C/A/T/M/H. |
+| `td7-s1` — `Notebooks TD/S1/TD7_S1_expressions_regulieres_pipeline.ipynb` | Actif ; étudiant ; 7 Q | S1-8 ; S1-T | Introduire les motifs et leurs limites, puis formuler clairement le pipeline autonome. **À reprendre** : P/C/A/T/M/H. |
+| `Controletilt-s1` — `Notebooks contrôles finaux/DevoirS1.ipynb` | Actif ; étudiant ; 30 Q | S1-9, après les TD requis ; S1-C | Cartographier les 30 questions sur les TD révisés ; vérifier vocabulaire, données et barème sans tutorat. **À reprendre** : P/C/A/T/M/H. |
+
+### S2 — ordre pédagogique, distinct des numéros historiques
+
+Trois notebooks de TD couvrent cinq séances formatives prévues : TD3 et TD5 sur deux séances chacun, TD6 sur une séance. Ne pas réduire leurs exercices pour tenir artificiellement en 2 h.
+
+| Support et chemin exact | Statut, public, Q | Lot / référence | Priorité de relecture à vérifier |
+|---|---|---|---|
+| `td3-S2` — `Notebooks TD/S2/TD3_S2_algorithmique_structures.ipynb` | Actif ; étudiant ; 30 Q | S2-1 ; S2 | Relire les 30 exercices et ateliers, l’articulation des deux séances de 2 h et la préparation des contrôles. **À reprendre** : P/C/A/T/M/H. |
+| `td2-S2` — `Notebooks contrôles finaux/S2/Controle_TD2_S2_algorithmique.ipynb` | Actif ; étudiant ; 13 Q | S2-2, après TD3 ; S2 | Numérotation historique : ce TD2 est un contrôle ; contrôler boucles/anagrammes/Fibonacci dans le TD3 préparatoire. **À reprendre** : P/C/A/T/M/H. |
+| `td5-S2` — `Notebooks TD/S2/TD5_S2_algorithmes_texte.ipynb` | Actif ; étudiant ; 25 Q | S2-3 ; S2 | Séparer exemples et 25 problèmes ; expliciter les étapes du TAL natif et les deux séances de 2 h. **À reprendre** : P/C/A/T/M/H. |
+| `td4-S2` — `Notebooks contrôles finaux/S2/Controle_TD4_S2_ensembles.ipynb` | Actif ; étudiant ; 14 Q | S2-4, après TD3/TD5 ; S2 | Ce TD4 est un contrôle ; rattacher opérations ensemblistes et cas limites aux TD déjà travaillés. **À reprendre** : P/C/A/T/M/H. |
+| `ControleDevoirMaisonS2` — `Notebooks contrôles finaux/S2/Devoir_maison_S2_approfondissement.ipynb` | Actif ; étudiant ; 30 Q | S2-5, après TD5 ; S2 | Séparer le sujet étudiant de son corrigé ; vérifier les acquis de chacune des 30 questions, sans aide LLM. **À reprendre** : P/C/A/T/M/H. |
+| `td6-S2` — `Notebooks TD/S2/TD6_S2_fichiers_ressources.ipynb` | Actif ; étudiant ; 10 Q | S2-6 ; S2 | Clarifier fichiers, nettoyage, comptage et export en Python natif ; séparer ressources fournies et manipulations. **À reprendre** : P/C/A/T/M/H. |
+| `controle-final-s2` — `Notebooks contrôles finaux/S2/Controle_final_S2_algorithmique_fichiers.ipynb` | **Inactif**, évaluateur absent ; étudiant ; 18 Q | S2-7, après TD6 ; S2 | Réviser aussi ce sujet inactif ; clarifier les 18 tâches et les critères de notation avant toute décision d’activation. **À reprendre** : P/C/A/T/M/H. |
+
+### S3 — inclure toutes les remédiations et chaque contrôle
+
+| Support et chemin exact | Statut, public, Q | Lot / référence | Priorité de relecture à vérifier |
+|---|---|---|---|
+| `td0-s3` — `Notebooks TD/S3/TD0_S3_diagnostic_texte.ipynb` | Actif ; étudiant ; 7 Q | Pilote, dépendance amont ; S3-T | Rendre explicite le diagnostic Python/texte et la distinction mesure/interprétation ; conserver les essais. **À reprendre** : P/C/A/T/M/H. |
+| `td-r0-s3` — `Notebooks TD/S3/R0_S3_python_texte.ipynb` | Actif ; étudiant ; 4 Q | Pilote, appui TD0 ; S3-R | Rendre les reprises de Python autonome lisibles sans mélanger le rappel et les quatre tâches. **À reprendre** : P/C/A/T/M/H. |
+| `td1-s3` — `Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb` | Actif ; étudiant ; 6 Q | Pilote principal ; S3-spaCy | Reconstruire une introduction lisible de la bibliothèque, exemples manipulables puis activités, sans perdre les objectifs historiques. **À reprendre** : P/C/A/T/M/H. |
+| `td-r1-s3` — `Notebooks TD/S3/R1_S3_doc_spacy.ipynb` | Actif ; étudiant ; 4 Q | Pilote, appui TD1 ; S3-R | Clarifier Doc, Token et parcours ; faire identifier données et résultat de chaque tâche. **À reprendre** : P/C/A/T/M/H. |
+| `td-r2-s3` — `Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb` | Actif ; étudiant ; 4 Q | Pilote principal, avant TD2 ; S3-R | Séparer Counter/paramètre facultatif, exercices, vérifications et traces ; conserver les quatre idées d’exercices. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td1-s3` — `Notebooks contrôles finaux/S3/Controle_TD1_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-1, après TD1 et appuis requis ; S3-C | Rattacher les sept questions au TD1 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td2-s3` — `Notebooks TD/S3/TD2_S3_analyse_corpus.ipynb` | Actif ; étudiant ; 7 Q | S3-2 ; S3-T | Définir unités, corpus, filtres et fonctions avant les comptages ; distinguer visualisation et interprétation. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td2-s3` — `Notebooks contrôles finaux/S3/Controle_TD2_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-2, après TD2 et appuis requis ; S3-C | Rattacher les sept questions au TD2 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td3-s3` — `Notebooks TD/S3/TD3_S3_concordances_citations.ipynb` | Actif ; étudiant ; 7 Q | S3-3 ; S3-T | Séparer recherche de concordances, données de contexte, vérification des citations et commentaire linguistique. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td3-s3` — `Notebooks contrôles finaux/S3/Controle_TD3_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-3, après TD3 et appuis requis ; S3-C | Rattacher les sept questions au TD3 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td4-s3` — `Notebooks TD/S3/TD4_S3_cooccurrences.ipynb` | Actif ; étudiant ; 7 Q | S3-4 ; S3-T | Introduire unités/fenêtres de cooccurrence puis consignes et tests sur petits exemples distincts. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td4-s3` — `Notebooks contrôles finaux/S3/Controle_TD4_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-4, après TD4 et appuis requis ; S3-C | Rattacher les sept questions au TD4 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td5-s3` — `Notebooks TD/S3/TD5_S3_associations.ipynb` | Actif ; étudiant ; 7 Q | S3-5 ; S3-T | Distinguer comptage, mesure d’association et interprétation ; vérifier les prérequis de chaque formule. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td5-s3` — `Notebooks contrôles finaux/S3/Controle_TD5_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-5, après TD5 et appuis requis ; S3-C | Rattacher les sept questions au TD5 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td6-s3` — `Notebooks TD/S3/TD6_S3_visualisations.ipynb` | Actif ; étudiant ; 7 Q | S3-6 ; S3-T | Enseigner la lecture des représentations et leurs limites avant la production autonome de figures. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td6-s3` — `Notebooks contrôles finaux/S3/Controle_TD6_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-6, après TD6 et appuis requis ; S3-C | Rattacher les sept questions au TD6 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+| `td7-s3` — `Notebooks TD/S3/TD7_S3_audit_llm.ipynb` | Actif ; étudiant ; 7 Q | S3-7 ; S3-T | Clarifier le protocole d’audit quantitatif du résultat LLM, les preuves attendues et les conclusions permises. **À reprendre** : P/C/A/T/M/H. |
+| `controle-td7-s3` — `Notebooks contrôles finaux/S3/Controle_TD7_S3.ipynb` | Actif ; étudiant ; 7 Q | S3-7, après TD7 et appuis requis ; S3-C | Rattacher les sept questions au TD7 et aux acquis antérieurs ; préciser contexte et production sans cours ajouté ni quiz. **À reprendre** : P/C/A/T/M/H. |
+
+## Hors catalogue : aucun fichier omis, aucune redistribution automatique
+
+Ces dix fichiers sont suivis mais ne font pas partie des supports actifs du catalogue. « Hors catalogue » ne prouve pas qu'un fichier ne circule jamais : examiner aussi les liens de documentation lors de la reprise. Tous restent à relire ; un corrigé n'est pas transformé en sujet distribué.
+
+| Chemin exact | Nature observée et destinataire rédactionnel | Reprise à effectuer |
+|---|---|---|
+| `Corrigés modèles/Contrôles finaux/dm-intermediaire-s1/DM_intermediaire_S1_corrige_non_execute.ipynb` | Corrigé DM S1 ; **exception enseignant** ; 45 cellules | Conserver l'exception, vérifier concordance avec le sujet DM révisé, séparer raisonnement de correction et notes de maintenance ; ne pas distribuer comme sujet. |
+| `Corrigés modèles/TD/td2-s1/TD2_S1_EtudiantModele_non_execute.ipynb` | Copie modèle TD2 S1 ; destinataire étudiant, aucune exception DM ; 18 cellules | Relire aussi la prose et les explications de la copie modèle ; assurer sa cohérence avec TD2 sans présenter cette solution comme une activité non résolue. |
+| `Notebooks TD/TD2 - S2 - Corrigé.ipynb` | Corrigé contrôle TD2 S2 ; destinataire étudiant, hors distribution ; 18 cellules | Clarifier nature/titre, comparer au contrôle révisé ; sortir les éventuelles notes enseignant vers la documentation. |
+| `Notebooks TD/TD3 - S2 - Corrigé.ipynb` | Corrigé TD3 S2 ; destinataire étudiant, hors distribution ; 63 cellules | Comparer ses explications aux 30 exercices ; examiner l'affirmation « solutions validées par le correcteur automatique », qui n'est pas une preuve de qualité pédagogique. |
+| `Notebooks TD/TD4_S2-corrigé.ipynb` | Corrigé contrôle TD4 S2 ; destinataire étudiant, hors distribution ; 19 cellules | Le titre annonce « Contrôle S3 » : vérifier et corriger la dénomination dans un lot dédié ; vérifier les 14 correspondances avant réemploi. |
+| `Notebooks TD/TD5_S2-corrigé.ipynb` | Corrigé TD5 S2, actuellement intitulé « Version Enseignant / Solution » ; destinataire étudiant pour la prose, hors distribution ; 32 cellules | Ce titre ne crée pas une exception : déplacer les notes de correction destinées au professeur hors notebook et relire toutes les explications. |
+| `Notebooks TD/TD6_S2-corrigé.ipynb` | Corrigé TD6 S2 présumé par le nom ; **JSON invalide**, lecture intégrale impossible | Retrouver une source complète avant réparation ; ne pas inventer les cellules manquantes. Destinataire étudiant pour les passages hors notes à déplacer ; aucun certificat de couverture. |
+| `Notebooks TD/devoirMaisonS2-corrigé.ipynb` | Corrigé DM S2 ; **exception enseignant** ; 34 cellules | Préserver l'exception et comparer le corrigé à toutes les questions du DM S2 actuel ; vérifier les différences de contrat avant réemploi. |
+| `Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb` | Corrigé du contrôle S1 ; destinataire étudiant, hors distribution ; 68 cellules | Le mot « Devoir » ne suffit pas à en faire un DM : vérifier le sujet associé et relire les explications selon la règle générale. |
+| `Notebooks contrôles finaux/DevoirS2.ipynb` | Archive de solution enseignant identifiée dans `s2_complete_review_coverage.md` ; **JSON invalide** ; ce nom ne prouve pas un DM | Identifier l'origine et retrouver une version complète ; rester hors distribution. Appliquer le destinataire étudiant sauf preuve qu'il s'agit d'un corrigé DM ; déplacer les notes enseignant de contrôle hors notebook. |
+
+Pour les archives, P/C/A s'appliquent à la prose et à la couverture. T/M/H servent à vérifier leur statut et à empêcher une redistribution ou un routage accidentels : on ne leur injecte pas mécaniquement un tuteur d'exercice, un évaluateur actif ou une cellule de dépôt. La règle commune ne demande pas de faire passer des solutions corrigées pour des sujets.
+
+## Sondages justifiant la reprise éditoriale
+
+Les numéros de cellules ci-dessous commencent à 1 et incluent le tuteur. L'identifiant de cellule permet de retrouver le passage même si l'ordre change. Il s'agit d'une lecture de source, non d'un test de compréhension auprès d'étudiants.
+
+### R2 S3 : quatre activités conservables, fonctions des paragraphes confondues
+
+- Cellule 4, `preparation-consigne` : « Les versions sont fixées pour comparer les observations. `sys` et `subprocess` servent seulement à cette préparation fournie. » L'action étudiante d'installation est mêlée à une justification de configuration et à une limitation destinée au tuteur. Conserver les consignes utiles : exécuter, connexion nécessaire, reprise après redémarrage. Placer les justifications techniques dans la documentation et conserver les restrictions du tuteur dans son contrat.
+- Cellule 8, `s3-review-r2-q1-repere` : exemple `Counter`, explication de `None`, puis « À Q1, le paramètre est seulement réservé pour la révision de Q3 » et « Ce rappel fait partie des 30 minutes de reprise ». Le même paragraphe enseigne deux notions, prescrit une étape de l'exercice et commente l'organisation de la séance. Séparer le cours sur la fonction et le paramètre facultatif, l'exemple de comptage et les instructions de Q1.
+- Cellule 13, `s3-review-r2-q3-repere` : la distinction entre `is_stop` et exclusions personnelles est immédiatement suivie de « Avant de réécrire votre fonction, indiquez verbalement… », d'un invariant de comptage puis de « Gardez vos essais… ». Identifier séparément explication, travail demandé, vérification et emplacement des essais.
+- Cellules 9/11/15/18, `r2-q1-consigne` à `r2-q4-consigne` : les quatre tâches sont identifiables (fonction de fréquence, trace des annotations, filtrage, comparaison). La reprise vise d'abord leur lisibilité et l'articulation avec les rappels ; elle ne supprime aucune tâche et préserve notamment `frequences_lemmas`, `annotations`, `tests_filtrage` et `classements` tant que le contrat n'est pas explicitement changé.
+
+### TD1 S3 spaCy : apprentissage de la bibliothèque et contrat de preuve à démêler
+
+- Cellule 2, `f1c4b87024c7` : l'introduction combine objectif de séance, minutage, protocole d'analyse, version de correction, métadonnées et contraintes détaillées du numéro étudiant. Le passage « Le serveur ne lance jamais votre code » relève ici d'une explication d'architecture ; regrouper les informations de restitution nécessaires à l'étudiant et dégager l'entrée dans la bibliothèque.
+- Cellule 8, `5516945566d9` : `Doc`, lemme, POS, tag et positions sont résumés après un exemple en bloc Markdown. Cette définition existe : ne pas affirmer que tout cours a disparu. Mais vérifier, avec le support historique, si elle suffit à une première découverte de spaCy et transformer les exemples destinés à être manipulés en étapes clairement utilisables.
+- Cellule 9, `s3-review-td1-q1-repere` : un exemple d'indices est suivi de consignes d'observation, puis « Ce repère accompagne les prédictions et vérifications déjà prévues dans les 20 minutes de Q1 ». Séparer explication des positions, vérification à effectuer et organisation du travail ; garder la difficulté et les manipulations.
+- Cellule 11, `74ca682aaf0f` : prédiction des lemmes, production de plusieurs attributs, comparaison à une référence manuelle et spécification de dictionnaires sont enchaînées. Distinguer les étapes, nommer les données utilisées à chacune et isoler la forme de la trace ; ne pas diminuer les tâches pour raccourcir le texte.
+- Cellule 24, `8d36933011cd` : le réinvestissement autonome se termine par un développement sur la portée du correcteur. Clarifier la production attendue par l'étudiant et ses propres vérifications ; les détails de mise en œuvre de l'évaluation appartiennent à la documentation.
+
+Dans les deux supports, la première cellule est `tal-tutor-instructions` et contient le commentaire HTML du tuteur ; les métadonnées racine comportent `colab` et `tal_tutor`. La vérification précise des copies complètes et des acquis par exercice reste inscrite au protocole T/A : un tuteur caché à l'affichage n'est pas, pour ce seul motif, un tuteur absent. Ne pas supprimer l'une des deux implantations lors de la réécriture.
+
+## Sortie attendue de chaque lot et état actuel
+
+Pour chaque notebook, le dossier final doit contenir la matrice historique/actuelle/cible, les passages reformulés, les ajouts de cours ou exemples, la preuve de conservation des activités, le relevé des acquis par question, les invariants techniques vérifiés et les avis indépendants. Les réserves non résolues restent nominatives et localisées. Un lot de contrôle indique explicitement les TD révisés qui justifient chacun de ses prérequis.
+
+**À ce stade : recensement terminé (44/44 chemins), état JSON constaté (42 lisibles, 2 invalides), sondage éditorial de deux supports ; relecture complète, réécriture des notebooks, essai novice, validation de durée et validation des nouveaux contenus non réalisés.** Les prochaines opérations commencent par les matrices détaillées des deux pilotes, puis suivent les lots ci-dessus jusqu'à épuisement de l'inventaire. Aucun support n'est réputé exempté parce qu'il a déjà fait l'objet d'une PR technique.

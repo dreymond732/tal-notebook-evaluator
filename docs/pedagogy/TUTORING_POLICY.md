@@ -6,7 +6,7 @@ L'enseignant demande désormais d'adapter le tuteur à **tous les sujets de TD e
 
 Le corps de la cellule0 est un commentaire HTML contenant le contexte canonique complet du tuteur. Il est donc présent dans le Markdown source, même s'il n'est pas visible dans son rendu usuel. Le même contexte figure dans le profil Colab des métadonnées. Il ne s'agit pas de deux textes entretenus séparément : une source structurée et un générateur produisent les deux représentations. Le profil structuré `tal_tutor` assure la traçabilité ; sa présence ne prouve pas que Colab l'interprète.
 
-La [matrice de couverture](TUTOR_COVERAGE_MATRIX.md), validée avant génération, inventorie les 21 sujets présents (16 TD et 5 contrôles) et les 9 corrigés exclus. Aucun exercice, exemple enseignant, corpus, marqueur, barème, sortie ni durée ne change. Les réserves de progression héritées restent explicites ; cette généralisation ne remplace pas la refonte pédagogique détaillée des séances.
+La [matrice de couverture](TUTOR_COVERAGE_MATRIX.md), validée avant la génération initiale, décrit l'inventaire de cette première généralisation : 21 sujets (16 TD et 5 contrôles) et 9 corrigés exclus. Ces nombres sont historiques. L'état courant est défini par `app/notebook_catalog.json` et `docs/pedagogy/tutor_sessions.json` ; l'[inventaire de reprise éditoriale](editorial_revision_inventory.md), établi le 3 octobre 2026, recense 34 sujets au catalogue, dont 33 actifs, et 44 fichiers notebook suivis au total. Lors de la généralisation initiale, aucun exercice, exemple enseignant, corpus, marqueur, barème, sortie ni durée ne devait changer. Les réserves de progression héritées restent explicites ; la généralisation du tuteur ne remplace pas la refonte pédagogique détaillée des séances.
 
 ## Comportement commun des TD
 
@@ -51,6 +51,8 @@ Les métadonnées et le commentaire ne contiennent ni corrigé, ni sortie attend
 ## Production et maintien futurs
 
 Tout nouveau sujet doit être inscrit dans le manifeste avec son mode, son niveau et ses limites par exercice, avant publication. Un nouveau corrigé doit avoir une exclusion motivée. Le contrôle d'inventaire doit échouer pour un notebook absent du manifeste plutôt que laisser un sujet sans tuteur.
+
+Toute création ou révision de sujet passe par une revue éditoriale indépendante et une lecture du point de vue de l'étudiant. Elles vérifient que les notions et bibliothèques autorisées ont réellement été enseignées avant l'exercice concerné, dans un TD antérieur ou dans le cours et les exemples qui le précèdent : une déclaration dans la fiche du tuteur ou un import fourni ne suffit pas. Elles vérifient aussi la présence du même contexte complet dans les métadonnées Colab et dans le commentaire HTML de la première cellule Markdown, sans supprimer l'une des deux copies parce qu'elle est invisible dans le rendu. Cette revue ne modifie pas la distinction entre guidage en TD et absence totale d'assistance en contrôle.
 
 Le générateur produit le contexte canonique, les métadonnées et la cellule0. Il vérifie leur synchronisation et préserve les cellules existantes. Dans le TD2 S1, il retire seulement l'ancien rappel expérimental reconnu : l'introduction pédagogique reste inchangée. Aucune autre consigne personnelle inconnue ne doit être supprimée silencieusement.
 
