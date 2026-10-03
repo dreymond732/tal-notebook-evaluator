@@ -18,6 +18,12 @@ Avant toute conception, établir et faire valider une **matrice de couverture so
 
 Une suppression ou une réduction substantielle ne vaut jamais simplification implicite : elle exige un arbitrage explicite de l'enseignant, avec motif et conséquence sur la progression. La métrique n'est pas le nombre de cellules, mais l'équivalence des objectifs, manipulations et interprétations demandées.
 
+Identifier la référence historique et la version technique actuelle, avec révision et chemin. Comparer les deux : la dernière version peut déjà avoir perdu le tutoriel d'origine. Signaler une référence absente sans prétendre avoir restauré sa couverture. Un élément `DÉPLACÉ` n'est couvert que si la cible est effectivement livrée et accessible au moment prévu ; un prolongement à rédiger reste une lacune.
+
+Spécifier pour chaque question les acquis antérieurs précis, les notions introduites avant sa résolution, les bibliothèques autorisées et la production attendue. Les imports d'installation ne constituent pas des acquis. Distinguer les fonctions cours, exemple, exercice guidé, problème autonome et vérification. Chaque passage visible devra s'adresser à l'étudiant, sauf les corrigés de devoirs maison destinés à l'enseignant ; réserver les justifications de conception à la documentation.
+
+Tenir l'inventaire complet des TD, révisions et contrôles des trois semestres, y compris les archives, sans confondre recensement et validation. Si un TD précédent est plus étayé, spécifier le renforcement des suivants sans appauvrir le premier. Vérifier la faisabilité des séances de 2 h ; signaler une surcharge sans supprimer d'activités ni changer implicitement la durée.
+
 ## Règles
 
 Distinguer constat, hypothèse et décision enseignante. Une compétence de TAL évaluée doit avoir été travaillée auparavant. Une difficulté n'est intentionnelle qu'après confirmation de l'enseignant. Déclarer un `CHANGEMENT_DE_CONTRAT` si une dépendance évaluée évolue.

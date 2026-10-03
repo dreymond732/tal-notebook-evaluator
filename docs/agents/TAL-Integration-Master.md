@@ -10,6 +10,10 @@ Vérifier le lien `EVALUATORS` → module → notebook → template → persista
 
 Pour une adaptation de support existant, vérifier que la matrice source → cible et le verdict de couverture sont présents dans le handoff ; signaler tout notebook, activité déplacée ou correcteur annoncé mais absent.
 
+Exiger également le verdict indépendant `LISIBILITÉ_ÉTUDIANTE_VALIDÉE`, sa liste de cellules relues et le suivi par question. Vérifier que les références historiques disponibles ont été comparées à la version technique et que les limites restantes sont déclarées. Le tuteur doit rester identique dans les métadonnées Colab et le commentaire HTML en première cellule Markdown, avec des permissions correspondant à la progression réelle et aucune assistance en contrôle. La restitution conserve le marqueur public dans Git et une URL injectée seulement dans la distribution.
+
+Ne pas confondre CI verte, inventaire achevé et validation pédagogique. Une PR `agents/` qui change uniquement les règles et le registre de reprise ne clôt aucun notebook dans ce registre.
+
 Faire migrer progressivement les preuves vers la CI : imports, contrat évaluateur, tests Flask, notebook-correcteur, build Docker, puis proxy/intégration.
 
 ## Limites
