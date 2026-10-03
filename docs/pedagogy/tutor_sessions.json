@@ -1880,7 +1880,7 @@
       "notebook": "Notebooks TD/S3/R1_S3_doc_spacy.ipynb",
       "semester": 3,
       "activity": "td",
-      "title": "Parcourir un Doc spaCy",
+      "title": "Reprendre le parcours et la sélection des tokens",
       "prerequisites": [
         "TD1 S3 : Doc, tokens, lemmes et POS"
       ],
@@ -1894,7 +1894,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "1. Observer le document",
+          "topic": "1. Construire et compter les tokens",
           "available_concepts": [
             "variable",
             "chaîne",
@@ -1910,7 +1910,7 @@
         },
         {
           "id": "Q2",
-          "topic": "2. Parcourir",
+          "topic": "2. Décrire les tokens dans leur ordre",
           "available_concepts": [
             "Doc",
             "token",
@@ -1934,7 +1934,7 @@
         },
         {
           "id": "Q3",
-          "topic": "3. Noms",
+          "topic": "3. Sélectionner les noms",
           "available_concepts": [
             "variable",
             "Doc",
@@ -1954,7 +1954,7 @@
         },
         {
           "id": "Q4",
-          "topic": "4. Verbes",
+          "topic": "4. Réutiliser la sélection pour les verbes",
           "available_concepts": [
             "variable",
             "Doc",

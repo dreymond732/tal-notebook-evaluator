@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"><title>{{ title }} — relecture enseignante</title></head>
+<html lang="fr"><head><meta charset="UTF-8"><title>{{ title }} — productions enregistrées</title></head>
 <body><main>
 <h1>{{ title }}</h1>
-<p>Relecture enseignante attendue. Aucune note automatique ; aucune vérification de justesse des réponses.</p>
+<p>Productions conservées pour consultation. Aucune note automatique ; aucune vérification de justesse des réponses.</p>
 <p>Réception : {{ receipt_id }}</p>
 <dl>{% for field, value in identity.items() %}<dt>{{ field }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
 <p>Le code n’a pas été exécuté sur le serveur. Les sorties sont celles enregistrées dans le notebook déposé et ne constituent pas une preuve d’exécution authentifiée.</p>

@@ -16,6 +16,8 @@ import prepare_student_notebooks as prep
 
 EDITORIAL_PILOTS = {'Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb',
                     'Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb'}
+R1_EDITORIAL = {'Notebooks TD/S3/R1_S3_doc_spacy.ipynb'}
+EDITORIAL_SUBJECTS = EDITORIAL_PILOTS | R1_EDITORIAL
 BASELINE = ROOT / 'tests/fixtures/s3_progression_review_source_baseline.json'
 # Only original student interpretation slots may gain a human-review link.
 # Ordinary instructions/examples must not become submitted analytic evidence.
@@ -32,6 +34,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
     def setUpClass(cls):
         cls.baseline = json.loads(BASELINE.read_text())
         cls.editorial_parent = json.loads((ROOT / 'tests/fixtures/s3_editorial_pilots_source_baseline.json').read_text())
+        cls.r1_parent = json.loads((ROOT / 'tests/fixtures/s3_r1_editorial_source_baseline.json').read_text())
 
     def test_all_eleven_subjects_preserve_activities_order_and_question_contracts(self):
         self.assertEqual(self.baseline['source_commit'], '933b0df6565fbd7d64f02db941eda5e8358eb16e')
@@ -40,9 +43,13 @@ class S3ProgressionPreservationTests(unittest.TestCase):
         self.assertEqual(len(entries), 11)
         self.assertEqual(set(self.baseline['subjects']), {e['notebook'] for e in entries})
         self.assertEqual(set(self.editorial_parent['subjects']), EDITORIAL_PILOTS)
+        self.assertEqual(self.r1_parent['source_commit'], '2c7dc3c696ef0f5f70046a2c6ef005f7e21cc1ac')
+        self.assertEqual(set(self.r1_parent['subjects']), R1_EDITORIAL)
         for path, previous in self.baseline['subjects'].items():
             if path in EDITORIAL_PILOTS:
                 previous = json.loads(self.editorial_parent['subjects'][path])
+            elif path in R1_EDITORIAL:
+                previous = json.loads(self.r1_parent['subjects'][path])
             current = json.loads((ROOT / path).read_text())
             with self.subTest(notebook=path):
                 self.assertEqual(resolve_notebook(current)['version'], 2)
@@ -68,8 +75,8 @@ class S3ProgressionPreservationTests(unittest.TestCase):
                         continue
                     old_source = ''.join(old.pop('source'))
                     new_source = ''.join(new.pop('source'))
-                    if path in EDITORIAL_PILOTS:
-                        # The two reviewed pilots may clarify prose/comments.
+                    if path in EDITORIAL_SUBJECTS:
+                        # Explicitly reviewed subjects may clarify prose/comments.
                         # Keep every original executable statement and contract;
                         # independent pedagogical/editorial reviews prove coverage.
                         if old['cell_type'] == 'code':

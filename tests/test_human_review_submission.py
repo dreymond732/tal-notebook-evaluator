@@ -125,7 +125,7 @@ class HumanReviewRoutesTests(unittest.TestCase):
             response = self.post(nb)
         self.assertEqual(response.status_code, 200)
         body = response.get_data(as_text=True)
-        self.assertIn('reçu pour relecture enseignante ; aucune note automatique', body)
+        self.assertIn('Travail reçu ; aucune note automatique', body)
         self.assertNotIn('NEVER_EXECUTE', body)
         importer.assert_not_called(); grades.assert_not_called()
         saved = list(self.root.rglob('*.ipynb')); reports = list(self.root.rglob('*.html'))
@@ -151,7 +151,7 @@ class HumanReviewRoutesTests(unittest.TestCase):
                     response = self.post(notebook())
             self.assertEqual(response.status_code, 503)
             body = response.get_data(as_text=True)
-            self.assertNotIn('reçu pour relecture', body)
+            self.assertNotIn('Travail reçu', body)
             self.assertNotIn('PRIVATE_FAILURE', body)
 
     def test_invalid_identity_and_old_copy_are_not_saved(self):
