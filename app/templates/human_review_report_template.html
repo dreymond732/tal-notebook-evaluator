@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><title>{{ title }} — relecture enseignante</title></head>
+<body><main>
+<h1>{{ title }}</h1>
+<p>Relecture enseignante attendue. Aucune note automatique ; aucune vérification de justesse des réponses.</p>
+<p>Réception : {{ receipt_id }}</p>
+<dl>{% for field, value in identity.items() %}<dt>{{ field }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+<p>Le code n’a pas été exécuté sur le serveur. Les sorties sont celles enregistrées dans le notebook déposé et ne constituent pas une preuve d’exécution authentifiée.</p>
+{% for group in evidence %}
+<section><h2>{{ group.question }}</h2>
+{% for cell in group.cells %}
+<h3>Cellule {{ cell.cell_number }} — {{ cell.cell_id }}</h3>
+<pre>{{ cell.source }}</pre>
+{% if cell.source_truncated %}<p>Code tronqué dans ce rapport ; consulter le notebook conservé.</p>{% endif %}
+{% if cell.outputs %}<h4>Sorties textuelles enregistrées</h4><pre>{{ cell.outputs }}</pre>{% endif %}
+{% if cell.outputs_truncated %}<p>Sorties tronquées dans ce rapport ; consulter le notebook conservé.</p>{% endif %}
+{% if cell.figures %}<p>Sorties graphiques présentes, non rendues : {{ cell.figures | join(', ') }}. Consulter le notebook conservé pour les examiner.</p>{% endif %}
+{% endfor %}
+{% if group.omitted %}<p>{{ group.omitted }} cellule(s) supplémentaire(s) à consulter dans le notebook conservé.</p>{% endif %}
+</section>
+{% endfor %}
+</main></body></html>

@@ -7,7 +7,7 @@ from importlib import import_module
 from functools import wraps
 from markupsafe import escape
 import outils
-from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_V2, strict_contract_identity
+from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_V2, strict_contract_identity, human_review_identity
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -205,8 +205,19 @@ def submit_notebook():
             raise ContractError('Aucun fichier sélectionné.')
         if not file.filename.lower().endswith('.ipynb'):
             raise ContractError('Le fichier doit être au format .ipynb.')
-        _, notebook = read_notebook(file.read())
+        content_bytes = file.read()
+        _, notebook = read_notebook(content_bytes)
         entry = resolve_notebook(notebook)
+        if entry.get('assessment') == 'human_review':
+            identity = human_review_identity(notebook)
+            from human_review_submission import receive_submission
+            try:
+                receive_submission(entry, notebook, content_bytes, file.filename, identity)
+            except OSError:
+                current_app.logger.exception('Échec du dépôt pour relecture enseignante : %s', entry['id'])
+                flash("Le dépôt n'a pas pu être confirmé. Contactez l'enseignant.", 'error')
+                return render_template('submit_template.html', semesters=SEMESTERS), 503
+            return render_template('human_review_receipt_template.html', title=entry['title'])
         # The same legacy handler owns correction, confidentiality and storage.
         file.stream.seek(0)
         return route_evaluator(entry['evaluator'])

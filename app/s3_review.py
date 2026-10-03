@@ -13,7 +13,7 @@ def _text(value):
     return ''
 
 
-def review_evidence(notebook, questions):
+def review_evidence(notebook, questions, additional_questions=()):
     """Rassemble code, analyses explicitement rattachées et présence des figures.
 
     Les cellules libres sont présentées séparément : leur position n'est pas une
@@ -21,6 +21,7 @@ def review_evidence(notebook, questions):
     Markup ; les templates les échappent, y compris SVG/HTML displaCy.
     """
     groups = {f'Q{q}': [] for q in range(1, questions + 1)}
+    groups.update({question: [] for question in additional_questions})
     groups['Cellules non attribuées (consignes comprises)'] = []
     omitted = {question: 0 for question in groups}
     for index, cell in enumerate(notebook.get('cells', [])):

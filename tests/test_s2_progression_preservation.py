@@ -109,9 +109,17 @@ class S2Preservation(unittest.TestCase):
 
     def test_all_other_notebooks_are_byte_identical(self):
         self.assertEqual(len(self.baseline['unchanged_notebooks_sha256']), 37)
+        editorial_parent = json.loads((ROOT / 'tests/fixtures/s3_editorial_pilots_source_baseline.json').read_text())
+        self.assertEqual(set(editorial_parent['subjects']), {
+            'Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb',
+            'Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb'})
         for path, expected in self.baseline['unchanged_notebooks_sha256'].items():
+            # The two editorial pilots retain this prior proof in a frozen parent;
+            # their current cell/code preservation is checked independently.
+            raw = (editorial_parent['subjects'][path].encode() if path in editorial_parent['subjects']
+                   else (ROOT / path).read_bytes())
             with self.subTest(notebook=path):
-                self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected)
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
 
     def test_six_active_distributions_change_only_final_url(self):
         entries = [e for e in self.entries if e['active']]

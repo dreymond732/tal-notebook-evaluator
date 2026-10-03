@@ -340,6 +340,18 @@
       "mode": "controle",
       "notebook": "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
       "tutor_session": "DM_INTERMEDIAIRE_S1"
+    },
+    {
+      "id": "td1b-s3",
+      "version": 2,
+      "evaluator": null,
+      "assessment": "human_review",
+      "active": true,
+      "semester": "S3",
+      "mode": "td",
+      "notebook": "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
+      "tutor_session": "TD1B_S3",
+      "title": "TD1B S3 — Entités, similarité et règles"
     }
   ]
 }

@@ -14,6 +14,7 @@ class ContractError(ValueError):
 
 
 WRONG_VERSION = 'mauvaise version du notebook'
+HUMAN_REVIEW_QUESTION_COUNTS = {'td1b-s3': 4}
 STRICT_REVISIONS = frozenset({'td-r0-s3', 'td-r1-s3', 'td-r2-s3'})
 S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
                       **{f'controle-td{n}-s3': 7 for n in range(1, 8)},
@@ -49,7 +50,20 @@ def load_catalog():
                 or not entry['notebook'] or entry['notebook'] in paths):
             raise ValueError('Entrée du catalogue TAL invalide ou dupliquée.')
         evaluator = entry.get('evaluator')
-        if entry['active']:
+        assessment = entry.get('assessment', 'automatic')
+        if assessment not in {'automatic', 'human_review'}:
+            raise ValueError('Type de correction du catalogue TAL invalide.')
+        if assessment == 'human_review':
+            if (entry['id'] not in HUMAN_REVIEW_QUESTION_COUNTS
+                    or evaluator is not None or not entry['active']
+                    or entry['version'] != 2 or entry['mode'] != 'td'
+                    or entry['semester'] != 'S3'
+                    or 'evaluator' not in entry
+                    or not isinstance(entry.get('title'), str) or not entry['title'].strip()):
+                raise ValueError('Dépôt pour relecture enseignante invalide.')
+        elif entry['id'] in HUMAN_REVIEW_QUESTION_COUNTS:
+            raise ValueError('Ce sujet doit être déclaré pour relecture enseignante.')
+        elif entry['active']:
             if not isinstance(evaluator, str) or not evaluator or evaluator in evaluators:
                 raise ValueError('Évaluateur du catalogue TAL invalide ou dupliqué.')
             evaluators.add(evaluator)
@@ -61,7 +75,7 @@ def load_catalog():
 
 
 def validate_catalog(evaluators, modes, semesters):
-    active = {entry['evaluator']: entry for entry in load_catalog() if entry['active']}
+    active = {entry['evaluator']: entry for entry in load_catalog() if entry['active'] and entry.get('assessment') != 'human_review'}
     if set(active) != set(evaluators) or set(modes) != set(evaluators):
         raise ValueError('Le catalogue doit couvrir exactement tous les correcteurs actifs.')
     for name, entry in active.items():
@@ -149,18 +163,22 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
         raise ContractError('L’identifiant et le correcteur du notebook sont incohérents.')
     if expected_evaluator is not None and expected_evaluator != entry['evaluator']:
         raise ContractError('Ce notebook ne correspond pas au dépôt sélectionné. Utilisez le dépôt automatique.')
-    if entry['evaluator'] in STRICT_V2:
+    if entry.get('assessment') == 'human_review':
+        if 'evaluator' not in contract:
+            raise ContractError(WRONG_VERSION)
+        _strict_cell_contract(notebook, entry['id'], HUMAN_REVIEW_QUESTION_COUNTS)
+    elif entry['evaluator'] in STRICT_V2:
         _strict_cell_contract(notebook, entry['evaluator'])
     else:
         validate_cell_metadata(notebook)
     return dict(entry)
 
 
-def _strict_cell_contract(notebook, evaluator):
+def _strict_cell_contract(notebook, evaluator, counts=QUESTION_COUNTS):
     """A complete cell contract is required even when all responses are blank."""
     try:
         index = validate_cell_metadata(notebook)
-        questions = {(f'Q{q}', 'answer') for q in range(1, QUESTION_COUNTS[evaluator] + 1)}
+        questions = {(f'Q{q}', 'answer') for q in range(1, counts[evaluator] + 1)}
         answers = {key for key in index if key[1] == 'answer'}
         identities = {key for key in index if key[1] == 'identification'}
         if answers != questions or identities != {('identity', 'identification')}:
@@ -199,6 +217,18 @@ def strict_contract_identity(notebook, evaluator=None):
     if entry['evaluator'] not in STRICT_V2 or entry['version'] != 2:
         raise ContractError(WRONG_VERSION)
     index = _strict_cell_contract(notebook, entry['evaluator'])
+    return _identity_from_index(index)
+
+
+def human_review_identity(notebook):
+    entry = resolve_notebook(notebook)
+    if entry.get('assessment') != 'human_review':
+        raise ContractError('Ce sujet ne relève pas de la relecture enseignante seule.')
+    return _identity_from_index(_strict_cell_contract(
+        notebook, entry['id'], HUMAN_REVIEW_QUESTION_COUNTS))
+
+
+def _identity_from_index(index):
     fields = ('nom', 'prenom', 'classe', 'numero_etudiant')
     try:
         info = literal_identity(index[('identity', 'identification')].get('source', ''),
