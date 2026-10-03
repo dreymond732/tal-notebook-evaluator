@@ -40,8 +40,8 @@ def cell(question='Q1', role='answer'):
 class NotebookContractTests(unittest.TestCase):
     def test_catalog_matches_registry_and_inactive_subject_is_explicit(self):
         catalog = load_catalog()
-        self.assertEqual(len(catalog), 34)
-        self.assertEqual({e['evaluator'] for e in catalog if e['active']}, set(routes.EVALUATORS))
+        self.assertEqual(len(catalog), 35)
+        self.assertEqual({e['evaluator'] for e in catalog if e['active'] and e['evaluator'] is not None}, set(routes.EVALUATORS))
         inactive = [entry for entry in catalog if not entry['active']]
         self.assertEqual([e['id'] for e in inactive], ['controle-final-s2'])
         self.assertIsNone(inactive[0]['evaluator'])
@@ -175,7 +175,7 @@ class AutomaticSubmissionTests(unittest.TestCase):
 
     def test_old_s3_versions_never_correct_or_persist(self):
         s3 = [entry for entry in load_catalog()
-              if entry['active'] and entry['semester'] == 'S3']
+              if entry['active'] and entry['semester'] == 'S3' and entry['evaluator'] is not None]
         for entry in s3:
             obsolete = {'cells': []}
             for path in ('/submit', '/eval/' + entry['evaluator']):

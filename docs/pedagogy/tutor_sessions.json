@@ -1482,10 +1482,10 @@
       "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
       "semester": 3,
       "activity": "td",
-      "title": "Du texte aux annotations spaCy",
+      "title": "Découvrir spaCy et vérifier ses annotations",
       "prerequisites": [
-        "Python S1–S2 à réactiver sans présumer la maîtrise",
-        "TD0–TD0 S3 : fonctions, objets et preuves construits"
+        "Python S1–S2 : variables, chaînes, listes, dictionnaires, boucles et conditions",
+        "TD0 S3 : découpage split, comptages, fonctions et vérification des résultats"
       ],
       "allowed_libraries": [
         "json",
@@ -1498,7 +1498,10 @@
         "urllib.request",
         "urllib.parse",
         "sys",
-        "subprocess"
+        "subprocess",
+        "collections",
+        "IPython.display",
+        "html"
       ],
       "exercises": [
         {
@@ -1524,8 +1527,10 @@
             "is_punct",
             "annotation manuelle",
             "tranche à fin exclue",
-            "indice caractère versus indice token",
-            "dictionnaire d’annotation"
+            "spacy.load()",
+            "nlp()",
+            "Token",
+            "append()"
           ],
           "introduced_here": [
             "Doc",
@@ -1534,9 +1539,11 @@
             "pos_",
             "tag_",
             "idx",
-            "len()",
             "is_punct",
-            "annotation manuelle"
+            "annotation manuelle",
+            "spacy.load()",
+            "nlp()",
+            "Token"
           ],
           "allowed_libraries": [
             "json",
@@ -1561,12 +1568,13 @@
             "len()",
             "start_char",
             "end_char",
-            "segmentation"
+            "segmentation",
+            "nlp()",
+            "phrase.text"
           ],
           "introduced_here": [
             "doc.sents",
             "Span",
-            "len()",
             "start_char",
             "end_char",
             "segmentation"
@@ -1597,12 +1605,7 @@
             "NOUN/VERB/ADJ"
           ],
           "introduced_here": [
-            "Doc",
-            "lemma_",
-            "pos_",
-            "is_stop",
-            "append()",
-            "NOUN/VERB/ADJ"
+            "is_stop"
           ],
           "allowed_libraries": [
             "json",
@@ -1626,17 +1629,15 @@
             "displacy.render",
             "dep_",
             "head.text",
-            "interprétation",
             "token.idx",
             "len()",
-            "indices/tranches"
+            "indices/tranches",
+            "list(doc.sents)"
           ],
           "introduced_here": [
-            "doc.sents",
             "displacy.render",
             "dep_",
-            "head.text",
-            "interprétation"
+            "head.text"
           ],
           "allowed_libraries": [
             "json",
@@ -1661,16 +1662,10 @@
             "nlp()",
             "len()",
             "is_punct",
-            "is_space",
-            "comparaison"
+            "is_space"
           ],
           "introduced_here": [
-            "split()",
-            "nlp()",
-            "len()",
-            "is_punct",
-            "is_space",
-            "comparaison"
+            "is_space"
           ],
           "allowed_libraries": [
             "json",
@@ -1698,22 +1693,183 @@
             "indices",
             "tranches",
             "len()",
-            "preuve",
-            "indice caractère versus indice token"
+            "token.idx",
+            "append()",
+            "NOUN/VERB"
           ],
-          "introduced_here": [
-            "nlp()",
-            "doc.sents",
-            "text",
-            "lemma_",
-            "pos_",
-            "indices",
-            "tranches",
-            "len()",
-            "preuve"
-          ],
+          "introduced_here": [],
           "allowed_libraries": [
             "json",
+            "spacy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TD1B_S3",
+      "notebook": "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
+      "semester": 3,
+      "activity": "td",
+      "title": "Entités nommées, similarité et règles avec spaCy",
+      "prerequisites": [
+        "Python S1–S2 : parcours, conditions, listes, tuples et dictionnaires",
+        "TD1 S3 : pipeline, Doc, tokens et annotations à vérifier"
+      ],
+      "allowed_libraries": [
+        "spacy"
+      ],
+      "provided_libraries": [
+        "sys",
+        "subprocess",
+        "IPython.display",
+        "html"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Repérage humain et entités détectées",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "tuples",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "print()",
+            "append()",
+            "spacy.load()",
+            "nlp()",
+            "Doc",
+            "doc.ents",
+            "entite.text",
+            "entite.label_",
+            "PER/ORG/LOC/MISC",
+            "mention versus token"
+          ],
+          "introduced_here": [
+            "doc.ents",
+            "entite.text",
+            "entite.label_",
+            "PER/ORG/LOC/MISC",
+            "mention versus token"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Extraire les personnes et organisations",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "tuples",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "print()",
+            "append()",
+            "spacy.load()",
+            "nlp()",
+            "Doc",
+            "doc.ents",
+            "entite.text",
+            "entite.label_",
+            "PER/ORG/LOC/MISC",
+            "appartenance",
+            "filtre PER/ORG",
+            "label versus POS",
+            "faux positif et absence"
+          ],
+          "introduced_here": [
+            "filtre PER/ORG",
+            "label versus POS",
+            "faux positif et absence"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Comparer des mots et des phrases",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "tuples",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "print()",
+            "append()",
+            "spacy.load()",
+            "nlp()",
+            "Doc",
+            "vecteurs fr_core_news_md",
+            "Doc.has_vector",
+            "Doc.similarity()",
+            "score versus sens",
+            "comparaison mots et phrases",
+            "variation contrôlée du texte"
+          ],
+          "introduced_here": [
+            "vecteurs fr_core_news_md",
+            "Doc.has_vector",
+            "Doc.similarity()",
+            "score versus sens",
+            "comparaison mots et phrases",
+            "variation contrôlée du texte"
+          ],
+          "allowed_libraries": [
+            "spacy"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Règles exactes et stabilité",
+          "available_concepts": [
+            "variables",
+            "chaînes",
+            "listes",
+            "tuples",
+            "dictionnaires",
+            "boucles",
+            "conditions",
+            "print()",
+            "append()",
+            "spacy.load()",
+            "nlp()",
+            "Doc",
+            "doc.ents",
+            "entite.text",
+            "entite.label_",
+            "pipeline distinct",
+            "EntityRuler",
+            "add_pipe(before=\"ner\")",
+            "add_patterns()",
+            "pipe_names",
+            "règle label/pattern",
+            "chaîne exacte sensible à la casse",
+            "ORG/LOC/DATE personnalisé",
+            "comparaison avant/après",
+            "essais et ambiguïtés"
+          ],
+          "introduced_here": [
+            "pipeline distinct",
+            "EntityRuler",
+            "add_pipe(before=\"ner\")",
+            "add_patterns()",
+            "pipe_names",
+            "règle label/pattern",
+            "chaîne exacte sensible à la casse",
+            "ORG/LOC/DATE personnalisé",
+            "comparaison avant/après",
+            "essais et ambiguïtés"
+          ],
+          "allowed_libraries": [
             "spacy"
           ]
         }
@@ -1828,7 +1984,8 @@
       "activity": "td",
       "title": "Fréquences réutilisables",
       "prerequisites": [
-        "TD1 et R1 S3 : Doc, sélection par POS ; fonctions et dictionnaires"
+        "Python S1–S2 : fonctions, retour, paramètres, listes et dictionnaires",
+        "TD1 et R1 S3 : Doc, tokens, lemmes et sélection par POS"
       ],
       "allowed_libraries": [
         "spacy",
@@ -1836,7 +1993,9 @@
       ],
       "provided_libraries": [
         "sys",
-        "subprocess"
+        "subprocess",
+        "IPython.display",
+        "html"
       ],
       "exercises": [
         {
@@ -1862,11 +2021,14 @@
             "print()",
             "dict()",
             "dictionnaire",
-            "Counter sur liste distincte",
-            "None versus liste vide"
+            "append()",
+            "is None"
           ],
           "introduced_here": [
-            "Counter"
+            "Counter",
+            "paramètre par défaut",
+            "None",
+            "is None"
           ],
           "allowed_libraries": [
             "spacy",
@@ -1892,7 +2054,8 @@
             "ponctuation",
             "token.text",
             "boucle for",
-            "distinction annotation prédite et analyse linguistique"
+            "distinction annotation prédite et analyse linguistique",
+            "nlp()"
           ],
           "introduced_here": [],
           "allowed_libraries": [
@@ -1927,10 +2090,16 @@
             "comparaison sans et avec exclusions",
             "révision de la fonction définie en Q1",
             "None versus liste vide",
-            "exclusion par lemme et non forme"
+            "exclusion par lemme et non forme",
+            "nlp()",
+            "append()",
+            "is None"
           ],
           "introduced_here": [
-            "collection d’exclusions"
+            "collection d’exclusions",
+            "token.is_stop",
+            "exclusion par lemme",
+            "None versus liste vide"
           ],
           "allowed_libraries": [
             "spacy",

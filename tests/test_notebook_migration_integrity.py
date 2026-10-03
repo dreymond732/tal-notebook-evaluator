@@ -54,6 +54,7 @@ S2_REVISED_SUBJECTS = dict(zip(list(S2_RENAMED_SUBJECTS)[:6],
     ("td3-S2", "td5-S2", "td6-S2", "td2-S2", "td4-S2", "ControleDevoirMaisonS2")))
 REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS | S2_REVISED_SUBJECTS
 ADDED_ACTIVE_SUBJECTS = {
+    "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
 ADDED_EXCLUDED_NOTEBOOKS = {
@@ -245,7 +246,7 @@ class MigrationIntegrityTests(unittest.TestCase):
                 self.assertEqual(entry["notebook"], tutor["notebook"])
                 self.assertEqual(entry["semester"], f'S{tutor["semester"]}')
                 self.assertEqual(entry["mode"], tutor["activity"])
-                if entry["active"]:
+                if entry["active"] and entry["evaluator"] is not None:
                     self.assertEqual(entry["mode"], routes.EVALUATOR_MODES[entry["evaluator"]])
                     self.assertEqual(entry["semester"], routes.EVALUATOR_SEMESTERS[entry["evaluator"]])
 
@@ -255,8 +256,8 @@ class MigrationIntegrityTests(unittest.TestCase):
                 notebook = json.loads((ROOT / path).read_text())
                 entry = resolve_notebook(notebook)
                 self.assertEqual(entry["notebook"], path)
-                self.assertEqual(entry["semester"], "S1")
-                self.assertEqual(entry["mode"], "controle")
+                self.assertEqual((entry["semester"], entry["mode"]),
+                                 ("S3", "td") if entry["id"] == "td1b-s3" else ("S1", "controle"))
                 validate_cell_metadata(notebook)
         exclusions = {e["notebook"]: e for e in self.tutors["excluded_notebooks"]}
         for path in ADDED_EXCLUDED_NOTEBOOKS:
