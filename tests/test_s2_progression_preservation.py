@@ -113,10 +113,14 @@ class S2Preservation(unittest.TestCase):
         self.assertEqual(set(editorial_parent['subjects']), {
             'Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb',
             'Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb'})
+        r1_parent = json.loads((ROOT / 'tests/fixtures/s3_r1_editorial_source_baseline.json').read_text())
+        self.assertEqual(r1_parent['source_commit'], '2c7dc3c696ef0f5f70046a2c6ef005f7e21cc1ac')
+        self.assertEqual(set(r1_parent['subjects']), {'Notebooks TD/S3/R1_S3_doc_spacy.ipynb'})
+        editorial_subjects = editorial_parent['subjects'] | r1_parent['subjects']
         for path, expected in self.baseline['unchanged_notebooks_sha256'].items():
-            # The two editorial pilots retain this prior proof in a frozen parent;
+            # The reviewed subjects retain this prior proof in frozen parents;
             # their current cell/code preservation is checked independently.
-            raw = (editorial_parent['subjects'][path].encode() if path in editorial_parent['subjects']
+            raw = (editorial_subjects[path].encode() if path in editorial_subjects
                    else (ROOT / path).read_bytes())
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)

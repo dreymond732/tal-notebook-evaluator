@@ -1,5 +1,7 @@
 # Pilotes S3 — cadrage de la reprise de R2 et de l’introduction à spaCy
 
+> **Évolution de la décision après ce lot pilote (3 octobre 2026).** L'enseignant demande désormais que les TD ne promettent pas une relecture individuelle systématique. Le lot décrit ci-dessous conserve son statut de référence historique : ses mentions de relecture humaine décrivent l'organisation initialement livrée. La révision suivante conserve toutes les activités, le dépôt TD1B sans note et les contrôles techniques existants, mais explicite une autoévaluation étudiante pour les exercices non auto corrigés. Voir le cadrage `s3_r1_remediation_coverage.md` et ses verdicts de fin de lot.
+
 ## Statut et références
 
 Cadrage TAL-Prof établi **avant conception** le 3 octobre 2026. Pour les activités de l’initiation spaCy historique, il remplace explicitement les annonces antérieures de déplacement vers TD3 ou vers un prolongement non livré dans `S3_COVERAGE_MATRIX.md` ; les autres lacunes historiques restent signalées, sans extension implicite du présent pilote. L’enseignant demande de commencer la reprise par R2 et le TD d’introduction à spaCy, après fusion des règles de révision éditoriale. Cette matrice prescrit la conservation de toutes les activités actuelles ; elle ne vaut ni validation de la rédaction future, ni autorisation de supprimer, déplacer ou rendre facultative une activité historique.
