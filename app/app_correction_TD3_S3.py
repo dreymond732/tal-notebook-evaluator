@@ -128,7 +128,7 @@ def evidence(value):
 
 
 CHECKS = [
-    {'label': 'Provenance', 'required_text_fields': ['limite'], 'validate': provenance, 'feedback': 'Empreinte du fichier original, G1–G6, trois prompts et paramètres manquants. La pertinence des paramètres est à relire humainement.'},
+    {'label': 'Provenance', 'required_text_fields': ['limite'], 'validate': provenance, 'feedback': 'Empreinte du fichier original, G1–G6, trois prompts et paramètres manquants. La pertinence des paramètres est à vérifier avec les critères du TD ; elle n’est pas autocorrigée.'},
     {'label': 'Concordances exactes', 'validate': lambda v: same(v, {'concordances': concordances(TEXT3, 'droit'), 'absent': []}),
      'feedback': 'Trois occurrences exactes de droit, indices et contextes largeur 20 ; justice absent.'},
     {'label': 'Modes de recherche', 'required_text_fields': ['explication'], 'validate': research_modes,
@@ -136,11 +136,11 @@ CHECKS = [
     {'label': 'Citations exactes', 'required_text_fields': ['limite'], 'validate': exact_citations,
      'feedback': 'Comparaison exacte des trois citations, respectant casse, ponctuation et CRLF du texte original.'},
     {'label': 'Passage source de C1', 'required_text_fields': ['difference', 'verdict'], 'validate': altered_citation,
-     'feedback': 'Passage exact et position d’origine contenant légalement et naturellement. Qualification de l’altération à relire humainement.'},
+     'feedback': 'Passage exact et position d’origine contenant légalement et naturellement. La qualification de l’altération n’est pas autocorrigée.'},
     {'label': 'Deux cas de test contrastés', 'required_text_fields': ['regle_humaine'], 'validate': student_tests,
      'feedback': 'Un exact et un altéré ; valeurs attendues et observées conformes à une recherche exacte. La règle humaine n’est pas notée automatiquement.'},
     {'label': 'Trois preuves distinctes', 'required_text_fields': ['convention_proposee', 'limite'], 'validate': evidence,
-     'feedback': 'Au moins trois occurrences distinctes du pivot dans les passages exacts : intelligence (G1) ou aptitude(s) (G2). Convention et interprétation à relire humainement.'},
+     'feedback': 'Au moins trois occurrences distinctes du pivot dans les passages exacts : intelligence (G1) ou aptitude(s) (G2). La convention et l’interprétation ne sont pas autocorrigées.'},
 ]
 
 

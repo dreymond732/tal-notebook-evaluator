@@ -4,17 +4,24 @@ import json
 import math
 import re
 
-from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, s3_contract_identity
+from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, s3_contract_identity, CONTRACT_VERSIONS
 from s3_review import review_evidence
 
 TRACE_RE = re.compile(r'^S3_TD([0-7])_Q([1-9][0-9]*):\s*(.*)$')
+TD_LIMIT_NOTE = (
+    "Traces enregistrées uniquement : le serveur n'exécute pas votre programme. "
+    "Il ne certifie ni leur authenticité ni leur fraîcheur. Réexécutez votre notebook "
+    "dans l'ordre. Les interprétations et les annotations linguistiques relèvent "
+    "de votre autoévaluation ; ce score formatif ne mesure pas leur qualité. Une relecture individuelle par l’enseignant n’est pas systématique."
+)
+
+
 LIMIT_NOTE = (
     "Traces enregistrées uniquement : le serveur n'exécute pas votre programme. "
     "Il ne certifie ni leur authenticité ni leur fraîcheur. Réexécutez votre notebook "
     "dans l'ordre. Les interprétations et les annotations linguistiques relèvent "
     "d'une relecture humaine ; ce score formatif ne mesure pas leur qualité."
 )
-
 
 def text(value):
     if isinstance(value, str):
@@ -179,21 +186,23 @@ def grade_traces(displays, records, checks, weights, contextual=False):
     return score, details, deferred
 
 
-def check_audit(content_str, filename, td, checks):
+def check_audit(content_str, filename, td, checks, *, evaluator=None, trace_re=TRACE_RE, additional_questions=()):
     maximum = float(len(checks))
+    evaluator = evaluator or f'td{td}-s3'
+    optional_review = evaluator == 'td1b-s3' or evaluator in {f'td{n}-s3' for n in range(1, 8)}
     try:
         notebook = read_notebook(content_str)
-        info = s3_contract_identity(notebook, f'td{td}-s3')
-        displays, records = collect(notebook['cells'], td)
+        info = s3_contract_identity(notebook, evaluator)
+        displays, records = collect(notebook['cells'], td, trace_re=trace_re)
     except ContractError as exc:
         return 0.0, [], maximum, {}, str(exc)
     except (ValueError, TypeError, RecursionError, OverflowError) as exc:
         return 0.0, [], maximum, {}, 'Erreur JSON/notebook : ' + str(exc)
     score, details, deferred = grade_traces(displays, records, checks, [1.0] * len(checks))
-    details.append({'check': 'Portée du score', 'student_answer': LIMIT_NOTE,
+    details.append({'check': 'Portée du score', 'student_answer': TD_LIMIT_NOTE if optional_review else LIMIT_NOTE,
                     'correct_answer': '1 point par vérification déclarée dans le sujet ; aucune note automatique sur la qualité de l’argumentation.',
                     'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
     info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
-                relecture_humaine='requise', contract_version=2, points_a_reexaminer=deferred,
-                review_evidence=review_evidence(notebook, len(checks)))
+                relecture_humaine='facultative' if optional_review else 'requise', contract_version=CONTRACT_VERSIONS[evaluator], points_a_reexaminer=deferred,
+                review_evidence=review_evidence(notebook, len(checks), additional_questions=additional_questions))
     return score, details, maximum, info, None

@@ -1,4 +1,4 @@
-<h2>{% if evaluator_name in ['td1-s3', 'td-r1-s3'] %}Productions enregistrées par question{% else %}Productions à relire par question{% endif %}</h2>
+<h2>{% if student_info.relecture_humaine == 'facultative' or evaluator_name in ['td1-s3', 'td-r1-s3'] %}Productions enregistrées par question{% else %}Productions à relire par question{% endif %}</h2>
 <p>Extraits de la copie sauvegardée, limités en taille. Les numéros de cellules suivent l’ordre de la copie.
 La présence d’un affichage enregistré ne garantit ni sa qualité ni sa provenance. Les figures et affichages HTML sont inventoriés ; consulter la copie pour leur rendu.</p>
 {% for group in student_info.review_evidence %}

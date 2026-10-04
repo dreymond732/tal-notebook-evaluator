@@ -14,7 +14,7 @@ class ContractError(ValueError):
 
 
 WRONG_VERSION = 'mauvaise version du notebook'
-HUMAN_REVIEW_QUESTION_COUNTS = {'td1b-s3': 4}
+HUMAN_REVIEW_QUESTION_COUNTS = {}  # No active manual-only submissions.
 STRICT_REVISIONS = frozenset({'td-r0-s3', 'td-r1-s3', 'td-r2-s3'})
 S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
                       **{f'controle-td{n}-s3': 7 for n in range(1, 8)},
@@ -26,7 +26,10 @@ S2_QUESTION_COUNTS = {'td2-S2': 13, 'td3-S2': 30, 'td4-S2': 14,
                       'td5-S2': 25, 'td6-S2': 10, 'ControleDevoirMaisonS2': 30}
 STRICT_S2 = frozenset(S2_QUESTION_COUNTS)
 STRICT_V2 = STRICT_S3 | STRICT_S1 | STRICT_S2
-QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS, **S2_QUESTION_COUNTS}
+STRICT_V3 = frozenset({'td1b-s3'})
+STRICT_VERSIONED = STRICT_V2 | STRICT_V3
+CONTRACT_VERSIONS = {**dict.fromkeys(STRICT_V2, 2), **dict.fromkeys(STRICT_V3, 3)}
+QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS, **S2_QUESTION_COUNTS, 'td1b-s3': 4}
 
 
 CELL_ROLES = frozenset({'answer', 'prompt', 'example', 'provided',
@@ -137,9 +140,9 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
     if not isinstance(notebook, dict):
         raise ContractError('Le fichier ne contient pas un notebook valide.')
     metadata = _metadata(notebook)
-    strict_v2 = any(entry['evaluator'] == expected_evaluator and entry['evaluator'] in STRICT_V2
+    strict_versioned = any(entry['evaluator'] == expected_evaluator and entry['evaluator'] in STRICT_VERSIONED
                     for entry in load_catalog() if entry['active']) if expected_evaluator else False
-    require_metadata = require_metadata or strict_v2
+    require_metadata = require_metadata or strict_versioned
     if (require_metadata or 'tal' in metadata) and not isinstance(notebook.get('cells'), list):
         raise ContractError('Le notebook doit contenir une liste de cellules.')
     if 'tal' not in metadata:
@@ -167,7 +170,7 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
         if 'evaluator' not in contract:
             raise ContractError(WRONG_VERSION)
         _strict_cell_contract(notebook, entry['id'], HUMAN_REVIEW_QUESTION_COUNTS)
-    elif entry['evaluator'] in STRICT_V2:
+    elif entry['evaluator'] in STRICT_VERSIONED:
         _strict_cell_contract(notebook, entry['evaluator'])
     else:
         validate_cell_metadata(notebook)
@@ -212,9 +215,9 @@ def literal_identity(source, fields=('nom', 'prenom', 'classe'), strict=False):
 
 
 def strict_contract_identity(notebook, evaluator=None):
-    """Gate supported S1/S2/S3 v2 and return the four required identity fields before correction."""
+    """Gate the registered version of S1/S2/S3 and return the four required identity fields before correction."""
     entry = resolve_notebook(notebook, expected_evaluator=evaluator, require_metadata=True)
-    if entry['evaluator'] not in STRICT_V2 or entry['version'] != 2:
+    if entry['evaluator'] not in STRICT_VERSIONED or entry['version'] != CONTRACT_VERSIONS[entry['evaluator']]:
         raise ContractError(WRONG_VERSION)
     index = _strict_cell_contract(notebook, entry['evaluator'])
     return _identity_from_index(index)

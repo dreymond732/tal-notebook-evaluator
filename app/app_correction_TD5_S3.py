@@ -7,7 +7,7 @@ EXPECTED = [{'conditionnelle': 0.666667, 'base': 0.5}, {'A': 0.75, 'B': 0.5, 'ba
 LABELS = ['Proportion conditionnelle', 'Association et fréquence de base', 'Normalisation par longueur', 'Asymétrie conditionnelle', 'Dénominateur nul', 'Sensibilité à la fenêtre', 'Effectif et dénominateur']
 CHECKS = [
     {"label": label, "validate": lambda value, expected=expected: same(value, expected),
-     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations restent à relire avec l’enseignant."}
+     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations sont à vérifier avec les critères d’autoévaluation du TD ; ils ne sont pas notés automatiquement."}
     for label, expected in zip(LABELS, EXPECTED)
 ]
 

@@ -1722,7 +1722,8 @@
         "sys",
         "subprocess",
         "IPython.display",
-        "html"
+        "html",
+        "json"
       ],
       "exercises": [
         {
@@ -1745,7 +1746,8 @@
             "entite.text",
             "entite.label_",
             "PER/ORG/LOC/MISC",
-            "mention versus token"
+            "mention versus token",
+            "json.dumps() fourni pour la restitution"
           ],
           "introduced_here": [
             "doc.ents",
@@ -1781,7 +1783,8 @@
             "appartenance",
             "filtre PER/ORG",
             "label versus POS",
-            "faux positif et absence"
+            "faux positif et absence",
+            "json.dumps() fourni pour la restitution"
           ],
           "introduced_here": [
             "filtre PER/ORG",
@@ -1813,7 +1816,8 @@
             "Doc.similarity()",
             "score versus sens",
             "comparaison mots et phrases",
-            "variation contrôlée du texte"
+            "variation contrôlée du texte",
+            "json.dumps() fourni pour la restitution"
           ],
           "introduced_here": [
             "vecteurs fr_core_news_md",
@@ -1855,7 +1859,8 @@
             "chaîne exacte sensible à la casse",
             "ORG/LOC/DATE personnalisé",
             "comparaison avant/après",
-            "essais et ambiguïtés"
+            "essais et ambiguïtés",
+            "json.dumps() fourni pour la restitution"
           ],
           "introduced_here": [
             "pipeline distinct",
@@ -2150,7 +2155,8 @@
         "spacy",
         "collections",
         "wordcloud",
-        "matplotlib"
+        "matplotlib",
+        "spacy.matcher"
       ],
       "provided_libraries": [
         "pathlib",
@@ -2163,7 +2169,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Lire le corpus et rendre l’annotation inspectable",
+          "topic": "Corpus et annotations",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2200,7 +2206,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Deux fonctions de fréquences",
+          "topic": "Fonctions de fréquences",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2218,8 +2224,10 @@
             "Counter",
             "None",
             "return",
-            "None versus liste vide",
-            "exclusion par lemme"
+            "None/liste vide",
+            "exclusion par lemme",
+            "most_common()",
+            "sum(values())"
           ],
           "introduced_here": [
             "nlp()",
@@ -2228,7 +2236,9 @@
             "lower()",
             "Counter",
             "None",
-            "return"
+            "return",
+            "most_common()",
+            "sum(values())"
           ],
           "allowed_libraries": [
             "json",
@@ -2238,7 +2248,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Mesurer l’effet des exclusions",
+          "topic": "Exclusions",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2254,14 +2264,16 @@
             "Counter",
             "most_common()",
             "comparaison",
-            "filtre retirant tous les noms"
+            "filtre vide",
+            "compréhension dict"
           ],
           "introduced_here": [
             "exclusions",
             "appels",
             "Counter",
             "most_common()",
-            "comparaison"
+            "comparaison",
+            "compréhension dict"
           ],
           "allowed_libraries": [
             "json",
@@ -2271,7 +2283,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Fréquences grammaticales",
+          "topic": "Fréquences POS",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2288,7 +2300,7 @@
             "Counter",
             "most_common()",
             "sum()",
-            "ordre libre des ex æquo"
+            "ex æquo libres"
           ],
           "introduced_here": [
             "Doc",
@@ -2306,7 +2318,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Contrôle qualité et objets recherchés",
+          "topic": "Contrôler les annotations",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2321,23 +2333,30 @@
             "lemma_/pos_",
             "is_stop/is_punct",
             "contrôle manuel",
-            "forme/lemme/expression"
+            "forme/lemme/expression",
+            "PhraseMatcher (lecture)",
+            "make_doc",
+            "LOWER/suite contiguë"
           ],
           "introduced_here": [
             "Doc",
             "lemma_/pos_",
             "is_stop/is_punct",
             "contrôle manuel",
-            "forme/lemme/expression"
+            "forme/lemme/expression",
+            "PhraseMatcher (lecture)",
+            "make_doc",
+            "LOWER/suite contiguë"
           ],
           "allowed_libraries": [
             "json",
-            "spacy"
+            "spacy",
+            "spacy.matcher"
           ]
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Visualiser sans surinterpréter",
+          "topic": "Visualiser",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2355,7 +2374,13 @@
             "bar",
             "imshow",
             "hypothèse",
-            "reprise Q3 si données vides"
+            "reprendre Q3 si vide",
+            "figure",
+            "axes/unité",
+            "show",
+            "random_state",
+            "axis",
+            "xlabel/ylabel/title"
           ],
           "introduced_here": [
             "Counter",
@@ -2364,7 +2389,13 @@
             "matplotlib",
             "bar",
             "imshow",
-            "hypothèse"
+            "hypothèse",
+            "figure",
+            "axes/unité",
+            "show",
+            "random_state",
+            "axis",
+            "xlabel/ylabel/title"
           ],
           "allowed_libraries": [
             "json",
@@ -2376,7 +2407,7 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Généraliser et transférer",
+          "topic": "Généraliser",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -2392,7 +2423,7 @@
             "exclusions",
             "Counter",
             "return",
-            "généralisation",
+            "généraliser",
             "texte vide"
           ],
           "introduced_here": [
@@ -2401,7 +2432,7 @@
             "exclusions",
             "Counter",
             "return",
-            "généralisation",
+            "généraliser",
             "texte vide"
           ],
           "allowed_libraries": [
@@ -3460,7 +3491,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Fixer le périmètre de la preuve",
+          "topic": "Périmètre de la preuve",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3476,7 +3507,7 @@
             "paramètres absents",
             "conversation",
             "empreinte fournie",
-            "lier source, convention et mesure"
+            "source/convention/mesure"
           ],
           "introduced_here": [
             "provenance",
@@ -3491,7 +3522,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Construire une concordance exacte",
+          "topic": "Concordance exacte",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3512,8 +3543,8 @@
             "try/except",
             "raise ValueError",
             "find(motif, depart)",
-            "progression du départ de recherche",
-            "occurrences non chevauchantes"
+            "avancer le départ",
+            "sans chevauchement"
           ],
           "introduced_here": [
             "find()",
@@ -3533,7 +3564,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Comparer des recherches explicites",
+          "topic": "Recherches explicites",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3551,7 +3582,9 @@
             "PhraseMatcher",
             "expression",
             "tokens contigus",
-            "expression versus mots dispersés"
+            "expression ≠ mots dispersés",
+            "nlp.make_doc()",
+            "Span.start_char/end_char"
           ],
           "introduced_here": [
             "nlp()",
@@ -3559,7 +3592,9 @@
             "len()",
             "find()",
             "PhraseMatcher",
-            "expression"
+            "expression",
+            "nlp.make_doc()",
+            "Span.start_char/end_char"
           ],
           "allowed_libraries": [
             "json",
@@ -3569,7 +3604,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Auditer une citation exacte",
+          "topic": "Citation exacte",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3601,7 +3636,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Qualifier une altération",
+          "topic": "Qualifier une altération",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3618,7 +3653,8 @@
             "indices/tranches",
             "normalisation",
             "substitution",
-            "positions originales versus positions normalisées"
+            "indices originaux ≠ normalisés",
+            "split()/join()"
           ],
           "introduced_here": [
             "replace()",
@@ -3626,7 +3662,8 @@
             "find()",
             "indices/tranches",
             "normalisation",
-            "substitution"
+            "substitution",
+            "split()/join()"
           ],
           "allowed_libraries": [
             "json"
@@ -3634,7 +3671,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Un rapprochement n’est pas une preuve automatique",
+          "topic": "Rapprochement et preuve",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3666,7 +3703,7 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Assembler un dossier de preuves",
+          "topic": "Dossier de preuves",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -3681,7 +3718,9 @@
             "indices/tranches",
             "preuve",
             "paramètres",
-            "proposition"
+            "proposition",
+            "token.text/idx",
+            "lower()"
           ],
           "introduced_here": [
             "concordances_exactes",
@@ -3691,7 +3730,8 @@
             "proposition"
           ],
           "allowed_libraries": [
-            "json"
+            "json",
+            "spacy"
           ]
         }
       ]
@@ -3802,7 +3842,6 @@
             "fonctions",
             "print()",
             "json.dumps()",
-            "any()",
             "set()",
             "union/somme",
             "paires",
@@ -3810,7 +3849,6 @@
             "tableau de présence par contexte"
           ],
           "introduced_here": [
-            "any()",
             "set()",
             "union/somme",
             "paires",
@@ -4158,7 +4196,6 @@
             "json.dumps()",
             "token.i",
             "abs()",
-            "any()",
             "fenêtres",
             "couverture de pivots",
             "pivot couvert au plus une fois",
@@ -4167,7 +4204,6 @@
           "introduced_here": [
             "token.i",
             "abs()",
-            "any()",
             "fenêtres",
             "couverture de pivots"
           ],
@@ -4234,7 +4270,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Situer les occurrences",
+          "topic": "Situer les occurrences",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4248,20 +4284,25 @@
             "Doc",
             "token.idx/i/text",
             "positions",
-            "scatter",
-            "axvline",
             "eventplot",
             "xlim",
             "xlabel",
             "yticks",
-            "show"
+            "show",
+            "plt.figure()",
+            "figure et axes"
           ],
           "introduced_here": [
             "Doc",
             "token.idx/i/text",
             "positions",
-            "scatter",
-            "axvline"
+            "plt.figure()",
+            "figure et axes",
+            "eventplot",
+            "xlim",
+            "xlabel",
+            "yticks",
+            "show"
           ],
           "allowed_libraries": [
             "json",
@@ -4271,7 +4312,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Découper en segments",
+          "topic": "Découper en segments",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4310,7 +4351,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Comparer une carte de chaleur",
+          "topic": "Lire une carte de chaleur",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4338,7 +4379,9 @@
             "imshow",
             "colorbar",
             "ticks",
-            "échelle"
+            "échelle",
+            "subplots",
+            "set_xticks/set_yticks"
           ],
           "allowed_libraries": [
             "json",
@@ -4348,7 +4391,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Visualiser la sensibilité",
+          "topic": "Visualiser la sensibilité",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4362,7 +4405,6 @@
             "fenêtres",
             "tableau",
             "plot",
-            "scatter",
             "légende",
             "sensibilité"
           ],
@@ -4370,7 +4412,6 @@
             "fenêtres",
             "tableau",
             "plot",
-            "scatter",
             "légende",
             "sensibilité"
           ],
@@ -4382,7 +4423,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Revenir aux passages",
+          "topic": "Revenir aux passages",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4416,7 +4457,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Rendre un graphique vérifiable",
+          "topic": "Vérifier un graphique",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4428,7 +4469,6 @@
             "print()",
             "json.dumps()",
             "titre/axes/unité",
-            "savefig",
             "tableau source",
             "paramètres",
             "imshow",
@@ -4437,7 +4477,6 @@
           ],
           "introduced_here": [
             "titre/axes/unité",
-            "savefig",
             "tableau source",
             "paramètres"
           ],
@@ -4449,7 +4488,7 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Interpréter et exporter",
+          "topic": "Interpréter et exporter",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4475,7 +4514,8 @@
             "open()",
             "export",
             "protocole",
-            "interprétation"
+            "interprétation",
+            "savefig"
           ],
           "allowed_libraries": [
             "json",
@@ -4511,7 +4551,7 @@
       "exercises": [
         {
           "id": "Q1",
-          "topic": "Exercice 1 — Formaliser une affirmation",
+          "topic": "Formaliser une affirmation",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4526,13 +4566,19 @@
             "paramètres absents",
             "protocole",
             "reconstruction",
-            "clé absente/None"
+            "clé absente/None",
+            "get()",
+            "in",
+            "is None"
           ],
           "introduced_here": [
             "lecture JSON",
             "paramètres absents",
             "protocole",
-            "reconstruction"
+            "reconstruction",
+            "get()",
+            "in",
+            "is None"
           ],
           "allowed_libraries": [
             "json",
@@ -4541,7 +4587,7 @@
         },
         {
           "id": "Q2",
-          "topic": "Exercice 2 — Construire le moteur commun",
+          "topic": "Construire le moteur commun",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4577,7 +4623,7 @@
         },
         {
           "id": "Q3",
-          "topic": "Exercice 3 — Vérifier les citations",
+          "topic": "Vérifier les citations",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4611,7 +4657,7 @@
         },
         {
           "id": "Q4",
-          "topic": "Exercice 4 — Comparer un nombre défini",
+          "topic": "Comparer un nombre défini",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4642,7 +4688,7 @@
         },
         {
           "id": "Q5",
-          "topic": "Exercice 5 — Traiter groupes et expressions",
+          "topic": "Groupes et expressions",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4675,7 +4721,7 @@
         },
         {
           "id": "Q6",
-          "topic": "Exercice 6 — Éprouver sur un cas nouveau",
+          "topic": "Éprouver sur un cas nouveau",
           "available_concepts": [
             "variables",
             "chaînes",
@@ -4707,7 +4753,7 @@
         },
         {
           "id": "Q7",
-          "topic": "Exercice 7 — Livrer un audit argumenté",
+          "topic": "Livrer un audit argumenté",
           "available_concepts": [
             "variables",
             "chaînes",

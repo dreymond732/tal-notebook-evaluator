@@ -1,3 +1,5 @@
+> **Historique — TD1B version 2 retirée.** Depuis sa version 3, TD1B dispose d’un correcteur technique automatique. L’ancienne copie est refusée avec « mauvaise version du notebook ». Aucun sujet actif ne relève du dépôt manuel décrit ci-dessous. Les anciens fichiers enregistrés restent intacts. Voir [le contrat actuel](s3_next_correctors.md).
+
 # Dépôt sans correction automatique du TD1B S3
 
 Cette évolution est un **CHANGEMENT_DE_CONTRAT** : le catalogue peut désigner un support distribué et déposable, sans évaluateur automatique. Elle ne modifie aucun barème ni contrat des 33 correcteurs existants. Le premier sujet concerné est `td1b-s3`, version 2.

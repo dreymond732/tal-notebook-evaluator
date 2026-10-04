@@ -7,7 +7,7 @@ from importlib import import_module
 from functools import wraps
 from markupsafe import escape
 import outils
-from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_V2, strict_contract_identity, human_review_identity
+from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_VERSIONED, CONTRACT_VERSIONS, strict_contract_identity, human_review_identity
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -28,6 +28,7 @@ EVALUATORS = {
     'td6-S2': ('TD6 S2 — Fichiers et ressources', 'app_correction_TD6_S2'),
     'td0-s3': ('TD0 S3 - Diagnostic texte et mesures', 'app_correction_TD0_S3'),
     'td1-s3': ('TD1 S3 - Annoter avec spaCy', 'app_correction_TD1_S3'),
+    'td1b-s3': ('TD1B S3 - Entités, similarité et règles', 'app_correction_TD1B_S3'),
     'td2-s3': ('TD2 S3 - Fréquences et objets recherchés', 'app_correction_TD2_S3'),
     'td3-s3': ('TD3 S3 - Concordances et citations', 'app_correction_TD3_S3'),
     'td4-s3': ('TD4 S3 - Cooccurrences définies', 'app_correction_TD4_S3'),
@@ -67,6 +68,7 @@ EVALUATOR_MODES = {
     'td5-S2': 'td',
     'td6-S2': 'td',
     'td0-s3': 'td',
+    'td1b-s3': 'td',
     'td1-s3': 'td',
     'td2-s3': 'td',
     'td3-s3': 'td',
@@ -109,6 +111,7 @@ EVALUATOR_SEMESTERS = {
     'td6-S2': 'S2',
     'ControleDevoirMaisonS2': 'S2',
     'td0-s3': 'S3',
+    'td1b-s3': 'S3',
     'td1-s3': 'S3',
     'td2-s3': 'S3',
     'td3-s3': 'S3',
@@ -254,14 +257,14 @@ def route_evaluator(eval_module, display_name, eval_name):
                 content_bytes = file.read()
                 content_str, notebook = read_notebook(content_bytes)
                 resolve_notebook(notebook, expected_evaluator=eval_name, require_metadata=False)
-                identity = strict_contract_identity(notebook, eval_name) if eval_name in STRICT_V2 else None
+                identity = strict_contract_identity(notebook, eval_name) if eval_name in STRICT_VERSIONED else None
 
                 # Appel de la fonction de correction du module chargé
                 if hasattr(eval_module, 'check_notebook'):
                     score, details, max_s, info, err = eval_module.check_notebook(content_str, file.filename)
                     if err: raise Exception(err)
                     if identity is not None:
-                        info = dict(info, **identity, contract_version=2)
+                        info = dict(info, **identity, contract_version=CONTRACT_VERSIONS[eval_name])
 
                     params = {"score": score, "details": details, "max_score": max_s,
                               "filename": file.filename, "student_info": info,
@@ -283,13 +286,14 @@ def route_evaluator(eval_module, display_name, eval_name):
                         # Un rapport enseignant ne doit pas exécuter du HTML étudiant.
                         params['details'] = [dict(d, student_answer=escape(d.get('student_answer', '')))
                                              for d in details]
-                        # Le rendu privé ne doit pas consommer/cacher les messages
-                        # de dépôt avant une éventuelle erreur de sauvegarde.
-                        params['get_flashed_messages'] = lambda **kwargs: []
+                    # Construire le rapport sans consommer les messages de la
+                    # réponse publique avant de savoir si la sauvegarde réussit.
+                    params['get_flashed_messages'] = lambda **kwargs: []
                     html = render_template(report_template, **params)
                     process_submission(file, content_bytes, html, info, score, eval_name)
                     if is_td:
-                        return html
+                        params.pop('get_flashed_messages')
+                        return render_template(report_template, **params)
                     # Ne transmettre aucun résultat au template public, même caché.
                     return render_template(template, display_name=display_name,
                                            evaluator_name=eval_name, received=True,
@@ -318,9 +322,10 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
     """Sauvegarde les fichiers et log la note."""
     try:
-        # S1/S2/S3 v2 contracts have richer CSV schemas: keep historical files intact.
-        strict_v2 = eval_name in STRICT_V2 and info.get('contract_version') == 2
-        storage_id = f'{eval_name}-v2' if strict_v2 else eval_name
+        # Versioned contracts have richer CSV schemas: keep historical files intact.
+        version = CONTRACT_VERSIONS.get(eval_name)
+        strict_versioned = version is not None and info.get('contract_version') == version
+        storage_id = f'{eval_name}-v{version}' if strict_versioned else eval_name
         outils.log_grade_to_csv(storage_id, info, score)
 
         classe = info.get('classe', 'SANS_CLASSE')
@@ -328,7 +333,7 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
         s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
 
-        student_suffix = ('_' + info['numero_etudiant']) if strict_v2 else ''
+        student_suffix = ('_' + info['numero_etudiant']) if strict_versioned else ''
 
         # 1. Sauvegarde Notebook
         nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"
