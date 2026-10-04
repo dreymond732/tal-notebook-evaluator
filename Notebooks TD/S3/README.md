@@ -6,7 +6,7 @@ Neuf TD de **deux heures** conduisent de la mesure élémentaire à un rapport v
 |---|---|---|
 | TD0 | [Du texte à une mesure vérifiable](TD0_S3_diagnostic_texte.ipynb) | Réviser Python ; produire des fréquences brutes et expliquer les unités comptées. |
 | TD1 | [Annotations spaCy](TD1_S3_fondations_spacy.ipynb) | Lire et contrôler tokens, lemmes, catégories, phrases et positions. |
-| TD1B | [Entités nommées, similarité et règles](TD1B_S3_entites_similarite_regles.ipynb) | Extraire des mentions, comparer mots et phrases, éprouver des règles ; exercices non autocorrigés, avec critères de vérification personnelle et dépôt sans note. |
+| TD1B | [Entités nommées, similarité et règles](TD1B_S3_entites_similarite_regles.ipynb) | Extraire des mentions, comparer mots et phrases, éprouver des règles ; quatre vérifications techniques automatiques, avec critères de vérification personnelle pour l’interprétation. |
 | TD2 | [Fréquences et filtres](TD2_S3_analyse_corpus.ipynb) | Construire des fonctions réutilisables ; comparer filtres et représentations. |
 | TD3 | [Concordances et citations](TD3_S3_concordances_citations.ipynb) | Retrouver les preuves dans le texte original et qualifier les écarts de citation. |
 | TD4 | [Cooccurrences](TD4_S3_cooccurrences.ipynb) | Définir les contextes et valider des comptages sur de petits cas contrôlés. |
@@ -22,9 +22,9 @@ Neuf TD de **deux heures** conduisent de la mesure élémentaire à un rapport v
 4. Conservez vos sorties et téléchargez votre notebook ainsi que l’export JSON lorsque la séance en prévoit un. Les fichiers laissés seulement dans Colab peuvent disparaître avec la session. Chaque TD fournit les données nécessaires même si un export précédent manque.
 5. La dernière cellule affiche le lien de restitution. Utilisez-le pour déposer votre travail avec ses observations.
 
-Les retours automatiques vérifient certains résultats enregistrés ; ils ne jugent pas à eux seuls vos interprétations ni vos choix de méthode. Utilisez les critères des exercices pour vérifier votre travail. Une relecture individuelle de chaque TD par l’enseignant n’est pas systématique. **TD1B est déposé sans correction ni note automatiques.** Les contrôles associés aux TD1 et TD2 conservent leur périmètre actuel : les nouvelles activités du compagnon ne constituent pas des questions supplémentaires dans ces contrôles.
+Les retours automatiques vérifient certains résultats enregistrés ; ils ne jugent pas à eux seuls vos interprétations ni vos choix de méthode. Utilisez les critères des exercices pour vérifier votre travail. Une relecture individuelle de chaque TD par l’enseignant n’est pas systématique. **TD1B dispose désormais d’un retour technique sur 4 points ; son analyse linguistique n’est pas notée automatiquement.** Les contrôles associés aux TD1 et TD2 conservent leur périmètre actuel : les nouvelles activités du compagnon ne constituent pas des questions supplémentaires dans ces contrôles.
 
-Si le dépôt signale « mauvaise version du notebook », reprenez la copie à jour distribuée par l’enseignant, sans changer vous-même son numéro de version.
+TD1B utilise la version 3 ; TD2 à TD7 conservent leur version 2. Si le dépôt signale « mauvaise version du notebook », reprenez la copie à jour distribuée par l’enseignant, sans changer vous-même son numéro de version.
 
 ## Données et remédiations
 

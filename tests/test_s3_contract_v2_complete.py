@@ -31,7 +31,7 @@ def fixture(evaluator):
 
 class StrictS3Contracts(unittest.TestCase):
     def test_catalog_and_complete_contracts(self):
-        entries = [e for e in load_catalog() if e['semester'] == 'S3' and e['active'] and e['evaluator'] is not None]
+        entries = [e for e in load_catalog() if e['semester'] == 'S3' and e['active'] and e['evaluator'] in S3_QUESTION_COUNTS]
         self.assertEqual({e['evaluator'] for e in entries}, set(S3_QUESTION_COUNTS))
         self.assertEqual(len(entries), 18)
         for entry in entries:

@@ -343,9 +343,9 @@
     },
     {
       "id": "td1b-s3",
-      "version": 2,
-      "evaluator": null,
-      "assessment": "human_review",
+      "version": 3,
+      "evaluator": "td1b-s3",
+      "assessment": "automatic",
       "active": true,
       "semester": "S3",
       "mode": "td",

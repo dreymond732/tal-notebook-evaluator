@@ -7,7 +7,7 @@ EXPECTED = [{'positions': [1, 3], 'relatives': [0.25, 0.75]}, {'effectifs': [2, 
 LABELS = ['Dispersion des occurrences', 'Distribution par segments', 'Carte de chaleur normalisée', 'Sensibilité aux paramètres', 'Retour au contexte', 'Données du graphique', 'Transfert à un nouveau segment']
 CHECKS = [
     {"label": label, "validate": lambda value, expected=expected: same(value, expected),
-     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations restent à relire avec l’enseignant."}
+     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations sont à vérifier avec les critères d’autoévaluation du TD ; ils ne sont pas notés automatiquement."}
     for label, expected in zip(LABELS, EXPECTED)
 ]
 

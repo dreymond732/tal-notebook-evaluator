@@ -7,7 +7,7 @@ EXPECTED = [{'mesurable': False, 'manquants': ['unite', 'fenetre', 'normalisatio
 LABELS = ['Affirmation mesurable', 'Moteur de cooccurrences', 'Citation exacte et altérée', 'Verdict sous protocole', 'Ambiguïté de l’agrégation', 'Cas de transfert', 'Protocole absent ou explicite']
 CHECKS = [
     {"label": label, "validate": lambda value, expected=expected: same(value, expected),
-     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations restent à relire avec l’enseignant."}
+     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations sont à vérifier avec les critères d’autoévaluation du TD ; ils ne sont pas notés automatiquement."}
     for label, expected in zip(LABELS, EXPECTED)
 ]
 

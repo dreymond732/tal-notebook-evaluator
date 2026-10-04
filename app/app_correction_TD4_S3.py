@@ -7,7 +7,7 @@ EXPECTED = [{'chat': 2, 'livre': 2, 'N': 4}, {'chat_livre': 1, 'chat_plume': 1, 
 LABELS = ['Marges de phrases', 'Cooccurrences de phrases', 'Somme et union', 'Fenêtres de mots', 'Frontières des phrases', 'Formes et lemmes', 'Invariants quantitatifs']
 CHECKS = [
     {"label": label, "validate": lambda value, expected=expected: same(value, expected),
-     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations restent à relire avec l’enseignant."}
+     "feedback": "Microcas déterministe : " + repr(expected) + ". Les transferts au corpus et les interprétations sont à vérifier avec les critères d’autoévaluation du TD ; ils ne sont pas notés automatiquement."}
     for label, expected in zip(LABELS, EXPECTED)
 ]
 

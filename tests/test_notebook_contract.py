@@ -126,7 +126,7 @@ class AutomaticSubmissionTests(unittest.TestCase):
             response = self.client.get(path, headers={'X-Forwarded-Prefix': '/universite/tal'})
             self.assertEqual(response.status_code, 200)
             self.assertIn('action="/universite/tal/submit"', response.get_data(as_text=True))
-        self.assertEqual(self.client.get('/health').json, {'status': 'ok', 'evaluators': 33})
+        self.assertEqual(self.client.get('/health').json, {'status': 'ok', 'evaluators': 34})
 
     def test_renamed_td_is_dispatched_and_saved(self):
         nb = notebook()

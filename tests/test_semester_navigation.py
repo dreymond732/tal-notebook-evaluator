@@ -38,7 +38,7 @@ class SemesterNavigationTests(unittest.TestCase):
                                  [prefix + '/semestre/' + s for s in ('S1', 'S2', 'S3')])
                 self.assertFalse(home.select('a[href*="/eval/"]'))
                 reached = []
-                for semester, count in [('S1', 9), ('S2', 6), ('S3', 18)]:
+                for semester, count in [('S1', 9), ('S2', 6), ('S3', 19)]:
                     page = self.page('/semestre/' + semester, prefix)
                     self.assertIn(semester, page.h1.text)
                     self.assertEqual(page.select_one('nav a')['href'], prefix + '/')
