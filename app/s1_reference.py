@@ -384,8 +384,8 @@ CHECKS = {
     _question('Remplacement de date', {'Q4': ('Le [DATE], Alice a relu 12 segments.',)}, _syntax('sub')),
     _question('Nettoyage paramétré', {'Q5': ('le [DATE] comporte exemples.',)}, _function('nettoyer_texte', 'sub', 'lower')),
     _question('Pipeline', {'Q6': ({'texte_nettoye': 'le tal, le tal : exemples.', 'mots': ['le', 'tal', 'le', 'tal', 'exemples'], 'frequences': {'le': 2, 'tal': 2, 'exemples': 1}},)}, _function('analyser_texte', 'nettoyer_texte', 'findall')),
-    _question('Limite interprétée — présence à relire', {'Q7': None}, lambda p, c: True,
-              'La présence de la réponse est relevée ; sa pertinence linguistique nécessite une relecture humaine.'),
+    _question('Limite interprétée — présence seulement', {'Q7': None}, lambda p, c: True,
+              'La présence de la réponse est relevée ; sa pertinence linguistique n’est pas évaluée automatiquement. Vérifiez que votre explication relie une situation, une limite du motif et une information linguistique manquante.'),
 ],
 }
 

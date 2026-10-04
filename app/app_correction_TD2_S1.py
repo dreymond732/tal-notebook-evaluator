@@ -17,7 +17,7 @@ CHECKS = [
     for i, label in enumerate([
         "Nettoyage de bord", "Transformation de chaîne", "Indexation et tranche",
         "Découpage", "Recomposition", "Nettoyage de plusieurs chaînes",
-        "Trace du découpage et interprétation à relire",
+        "Trace du découpage et présence d’une interprétation",
     ], 1)
 ]
 TOKENS = ["La", "traduction", "automatique", "aide", "parfois"]
@@ -256,7 +256,7 @@ def check_notebook(content_str, filename):
         if number == 7:
             points = float(extra_ok and main_ok)
             feedback = ("Le point porte sur la trace du découpage et la présence d’une interprétation. "
-                        "Le sens de votre commentaire reste à relire avec l’enseignant : il n’est pas évalué automatiquement.")
+                        "Le sens de votre commentaire n’est pas évalué automatiquement. Prenez le temps de relire votre explication avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.")
         else:
             points = 0.5 * (main_ok + extra_ok)
             feedback = "Chaque trace conforme vaut 0,5 point. "
@@ -267,5 +267,5 @@ def check_notebook(content_str, filename):
             "status": "✅" if points == 1.0 else "❌", "points": points, "max_points": 1.0,
         })
     info.update(score_brut=score, score_nature="technique_provisoire", score_max=MAX_SCORE_TOTAL,
-                contract_version=2, relecture_humaine="requise", review_evidence=review_evidence(notebook, 7))
+                contract_version=2, relecture_humaine="facultative", review_evidence=review_evidence(notebook, 7))
     return score, details, MAX_SCORE_TOTAL, info, None

@@ -431,7 +431,12 @@ def check_saved_notebook(content_str, filename, evaluator, checks):
                         'correct_answer': check['feedback'], 'status': '✅' if valid else '⚠️' if absent else '❌',
                         'diagnostic': diagnostic, 'evaluation_status': state,
                         'points': points if valid else 0.0, 'max_points': points})
-    details.append({'check': 'Portée du score', 'student_answer': LIMIT_NOTE, 'correct_answer': ('Un point par question. ' if all(weight == 1.0 for weight in weights) else 'Barème par question indiqué dans le sujet. ') + 'Les justifications sont à relire humainement.', 'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
+    optional_review = evaluator in {f'td{number}-s1' for number in range(1, 8)}
+    review_note = ('Les explications ne sont pas évaluées automatiquement. Comparez-les aux critères du TD ; '
+                   'sollicitez l’enseignant si une difficulté persiste.' if optional_review else
+                   'Les justifications sont à relire humainement.')
+    limit_note = LIMIT_NOTE.replace('Les explications et interprétations restent à relire humainement.', review_note) if optional_review else LIMIT_NOTE
+    details.append({'check': 'Portée du score', 'student_answer': limit_note, 'correct_answer': ('Un point par question. ' if all(weight == 1.0 for weight in weights) else 'Barème par question indiqué dans le sujet. ') + review_note, 'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
     info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
-                relecture_humaine='requise', contract_version=2, review_evidence=review_evidence(notebook, len(checks)))
+                relecture_humaine='facultative' if optional_review else 'requise', contract_version=2, review_evidence=review_evidence(notebook, len(checks)))
     return score, details, maximum, info, None
