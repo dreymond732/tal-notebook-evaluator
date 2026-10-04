@@ -853,7 +853,8 @@
             "appel",
             "print()",
             "test",
-            "chaîne vide"
+            "chaîne vide",
+            "None"
           ],
           "introduced_here": [
             "def",
@@ -861,7 +862,8 @@
             "return",
             "appel",
             "test",
-            "chaîne vide"
+            "chaîne vide",
+            "None"
           ],
           "allowed_libraries": []
         },

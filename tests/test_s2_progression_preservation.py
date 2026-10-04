@@ -119,6 +119,14 @@ class S2Preservation(unittest.TestCase):
         next_parent = json.loads((ROOT / 'tests/fixtures/s3_next_editorial_source_baseline.json').read_text())
         self.assertEqual(next_parent['source_commit'], 'cdc52d08cc02c8880003d962d0631658f04392c1')
         editorial_subjects = editorial_parent['subjects'] | r1_parent['subjects'] | next_parent['subjects']
+        s1_parent = json.loads((ROOT / 'tests/fixtures/s1_editorial_source_baseline.json').read_text())
+        self.assertEqual(s1_parent['source_commit'], '670e6c104a6d0228fcad8a91cfc8776117b038bb')
+        from test_notebook_migration_integrity import S1_RENAMED_SUBJECTS
+        self.assertEqual(set(s1_parent['subjects']), set(S1_RENAMED_SUBJECTS.values()))
+        # Exact original serialization verified against all seven parent blobs.
+        # Current S1 code/cells are protected by test_s1_progression_preservation.
+        editorial_subjects.update({path: json.dumps(notebook, ensure_ascii=False, indent=2) + '\n'
+                                   for path, notebook in s1_parent['subjects'].items()})
         for path, expected in self.baseline['unchanged_notebooks_sha256'].items():
             # The reviewed subjects retain this prior proof in frozen parents;
             # their current cell/code preservation is checked independently.
