@@ -16,6 +16,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
+from presentation_order_evidence import current_path as presentation_path, before_title_move, parent_raw
 import routes
 from prepare_student_notebooks import submission_cell
 
@@ -127,7 +128,7 @@ class MigrationIntegrityTests(unittest.TestCase):
                 continue
             with self.subTest(notebook=path):
                 current_path = S1_RENAMED_SUBJECTS.get(path, path)
-                notebook = json.loads((ROOT / current_path).read_text())
+                notebook = before_title_move(json.loads((ROOT / current_path).read_text()), current_path)
                 original = original_s1_content(notebook) if path in S1_RENAMED_SUBJECTS else notebook
                 self.assertEqual(canonical_hash(without_routing_metadata(original)), expected,
                                  "Content, outputs, cell order, IDs and tutor policy must be unchanged")
@@ -149,11 +150,11 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertEqual(len(REVISED_SUBJECTS), 31)
         for path, evaluator in (R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS).items():
             with self.subTest(notebook=path):
-                notebook = json.loads((ROOT / path).read_text())
+                notebook = json.loads((ROOT / presentation_path(path)).read_text())
                 self.assertEqual(notebook["metadata"]["tal"], {
                     "id": evaluator, "evaluator": evaluator, "version": 2})
                 entry = resolve_notebook(notebook)
-                self.assertEqual(entry["notebook"], path)
+                self.assertEqual(entry["notebook"], presentation_path(path))
                 self.assertEqual((entry["semester"], entry["mode"], entry["version"]),
                                  ("S3", "controle" if evaluator.startswith("controle-") else "td", 2))
                 indexed = validate_cell_metadata(notebook)
@@ -176,12 +177,13 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertEqual(baseline["source_commit"], "02f435dc770834b21e242592804d231e0836a4b7")
         self.assertEqual(set(baseline["subjects"]), set(S3_REVISED_SUBJECTS))
         # Chain the older reviewed proof through the frozen parent of this
-        # additive TD review. Controls are still checked directly, byte for byte.
+        # additive TD review. Controls retain the exact raw parent proof; the dedicated presentation
+        # test compares current controls against it with only the H1 move.
         parent = json.loads((ROOT / "tests/fixtures/s3_progression_review_source_baseline.json").read_text())
         self.assertEqual(parent["source_commit"], "933b0df6565fbd7d64f02db941eda5e8358eb16e")
         prefixes, reviews = 0, 0
         for path, expected in baseline["subjects"].items():
-            notebook = copy.deepcopy(parent["subjects"][path]) if path in parent["subjects"] else json.loads((ROOT / path).read_text())
+            notebook = copy.deepcopy(parent["subjects"][path]) if path in parent["subjects"] else json.loads(parent_raw(path))
             cells = notebook.pop("cells")
             with self.subTest(notebook=path):
                 self.assertEqual(canonical_hash(notebook), expected["notebook_without_cells_sha256"])
@@ -232,7 +234,7 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
         self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
         current_original_paths = {S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path)) for path in self.baseline["active"]}
-        self.assertEqual(current_original_paths | ADDED_ACTIVE_SUBJECTS,
+        self.assertEqual({presentation_path(p) for p in current_original_paths | ADDED_ACTIVE_SUBJECTS},
                          {e["notebook"] for e in active})
         self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |
@@ -253,9 +255,9 @@ class MigrationIntegrityTests(unittest.TestCase):
     def test_new_subject_is_resolvable_and_model_is_explicitly_excluded(self):
         for path in ADDED_ACTIVE_SUBJECTS:
             with self.subTest(notebook=path):
-                notebook = json.loads((ROOT / path).read_text())
+                notebook = json.loads((ROOT / presentation_path(path)).read_text())
                 entry = resolve_notebook(notebook)
-                self.assertEqual(entry["notebook"], path)
+                self.assertEqual(entry["notebook"], presentation_path(path))
                 self.assertEqual((entry["semester"], entry["mode"]),
                                  ("S3", "td") if entry["id"] == "td1b-s3" else ("S1", "controle"))
                 validate_cell_metadata(notebook)

@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / 'app'))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import prepare_student_notebooks as prep
 from test_notebook_migration_integrity import S2_RENAMED_SUBJECTS
+from presentation_order_evidence import before_title_move, parent_raw, SNAPSHOT
 
 BASELINE = ROOT / 'tests/fixtures/s2_complete_review_source_baseline.json'
 COUNTS = {'td3-S2': 30, 'td5-S2': 25, 'td6-S2': 10, 'td2-S2': 13,
@@ -63,7 +64,7 @@ class S2Preservation(unittest.TestCase):
         for old_path, old_nb in self.baseline['subjects'].items():
             new_path = S2_RENAMED_SUBJECTS[old_path]
             entry = by_path[new_path]
-            current = json.loads((ROOT / new_path).read_text())
+            current = before_title_move(json.loads((ROOT / new_path).read_text()), new_path)
             cells = {c['id']: c for c in current['cells']}
             expected_ids = []
             for index, original in enumerate(old_nb['cells']):
@@ -127,10 +128,12 @@ class S2Preservation(unittest.TestCase):
         # Current S1 code/cells are protected by test_s1_progression_preservation.
         editorial_subjects.update({path: json.dumps(notebook, ensure_ascii=False, indent=2) + '\n'
                                    for path, notebook in s1_parent['subjects'].items()})
+        presentation_subjects = json.loads(SNAPSHOT.read_text())['subjects']
         for path, expected in self.baseline['unchanged_notebooks_sha256'].items():
             # The reviewed subjects retain this prior proof in frozen parents;
             # their current cell/code preservation is checked independently.
             raw = (editorial_subjects[path].encode() if path in editorial_subjects
+                   else parent_raw(path).encode() if path in presentation_subjects
                    else (ROOT / path).read_bytes())
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)

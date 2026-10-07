@@ -36,7 +36,8 @@ class TutorMetadataTests(unittest.TestCase):
                 first = notebook["cells"][0]
                 self.assertEqual(first["cell_type"], "markdown")
                 self.assertEqual(first["metadata"]["id"], CELL_ID)
-                self.assertEqual("".join(first["source"]), f"<!-- {CELL_START}\n{context}{CELL_END} -->\n")
+                self.assertRegex("".join(first["source"]), r"\A# [^\n]+\n\n<!-- ")
+                self.assertEqual("".join(first["source"]).split("\n\n", 1)[1], f"<!-- {CELL_START}\n{context}{CELL_END} -->\n")
                 self.assertLessEqual(len(context), CONTEXT_BUDGET)
                 self.assertFalse(any("LLM_PEDAGOGICAL_CONTEXT_START" in "".join(c["source"]) for c in notebook["cells"]))
 
@@ -48,7 +49,7 @@ class TutorMetadataTests(unittest.TestCase):
                 "aiContexts": {"old-id": {"id": "old-id", "name": "NLP tutor", "context": "old truncated rule"}},
             }},
             "cells": [
-                {"cell_type": "markdown", "source": ["## Exercice\n", "Décrivez le résultat."], "metadata": {"id": "title"}},
+                {"cell_type": "markdown", "source": ["# Titre\n", "## Exercice\n", "Décrivez le résultat."], "metadata": {"id": "title"}},
                 {"cell_type": "markdown", "source": ["<!-- LLM_PEDAGOGICAL_CONTEXT_START\nobsolete rules\n<!-- LLM_PEDAGOGICAL_CONTEXT_END -->\n"], "metadata": {}},
                 {"cell_type": "code", "source": ["raise RuntimeError('must not run')"], "outputs": [], "metadata": {"id": "answer"}, "execution_count": None},
             ],
@@ -56,7 +57,9 @@ class TutorMetadataTests(unittest.TestCase):
         untouched = copy.deepcopy(notebook)
         result = migrate_notebook(notebook, self.sessions[1])
         self.assertEqual(notebook, untouched)
-        self.assertEqual(result["cells"][1:], [notebook["cells"][0], notebook["cells"][2]])
+        expected = copy.deepcopy(notebook["cells"][0])
+        expected["source"].pop(0)
+        self.assertEqual(result["cells"][1:], [expected, notebook["cells"][2]])
         self.assertEqual(result["metadata"]["kernelspec"], notebook["metadata"]["kernelspec"])
         self.assertEqual(result["metadata"]["colab"]["provenance"], [])
         self.assertEqual(len(result["metadata"]["colab"]["aiContexts"]), 1)
@@ -64,11 +67,11 @@ class TutorMetadataTests(unittest.TestCase):
         self.assertEqual(migrate_notebook(result, self.sessions[1]), result)
 
     def test_mixed_markdown_retains_teaching_material(self):
-        before = "Énoncé à conserver.\n\n"
+        before = "# Titre\nÉnoncé à conserver.\n\n"
         after = "\nExemple enseignant à conserver."
         notebook = {"cells": [{"cell_type": "markdown", "source": before + "<!-- LLM_PEDAGOGICAL_CONTEXT_START\nold\nLLM_PEDAGOGICAL_CONTEXT_END -->" + after}]}
         result = migrate_notebook(notebook, self.sessions[0])
-        self.assertEqual(result["cells"][1]["source"], before + after)
+        self.assertEqual(result["cells"][1]["source"], before.removeprefix("# Titre\n") + after)
 
     def test_partial_or_misplaced_legacy_blocks_require_review(self):
         for kind in ("markdown", "code"):
@@ -77,7 +80,7 @@ class TutorMetadataTests(unittest.TestCase):
                 migrate_notebook(notebook, self.sessions[0])
 
     def test_unrelated_user_context_is_not_silently_deleted(self):
-        notebook = {"cells": [], "metadata": {"colab": {"aiContexts": {"custom": {"name": "Conventions personnelles", "context": "keep me"}}}}}
+        notebook = {"cells": [{"cell_type": "markdown", "source": "# Titre\n"}], "metadata": {"colab": {"aiContexts": {"custom": {"name": "Conventions personnelles", "context": "keep me"}}}}}
         with self.assertRaisesRegex(ValueError, "arbitrage"):
             migrate_notebook(notebook, self.sessions[0])
 
@@ -160,7 +163,9 @@ class TutorMetadataTests(unittest.TestCase):
         code = {"cell_type": "code", "metadata": {}, "source": "raise RuntimeError('must not run')", "execution_count": 4,
                 "outputs": [{"output_type": "stream", "name": "stdout", "text": ["trace existante\n"]}]}
         result = migrate_notebook({"cells": [pilot, code]}, self.sessions[0])
-        self.assertEqual(result["cells"][1:], [original, code])
+        expected = copy.deepcopy(original)
+        expected["source"].pop(0)
+        self.assertEqual(result["cells"][1:], [expected, code])
 
     def test_invalid_pilot_location_and_delimiters_fail_closed(self):
         good = "<!-- TAL_TD2_TUTOR_REMINDER_START\nConsigne.\nTAL_TD2_TUTOR_REMINDER_END -->\n\n"
@@ -175,7 +180,7 @@ class TutorMetadataTests(unittest.TestCase):
 
     def test_managed_cell_moves_to_first_position_and_preserves_annotations(self):
         code = {"cell_type": "code", "source": ["# réponse"], "metadata": {}, "execution_count": None, "outputs": []}
-        result = migrate_notebook({"cells": [code]}, self.sessions[0])
+        result = migrate_notebook({"cells": [{"cell_type": "markdown", "source": "# Titre\n"}, code]}, self.sessions[0])
         result["cells"][0]["metadata"]["teacher_note"] = "à conserver"
         result["cells"].reverse()
         updated = migrate_notebook(result, self.sessions[0])
@@ -184,7 +189,7 @@ class TutorMetadataTests(unittest.TestCase):
         self.assertEqual(migrate_notebook(updated, self.sessions[0]), updated)
 
     def test_malformed_or_duplicate_managed_cells_fail_closed(self):
-        prototype = migrate_notebook({"cells": []}, self.sessions[0])
+        prototype = migrate_notebook({"cells": [{"cell_type": "markdown", "source": "# Titre\n"}]}, self.sessions[0])
         for kind in ("duplicate", "missing_id", "code", "outside_text", "bad_close"):
             notebook = copy.deepcopy(prototype)
             first = notebook["cells"][0]
@@ -203,7 +208,7 @@ class TutorMetadataTests(unittest.TestCase):
 
     def test_mode_switch_removes_td_instructions_from_both_locations(self):
         session = copy.deepcopy(self.sessions[0])
-        notebook = migrate_notebook({"cells": []}, session)
+        notebook = migrate_notebook({"cells": [{"cell_type": "markdown", "source": "# Titre\n"}]}, session)
         session["activity"] = "controle"
         result = migrate_notebook(notebook, session)
         context = next(iter(result["metadata"]["colab"]["aiContexts"].values()))["context"]
@@ -213,7 +218,7 @@ class TutorMetadataTests(unittest.TestCase):
             self.assertNotIn("TUTEUR TD", text)
             self.assertNotIn("MINI-COURS SI BESOIN", text)
             self.assertNotIn("PÉRIMÈTRE PAR EXERCICE", text)
-        self.assertEqual(markdown, f"<!-- {CELL_START}\n{context}{CELL_END} -->\n")
+        self.assertEqual(markdown, f"# Titre\n\n<!-- {CELL_START}\n{context}{CELL_END} -->\n")
 
     def test_per_exercise_library_permissions_are_required_and_closed(self):
         session = copy.deepcopy(self.sessions[0])
@@ -267,7 +272,7 @@ class TutorMetadataTests(unittest.TestCase):
             root = Path(temp)
             (root / "Notebooks TD").mkdir()
             first_path = root / session["notebook"]
-            first_path.write_text('{"cells": []}')
+            first_path.write_text('{"cells": [{"cell_type": "markdown", "source": "# Titre\n"}]}')
             (root / second["notebook"]).write_text('{"cells": [{"cell_type": "markdown", "source": "TAL_TUTOR_CONTEXT_START"}]}')
             manifest = root / "manifest.json"
             manifest.write_text(json.dumps({"schema_version": 1, "sessions": [session, second], "excluded_notebooks": []}))
@@ -280,7 +285,7 @@ class TutorMetadataTests(unittest.TestCase):
 
     def test_older_notebook_formats_receive_no_invalid_top_level_cell_id(self):
         for minor in (0, 4, 5):
-            notebook = {"nbformat": 4, "nbformat_minor": minor, "metadata": {}, "cells": []}
+            notebook = {"nbformat": 4, "nbformat_minor": minor, "metadata": {}, "cells": [{"cell_type": "markdown", "source": "# Titre\n"}]}
             result = migrate_notebook(notebook, self.sessions[0])
             self.assertEqual("id" in result["cells"][0], minor >= 5)
             self.assertEqual(result["nbformat_minor"], minor)

@@ -132,11 +132,11 @@ def _source_text(cell):
     raise ValueError("Source de cellule invalide")
 
 
-def _managed_cell(context, modern_ids):
+def _managed_cell(context, modern_ids, heading):
     cell = {
         "cell_type": "markdown",
         "metadata": {"id": CELL_ID, "tags": [CELL_ID]},
-        "source": (f"<!-- {CELL_START}\n" + context + f"{CELL_END} -->\n").splitlines(keepends=True),
+        "source": (heading + "\n\n" + f"<!-- {CELL_START}\n" + context + f"{CELL_END} -->\n").splitlines(keepends=True),
     }
     if modern_ids:
         cell["id"] = CELL_ID
@@ -153,6 +153,9 @@ def _is_managed(cell):
 def _validate_managed(cell):
     text = _source_text(cell)
     prefix, suffix = f"<!-- {CELL_START}\n", f"{CELL_END} -->\n"
+    heading = re.match(r"\A(#[ \t]+[^\n]+)\n(?:[ \t]*\n)*", text)
+    if heading:
+        text = text[heading.end():]
     if (cell.get("cell_type") != "markdown" or ("id" in cell and cell["id"] != CELL_ID)
             or cell.get("metadata", {}).get("id") != CELL_ID
             or CELL_ID not in cell.get("metadata", {}).get("tags", [])
@@ -161,20 +164,21 @@ def _validate_managed(cell):
     body = text[len(prefix):-len(suffix)]
     if any(marker in body for marker in ("<!--", "-->", CELL_START, CELL_END, LEGACY_START, LEGACY_END, PILOT_START, PILOT_END)):
         raise ValueError("Contenu ajouté dans la cellule de tutorat : revue nécessaire")
+    return heading.group(1) if heading else None
 
 
 def migrate_notebook(notebook, session):
     """Synchronize both instruction locations; retain the rest of every cell."""
     context = render_context(session)
     result = copy.deepcopy(notebook)
-    cells, managed = [], None
+    cells, managed, heading = [], None, None
     for position, cell in enumerate(result.get("cells", [])):
         source = cell.get("source", "")
         text = _source_text(cell)
         if _is_managed(cell):
             if managed is not None:
                 raise ValueError("Plusieurs cellules de tutorat gérées : revue nécessaire")
-            _validate_managed(cell)
+            heading = _validate_managed(cell)
             managed = cell
             continue
         if PILOT_START in text or PILOT_END in text:
@@ -198,7 +202,22 @@ def migrate_notebook(notebook, session):
                 continue
             cell["source"] = cleaned.splitlines(keepends=True) if isinstance(source, list) else cleaned
         cells.append(cell)
-    tutor_cell = _managed_cell(context, notebook.get("nbformat_minor", 0) >= 5)
+    if heading is None:
+        # Move only the first introductory H1 line. Retain its cell, metadata,
+        # whitespace and every following explanation; never rewrite its title.
+        for cell in cells:
+            if cell.get("cell_type") != "markdown":
+                continue
+            text = _source_text(cell)
+            title = re.match(r"\A([ \t\r\n]*)(#[ \t]+[^\n]+)(?:\n|$)", text)
+            if title:
+                heading = title.group(2)
+                remainder = title.group(1) + text[title.end():]
+                cell["source"] = remainder.splitlines(keepends=True) if isinstance(cell["source"], list) else remainder
+                break
+        if heading is None:
+            raise ValueError("Titre H1 introductif absent : revue nécessaire")
+    tutor_cell = _managed_cell(context, notebook.get("nbformat_minor", 0) >= 5, heading)
     if managed is not None:
         # Preserve annotations and metadata unrelated to generated instructions.
         managed["source"] = tutor_cell["source"]

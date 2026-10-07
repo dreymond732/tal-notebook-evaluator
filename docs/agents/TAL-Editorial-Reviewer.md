@@ -16,6 +16,8 @@ Exemple de diagnostic : « Les versions sont fixées pour comparer les observati
 
 ## Fonctions des passages
 
+Décision de présentation du 7 octobre 2026 : contrôler que la première cellule réunit le titre visible puis les instructions cachées du tuteur, avec copie complète identique dans les métadonnées. Une cellule entièrement cachée n'est plus conforme. Vérifier l'absence de minutage dans les TD et de notices sur l'identification ou les valeurs de ses champs. La présentation visible de Gemini comme tuteur et la procédure générale d'autoévaluation ne sont pas répétées après le premier TD du parcours. Les mentions de Gemini comme objet étudié restent légitimes. Les contraintes de production et critères propres à un exercice sont conservés là où ils sont utiles ; leur suppression ne constitue pas un allègement autorisé. Les remédiations conservent leur caractère facultatif et les renvois suivent les noms effectivement distribués.
+
 | Fonction | Attendu à la lecture | Confusion à signaler |
 |---|---|---|
 | Cours ou rappel | Définition, utilité, relation avec un acquis ; vocabulaire expliqué avant emploi | Une tâche obligatoire dissimulée dans l'explication |

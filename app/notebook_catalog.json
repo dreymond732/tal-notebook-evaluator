@@ -108,7 +108,7 @@
       "active": true,
       "semester": "S3",
       "mode": "td",
-      "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.a_S3_fondations_spacy.ipynb",
       "tutor_session": "TD1_S3"
     },
     {
@@ -118,7 +118,7 @@
       "active": true,
       "semester": "S3",
       "mode": "td",
-      "notebook": "Notebooks TD/S3/R1_S3_doc_spacy.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.b_S3_doc_spacy.ipynb",
       "tutor_session": "R1_S3"
     },
     {
@@ -349,9 +349,9 @@
       "active": true,
       "semester": "S3",
       "mode": "td",
-      "notebook": "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.c_S3_entites_similarite_regles.ipynb",
       "tutor_session": "TD1B_S3",
-      "title": "TD1B S3 — Entités, similarité et règles"
+      "title": "TD1.c S3 — Entités, similarité et règles"
     }
   ]
 }

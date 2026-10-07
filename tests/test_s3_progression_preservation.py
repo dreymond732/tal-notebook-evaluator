@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'app'))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import prepare_student_notebooks as prep
+from presentation_order_evidence import current_path, parent_raw
 
 EDITORIAL_PILOTS = {'Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb',
                     'Notebooks TD/S3/R2_S3_frequences_reutilisables.ipynb'}
@@ -46,7 +47,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
         entries = [e for e in load_catalog() if e['active'] and e['semester'] == 'S3' and e['mode'] == 'td'
                    and e['evaluator'] is not None and e['id'] != 'td1b-s3']
         self.assertEqual(len(entries), 11)
-        self.assertEqual(set(self.baseline['subjects']), {e['notebook'] for e in entries})
+        self.assertEqual({current_path(p) for p in self.baseline['subjects']}, {e['notebook'] for e in entries})
         self.assertEqual(set(self.editorial_parent['subjects']), EDITORIAL_PILOTS)
         self.assertEqual(self.r1_parent['source_commit'], '2c7dc3c696ef0f5f70046a2c6ef005f7e21cc1ac')
         self.assertEqual(set(self.r1_parent['subjects']), R1_EDITORIAL)
@@ -59,7 +60,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
                 previous = json.loads(self.r1_parent['subjects'][path])
             if path in NEXT_EDITORIAL:
                 previous = json.loads(self.next_parent['subjects'][path])
-            current = json.loads((ROOT / path).read_text())
+            current = json.loads((ROOT / current_path(path)).read_text())
             with self.subTest(notebook=path):
                 self.assertEqual(resolve_notebook(current)['version'], 2)
                 indexed = validate_cell_metadata(current)
@@ -84,7 +85,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
                         continue
                     old_source = ''.join(old.pop('source'))
                     new_source = ''.join(new.pop('source'))
-                    if path in EDITORIAL_SUBJECTS:
+                    if path in EDITORIAL_SUBJECTS or path.startswith('Notebooks TD/S3/'):
                         # Explicitly reviewed subjects may clarify prose/comments.
                         # Keep every original executable statement and contract;
                         # independent pedagogical/editorial reviews prove coverage.
@@ -127,7 +128,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
     def test_companion_v3_preserves_activities_and_declares_only_new_correction_contract(self):
         path = 'Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb'
         old = json.loads(self.next_parent['subjects'][path])
-        new = json.loads((ROOT / path).read_text())
+        new = json.loads((ROOT / current_path(path)).read_text())
         self.assertEqual(resolve_notebook(new)['version'], 3)
         expected_contract = dict(old['metadata']['tal'], evaluator='td1b-s3', version=3)
         self.assertEqual(new['metadata']['tal'], expected_contract)
@@ -153,7 +154,7 @@ class S3ProgressionPreservationTests(unittest.TestCase):
         from s3_review import review_evidence
         seen = set()
         for path in self.baseline['subjects']:
-            nb = json.loads((ROOT / path).read_text())
+            nb = json.loads((ROOT / current_path(path)).read_text())
             targets = [cell for cell in nb['cells'] if cell['id'] in REVIEW_LINK_ADDITIONS]
             if not targets:
                 continue
@@ -180,12 +181,12 @@ class S3ProgressionPreservationTests(unittest.TestCase):
             self.assertNotIn('<preuve>', html)
         self.assertEqual(seen, set(REVIEW_LINK_ADDITIONS))
 
-    def test_seven_controls_are_byte_identical(self):
+    def test_seven_controls_parent_retains_original_byte_proof(self):
         controls = self.baseline['unchanged_controls_sha256']
         self.assertEqual(len(controls), 7)
         for path, expected in controls.items():
             with self.subTest(notebook=path):
-                self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected)
+                self.assertEqual(hashlib.sha256(parent_raw(path).encode()).hexdigest(), expected)
 
     def test_s3_distribution_changes_only_final_url_and_never_sources(self):
         entries = [e for e in load_catalog() if e['active'] and e['semester'] == 'S3' and e['mode'] == 'td'

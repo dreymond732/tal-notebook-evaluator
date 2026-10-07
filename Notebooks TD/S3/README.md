@@ -1,12 +1,17 @@
 # S3 — Construire un outil d’audit textométrique
 
-Neuf TD de **deux heures** conduisent de la mesure élémentaire à un rapport vérifiable sur une analyse produite par un LLM. Les séances comprennent des exemples commentés, des exercices progressifs et des mises en pratique sur de petits textes ou sur le corpus de Faguet. Le TD1B poursuit la découverte de spaCy après TD1 ; les numéros TD2 à TD7 restent inchangés. Les durées sont indicatives : signalez à l’enseignant les étapes qui demandent davantage de temps.
+Le parcours conduit de la mesure élémentaire à un rapport vérifiable sur une analyse produite par un LLM. Il comprend des exemples commentés, des exercices progressifs et des mises en pratique sur de petits textes ou sur le corpus de Faguet.
+
+## Ordre du parcours
 
 | Ordre | Cahier exécutable | Objectif et production |
 |---|---|---|
-| TD0 | [Du texte à une mesure vérifiable](TD0_S3_diagnostic_texte.ipynb) | Réviser Python ; produire des fréquences brutes et expliquer les unités comptées. |
-| TD1 | [Annotations spaCy](TD1_S3_fondations_spacy.ipynb) | Lire et contrôler tokens, lemmes, catégories, phrases et positions. |
-| TD1B | [Entités nommées, similarité et règles](TD1B_S3_entites_similarite_regles.ipynb) | Extraire des mentions, comparer mots et phrases, éprouver des règles ; quatre vérifications techniques automatiques, avec critères de vérification personnelle pour l’interprétation. |
+| TD0 | [Du texte à une mesure vérifiable](TD0_S3_diagnostic_texte.ipynb) | Réviser Python ; produire des fréquences brutes et expliquer les unités comptées. Lire les repères communs pour travailler, utiliser le tuteur et déposer sa copie. |
+| R0 | [Python pour le texte](R0_S3_python_texte.ipynb) | Reprendre les manipulations Python avant TD1.a. |
+| TD1.a | [Découvrir spaCy et vérifier ses annotations](TD1.a_S3_fondations_spacy.ipynb) | Lire et contrôler tokens, lemmes, catégories, phrases et positions. |
+| TD1.b — facultatif | [Reprendre le parcours et la sélection des tokens](TD1.b_S3_doc_spacy.ipynb) | Reprendre la création d’un `Doc`, le parcours de ses tokens et la sélection par catégorie si ces opérations restent difficiles après TD1.a. Sinon, passer directement à TD1.c. |
+| TD1.c | [Entités nommées, similarité et règles](TD1.c_S3_entites_similarite_regles.ipynb) | Extraire des mentions, comparer mots et phrases, éprouver des règles et interpréter leurs résultats. |
+| R2 | [Fréquences réutilisables](R2_S3_frequences_reutilisables.ipynb) | Consolider les fonctions de comptage et de filtrage avant TD2 ; TD1.b n’est pas un prérequis. |
 | TD2 | [Fréquences et filtres](TD2_S3_analyse_corpus.ipynb) | Construire des fonctions réutilisables ; comparer filtres et représentations. |
 | TD3 | [Concordances et citations](TD3_S3_concordances_citations.ipynb) | Retrouver les preuves dans le texte original et qualifier les écarts de citation. |
 | TD4 | [Cooccurrences](TD4_S3_cooccurrences.ipynb) | Définir les contextes et valider des comptages sur de petits cas contrôlés. |
@@ -16,18 +21,12 @@ Neuf TD de **deux heures** conduisent de la mesure élémentaire à un rapport v
 
 ## Démarrer dans Colab
 
-1. Ouvrez dans [Google Colab](https://colab.research.google.com/) la copie distribuée par l’enseignant.
-2. Enregistrez votre propre copie, complétez votre nom, votre prénom, votre classe et votre numéro étudiant, puis suivez les cellules dans l’ordre. Si vous sollicitez le tuteur, précisez votre hésitation : il accompagne le raisonnement sans réaliser les exercices à votre place.
-3. Exécutez la préparation fournie. Une connexion est nécessaire pour installer les outils et télécharger les textes. Si Colab demande un redémarrage, suivez les indications du notebook.
-4. Conservez vos sorties et téléchargez votre notebook ainsi que l’export JSON lorsque la séance en prévoit un. Les fichiers laissés seulement dans Colab peuvent disparaître avec la session. Chaque TD fournit les données nécessaires même si un export précédent manque.
-5. La dernière cellule affiche le lien de restitution. Utilisez-le pour déposer votre travail avec ses observations.
+Ouvrez votre copie dans [Google Colab](https://colab.research.google.com/), puis suivez les repères communs présentés au début du TD0. Une connexion est nécessaire pour installer les outils et télécharger les textes. Si Colab demande un redémarrage, suivez les indications du notebook.
 
-Les retours automatiques vérifient certains résultats enregistrés ; ils ne jugent pas à eux seuls vos interprétations ni vos choix de méthode. Utilisez les critères des exercices pour vérifier votre travail. Une relecture individuelle de chaque TD par l’enseignant n’est pas systématique. **TD1B dispose désormais d’un retour technique sur 4 points ; son analyse linguistique n’est pas notée automatiquement.** Les contrôles associés aux TD1 et TD2 conservent leur périmètre actuel : les nouvelles activités du compagnon ne constituent pas des questions supplémentaires dans ces contrôles.
+Conservez vos sorties et téléchargez votre notebook ainsi que l’export JSON lorsque le TD en prévoit un. Les fichiers laissés seulement dans Colab peuvent disparaître avec la session. Chaque TD fournit les données nécessaires même si un export précédent manque ; vos fonctions restent à reprendre depuis le notebook où vous les avez écrites.
 
-TD1B utilise la version 3 ; TD2 à TD7 conservent leur version 2. Si le dépôt signale « mauvaise version du notebook », reprenez la copie à jour distribuée par l’enseignant, sans changer vous-même son numéro de version.
+Les critères propres à chaque exercice vous permettent de vérifier les résultats et les interprétations. TD1.c comporte quatre vérifications automatiques ; les interprétations linguistiques restent à examiner à partir des textes et des critères proposés. Les contrôles associés à TD1.a et TD2 conservent leur périmètre : les activités de TD1.c n’y ajoutent pas de questions.
 
-## Données et remédiations
+## Données
 
 Le dossier [ressources](ressources/README.md) décrit le corpus original fourni, la transcription de la conversation Gemini, les affirmations à auditer et les petits exemples pédagogiques. Les trois prompts forment une conversation progressive. Les estimations du LLM sont des affirmations à vérifier, pas des valeurs de référence.
-
-Les remédiations [R0 — Python et texte](R0_S3_python_texte.ipynb), [R1 — Reprendre le parcours et la sélection des tokens](R1_S3_doc_spacy.ipynb) et [R2 — Fréquences réutilisables](R2_S3_frequences_reutilisables.ipynb) sont conservées et utilisables selon les difficultés repérées. Elles complètent les neuf séances principales. Après TD1, utilisez R1 si la création d’un Doc, le parcours de ses tokens ou la sélection par catégorie restent difficiles ; si ces opérations sont maîtrisées, poursuivez la progression. R2 a un autre objectif : consolider les fonctions et les fréquences avant TD2. Il ne suppose pas d’avoir refait R1.
