@@ -1481,7 +1481,7 @@
     },
     {
       "id": "TD1_S3",
-      "notebook": "Notebooks TD/S3/TD1_S3_fondations_spacy.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.a_S3_fondations_spacy.ipynb",
       "semester": 3,
       "activity": "td",
       "title": "Découvrir spaCy et vérifier ses annotations",
@@ -1709,13 +1709,13 @@
     },
     {
       "id": "TD1B_S3",
-      "notebook": "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.c_S3_entites_similarite_regles.ipynb",
       "semester": 3,
       "activity": "td",
       "title": "Entités nommées, similarité et règles avec spaCy",
       "prerequisites": [
         "Python S1–S2 : parcours, conditions, listes, tuples et dictionnaires",
-        "TD1 S3 : pipeline, Doc, tokens et annotations à vérifier"
+        "TD1.a S3 : pipeline, Doc, tokens et annotations à vérifier"
       ],
       "allowed_libraries": [
         "spacy"
@@ -1884,12 +1884,12 @@
     },
     {
       "id": "R1_S3",
-      "notebook": "Notebooks TD/S3/R1_S3_doc_spacy.ipynb",
+      "notebook": "Notebooks TD/S3/TD1.b_S3_doc_spacy.ipynb",
       "semester": 3,
       "activity": "td",
       "title": "Reprendre le parcours et la sélection des tokens",
       "prerequisites": [
-        "TD1 S3 : Doc, tokens, lemmes et POS"
+        "TD1.a S3 : Doc, tokens, lemmes et POS"
       ],
       "allowed_libraries": [
         "spacy"
@@ -1992,7 +1992,7 @@
       "title": "Fréquences réutilisables",
       "prerequisites": [
         "Python S1–S2 : fonctions, retour, paramètres, listes et dictionnaires",
-        "TD1 et R1 S3 : Doc, tokens, lemmes et sélection par POS"
+        "TD1.a S3 : Doc, tokens, lemmes et sélection par POS ; TD1.b est un bonus facultatif, non requis"
       ],
       "allowed_libraries": [
         "spacy",
@@ -2150,7 +2150,7 @@
       "title": "Fréquences, filtres et objets de recherche",
       "prerequisites": [
         "Python S1–S2 à réactiver sans présumer la maîtrise",
-        "TD0–TD1 S3 : fonctions, objets et preuves construits"
+        "TD0–TD1.a S3 : fonctions, objets et preuves construits"
       ],
       "allowed_libraries": [
         "json",
@@ -4795,7 +4795,7 @@
       "activity": "controle",
       "title": "Contrôle TD1 S3 — Annotations linguistiques et décisions de lecture",
       "prerequisites": [
-        "TD0 à TD1 du S3 : compétences déjà pratiquées",
+        "TD0 à TD1.a du S3 : compétences déjà pratiquées",
         "Travail autonome sans assistant pendant le contrôle"
       ],
       "allowed_libraries": [

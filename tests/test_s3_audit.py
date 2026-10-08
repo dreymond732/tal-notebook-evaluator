@@ -117,7 +117,7 @@ class S3RouteTests(unittest.TestCase):
         # Importer la vraie cellule d'identification du sujet évite une fixture artificielle.
         path = ROOT / 'Notebooks TD/S3/TD4_S3_cooccurrences.ipynb'
         nb = json.loads(path.read_text())
-        identity = next(c for c in nb['cells'] if c['cell_type'] == 'code' and 'Complétez les informations entre les guillemets.' in ''.join(c['source']))
+        identity = next(c for c in nb['cells'] if c['cell_type'] == 'code' and c.get('metadata', {}).get('tal', {}).get('role') == 'identification')
         identity = json.loads(json.dumps(identity))
         # Contrat courant requis sur toutes les routes S3.
         source = ''.join(identity['source'])

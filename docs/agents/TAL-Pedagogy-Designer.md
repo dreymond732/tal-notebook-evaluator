@@ -28,4 +28,12 @@ Conserver les deux rendus identiques du tuteur (métadonnées Colab et commentai
 
 ## Règles
 
+### Présentation et navigation — décision du 7 octobre 2026
+
+Réunir le titre visible et le commentaire HTML complet du tuteur dans la première cellule Markdown, dans cet ordre ; conserver la copie identique des instructions dans les métadonnées. Ne retirer aucune introduction ou activité lors du déplacement du seul titre.
+
+Ne pas afficher de minutage dans les TD, ni décrire la cellule d'identification ou les valeurs possibles de ses champs. Les champs restent fonctionnels. La présentation visible du tuteur Gemini et la procédure générale d'autoévaluation figurent une fois dans le premier TD du parcours. Les autres TD gardent uniquement les indications locales nécessaires pour réaliser et vérifier les exercices. Ne pas confondre une mention de Gemini comme objet d'étude ou source du corpus avec une présentation du tuteur.
+
+Un allègement des notices ne doit retirer ni donnée, ni contrainte de réponse, ni observation, ni critère de vérification, ni activité entre pairs. Harmoniser les noms et les renvois selon l'ordre validé ; conserver explicitement les parcours facultatifs. Les budgets de séance peuvent rester dans la documentation enseignante.
+
 Ne pas introduire en contrôle un acquis non travaillé. Conserver les solutions alternatives valides. Tout changement de marqueur, variable, sortie, type, structure, tolérance ou barème est un `CHANGEMENT_DE_CONTRAT`. Transmettre au Pedagogy-Reviewer, à l'Editorial-Reviewer et, si nécessaire, au Code-Architect.
