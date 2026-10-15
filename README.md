@@ -25,6 +25,16 @@ L'application suit une architecture micro-service simple basée sur **Flask** et
 
 ---
 
+## Diaporamas d’organisation des semestres
+
+- [Organisation et progression du S1](Notebooks%20TD/S1/Organisation_progression_S1.html)
+- [Organisation et progression du S2](Notebooks%20TD/S2/Organisation_progression_S2.html)
+- [Organisation et progression du S3](Notebooks%20TD/S3/Organisation_progression_S3.html)
+
+Télécharger le fichier HTML puis l’ouvrir dans un navigateur. Chaque diaporama est autonome : navigation au clavier, sommaire cliquable, plein écran et impression. Il présente la progression, la portée des correcteurs automatiques et les traces à conserver. Les notebooks restent les supports d’exercice.
+
+Le S3 utilise le lien Drive fourni par l’enseignant. Les dossiers Drive S1/S2 n’ayant pas été fournis, leurs titres ne contiennent pas de lien. Ces HTML sont distribués séparément des notebooks générés par `prepare_student_notebooks.py`.
+
 ## Supports et distribution S2
 
 Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le contrôle final reste inactif. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
