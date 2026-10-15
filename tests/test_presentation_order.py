@@ -1,4 +1,4 @@
-"""Exact parent evidence for global H1 move and explicit S3 presentation changes."""
+"""Preserve global H1 evidence across the reviewed S3 and S1 presentation changes."""
 import ast
 import copy
 import json
@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / 'app'))
 from presentation_order_evidence import SNAPSHOT, RENAMED, current_path, before_title_move
 from tutor_metadata import migrate_notebook, CELL_START, CELL_END
 from notebook_contract import load_catalog, resolve_notebook
+from test_notebook_migration_integrity import S1_RENAMED_SUBJECTS
 
 
 class PresentationOrderTests(unittest.TestCase):
@@ -63,9 +64,14 @@ class PresentationOrderTests(unittest.TestCase):
                         self.assertEqual(before[key], after[key])
                 self.assertEqual(len(old_session['exercises']), len(new_session['exercises']))
 
-    def test_outside_s3_td_only_title_moves_no_field_or_prose_changes(self):
+    def test_unrevised_subjects_only_move_title_without_other_changes(self):
+        # The seven explicitly listed S1 TDs now have an authorized editorial
+        # cleanup, independently reviewed against the coverage matrix. Their
+        # code/cell contracts remain protected by the global check above and
+        # test_s1_progression_preservation; historical fixtures stay unchanged.
+        revised_s1 = set(S1_RENAMED_SUBJECTS.values())
         for path, raw in self.baseline['subjects'].items():
-            if path.startswith('Notebooks TD/S3/'):
+            if path.startswith('Notebooks TD/S3/') or path in revised_s1:
                 continue
             with self.subTest(notebook=path):
                 current = json.loads((ROOT / path).read_text())
