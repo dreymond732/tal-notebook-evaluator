@@ -228,7 +228,7 @@ class MigrationIntegrityTests(unittest.TestCase):
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected)
 
-    def test_baseline_catalog_tutors_and_registry_cover_the_same_subjects(self):
+    def test_baseline_catalog_tutors_and_registry_cover_the_same_assessments(self):
         active = [entry for entry in self.catalog if entry["active"]]
         inactive = [entry for entry in self.catalog if not entry["active"]]
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
@@ -239,9 +239,14 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |
                          {e["notebook"] for e in self.tutors["excluded_notebooks"]})
-        self.assertEqual({e["notebook"] for e in self.catalog},
+        # A separately authorized revision edition reuses the original DM's
+        # assessment contract; it adds tutoring, not a second evaluator.
+        revision_path = "Notebooks contrôles finaux/S1/devoir_S1_tuteur.ipynb"
+        self.assertEqual({e["notebook"] for e in self.catalog} | {revision_path},
                          {e["notebook"] for e in self.tutors["sessions"]})
         sessions = {e["id"]: e for e in self.tutors["sessions"]}
+        self.assertEqual(sessions["devoir_S1_tuteur"]["notebook"], revision_path)
+        self.assertEqual(sessions["devoir_S1_tuteur"]["tutor_profile"], "devoir_S1_tuteur")
         for entry in self.catalog:
             with self.subTest(subject=entry["id"]):
                 tutor = sessions[entry["tutor_session"]]
