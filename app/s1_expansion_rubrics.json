@@ -1,0 +1,710 @@
+{
+  "td3-one-s1": [
+    {
+      "label": "Q1 — Lire une liste sans la modifier",
+      "traces": {
+        "Q1": "('texte', 'analyse', ['langue', 'texte', 'corpus'])"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q2 — Ajouter, observer, retirer",
+      "traces": {
+        "Q2a": "(['corpus', 'lexique', 'concordancier', 'tokeniseur'],)",
+        "Q2": "(['corpus', 'lexique', 'concordancier'], 'tokeniseur')"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q3 — Associer chaque nom à sa longueur",
+      "traces": {
+        "Q3": "(['Anne : 4', 'Marc : 4', 'Louise : 6', 'Jean-Michel : 11'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q4 — Présenter les éléments dans l’ordre",
+      "traces": {
+        "Q4": "('Janvier Février Mars',)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q5 — Entrelacer deux listes",
+      "traces": {
+        "Q5": "(['Janvier', 31, 'Février', 28, 'Mars', 31],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q6 — Copier puis modifier sans toucher à l’original",
+      "traces": {
+        "Q6": "(['texte', 'corpus', 'langue'], ['document', 'corpus', 'langue', 'analyse'])"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    }
+  ],
+  "td3-bis-s1": [
+    {
+      "label": "Q1 — Choisir une référence stable",
+      "traces": {
+        "Q1": "(('français', 'italien', 'espagnol'),)"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q2 — Reconnaître un tuple à un élément",
+      "traces": {
+        "Q2": "(('fr',), ('it', 'es'))"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q3 — Parcourir un tuple de noms",
+      "traces": {
+        "Q3": "(['Jean : 4', 'Sonia : 5', 'Maximilien : 10'], ('Jean', 'Sonia', 'Maximilien'))"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q4 — Déballer une fiche",
+      "traces": {
+        "Q4": "('Alice', 22, 1.72)"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q5 — Conserver des paires ordonnées",
+      "traces": {
+        "Q5": "(['fr -> français', 'it -> italien', 'es -> espagnol'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q6 — Recomposer une nouvelle référence",
+      "traces": {
+        "Q6": "(('français', 'italien', 'espagnol'), ('français', 'italien', 'espagnol', 'portugais'), ('roumain', 'italien', 'espagnol'))"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    }
+  ],
+  "td3-ter-s1": [
+    {
+      "label": "Q1 — Construire puis parcourir un lexique",
+      "traces": {
+        "Q1a": "('langage',)",
+        "Q1b": "({'book': 'livre', 'language': 'langage', 'data': 'données', 'corpus': 'corpus'},)",
+        "Q1": "(['book -> livre', 'language -> langage', 'data -> données', 'corpus -> corpus'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne.",
+      "lexicon_variants": true
+    },
+    {
+      "label": "Q2 — Consulter des fiches de personnes",
+      "traces": {
+        "Q2": "({'Alice': (22, 1.72), 'Malo': (25, 1.8), 'Zoé': (21, 1.65)}, (25, 1.8), 1.65)"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q3 — Inverser des correspondances distinctes",
+      "traces": {
+        "Q3": "({'français': 'fr', 'italien': 'it', 'espagnol': 'es'}, 3)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q4 — Distinguer occurrences et formes",
+      "traces": {
+        "Q4": "(6, 4)",
+        "Q4b": "({'texte', 'corpus', 'donnée', 'analyse'},)"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q5 — Ajouter une présence et tester une appartenance",
+      "traces": {
+        "Q5": "({'français', 'italien', 'espagnol'}, 3, True, False)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    },
+    {
+      "label": "Q6 — Comparer deux vocabulaires",
+      "traces": {
+        "Q6": "({'langue', 'corpus'}, {'texte', 'analyse'}, {'modèle'})"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Reprenez les données et comparez les états obtenus aux critères de la consigne."
+    }
+  ],
+  "td5-one-s1": [
+    {
+      "label": "Mesurer une chaîne",
+      "traces": {
+        "Q1": "(3, 6)"
+      },
+      "required_calls": [
+        "longueur_texte"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Vérifiez le paramètre, le retour entier et les deux appels affichés."
+    },
+    {
+      "label": "Répéter un caractère",
+      "traces": {
+        "Q2": "('****', 'ééé')"
+      },
+      "required_calls": [
+        "ligne_caracteres"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "La fonction doit retourner une chaîne, pas afficher séparément chaque caractère."
+    },
+    {
+      "label": "Calculer un volume",
+      "traces": {
+        "Q3": "(24, 0)"
+      },
+      "required_calls": [
+        "volume_boite"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Reliez le return aux trois dimensions reçues, puis vérifiez le cas nul."
+    },
+    {
+      "label": "Choisir le maximum de trois valeurs",
+      "traces": {
+        "Q4": "(7, -2)"
+      },
+      "required_calls": [
+        "maximum3"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return",
+        "If"
+      ],
+      "feedback": "Vérifiez tous les emplacements du maximum, les égalités et les valeurs négatives."
+    },
+    {
+      "label": "Normaliser sans perdre les espaces intérieurs",
+      "traces": {
+        "Q5": "('bonjour tal',)"
+      },
+      "required_calls": [
+        "normaliser"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Contrôlez les bords et la casse sans réduire les espaces internes."
+    },
+    {
+      "label": "Réutiliser une valeur retournée",
+      "traces": {
+        "Q6": "('Au programme : corpus',)"
+      },
+      "required_calls": [
+        "annoncer_atelier",
+        "normaliser"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Retournez la nouvelle chaîne et appelez normaliser au lieu de recopier son traitement."
+    }
+  ],
+  "td5-bis-s1": [
+    {
+      "label": "Associer paramètres et arguments",
+      "traces": {
+        "Q1": "('source : archive', 'archive : source')"
+      },
+      "required_calls": [
+        "etiquette"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Contrôlez l’association catégorie/contenu et le séparateur exact."
+    },
+    {
+      "label": "Distinguer un nom local et un nom extérieur",
+      "traces": {
+        "Q2": "('musée', 'Archives')"
+      },
+      "required_calls": [
+        "preparer_local"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "La fonction transforme son argument ; la variable extérieure conserve Archives."
+    },
+    {
+      "label": "Faire varier le nombre d’arguments",
+      "traces": {
+        "Q3": "(1000, 500, 150, 30)"
+      },
+      "required_calls": [
+        "volume_defaut"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Les dimensions omises valent 10 ; les dimensions fournies remplacent ces défauts."
+    },
+    {
+      "label": "Choisir une formule par défaut",
+      "traces": {
+        "Q4": "('Bonjour Ada', 'Bonsoir Zoé')"
+      },
+      "required_calls": [
+        "saluer"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Vérifiez le défaut Bonjour, son remplacement et l’espace séparateur."
+    },
+    {
+      "label": "Traduire avec le lexique reçu",
+      "traces": {
+        "Q5": "('langage', 'unknown')"
+      },
+      "required_calls": [
+        "traduire_mot"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Normalisez avant la recherche, utilisez le paramètre lexique et conservez les inconnus normalisés."
+    },
+    {
+      "label": "Vérifier une fonction avec un second dictionnaire",
+      "traces": {
+        "Q6": "('livret', '?', 'absent')"
+      },
+      "required_calls": [
+        "traduire_ou_signaler"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Distinguez clé connue et absence ; le repli fourni remplace seulement le défaut ?."
+    }
+  ],
+  "td5-ter-s1": [
+    {
+      "label": "Compter un caractère avec une fonction",
+      "traces": {
+        "Q1": "(2, 2)"
+      },
+      "required_calls": [
+        "compte_caractere"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return",
+        "For"
+      ],
+      "feedback": "Initialisez le compteur dans la fonction et retournez le total après le parcours."
+    },
+    {
+      "label": "Compter des fragments séparés par des blancs",
+      "traces": {
+        "Q2": "(5,)"
+      },
+      "required_calls": [
+        "nombre_mots",
+        "normaliser"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Réutilisez normaliser puis comptez la liste produite par split sans séparateur."
+    },
+    {
+      "label": "Traduire une phrase par composition",
+      "traces": {
+        "Q3": "('langage données',)"
+      },
+      "required_calls": [
+        "traduire_phrase",
+        "traduire_mot"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Appelez traduire_mot sur chaque fragment, puis joignez toutes les traductions."
+    },
+    {
+      "label": "Composer un résumé cohérent",
+      "traces": {
+        "Q4": "({'texte_normalise': 'le tal avance', 'nb_caracteres': 13, 'nb_mots': 3},)"
+      },
+      "required_calls": [
+        "resume_texte",
+        "normaliser",
+        "nombre_mots"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Les trois valeurs doivent décrire le texte normalisé et être recalculées à chaque appel."
+    },
+    {
+      "label": "Comparer une phrase et sa traduction",
+      "traces": {
+        "Q5": "({'traduction': 'jeu de données livre', 'mots_source': 2, 'mots_cible': 4},)"
+      },
+      "required_calls": [
+        "mesurer_traduction",
+        "traduire_phrase",
+        "nombre_mots"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Réutilisez la traduction calculée pour le compte cible, sans mélanger source et résultat."
+    },
+    {
+      "label": "Résumer plusieurs textes sans perdre leur ordre",
+      "traces": {
+        "Q6": "([{'texte_normalise': 'tal', 'nb_caracteres': 3, 'nb_mots': 1}, {'texte_normalise': '', 'nb_caracteres': 0, 'nb_mots': 0}],)"
+      },
+      "required_calls": [
+        "resumer_corpus",
+        "resume_texte"
+      ],
+      "required_nodes": [
+        "FunctionDef",
+        "Return"
+      ],
+      "feedback": "Construisez une nouvelle liste de résumés, dans le même ordre, sans supprimer les répétitions."
+    }
+  ],
+  "td6-one-s1": [
+    {
+      "label": "Lire et refermer le fichier",
+      "traces": {
+        "Q1": "(156,)"
+      },
+      "required_calls": [
+        "open",
+        "read",
+        "len"
+      ],
+      "required_nodes": [
+        "With"
+      ],
+      "feedback": "Relisez les données et les critères de Q1, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Conserver les lignes utiles",
+      "traces": {
+        "Q2": "(5, ['durand alice;Laboratoire TAL', 'DURAND ALICE;Laboratoire TAL', 'Durand Alice;Centre de traduction', 'Martin bob;Centre de traduction', 'MARTIN BOB;Centre de traduction'])"
+      },
+      "required_calls": [
+        "splitlines",
+        "strip"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q2, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Créer puis relire une note",
+      "traces": {
+        "Q3": "(\"'Corpus ouvert\\\\nAnalyse à vérifier\\\\n'\",)"
+      },
+      "required_calls": [
+        "open",
+        "write",
+        "read"
+      ],
+      "required_nodes": [
+        "With"
+      ],
+      "feedback": "Relisez les données et les critères de Q3, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Nettoyer un fichier sans perdre ses lignes",
+      "traces": {
+        "Q4": "(['Archive', 'Musée', '  Salle A  '], \"'Archive\\\\nMusée\\\\n  Salle A  \\\\n'\")"
+      },
+      "required_calls": [
+        "splitlines",
+        "strip",
+        "write",
+        "read"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q4, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Rechercher la ligne la plus longue",
+      "traces": {
+        "Q5": "('Les archives deviennent accessibles.', 36)"
+      },
+      "required_calls": [
+        "read",
+        "splitlines",
+        "len"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q5, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Recopier en transformant les espaces",
+      "traces": {
+        "Q6": "(\"'Le   musée   ouvre.\\\\nUne   archive   circule.\\\\n'\",)"
+      },
+      "required_calls": [
+        "read",
+        "write",
+        "replace"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q6, puis comparez chaque élément de votre affichage aux informations du fichier."
+    }
+  ],
+  "td6-bis-s1": [
+    {
+      "label": "Découper une ligne sans perdre son contenu",
+      "traces": {
+        "Q1": "(('durand alice', 'Laboratoire TAL'),)",
+        "Q1b": "([('durand alice', 'Laboratoire TAL'), ('DURAND ALICE', 'Laboratoire TAL'), ('Durand Alice', 'Centre de traduction'), ('Martin bob', 'Centre de traduction'), ('MARTIN BOB', 'Centre de traduction')],)"
+      },
+      "required_calls": [
+        "read",
+        "split"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q1, puis comparez chaque élément de votre affichage aux informations du fichier.",
+      "flexible_pairs": true
+    },
+    {
+      "label": "Enregistrer des fiches de personnes",
+      "traces": {
+        "Q2": "(\"'Bernard;Élodie;83000\\\\nLamy;Zoé;06000\\\\nPetit;Chloé;83000\\\\n'\",)"
+      },
+      "required_calls": [
+        "join",
+        "write",
+        "read"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q2, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Sélectionner les fiches d’un secteur",
+      "traces": {
+        "Q3": "([('Bernard', 'Élodie'), ('Petit', 'Chloé')],)"
+      },
+      "required_calls": [
+        "read",
+        "split"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q3, puis comparez chaque élément de votre affichage aux informations du fichier.",
+      "flexible_pairs": true
+    },
+    {
+      "label": "Normaliser une graphie de personne",
+      "traces": {
+        "Q4": "('Durand Alice', 'Durand Alice', 'Durand Alice', 'Durand Alice')"
+      },
+      "required_calls": [
+        "strip",
+        "split",
+        "join",
+        "title"
+      ],
+      "required_nodes": [
+        "FunctionDef"
+      ],
+      "feedback": "Relisez les données et les critères de Q4, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Regrouper les affiliations distinctes",
+      "traces": {
+        "Q5": "({'Centre de traduction', 'Laboratoire TAL'},)",
+        "Q5b": "({'Durand Alice': {'Centre de traduction', 'Laboratoire TAL'}, 'Martin Bob': {'Centre de traduction'}},)"
+      },
+      "required_calls": [
+        "normaliser_personne",
+        "add"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q5, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Reprendre le traitement sur un autre fichier",
+      "traces": {
+        "Q6": "({'Lamy Zoé': {'Studio;annexe', 'Musée'}, 'Petit Chloé': {'Musée'}},)"
+      },
+      "required_calls": [
+        "read",
+        "split",
+        "normaliser_personne",
+        "add"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q6, puis comparez chaque élément de votre affichage aux informations du fichier."
+    }
+  ],
+  "td6-ter-s1": [
+    {
+      "label": "Créer un tableau CSV et le relire",
+      "traces": {
+        "Q1": "([['document', 'pages'], ['rapport', '12'], ['note', '3']],)"
+      },
+      "required_calls": [
+        "writer",
+        "writerow",
+        "reader"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q1, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Reconnaître une virgule dans une cellule",
+      "traces": {
+        "Q2": "([['lieu', 'ville'], ['Musée, aile nord', 'Toulon'], ['Médiathèque', 'Hyères']],)"
+      },
+      "required_calls": [
+        "reader"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q2, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Sélectionner des fiches dans un CSV",
+      "traces": {
+        "Q3": "(['Bernard Élodie', 'Petit Chloé'],)"
+      },
+      "required_calls": [
+        "reader"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q3, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Reconstruire les groupes depuis le fichier brut",
+      "traces": {
+        "Q4": "({'Durand Alice': {'Centre de traduction', 'Laboratoire TAL'}, 'Martin Bob': {'Centre de traduction'}},)"
+      },
+      "required_calls": [
+        "read",
+        "split",
+        "normaliser_personne",
+        "add"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q4, puis comparez chaque élément de votre affichage aux informations du fichier."
+    },
+    {
+      "label": "Exporter les affiliations et les relire",
+      "traces": {
+        "Q5": "([['personne', 'nb_affiliations', 'affiliations'], ['Durand Alice', '2', 'Centre de traduction | Laboratoire TAL'], ['Martin Bob', '1', 'Centre de traduction']],)"
+      },
+      "required_calls": [
+        "writer",
+        "writerow",
+        "reader",
+        "join"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q5, puis comparez chaque élément de votre affichage aux informations du fichier.",
+      "unordered_rows": true,
+      "csv_affiliations": true
+    },
+    {
+      "label": "Vérifier un export avec accents et virgules",
+      "traces": {
+        "Q6": "([['personne', 'nb_affiliations', 'affiliations'], ['Lamy Zoé', '2', 'Centre, langues | Musée'], ['Petit Chloé', '1', 'Équipe TAL']],)"
+      },
+      "required_calls": [
+        "writer",
+        "writerow",
+        "reader",
+        "sorted",
+        "join"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les critères de Q6, puis comparez chaque élément de votre affichage aux informations du fichier."
+    }
+  ]
+}

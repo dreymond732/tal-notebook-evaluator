@@ -23,7 +23,7 @@ Les TD0 à TD7 et les activités R0–R2 du S3 disposent d’un correcteur forma
 
 ## S1 — Python pour le texte
 
-Le dossier `S1/` contient les sept TD préparant le contrôle final S1 :
+Le dossier `S1/` présente sept thèmes. Le parcours renforcé comporte treize cahiers : les TD3, TD5 et TD6 se déclinent chacun en **one → bis → ter**. Voir [le parcours détaillé](S1/README.md). Les trois cahiers de synthèse historiques et leurs correcteurs restent compatibles avec les copies déjà distribuées :
 
 - `TD1_S1_variables_types.ipynb` : notebook, variables, types et premières expressions ;
 - `TD2_S1_chaines_sequences.ipynb` : chaînes, séquences et découpage naïf ;
@@ -37,6 +37,6 @@ Chaque TD a un correcteur formatif associé. La matrice de couverture et la prog
 
 ## Distribution des TD S1
 
-Les sept sources S1 contiennent une dernière cellule de restitution HTML avec le substitut `__TAL_PUBLIC_URL__`. Le déploiement injecte l’adresse définie dans l’environnement ou le fichier `.env` uniquement dans les copies de `dist/`, à distribuer aux étudiants. Ne distribuez pas directement les sources Git : leur lien de restitution reste volontairement non résolu.
+Les sources S1 contiennent une dernière cellule de restitution HTML avec le substitut `__TAL_PUBLIC_URL__`. Le déploiement injecte l’adresse définie dans l’environnement ou le fichier `.env` uniquement dans les copies de `dist/`, à distribuer aux étudiants. Ne distribuez pas directement les sources Git : leur lien de restitution reste volontairement non résolu.
 
 Les identifiants des évaluateurs restent `td1-s1` à `td7-s1`, indépendamment des nouveaux noms de fichiers. La [revue et matrice de conservation](../docs/pedagogy/s1_td_review_distribution.md) détaille les objectifs couverts et les points pédagogiques à approfondir.
