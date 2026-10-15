@@ -4974,6 +4974,381 @@
       "allowed_libraries": [],
       "provided_libraries": [],
       "exercises": []
+    },
+    {
+      "id": "devoir_S1_tuteur",
+      "tutor_profile": "devoir_S1_tuteur",
+      "notebook": "Notebooks contrôles finaux/S1/devoir_S1_tuteur.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "devoir_S1_tuteur — Édition de révision guidée",
+      "prerequisites": [
+        "Réviser toutes les notions de la question choisie dans les TD1 à TD5 S1, sans présumer leur maîtrise",
+        "Introduire si nécessaire la division et les priorités en Q1–Q2, l’ordre d’insertion en Q9/Q13 et la sécurité des indices et conditions multiples en Q14"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Calculer un budget",
+          "available_concepts": [
+            "int()",
+            "type()",
+            "+",
+            "*",
+            "/",
+            "affectation",
+            "montant et moyenne",
+            "liste",
+            "print()"
+          ],
+          "introduced_here": [
+            "/"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Lire deux expressions",
+          "available_concepts": [
+            "-",
+            "/",
+            "priorités",
+            "parenthèses",
+            "ordre de calcul",
+            "interprétation",
+            "print()"
+          ],
+          "introduced_here": [
+            "/",
+            "priorités",
+            "parenthèses",
+            "ordre de calcul"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Tester une inscription",
+          "available_concepts": [
+            "tuple",
+            "in",
+            ">",
+            "and",
+            "booléen",
+            "f-string",
+            "liste",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Transformer sans effacer",
+          "available_concepts": [
+            "chaîne immuable",
+            "affectation",
+            "strip()",
+            "lower()",
+            "replace()",
+            "source conservée",
+            "liste",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Extraire une référence",
+          "available_concepts": [
+            "chaîne",
+            "indices positifs et négatifs",
+            "tranches",
+            "borne exclue",
+            "liste",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Interpréter un découpage",
+          "available_concepts": [
+            "split()",
+            "liste",
+            "len()",
+            "indices",
+            "ponctuation et apostrophe",
+            "fragment et mot",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q7",
+          "topic": "Reconstruire une annonce",
+          "available_concepts": [
+            "liste de chaînes",
+            "join()",
+            "split(séparateur)",
+            "séparateur exact",
+            "==",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q8",
+          "topic": "Liste et référence",
+          "available_concepts": [
+            "liste modifiable",
+            "pop()",
+            "append()",
+            "tuple ordonné",
+            "type()",
+            "==",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q9",
+          "topic": "Construire un lexique",
+          "available_concepts": [
+            "dictionnaire",
+            "clé/valeur",
+            "ajout",
+            "ordre insertion",
+            "items()",
+            "déballage",
+            "for",
+            "indentation",
+            "liste",
+            "append()",
+            "f-string",
+            "print()"
+          ],
+          "introduced_here": [
+            "ordre insertion"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q10",
+          "topic": "Comparer deux ateliers",
+          "available_concepts": [
+            "liste",
+            "set()",
+            "len()",
+            "répétitions et formes",
+            "intersection",
+            "différence",
+            "ordre ensemble libre",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q11",
+          "topic": "Filtrer puis mesurer",
+          "available_concepts": [
+            "for",
+            "indentation",
+            "liste",
+            "append()",
+            "strip()",
+            "lower()",
+            "len()",
+            ">=",
+            "if",
+            "compréhension",
+            "ordre et source",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q12",
+          "topic": "Deux séries bornées",
+          "available_concepts": [
+            "range()",
+            "for",
+            "liste",
+            "append()",
+            "while",
+            "condition",
+            "compteur",
+            "mise à jour",
+            "accumulation",
+            "bornes",
+            "print()",
+            "+",
+            "*"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q13",
+          "topic": "Compter des demandes",
+          "available_concepts": [
+            "dictionnaire",
+            "for",
+            "in",
+            "if/else",
+            "get()",
+            "items()",
+            "ordre insertion",
+            "liste",
+            "append()",
+            ">=",
+            "accumulation",
+            "len()",
+            "==",
+            "print()"
+          ],
+          "introduced_here": [
+            "ordre insertion"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q14",
+          "topic": "Recherche bornée",
+          "available_concepts": [
+            "while",
+            "conditions multiples",
+            "booléen",
+            "comparaisons",
+            "liste",
+            "len()",
+            "indice sûr",
+            "borne",
+            "compteur",
+            "append()",
+            "arrêt",
+            "essais limites",
+            "def/paramètre/appel/return/localité optionnels",
+            "print()",
+            "-",
+            "and",
+            "if/else"
+          ],
+          "introduced_here": [
+            "conditions multiples",
+            "indice sûr"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q15",
+          "topic": "Normaliser une notice",
+          "available_concepts": [
+            "def",
+            "paramètre",
+            "appel",
+            "return",
+            "localité",
+            "strip()",
+            "lower()",
+            "chaîne vide",
+            "print()",
+            "espaces internes, accents, ponctuation"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q16",
+          "topic": "Compter une collection",
+          "available_concepts": [
+            "def",
+            "paramètre",
+            "appel",
+            "return",
+            "localité",
+            "for",
+            "dictionnaire",
+            "in",
+            "if/else",
+            "get()",
+            "comptage",
+            "casse",
+            "liste vide",
+            "source",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q17",
+          "topic": "Traduire avec un lexique",
+          "available_concepts": [
+            "def",
+            "paramètres",
+            "appel",
+            "return",
+            "localité",
+            "composition",
+            "strip()",
+            "lower()",
+            "dictionnaire",
+            "in",
+            "if/else",
+            "for",
+            "liste",
+            "append()",
+            "split()",
+            "join()",
+            "cas inconnu et vide",
+            "limites traduction",
+            "print()"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q18",
+          "topic": "Composer une synthèse",
+          "available_concepts": [
+            "def",
+            "paramètre",
+            "appel",
+            "return",
+            "localité",
+            "composition",
+            "strip()",
+            "lower()",
+            "split()",
+            "len()",
+            "dictionnaire",
+            "clés",
+            "comptage",
+            "formes distinctes",
+            "ponctuation et accents",
+            "chaîne vide",
+            "print()",
+            "liste",
+            "for",
+            "in",
+            "if/else",
+            "get()",
+            "accumulation"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
     }
   ],
   "excluded_notebooks": [
