@@ -67,6 +67,9 @@ SWINNEN_SUBJECTS = {
     'Notebooks TD/S1/TD3-bis_S1_tuples.ipynb',
     'Notebooks TD/S1/TD3-one_S1_listes.ipynb',
     'Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb',
+    'Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb',
+    'Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb',
+    'Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb',
     'Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb',
     'Notebooks TD/S1/TD5-one_S1_fonctions.ipynb',
     'Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb',
@@ -75,6 +78,9 @@ SWINNEN_SUBJECTS = {
     'Notebooks TD/S1/TD6-ter_S1_csv.ipynb',
 }
 ADDED_EXCLUDED_NOTEBOOKS |= {
+    'Corrigés modèles/TD/td4-swinnen/TD4-one_S1_conditions_filtres_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/td4-swinnen/TD4-bis_S1_bornes_repetitions_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/td4-swinnen/TD4-ter_S1_comptages_comprehensions_corrige_non_execute.ipynb',
     'Corrigés modèles/TD/s1-swinnen/TD3-bis_S1_tuples_corrige_non_execute.ipynb',
     'Corrigés modèles/TD/s1-swinnen/TD3-one_S1_listes_corrige_non_execute.ipynb',
     'Corrigés modèles/TD/s1-swinnen/TD3-ter_S1_dictionnaires_ensembles_corrige_non_execute.ipynb',

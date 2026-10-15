@@ -23,7 +23,7 @@ Les TD0 à TD7 et les activités R0–R2 du S3 disposent d’un correcteur forma
 
 ## S1 — Python pour le texte
 
-Le dossier `S1/` présente sept thèmes. Le parcours renforcé comporte treize cahiers : les TD3, TD5 et TD6 se déclinent chacun en **one → bis → ter**. Voir [le parcours détaillé](S1/README.md). Les trois cahiers de synthèse historiques et leurs correcteurs restent compatibles avec les copies déjà distribuées :
+Le dossier `S1/` présente sept thèmes. Le parcours renforcé comporte quinze cahiers : les TD3, TD4, TD5 et TD6 se déclinent chacun en **one → bis → ter**. Voir [le parcours détaillé](S1/README.md). Les quatre cahiers de synthèse historiques et leurs correcteurs restent compatibles avec les copies déjà distribuées :
 
 - `TD1_S1_variables_types.ipynb` : notebook, variables, types et premières expressions ;
 - `TD2_S1_chaines_sequences.ipynb` : chaînes, séquences et découpage naïf ;

@@ -10,12 +10,13 @@ from pathlib import Path
 from s1_revision import literal, same
 
 
-def _syntax(calls, nodes):
+def _syntax(calls, nodes, forbidden_calls=()):
     classes = tuple(getattr(ast, name) for name in nodes)
 
     def validate(proofs, context):
         return (all(any(proof.calls(call) for proof in proofs.values()) for call in calls)
-                and all(any(proof.has_node(cls) for proof in proofs.values()) for cls in classes))
+                and all(any(proof.has_node(cls) for proof in proofs.values()) for cls in classes)
+                and not any(proof.calls(call) for proof in proofs.values() for call in forbidden_calls))
     return validate
 
 
@@ -113,8 +114,9 @@ def _checks():
                 traces = {marker: _affiliation_csv(value) for marker, value in traces.items()}
             check = {'label': question['label'], 'traces': traces,
                      'feedback': question['feedback'], 'points': 1.0}
-            if question.get('required_calls') or question.get('required_nodes'):
-                check['syntax'] = _syntax(question.get('required_calls', []), question.get('required_nodes', []))
+            if question.get('required_calls') or question.get('required_nodes') or question.get('forbidden_calls'):
+                check['syntax'] = _syntax(question.get('required_calls', []), question.get('required_nodes', []),
+                                          question.get('forbidden_calls', []))
             result[identifier].append(check)
     return result
 

@@ -1,0 +1,28 @@
+{
+  "source_commit": "126cf63cbae085cf095a4488d547296a7ce7df02",
+  "sha256": {
+    "Notebooks TD/S1/TD4_S1_boucles_conditions_comptages.ipynb": "166cd883983dcdee37da744453cdc208d84b0217a127044a398a0bc0af942fd7",
+    "app/app_correction_TD4_S1.py": "539390ced77069de82c7a7246c55be728699107a7aae4118b57fbe858ae730e0",
+    "app/s1_reference.py": "7790c8a9fbc5fc067c9751500e523ece5fb4163de7361a4e75c55c9ef5b96880",
+    "Notebooks TD/S1/TD3-bis_S1_tuples.ipynb": "460a9ccae7e3d51e3dbd635d71895971c798caa8f34717a59bab8fee0491df17",
+    "Notebooks TD/S1/TD3-one_S1_listes.ipynb": "288e4f7b8140673dd2a7a0d655d51eb86acd7d23008ac97789a03bb7f6dc387c",
+    "Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb": "6cd0efc98d97df16b74aeaa2b5c4e7380162d703bb135eed7019078e9894a126",
+    "Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb": "4797771f4e1ccc3cb9f38bc1a8d1e748904433fcbb41bc64d758020250d3eb03",
+    "Notebooks TD/S1/TD5-one_S1_fonctions.ipynb": "438ac959a2f968b928713f8b38eee8af09e1f701406f44fbc39000a3b30607ba",
+    "Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb": "def84c356b76f087408f50d4d8924433b30b7e35c4cc5f7eb2043ef9be907e92",
+    "Notebooks TD/S1/TD6-bis_S1_donnees_delimitees.ipynb": "69b5f249b785cd8e1298c36fa74d09624c6bfb1eb9dff38abd82c2c06cf32fff",
+    "Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb": "365291b577cbdfca84122cfca9fb69b7c3d6ad96406ac28a32971427039d18ff",
+    "Notebooks TD/S1/TD6-ter_S1_csv.ipynb": "385df4b0434f4d4480cc26a5483c3b04cfec9c3ed9c8d4d9a8b8859e633a5de8"
+  },
+  "previous_rubrics_sha256": {
+    "td3-one-s1": "cf2a607d96ad6b08418a976febaf604ddcb2f2a43551d86f30552164a4fa4f7a",
+    "td3-bis-s1": "f8c1598046f87a37da0dfa4663f72342763d403ff9924216f7d4c680db2cb2fb",
+    "td3-ter-s1": "9139a33cc54ea1e619e5cba4d3465cfc02c4c27378671f4de40905f59d2e78eb",
+    "td5-one-s1": "619912c6d5c824e704f8c8055fd53b4449413c4f1eacf694a2ccc87aaf503e16",
+    "td5-bis-s1": "25348f4e29c86af3d480734be1a9d4c575d3ade39ab20acf4ab4706acc33c713",
+    "td5-ter-s1": "16c12d1a9baf1a17a44508bbf0065299e7bcaff09af1281d3d8e01515421d809",
+    "td6-one-s1": "0a57253a8fd27f59848c5f265b07d0318841b20b840df5172423349ac353b6d3",
+    "td6-bis-s1": "da7251425e6e5a91800308b65b4b0b793d66aa16a9a6c1e402ec39d0d492bdc0",
+    "td6-ter-s1": "a2654e39f77310fdd8498c2bda1650e5406bd1949d0920c69d4efdedc27ed5ad"
+  }
+}
