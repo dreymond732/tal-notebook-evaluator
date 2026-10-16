@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from notebook_contract import ContractError, strict_contract_identity, validate_cell_metadata
 from s3_audit import read_notebook, text
 from s3_review import review_evidence
+from s1_feedback import enrich_s1_details
 
 MARKER = re.compile(r'^Résultat (Q[1-9][0-9]*[a-z]?)\s*:\s?(.*)$')
 LIMIT_NOTE = ('Score technique provisoire sur les traces enregistrées. Le serveur ne lance pas votre code '
@@ -431,6 +432,7 @@ def check_saved_notebook(content_str, filename, evaluator, checks):
                         'correct_answer': check['feedback'], 'status': '✅' if valid else '⚠️' if absent else '❌',
                         'diagnostic': diagnostic, 'evaluation_status': state,
                         'points': points if valid else 0.0, 'max_points': points})
+    enrich_s1_details(notebook, evaluator, details)
     optional_review = evaluator in {f'td{number}-s1' for number in range(1, 8)}
     review_note = ('Les explications ne sont pas évaluées automatiquement. Comparez-les aux critères du TD ; '
                    'sollicitez l’enseignant si une difficulté persiste.' if optional_review else

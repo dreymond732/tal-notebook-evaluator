@@ -2,36 +2,75 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{{ display_name }} - TD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ display_name }} — Autoévaluation du TD</title>
     <style>
-        :root { --ok: #27ae60; --err: #c0392b; --warn: #f39c12; --blue: #2980b9; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; line-height: 1.5; margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 30px; padding-bottom: 20px; }
-        .final-score { font-size: 2rem; font-weight: bold; color: white; background: var(--blue); padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        :root { --ok: #176638; --err: #a12622; --warn: #785000; --blue: #176598; }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #202b36; line-height: 1.5; margin: 0; padding: 20px; }
+        .container { max-width: 1500px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 25px; padding-bottom: 15px; }
+        .final-score { font-size: 1.6rem; font-weight: bold; color: white; background: var(--blue); padding: 18px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .report-guide, .score-scope { background: #f0f7fc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .report-guide p, .score-scope p { margin: 0 0 8px; }
+        .report-guide p:last-child, .score-scope p:last-child { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        caption { text-align: left; font-weight: bold; margin-bottom: 10px; font-size: 1.2rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
         th { background: #f8f9fa; }
-        .status { font-weight: bold; text-align: center; width: 40px; }
+        .question-col { width: 15%; }
+        .answer-col { width: 32%; }
+        .feedback-col { width: 25%; }
+        .status { width: 16%; }
+        .points { width: 12%; }
+        .status-label { font-weight: 600; }
+        .status-ok { color: var(--ok); }
+        .status-error { color: var(--err); }
+        .status-review { color: var(--warn); }
         .solution-col { display: none; background-color: #f0f7ff; }
         body.show-solutions .solution-col { display: table-cell; }
-        .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: right; }
-        pre { background: #f4f4f4; padding: 8px; border-radius: 4px; font-size: 0.9rem; white-space: pre-wrap; margin: 0; }
+        body.show-solutions .question-col { width: 12%; }
+        body.show-solutions .answer-col { width: 26%; }
+        body.show-solutions .feedback-col { width: 20%; }
+        body.show-solutions .solution-col { width: 25%; }
+        body.show-solutions .status { width: 10%; }
+        body.show-solutions .points { width: 7%; }
+        .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
+        h2 { font-size: 1.25rem; }
+        h3, h4 { font-size: 1rem; margin: 0 0 8px; }
+        td h4:not(:first-child) { margin-top: 16px; }
+        td p { margin: 0 0 10px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; font-size: 0.88rem; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; margin: 0 0 10px; max-height: 30rem; overflow: auto; }
+        .explanation { white-space: pre-line; }
+        .evidence-location, .empty-evidence { color: #495565; font-size: 0.92rem; }
         .flash { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border-left: 5px solid transparent; }
         .flash.error { background: #fdedec; color: var(--err); border-color: var(--err); }
         .flash.success { background: #eafaf1; color: var(--ok); border-color: var(--ok); }
-        /* Style des liens de navigation */
-        .nav-links { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
-        .nav-links a { color: var(--blue); text-decoration: none; margin: 0 15px; font-weight: 500; }
-        .nav-links a:hover { text-decoration: underline; }
+        .nav-links { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 25px; }
+        .nav-links a { color: var(--blue); font-weight: 500; }
+        .upload-box { background: #f8f9fa; padding: 40px; border-radius: 10px; text-align: center; border: 2px dashed #ccc; }
+        .upload-box input { max-width: 100%; margin: 20px 0; }
+        .upload-box button { background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 1000px) {
+            body { padding: 8px; }
+            .container { padding: 18px; }
+            table, tbody, tr, td { display: block; width: 100%; }
+            thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+            tbody tr { border: 1px solid #ccd7e0; border-radius: 8px; margin: 0 0 20px; overflow: hidden; }
+            td, body.show-solutions td { width: 100% !important; }
+            td::before { content: attr(data-label); display: block; font-weight: bold; margin-bottom: 8px; }
+            body.show-solutions .solution-col { display: block; }
+            .final-score { font-size: 1.3rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <main class="container">
+        <header class="header">
             <h1>{{ display_name }}</h1>
-            <p>Type : Travaux Dirigés (Formatif)</p>
-        </div>
+            <p>Travaux dirigés — Autoévaluation formative</p>
+        </header>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}{% for category, message in messages %}
@@ -43,76 +82,111 @@
             <div class="student-info">
                 <p><strong>Étudiant :</strong> {{ student_info.prenom | capitalize }} {{ student_info.nom | upper }} ({{ student_info.classe }})</p>
             </div>
-
-            <div class="toggle-box">
-                <label style="cursor: pointer; font-weight: bold; color: var(--blue);">
-                    <input type="checkbox" id="toggle-solutions"> Afficher les solutions attendues
-                </label>
+            <div class="final-score">Score formatif provisoire : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
+            <div class="report-guide">
+                <p>Ce rapport vous aide à reprendre votre travail. Pour chaque question, comparez ce qui a été retrouvé dans votre notebook avec le diagnostic, puis consultez l’exemple de solution si nécessaire.</p>
+                <p>Les exemples réutilisent les données et fonctions préparées dans le TD : exécutez les cellules précédentes avant de les essayer.</p>
+                <p>Le correcteur lit le code et les sorties déjà enregistrées dans le fichier ; il n’exécute pas votre programme. Une sortie périmée peut ne plus correspondre au code affiché : réexécutez les cellules dans l’ordre et enregistrez le notebook avant l’envoi. Un critère satisfait ne garantit pas que toute la réponse est correcte. Les explications et interprétations restent à autoévaluer avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
             </div>
 
-            <table>
+            <div class="toggle-box">
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table"> Afficher les exemples de solutions et les résultats attendus</label>
+            </div>
+
+            {% for d in details if d.check.startswith('Portée') %}
+            <aside class="score-scope" aria-label="Portée du score">
+                <h2>{{ d.check }}</h2>
+                <p>{{ d.solution_explanation if d.solution_explanation is defined else d.student_answer }}</p>
+            </aside>
+            {% endfor %}
+
+            <table id="feedback-table">
+                <caption>Retour par question</caption>
                 <thead>
                     <tr>
-                        <th>Vérification</th>
-                        <th>Votre Réponse</th>
-                        <th class="solution-col">Solution</th>
-                        <th class="status">Statut</th>
-                        <th>Points</th>
+                        <th scope="col" class="question-col">Question</th>
+                        <th scope="col" class="answer-col">Votre réponse retrouvée</th>
+                        <th scope="col" class="feedback-col">Diagnostic et prochaine étape</th>
+                        <th scope="col" class="solution-col">Exemple de solution et résultat attendu</th>
+                        <th scope="col" class="status">État</th>
+                        <th scope="col" class="points">Points</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for d in details %}
+                    {% for d in details if not d.check.startswith('Portée') %}
                     <tr>
-                        <td><strong>{{ d.check }}</strong>{% if d.diagnostic %}<p>{{ d.diagnostic }}</p>{% endif %}</td>
-                        <td><pre>{{ d.student_answer }}</pre></td>
-                        <td class="solution-col"><pre>{{ d.correct_answer }}</pre></td>
-                        <td class="status">
-                            <span title="{{ d.status }}">
-                                {{ '✅' if d.status == '✅' else ('❌' if d.status == '❌' else '⚠️') }}
-                            </span>
+                        <td data-label="Question"><strong>{{ d.check }}</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            {% if d.student_code is defined %}
+                                {% if d.answer_cells %}<p class="evidence-location">Cellule{% if d.answer_cells|length > 1 %}s{% endif %} du notebook : {{ d.answer_cells|join(', ') }}.</p>{% endif %}
+                                <h4>Code retrouvé</h4>
+                                {% if d.student_code %}<pre><code>{{ d.student_code }}</code></pre>{% else %}<p class="empty-evidence">Aucun code de réponse retrouvé pour cette question.</p>{% endif %}
+                                <h4>Sorties enregistrées</h4>
+                                {% if d.student_output %}<pre>{{ d.student_output }}</pre>{% else %}<p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>{% endif %}
+                            {% else %}
+                                <pre>{{ d.student_answer }}</pre>
+                            {% endif %}
                         </td>
-                        <td>{{ "%.2f"|format(d.points) }} / {{ "%.2f"|format(d.max_points) }}</td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            {% if d.diagnostic %}<h4>Diagnostic</h4><p class="explanation">{{ d.diagnostic }}</p>{% endif %}
+                            {% if d.action %}<h4>Pour progresser</h4><p class="explanation">{{ d.action }}</p>{% endif %}
+                            {% if not d.diagnostic and not d.action %}<p>Comparez votre réponse au résultat attendu et reprenez la consigne de la question.</p>{% endif %}
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            {% if d.solution_code is defined %}
+                                {% if d.solution_code %}<h4>Un exemple de code</h4><pre><code>{{ d.solution_code }}</code></pre>{% endif %}
+                                {% if d.solution_explanation %}<h4>Ce qui est attendu</h4><p class="explanation">{{ d.solution_explanation }}</p>{% endif %}
+                                {% if not d.solution_code and not d.solution_explanation %}<p>Aucun exemple de solution disponible pour cette question.</p>{% endif %}
+                            {% else %}
+                                <pre>{{ d.correct_answer }}</pre>
+                            {% endif %}
+                        </td>
+                        <td class="status" data-label="État">
+                            {% if d.evaluation_status == 'non_verifiable' %}<span class="status-label status-review">Non vérifiable</span>
+                            {% elif d.evaluation_status == 'preuve_absente' %}<span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            {% elif d.status == '✅' %}<span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
+                            {% elif d.status == '❌' %}<span class="status-label status-error"><span aria-hidden="true">✗ </span>À reprendre</span>
+                            {% elif d.status == 'ℹ️' %}<span class="status-label">À autoévaluer</span>
+                            {% else %}<span class="status-label status-review">À vérifier</span>{% endif %}
+                        </td>
+                        <td class="points" data-label="Points">{% if d.status == 'ℹ️' and d.max_points == 0 %}Non noté{% else %}{{ "%.2f"|format(d.points) }} / {{ "%.2f"|format(d.max_points) }}{% endif %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
-            <div class="final-score">{% if student_info.score_nature == 'technique_provisoire' %}Score technique provisoire{% else %}Note Finale{% endif %} : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
-
-            {% if student_info.score_nature == 'technique_provisoire' %}
-            <p>Ce score vérifie la concordance du code et des sorties enregistrées ; il ne valide pas
-            la qualité de l’interprétation linguistique ni l’exécution réelle. Une solution correcte
-            non reconnue peut être signalée à l’enseignant.</p>
-            {% endif %}
             {% if student_info.points_a_reexaminer %}
-            <p>{{ student_info.points_a_reexaminer }} point(s) restent à réexaminer après restauration des preuves manquantes dans les questions dont ils dépendent. Le barème reste inchangé.</p>
+            <p>{{ student_info.points_a_reexaminer }} point(s) pourront être réexaminés une fois les réponses ou les sorties manquantes complétées. Reprenez les questions signalées comme non vérifiables, exécutez et enregistrez votre notebook, puis soumettez-le de nouveau.</p>
             {% endif %}
-            {% if student_info.review_evidence %}{% include 's3_review_evidence.html' %}{% endif %}
-            <div class="nav-links">
-                <a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator', eval_name=evaluator_name) }}">↻ Refaire une soumission</a>
-                <span style="color: #ccc;">|</span>
+            {% if student_info.review_evidence %}
+            <details class="report-guide"><summary>Autres productions enregistrées dans votre notebook</summary>
+                {% with student_report=true %}{% include 's3_review_evidence.html' %}{% endwith %}
+            </details>
+            {% endif %}
+            <nav class="nav-links" aria-label="Navigation du correcteur">
+                <a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator', eval_name=evaluator_name) }}">Refaire une soumission</a>
                 {% include 'semester_navigation.html' %}
-            </div>
+            </nav>
 
         {% else %}
-            <div style="background: #f8f9fa; padding: 40px; border-radius: 10px; text-align: center; border: 2px dashed #ccc;">
+            <div class="upload-box">
                 <form method="post" enctype="multipart/form-data">
                     <p>Déposez votre fichier <strong>{{ allowed_extension }}</strong> pour correction immédiate.</p>
-                    <input type="file" name="file" accept="{{ allowed_extension }}" required style="margin: 20px 0;"><br>
-                    <button type="submit" style="background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold;">Lancer la correction</button>
+                    <input type="file" name="file" accept="{{ allowed_extension }}" required aria-label="Notebook à corriger"><br>
+                    <button type="submit">Lancer la correction</button>
                 </form>
             </div>
-
-            <div class="nav-links" style="border-top: none;">
+            <nav class="nav-links" aria-label="Navigation du correcteur">
                 {% include 'semester_navigation.html' %}
-            </div>
+            </nav>
         {% endif %}
-    </div>
+    </main>
 
     <script>
         document.getElementById('toggle-solutions')?.addEventListener('change', function() {
             document.body.classList.toggle('show-solutions', this.checked);
         });
     </script>
+    <noscript><style>.solution-col { display: table-cell; } .toggle-box { display: none; } @media (max-width: 1000px) { .solution-col { display: block; } }</style></noscript>
 </body>
 </html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TD1.a S3 - Annoter avec spaCy — Autoévaluation du TD</title>
+    <style>
+        :root { --ok: #176638; --err: #a12622; --warn: #785000; --blue: #176598; }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #202b36; line-height: 1.5; margin: 0; padding: 20px; }
+        .container { max-width: 1500px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 25px; padding-bottom: 15px; }
+        .final-score { font-size: 1.6rem; font-weight: bold; color: white; background: var(--blue); padding: 18px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .report-guide, .score-scope { background: #f0f7fc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .report-guide p, .score-scope p { margin: 0 0 8px; }
+        .report-guide p:last-child, .score-scope p:last-child { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        caption { text-align: left; font-weight: bold; margin-bottom: 10px; font-size: 1.2rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
+        th { background: #f8f9fa; }
+        .question-col { width: 15%; }
+        .answer-col { width: 32%; }
+        .feedback-col { width: 25%; }
+        .status { width: 16%; }
+        .points { width: 12%; }
+        .status-label { font-weight: 600; }
+        .status-ok { color: var(--ok); }
+        .status-error { color: var(--err); }
+        .status-review { color: var(--warn); }
+        .solution-col { display: none; background-color: #f0f7ff; }
+        body.show-solutions .solution-col { display: table-cell; }
+        body.show-solutions .question-col { width: 12%; }
+        body.show-solutions .answer-col { width: 26%; }
+        body.show-solutions .feedback-col { width: 20%; }
+        body.show-solutions .solution-col { width: 25%; }
+        body.show-solutions .status { width: 10%; }
+        body.show-solutions .points { width: 7%; }
+        .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
+        h2 { font-size: 1.25rem; }
+        h3, h4 { font-size: 1rem; margin: 0 0 8px; }
+        td h4:not(:first-child) { margin-top: 16px; }
+        td p { margin: 0 0 10px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; font-size: 0.88rem; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; margin: 0 0 10px; max-height: 30rem; overflow: auto; }
+        .explanation { white-space: pre-line; }
+        .evidence-location, .empty-evidence { color: #495565; font-size: 0.92rem; }
+        .flash { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border-left: 5px solid transparent; }
+        .flash.error { background: #fdedec; color: var(--err); border-color: var(--err); }
+        .flash.success { background: #eafaf1; color: var(--ok); border-color: var(--ok); }
+        .nav-links { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 25px; }
+        .nav-links a { color: var(--blue); font-weight: 500; }
+        .upload-box { background: #f8f9fa; padding: 40px; border-radius: 10px; text-align: center; border: 2px dashed #ccc; }
+        .upload-box input { max-width: 100%; margin: 20px 0; }
+        .upload-box button { background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 1000px) {
+            body { padding: 8px; }
+            .container { padding: 18px; }
+            table, tbody, tr, td { display: block; width: 100%; }
+            thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+            tbody tr { border: 1px solid #ccd7e0; border-radius: 8px; margin: 0 0 20px; overflow: hidden; }
+            td, body.show-solutions td { width: 100% !important; }
+            td::before { content: attr(data-label); display: block; font-weight: bold; margin-bottom: 8px; }
+            body.show-solutions .solution-col { display: block; }
+            .final-score { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
+    <main class="container">
+        <header class="header">
+            <h1>TD1.a S3 - Annoter avec spaCy</h1>
+            <p>Travaux dirigés — Autoévaluation formative</p>
+        </header>
+
+        
+            
+        
+
+        
+            <div class="student-info">
+                <p><strong>Étudiant :</strong> Alex EXEMPLE (Demonstration)</p>
+            </div>
+            <div class="final-score">Score formatif provisoire : 0.00 / 6.0</div>
+            <div class="report-guide">
+                <p>Ce rapport vous aide à reprendre votre travail. Pour chaque question, comparez ce qui a été retrouvé dans votre notebook avec le diagnostic, puis consultez l’exemple de solution si nécessaire.</p>
+                <p>Les exemples réutilisent les données et fonctions préparées dans le TD : exécutez les cellules précédentes avant de les essayer.</p>
+                <p>Le correcteur lit le code et les sorties déjà enregistrées dans le fichier ; il n’exécute pas votre programme. Une sortie périmée peut ne plus correspondre au code affiché : réexécutez les cellules dans l’ordre et enregistrez le notebook avant l’envoi. Un critère satisfait ne garantit pas que toute la réponse est correcte. Les explications et interprétations restent à autoévaluer avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
+            </div>
+
+            <div class="toggle-box">
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table"> Afficher les exemples de solutions et les résultats attendus</label>
+            </div>
+
+            
+            <aside class="score-scope" aria-label="Portée du score">
+                <h2>Portée du score</h2>
+                <p>Traces enregistrées uniquement : le serveur n&#39;exécute pas votre programme. Il ne certifie ni leur authenticité ni leur fraîcheur. Réexécutez votre notebook dans l&#39;ordre. Les interprétations et les annotations linguistiques relèvent de votre autoévaluation ; ce score formatif ne mesure pas leur qualité. Une relecture individuelle par l’enseignant n’est pas systématique.</p>
+            </aside>
+            
+
+            <table id="feedback-table">
+                <caption>Retour par question</caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="question-col">Question</th>
+                        <th scope="col" class="answer-col">Votre réponse retrouvée</th>
+                        <th scope="col" class="feedback-col">Diagnostic et prochaine étape</th>
+                        <th scope="col" class="solution-col">Exemple de solution et résultat attendu</th>
+                        <th scope="col" class="status">État</th>
+                        <th scope="col" class="points">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q1 — Annotations traçables</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 18.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>annotations = []
+for token in doc:
+    annotations.append(token.text)
+print(annotations)</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>NameError: name &#39;doc&#39; is not defined</pre>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+annotations = []
+for token in doc:
+    if not token.is_punct:
+        annotations.append({&#34;forme&#34;: token.text, &#34;lemme&#34;: token.lemma_,
+                            &#34;pos&#34;: token.pos_, &#34;tag&#34;: token.tag_,
+                            &#34;debut&#34;: token.idx, &#34;fin&#34;: token.idx + len(token.text)})
+resultat_q1 = {&#34;annotations&#34;: annotations}
+print(&#34;S3_TD1_Q1:&#34;, json.dumps(resultat_q1, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Parcourez doc dans l’ordre. Les bornes doivent restituer exactement chaque forme dans texte ; les étiquettes sont les prédictions du modèle chargé.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q2 — Phrases et tailles</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 22.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code># Vos prédictions, votre code et votre interprétation
+# resultat_q2 = ...
+# print(&#34;S3_TD1_Q2:&#34;, json.dumps(resultat_q2, ensure_ascii=False))
+</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+phrases = []
+for phrase in doc.sents:
+    phrases.append({&#34;texte&#34;: phrase.text, &#34;tokens&#34;: len(phrase)})
+resultat_q2 = {&#34;phrases&#34;: phrases}
+print(&#34;S3_TD1_Q2:&#34;, json.dumps(resultat_q2, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Chaque phrase conserve son texte et son nombre de tokens, ponctuation comprise. Comparez avec votre segmentation manuelle.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q3 — Filtres conformes au pipeline</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 26.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code># Vos prédictions, votre code et votre interprétation
+# resultat_q3 = ...
+# print(&#34;S3_TD1_Q3:&#34;, json.dumps(resultat_q3, ensure_ascii=False))
+</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+noms, verbes, mots_pleins = [], [], []
+for token in doc:
+    if token.pos_ == &#34;NOUN&#34;:
+        noms.append(token.lemma_)
+    if token.pos_ == &#34;VERB&#34;:
+        verbes.append(token.lemma_)
+    if token.pos_ in {&#34;NOUN&#34;, &#34;VERB&#34;, &#34;ADJ&#34;} and not token.is_stop:
+        mots_pleins.append(token.lemma_)
+resultat_q3 = {&#34;noms&#34;: noms, &#34;verbes&#34;: verbes, &#34;mots_pleins&#34;: mots_pleins}
+print(&#34;S3_TD1_Q3:&#34;, json.dumps(resultat_q3, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Filtrez les tokens puis prélevez leurs lemmes. Conservez l’ordre et les répétitions ; la liste des mots pleins applique aussi le filtre des mots vides.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q4 — Repères de dépendance</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 30.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code># Vos prédictions, votre code et votre interprétation
+# resultat_q4 = ...
+# print(&#34;S3_TD1_Q4:&#34;, json.dumps(resultat_q4, ensure_ascii=False))
+</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+from spacy import displacy
+phrase = list(doc.sents)[0]
+displacy.render(phrase, style=&#34;dep&#34;, jupyter=True)
+verbes_phrase = [token for token in phrase if token.pos_ == &#34;VERB&#34;]
+verbe = verbes_phrase[0]
+dependant = list(verbe.children)[0]
+resultat_q4 = {&#34;verbe&#34;: verbe.text, &#34;verbe_debut&#34;: verbe.idx,
+               &#34;dependant&#34;: dependant.text, &#34;dependant_debut&#34;: dependant.idx,
+               &#34;relation&#34;: dependant.dep_,
+               &#34;interpretation&#34;: &#34;La relation affichée décrit un lien syntaxique proposé entre ces deux tokens ; elle ne permet pas de décider à qui attribuer un propos cité.&#34;}
+print(&#34;S3_TD1_Q4:&#34;, json.dumps(resultat_q4, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Exemple de repérage d’un verbe et de l’un de ses dépendants dans la première phrase. Précisez votre interprétation en nommant les deux tokens et en discutant la relation observée ; la syntaxe seule ne résout pas la question du locuteur.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q5 — Comparaison des découpages</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 34.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code># Vos prédictions, votre code et votre interprétation
+# resultat_q5 = ...
+# print(&#34;S3_TD1_Q5:&#34;, json.dumps(resultat_q5, ensure_ascii=False))
+</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+doc_td0 = nlp(texte_td0)
+resultat_q5 = {&#34;split&#34;: len(texte_td0.split()), &#34;tokens&#34;: len(doc_td0),
+               &#34;non_ponctuation&#34;: sum(1 for t in doc_td0 if not t.is_punct and not t.is_space),
+               &#34;interpretation&#34;: &#34;split() suit les espaces ; spaCy sépare aussi certains éléments de ponctuation et contractions. Les unités comptées diffèrent.&#34;}
+print(&#34;S3_TD1_Q5:&#34;, json.dumps(resultat_q5, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Appliquez les trois règles au même texte. Gardez les tokens d’espacement hors du troisième compte ; dans votre commentaire, expliquez deux écarts précis avec les unités réellement obtenues.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                    <tr>
+                        <td data-label="Question"><strong>Q6 — Transfert documenté</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+                            
+                                <p class="evidence-location">Cellule du notebook : 36.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code># Vos prédictions, votre code et votre interprétation
+# resultat_q6 = ...
+# print(&#34;S3_TD1_Q6:&#34;, json.dumps(resultat_q6, ensure_ascii=False))
+</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
+                            
+                        </td>
+                        <td data-label="Diagnostic et prochaine étape">
+                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ question ; relisez-le avec les critères du sujet.</p>
+                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+                            
+                        </td>
+                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                            
+                                <h4>Un exemple de code</h4><pre><code>import json
+extrait = &#34;Les étudiantes analysent des corpus français. Elles comparent ensuite les résultats et rédigent une interprétation.&#34;
+doc_extrait = nlp(extrait)
+annotations = []
+for token in list(doc_extrait)[:5]:
+    annotations.append({&#34;forme&#34;: token.text, &#34;lemme&#34;: token.lemma_, &#34;pos&#34;: token.pos_,
+                        &#34;debut&#34;: token.idx, &#34;fin&#34;: token.idx + len(token.text)})
+resultat_q6 = {&#34;texte&#34;: extrait, &#34;phrases&#34;: len(list(doc_extrait.sents)),
+               &#34;annotations&#34;: annotations,
+               &#34;noms&#34;: [t.lemma_ for t in doc_extrait if t.pos_ == &#34;NOUN&#34;],
+               &#34;verbes&#34;: [t.lemma_ for t in doc_extrait if t.pos_ == &#34;VERB&#34;],
+               &#34;question&#34;: &#34;Quels noms désignent les objets analysés et quels verbes décrivent les activités ?&#34;}
+print(&#34;S3_TD1_Q6:&#34;, json.dumps(resultat_q6, ensure_ascii=False))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Exemple sur deux phrases du sujet. Pour votre transfert, choisissez votre propre extrait de deux à quatre phrases, contrôlez ses cinq premières annotations et formulez une question qui lui convient.</p>
+                                
+                            
+                        </td>
+                        <td class="status" data-label="État">
+                            <span class="status-label status-review">Résultat manquant ou inexploitable</span>
+                            
+                        </td>
+                        <td class="points" data-label="Points">0.00 / 1.00</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+            
+            
+            <details class="report-guide"><summary>Autres productions enregistrées dans votre notebook</summary>
+                
+<h2>Vos textes, essais et affichages enregistrés</h2>
+<p>Retrouvez ici les cellules de votre notebook, y compris les explications qui ne donnent pas de points automatiques.
+Les numéros suivent l’ordre du fichier. Les figures et les affichages HTML sont signalés ; ouvrez votre notebook pour les voir.</p>
+
+
+<section id="review-1"><h3>Q1</h3>
+
+<details id="cell-14"><summary>Cellule 14 — code</summary>
+<pre># Sur le petit_doc de l&#39;exemple, choisissez une forme et retrouvez-la par une tranche.
+# Notez la différence entre son rang parmi les tokens et son début en caractères.
+# Écrivez ici votre essai et votre observation ; Q1 porte ensuite sur doc.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-18"><summary>Cellule 18 — code</summary>
+<pre>annotations = []
+for token in doc:
+    annotations.append(token.text)
+print(annotations)</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>NameError</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-2"><h3>Q2</h3>
+
+<details id="cell-22"><summary>Cellule 22 — code</summary>
+<pre># Vos prédictions, votre code et votre interprétation
+# resultat_q2 = ...
+# print(&#34;S3_TD1_Q2:&#34;, json.dumps(resultat_q2, ensure_ascii=False))
+</pre>
+
+
+
+
+</details>
+
+
+</section>
+
+<section id="review-3"><h3>Q3</h3>
+
+<details id="cell-26"><summary>Cellule 26 — code</summary>
+<pre># Vos prédictions, votre code et votre interprétation
+# resultat_q3 = ...
+# print(&#34;S3_TD1_Q3:&#34;, json.dumps(resultat_q3, ensure_ascii=False))
+</pre>
+
+
+
+
+</details>
+
+
+</section>
+
+<section id="review-4"><h3>Q4</h3>
+
+<details id="cell-30"><summary>Cellule 30 — code</summary>
+<pre># Vos prédictions, votre code et votre interprétation
+# resultat_q4 = ...
+# print(&#34;S3_TD1_Q4:&#34;, json.dumps(resultat_q4, ensure_ascii=False))
+</pre>
+
+
+
+
+</details>
+
+
+</section>
+
+<section id="review-5"><h3>Q5</h3>
+
+<details id="cell-34"><summary>Cellule 34 — code</summary>
+<pre># Vos prédictions, votre code et votre interprétation
+# resultat_q5 = ...
+# print(&#34;S3_TD1_Q5:&#34;, json.dumps(resultat_q5, ensure_ascii=False))
+</pre>
+
+
+
+
+</details>
+
+
+</section>
+
+<section id="review-6"><h3>Q6</h3>
+
+<details id="cell-36"><summary>Cellule 36 — code</summary>
+<pre># Vos prédictions, votre code et votre interprétation
+# resultat_q6 = ...
+# print(&#34;S3_TD1_Q6:&#34;, json.dumps(resultat_q6, ensure_ascii=False))
+</pre>
+
+
+
+
+</details>
+
+
+</section>
+
+            </details>
+            
+            <nav class="nav-links" aria-label="Navigation du correcteur">
+                <a href="/eval/td1-s3">Refaire une soumission</a>
+                <a href="/semestre/S3">Retour aux correcteurs S3</a>
+<a href="/">Changer de semestre</a>
+            </nav>
+
+        
+    </main>
+
+    <script>
+        document.getElementById('toggle-solutions')?.addEventListener('change', function() {
+            document.body.classList.toggle('show-solutions', this.checked);
+        });
+    </script>
+    <noscript><style>.solution-col { display: table-cell; } .toggle-box { display: none; } @media (max-width: 1000px) { .solution-col { display: block; } }</style></noscript>
+</body>
+</html>

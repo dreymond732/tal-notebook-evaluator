@@ -1,17 +1,23 @@
+{% if student_report %}
+<h2>Vos textes, essais et affichages enregistrés</h2>
+<p>Retrouvez ici les cellules de votre notebook, y compris les explications qui ne donnent pas de points automatiques.
+Les numéros suivent l’ordre du fichier. Les figures et les affichages HTML sont signalés ; ouvrez votre notebook pour les voir.</p>
+{% else %}
 <h2>{% if student_info.relecture_humaine == 'facultative' or evaluator_name in ['td1-s3', 'td-r1-s3'] %}Productions enregistrées par question{% else %}Productions à relire par question{% endif %}</h2>
 <p>Extraits de la copie sauvegardée, limités en taille. Les numéros de cellules suivent l’ordre de la copie.
 La présence d’un affichage enregistré ne garantit ni sa qualité ni sa provenance. Les figures et affichages HTML sont inventoriés ; consulter la copie pour leur rendu.</p>
+{% endif %}
 {% for group in student_info.review_evidence %}
 <section id="review-{{ loop.index }}"><h3>{{ group.question }}</h3>
 {% for cell in group.cells %}
-<details id="cell-{{ cell.cell_number }}"><summary>Cellule {{ cell.cell_number }} — {{ cell.kind }} — {{ cell.cell_id }}</summary>
+<details id="cell-{{ cell.cell_number }}"><summary>Cellule {{ cell.cell_number }} — {% if student_report %}{{ 'code' if cell.kind == 'code' else 'texte' }}{% else %}{{ cell.kind }} — {{ cell.cell_id }}{% endif %}</summary>
 <pre>{{ cell.source }}</pre>
-{% if cell.source_truncated %}<p>Extrait tronqué ; texte complet dans la copie sauvegardée.</p>{% endif %}
+{% if cell.source_truncated %}<p>Extrait tronqué ; texte complet dans {{ 'votre notebook' if student_report else 'la copie sauvegardée' }}.</p>{% endif %}
 {% if cell.outputs %}<h4>Sorties textuelles enregistrées</h4><pre>{{ cell.outputs }}</pre>{% endif %}
-{% if cell.outputs_truncated %}<p>Sorties tronquées ; ensemble des sorties dans la copie sauvegardée.</p>{% endif %}
-{% if cell.figures %}<p>Affichages enregistrés : {{ cell.figures|join(', ') }}. Rendu à vérifier dans la copie.</p>{% else %}<p>Aucun affichage visuel enregistré dans cette cellule ; à vérifier si demandé.</p>{% endif %}
+{% if cell.outputs_truncated %}<p>Sorties tronquées ; ensemble des sorties dans {{ 'votre notebook' if student_report else 'la copie sauvegardée' }}.</p>{% endif %}
+{% if cell.figures %}<p>Affichages enregistrés : {{ cell.figures|join(', ') }}. {{ 'Ouvrez votre notebook pour les consulter.' if student_report else 'Rendu à vérifier dans la copie.' }}</p>{% elif not student_report %}<p>Aucun affichage visuel enregistré dans cette cellule ; à vérifier si demandé.</p>{% endif %}
 </details>
 {% endfor %}
-{% if group.omitted %}<p>{{ group.omitted }} cellule(s) supplémentaire(s) dans la copie sauvegardée.</p>{% endif %}
+{% if group.omitted %}<p>{{ group.omitted }} cellule(s) supplémentaire(s) dans {{ 'votre notebook' if student_report else 'la copie sauvegardée' }}.</p>{% endif %}
 </section>
 {% endfor %}
