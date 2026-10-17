@@ -5349,6 +5349,1429 @@
           "allowed_libraries": []
         }
       ]
+    },
+    {
+      "id": "TD3_ONE_S1",
+      "notebook": "Notebooks TD/S1/TD3-one_S1_listes.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD3-one — Construire et transformer des listes",
+      "prerequisites": [
+        "TD1 : variables, types et affichage",
+        "TD2 : chaînes, listes, indexation et tranches"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Lire une liste sans la modifier",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Ajouter, observer, retirer",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "append()",
+            "pop()",
+            "état intermédiaire"
+          ],
+          "introduced_here": [
+            "append()",
+            "pop()",
+            "état intermédiaire"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Associer chaque nom à sa longueur",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "append()",
+            "pop()",
+            "état intermédiaire",
+            "for",
+            "élément courant",
+            "indentation",
+            "initialisation hors boucle"
+          ],
+          "introduced_here": [
+            "for",
+            "élément courant",
+            "indentation",
+            "initialisation hors boucle"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Présenter les éléments dans l’ordre",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "append()",
+            "pop()",
+            "état intermédiaire",
+            "for",
+            "élément courant",
+            "indentation",
+            "initialisation hors boucle",
+            "concaténation de chaînes",
+            "accumulation de chaîne",
+            "strip()"
+          ],
+          "introduced_here": [
+            "concaténation de chaînes",
+            "accumulation de chaîne",
+            "strip()"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Entrelacer deux listes",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "append()",
+            "pop()",
+            "état intermédiaire",
+            "for",
+            "élément courant",
+            "indentation",
+            "initialisation hors boucle",
+            "concaténation de chaînes",
+            "accumulation de chaîne",
+            "strip()",
+            "indice courant",
+            "incrémentation"
+          ],
+          "introduced_here": [
+            "indice courant",
+            "incrémentation"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Copier puis modifier sans toucher à l’original",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "append()",
+            "pop()",
+            "état intermédiaire",
+            "for",
+            "élément courant",
+            "indentation",
+            "initialisation hors boucle",
+            "concaténation de chaînes",
+            "accumulation de chaîne",
+            "strip()",
+            "indice courant",
+            "incrémentation",
+            "copie par tranche",
+            "alias",
+            "copie superficielle"
+          ],
+          "introduced_here": [
+            "copie par tranche",
+            "alias",
+            "copie superficielle"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD3_BIS_S1",
+      "notebook": "Notebooks TD/S1/TD3-bis_S1_tuples.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD3-bis — Lire et recomposer des tuples",
+      "prerequisites": [
+        "TD1–2 : variables, types, chaînes et indices",
+        "TD3-one : listes, copies et premier parcours for"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Choisir une référence stable",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions"
+          ],
+          "introduced_here": [
+            "tuple",
+            "non-modification des positions"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Reconnaître un tuple à un élément",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions",
+            "virgule de tuple singleton",
+            "tranche de tuple"
+          ],
+          "introduced_here": [
+            "virgule de tuple singleton",
+            "tranche de tuple"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Parcourir un tuple de noms",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions",
+            "virgule de tuple singleton",
+            "tranche de tuple",
+            "parcours de tuple"
+          ],
+          "introduced_here": [
+            "parcours de tuple"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Déballer une fiche",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions",
+            "virgule de tuple singleton",
+            "tranche de tuple",
+            "parcours de tuple",
+            "déballage",
+            "fiche hétérogène"
+          ],
+          "introduced_here": [
+            "déballage",
+            "fiche hétérogène"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Conserver des paires ordonnées",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions",
+            "virgule de tuple singleton",
+            "tranche de tuple",
+            "parcours de tuple",
+            "déballage",
+            "fiche hétérogène",
+            "tuple de tuples",
+            "déballage dans for"
+          ],
+          "introduced_here": [
+            "tuple de tuples",
+            "déballage dans for"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Recomposer une nouvelle référence",
+          "available_concepts": [
+            "variable",
+            "affectation",
+            "chaîne",
+            "print()",
+            "type()",
+            "len()",
+            "indexation",
+            "tranche",
+            "liste",
+            "f-string",
+            "for",
+            "append()",
+            "indentation",
+            "copie par tranche",
+            "tuple",
+            "non-modification des positions",
+            "virgule de tuple singleton",
+            "tranche de tuple",
+            "parcours de tuple",
+            "déballage",
+            "fiche hétérogène",
+            "tuple de tuples",
+            "déballage dans for",
+            "concaténation de tuples",
+            "nouveau tuple",
+            "TypeError observé dans préparation fournie"
+          ],
+          "introduced_here": [
+            "concaténation de tuples",
+            "nouveau tuple",
+            "TypeError observé dans préparation fournie"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD3_TER_S1",
+      "notebook": "Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD3.ter — Associer et comparer les données",
+      "prerequisites": [
+        "TD1–2 : variables, chaînes et affichages",
+        "TD3-one/bis : listes, tuples, for, déballage, f-strings"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Construire puis parcourir un lexique",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "liste",
+            "for",
+            "append()",
+            "f-string",
+            "déballage",
+            "dictionnaire",
+            "clé",
+            "valeur",
+            "accès par clé",
+            "ajout et réaffectation",
+            "items()",
+            "ordre d’insertion"
+          ],
+          "introduced_here": [
+            "dictionnaire",
+            "clé",
+            "valeur",
+            "accès par clé",
+            "ajout et réaffectation",
+            "items()",
+            "ordre d’insertion"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Consulter des fiches de personnes",
+          "available_concepts": [
+            "variable",
+            "print()",
+            "tuple",
+            "indexation",
+            "dictionnaire",
+            "clé",
+            "valeur",
+            "dictionnaire de tuples",
+            "appartenance aux clés",
+            "accès composé"
+          ],
+          "introduced_here": [
+            "dictionnaire de tuples",
+            "appartenance aux clés",
+            "accès composé"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Inverser des correspondances distinctes",
+          "available_concepts": [
+            "variable",
+            "print()",
+            "len()",
+            "for",
+            "déballage",
+            "dictionnaire",
+            "items()",
+            "affectation",
+            "dictionnaire vide",
+            "inversion",
+            "unicité des clés",
+            "collision de clés"
+          ],
+          "introduced_here": [
+            "dictionnaire vide",
+            "inversion",
+            "unicité des clés",
+            "collision de clés"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Distinguer occurrences et formes",
+          "available_concepts": [
+            "variable",
+            "print()",
+            "len()",
+            "liste",
+            "ensemble",
+            "set()",
+            "unicité",
+            "absence d’ordre significatif",
+            "perte des fréquences"
+          ],
+          "introduced_here": [
+            "ensemble",
+            "set()",
+            "unicité",
+            "absence d’ordre significatif",
+            "perte des fréquences"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Ajouter une présence et tester une appartenance",
+          "available_concepts": [
+            "variable",
+            "print()",
+            "len()",
+            "for",
+            "ensemble",
+            "set()",
+            "ensemble vide",
+            "add()",
+            "appartenance à un ensemble"
+          ],
+          "introduced_here": [
+            "ensemble vide",
+            "add()",
+            "appartenance à un ensemble"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Comparer deux vocabulaires",
+          "available_concepts": [
+            "variable",
+            "print()",
+            "liste",
+            "ensemble",
+            "set()",
+            "intersection",
+            "différence orientée",
+            "intersection()",
+            "difference()"
+          ],
+          "introduced_here": [
+            "intersection",
+            "différence orientée",
+            "intersection()",
+            "difference()"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD5_ONE_S1",
+      "notebook": "Notebooks TD/S1/TD5-one_S1_fonctions.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD5-one — Définir, appeler et retourner",
+      "prerequisites": [
+        "TD1 à TD4 : chaînes, collections, conditions et boucles"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Mesurer une chaîne (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "len()",
+            "variable locale",
+            "None",
+            "chaîne vide"
+          ],
+          "introduced_here": [
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "None"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Répéter un caractère (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "répétition de chaîne",
+            "entier nul",
+            "concaténation"
+          ],
+          "introduced_here": [
+            "répétition de chaîne"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Calculer un volume (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "multiplication",
+            "entier",
+            "décimal"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Choisir le maximum de trois valeurs (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "if",
+            "comparaison",
+            "and",
+            "égalité",
+            "nombres négatifs"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Normaliser sans perdre les espaces intérieurs (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "strip()",
+            "lower()",
+            "chaîne vide",
+            "espaces intérieurs"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Réutiliser une valeur retournée (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "normaliser fournie par Q5",
+            "concaténation",
+            "réutilisation de fonction"
+          ],
+          "introduced_here": [
+            "réutilisation de fonction"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD5_BIS_S1",
+      "notebook": "Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD5-bis — Paramètres, défauts et portée",
+      "prerequisites": [
+        "TD1 à TD4 : chaînes, collections, conditions et boucles",
+        "TD5-one : définition, appel, return"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Associer paramètres et arguments (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "ordre des arguments",
+            "argument nommé",
+            "concaténation"
+          ],
+          "introduced_here": [
+            "argument nommé"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Distinguer un nom local et un nom extérieur (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "portée locale",
+            "variable extérieure",
+            "affectation locale",
+            "lower()"
+          ],
+          "introduced_here": [
+            "portée locale",
+            "variable extérieure"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Faire varier le nombre d’arguments (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "paramètre par défaut",
+            "multiplication",
+            "argument nommé"
+          ],
+          "introduced_here": [
+            "paramètre par défaut"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Choisir une formule par défaut (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "paramètre par défaut",
+            "concaténation",
+            "chaîne vide"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Traduire avec le lexique reçu (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "dictionnaire",
+            "clé",
+            "in",
+            "if/else",
+            "get()",
+            "strip()",
+            "lower()",
+            "normalisation",
+            "get avec repli"
+          ],
+          "introduced_here": [
+            "get avec repli"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Vérifier une fonction avec un second dictionnaire (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "dictionnaire",
+            "in",
+            "if/else",
+            "get()",
+            "strip()",
+            "lower()",
+            "paramètre par défaut",
+            "repli"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD5_TER_S1",
+      "notebook": "Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD5.ter — Composer des fonctions pour le texte",
+      "prerequisites": [
+        "TD1 à TD4 : chaînes, collections, conditions et boucles",
+        "TD5-one : définition, appel, return",
+        "TD5-bis : paramètres et lexique reçu en argument"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Compter un caractère avec une fonction (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "for",
+            "compteur",
+            "if",
+            "égalité",
+            "portée locale",
+            "caractère",
+            "chaîne vide"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Compter des fragments séparés par des blancs (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "normaliser fournie",
+            "composition",
+            "split()",
+            "len()",
+            "liste",
+            "chaîne vide",
+            "paramètre par défaut en exemple",
+            "convention de fragments"
+          ],
+          "introduced_here": [
+            "composition",
+            "convention de fragments"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Traduire une phrase par composition (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "traduire_mot fournie",
+            "composition",
+            "split()",
+            "join()",
+            "for",
+            "append()",
+            "liste vide",
+            "dictionnaire",
+            "composition avec une boucle",
+            "compréhension de liste"
+          ],
+          "introduced_here": [
+            "composition avec une boucle"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Composer un résumé cohérent (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "composition",
+            "dictionnaire",
+            "len()",
+            "normaliser fournie",
+            "nombre_mots",
+            "variable locale",
+            "tranche [:1] en exemple",
+            "résultat sous forme de dictionnaire"
+          ],
+          "introduced_here": [
+            "résultat sous forme de dictionnaire"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Comparer une phrase et sa traduction (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "composition",
+            "dictionnaire",
+            "traduire_phrase",
+            "nombre_mots",
+            "réutilisation de résultat"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Résumer plusieurs textes sans perdre leur ordre (cours, exemple, essai et vérifications inclus)",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "print()",
+            "def",
+            "paramètre",
+            "argument",
+            "return",
+            "appel",
+            "composition",
+            "resume_texte",
+            "for",
+            "append()",
+            "liste",
+            "dictionnaire",
+            "ordre",
+            "doublons",
+            "compréhension de liste"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD6_ONE_S1",
+      "notebook": "Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD6-one — Fichiers texte",
+      "prerequisites": [
+        "TD1 à TD5 S1 : chaînes, collections, boucles et fonctions ; réactiver si nécessaire"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [
+        "pathlib"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Lire et refermer le fichier",
+          "available_concepts": [
+            "variable",
+            "chaîne",
+            "with",
+            "open",
+            "read",
+            "UTF-8",
+            "chemin relatif",
+            "len",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Conserver les lignes utiles",
+          "available_concepts": [
+            "chaîne",
+            "splitlines",
+            "strip",
+            "liste",
+            "for",
+            "if",
+            "append",
+            "len",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Créer puis relire une note",
+          "available_concepts": [
+            "with",
+            "open",
+            "write",
+            "read",
+            "UTF-8",
+            "chaîne",
+            "repr",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Nettoyer un fichier sans perdre ses lignes",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "write",
+            "splitlines",
+            "strip",
+            "liste",
+            "for",
+            "if",
+            "append",
+            "join",
+            "repr",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Rechercher la ligne la plus longue",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "splitlines",
+            "len",
+            "for",
+            "if",
+            "comparaison",
+            "chaîne vide",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Recopier en transformant les espaces",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "write",
+            "replace",
+            "UTF-8",
+            "repr",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD6_BIS_S1",
+      "notebook": "Notebooks TD/S1/TD6-bis_S1_donnees_delimitees.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD6-bis — Données délimitées et regroupement",
+      "prerequisites": [
+        "TD1 à TD5 S1 : chaînes, collections, boucles et fonctions ; réactiver si nécessaire",
+        "TD6-one"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [
+        "pathlib"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Découper une ligne sans perdre son contenu",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "splitlines",
+            "strip",
+            "split",
+            "maxsplit",
+            "liste",
+            "tuple",
+            "for",
+            "append",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Enregistrer des fiches de personnes",
+          "available_concepts": [
+            "tuple",
+            "liste",
+            "join",
+            "for",
+            "with",
+            "open",
+            "write",
+            "read",
+            "UTF-8",
+            "repr",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Sélectionner les fiches d’un secteur",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "splitlines",
+            "split",
+            "liste",
+            "tuple",
+            "indice",
+            "for",
+            "if",
+            "comparaison",
+            "append",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Normaliser une graphie de personne",
+          "available_concepts": [
+            "def",
+            "paramètre",
+            "return",
+            "appel",
+            "chaîne",
+            "strip",
+            "split",
+            "join",
+            "title",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Regrouper les affiliations distinctes",
+          "available_concepts": [
+            "liste",
+            "tuple",
+            "dictionnaire",
+            "ensemble",
+            "set",
+            "add",
+            "for",
+            "if",
+            "appartenance",
+            "clé",
+            "normaliser_personne",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Reprendre le traitement sur un autre fichier",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "splitlines",
+            "strip",
+            "split",
+            "maxsplit",
+            "for",
+            "if",
+            "dictionnaire",
+            "ensemble",
+            "set",
+            "add",
+            "normaliser_personne",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD6_TER_S1",
+      "notebook": "Notebooks TD/S1/TD6-ter_S1_csv.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD6.ter — Écrire et relire des CSV",
+      "prerequisites": [
+        "TD1 à TD5 S1 : chaînes, collections, boucles et fonctions ; réactiver si nécessaire",
+        "TD6-one et TD6-bis"
+      ],
+      "allowed_libraries": [
+        "csv"
+      ],
+      "provided_libraries": [
+        "pathlib"
+      ],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Créer un tableau CSV et le relire",
+          "available_concepts": [
+            "csv.writer",
+            "csv.reader",
+            "writerow",
+            "with",
+            "open",
+            "UTF-8",
+            "newline",
+            "liste",
+            "list",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "csv"
+          ]
+        },
+        {
+          "id": "Q2",
+          "topic": "Reconnaître une virgule dans une cellule",
+          "available_concepts": [
+            "csv.reader",
+            "with",
+            "open",
+            "UTF-8",
+            "newline",
+            "list",
+            "indice",
+            "len",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "csv"
+          ]
+        },
+        {
+          "id": "Q3",
+          "topic": "Sélectionner des fiches dans un CSV",
+          "available_concepts": [
+            "csv.reader",
+            "with",
+            "open",
+            "list",
+            "tranche",
+            "indice",
+            "for",
+            "if",
+            "append",
+            "chaîne",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "csv"
+          ]
+        },
+        {
+          "id": "Q4",
+          "topic": "Reconstruire les groupes depuis le fichier brut",
+          "available_concepts": [
+            "with",
+            "open",
+            "read",
+            "splitlines",
+            "strip",
+            "split",
+            "normaliser_personne",
+            "dictionnaire",
+            "ensemble",
+            "set",
+            "add",
+            "for",
+            "if",
+            "sorted",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Exporter les affiliations et les relire",
+          "available_concepts": [
+            "csv.writer",
+            "csv.reader",
+            "writerow",
+            "with",
+            "open",
+            "UTF-8",
+            "newline",
+            "dictionnaire",
+            "ensemble",
+            "for",
+            "sorted",
+            "len",
+            "join",
+            "list",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "csv"
+          ]
+        },
+        {
+          "id": "Q6",
+          "topic": "Vérifier un export avec accents et virgules",
+          "available_concepts": [
+            "csv.writer",
+            "csv.reader",
+            "writerow",
+            "with",
+            "open",
+            "UTF-8",
+            "newline",
+            "dictionnaire",
+            "ensemble",
+            "for",
+            "sorted",
+            "len",
+            "join",
+            "list",
+            "read",
+            "print"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": [
+            "csv"
+          ]
+        }
+      ]
     }
   ],
   "excluded_notebooks": [
@@ -5391,6 +6814,42 @@
     {
       "notebook": "Corrigés modèles/Contrôles finaux/dm-intermediaire-s1/DM_intermediaire_S1_corrige_non_execute.ipynb",
       "reason": "Corrigé modèle enseignant séparé du sujet et exclu de la distribution étudiante ; non exécuté."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD6-bis_S1_donnees_delimitees_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD3-bis_S1_tuples_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD5-one_S1_fonctions_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD6-ter_S1_csv_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD6-one_S1_fichiers_texte_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD5-ter_S1_composition_texte_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD3-one_S1_listes_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD5-bis_S1_parametres_portee_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/s1-swinnen/TD3-ter_S1_dictionnaires_ensembles_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
     }
   ]
 }

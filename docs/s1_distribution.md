@@ -74,11 +74,11 @@ donc les anciens noms `python_texte` ne restent pas dans la nouvelle distributio
 Un dossier inconnu, des fichiers étrangers ou des liens symboliques font refuser
 le remplacement. Les données de soumission restent hors de cette opération.
 
-Distribuer ensuite les sept fichiers renommés de `dist/Notebooks TD/S1/`.
+Distribuer les cahiers du parcours courant depuis `dist/Notebooks TD/S1/`, selon `Notebooks TD/S1/README.md` (treize cahiers TD pour le parcours renforcé). Les synthèses historiques restent compatibles avec les copies commencées.
 Les anciens sujets S1 conservent leur contrat d'évaluation et ne sont pas rejetés
-du seul fait du renommage. Le changement n'ajoute pas un numéro étudiant
-obligatoire ni ne refond les correcteurs : ces évolutions nécessiteraient un
-contrat coordonné avec l'identification et la persistance.
+du seul fait du renommage. Le renommage historique, pris isolément, ne modifiait
+ni les règles d’identification ni les correcteurs. Les neuf contrats additifs de
+l’expansion Swinnen sont décrits ci-dessous et restent distincts des copies anciennes.
 
 ## Vérifications techniques
 
@@ -90,3 +90,9 @@ des commandes factices et vérifie l'ordre ainsi que l'arrêt sur erreur : il
 n'effectue aucun déploiement réel. Le code exécuté pour contrôler le HTML est
 uniquement le gabarit de confiance produit par le générateur ; aucun code de
 notebook étudiant n'est exécuté par le serveur ou par ces tests.
+
+## Renforcement Swinnen des TD3, TD5 et TD6
+
+Le parcours utilise désormais treize cahiers TD, avec trois unités one → bis → ter pour chacun de ces thèmes. Les neuf nouveaux cahiers ont des contrats v2 distincts ; les trois anciens contrats restent disponibles pour les copies déjà distribuées. Le sélecteur affiche ces derniers comme synthèses historiques. Voir `Notebooks TD/S1/README.md` pour les fichiers exacts et `pedagogy/s1-swinnen-expansion.md` pour la matrice de couverture.
+
+Chaque nouveau cahier contient ses attributions et une annexe repliable avec la notice, la préface et la licence intégrale de Swinnen (CC BY-NC-SA 2.0 France). Elle reste incluse dans chaque fichier distribué ; les adaptations pédagogiques ne sont pas placées sous la licence GPL du code serveur. Les cahiers sont générés par la même commande de distribution, sans modification manuelle de `dist/`.
