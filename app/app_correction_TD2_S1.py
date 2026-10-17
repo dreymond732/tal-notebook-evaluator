@@ -9,6 +9,7 @@ import re
 
 from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, strict_contract_identity
 from s3_review import review_evidence
+from s1_feedback import enrich_s1_details
 
 EVAL_ID = "td2-s1"
 MAX_SCORE_TOTAL = 7.0
@@ -263,9 +264,13 @@ def check_notebook(content_str, filename):
         score += points
         details.append({
             "check": check["label"], "student_answer": main_feedback + " " + extra_feedback,
+            "diagnostic": main_feedback + " " + extra_feedback,
             "correct_answer": feedback + " " + LIMIT_NOTE + (" " + " ".join(warnings) if warnings else ""),
             "status": "✅" if points == 1.0 else "❌", "points": points, "max_points": 1.0,
         })
+    if warnings and details:
+        details[0]['diagnostic'] += ' ' + ' '.join(warnings)
+    enrich_s1_details(notebook, EVAL_ID, details)
     info.update(score_brut=score, score_nature="technique_provisoire", score_max=MAX_SCORE_TOTAL,
                 contract_version=2, relecture_humaine="facultative", review_evidence=review_evidence(notebook, 7))
     return score, details, MAX_SCORE_TOTAL, info, None

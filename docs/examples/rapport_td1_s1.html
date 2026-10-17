@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TD1 S1 - Variables et types — Autoévaluation du TD</title>
+    <style>
+        :root { --ok: #176638; --err: #a12622; --warn: #785000; --blue: #176598; }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #202b36; line-height: 1.5; margin: 0; padding: 20px; }
+        .container { max-width: 1500px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 25px; padding-bottom: 15px; }
+        .final-score { font-size: 1.6rem; font-weight: bold; color: white; background: var(--blue); padding: 18px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .report-guide, .score-scope { background: #f0f7fc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .report-guide p, .score-scope p { margin: 0 0 8px; }
+        .report-guide p:last-child, .score-scope p:last-child { margin-bottom: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        caption { text-align: left; font-weight: bold; margin-bottom: 10px; font-size: 1.2rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
+        th { background: #f8f9fa; }
+        .question-col { width: 15%; }
+        .answer-col { width: 45%; }
+        .status { width: 30%; }
+        .points { width: 10%; }
+        .status-label { font-weight: 600; }
+        .status-ok { color: var(--ok); }
+        .status-error { color: var(--err); }
+        .status-review { color: var(--warn); }
+        .solution-col { display: none; background-color: #f0f7ff; }
+        body.show-solutions .solution-col { display: table-cell; }
+        body.show-solutions .question-col { width: 12%; }
+        body.show-solutions .answer-col { width: 28%; }
+        body.show-solutions .solution-col { width: 31%; }
+        body.show-solutions .status { width: 22%; }
+        body.show-solutions .points { width: 7%; }
+        .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
+        h2 { font-size: 1.25rem; }
+        h3, h4 { font-size: 1rem; margin: 0 0 8px; }
+        td h4:not(:first-child) { margin-top: 16px; }
+        td p { margin: 0 0 10px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; font-size: 0.88rem; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; margin: 0 0 10px; max-height: 30rem; overflow: auto; }
+        .explanation { white-space: pre-line; }
+        .evidence-location, .empty-evidence { color: #495565; font-size: 0.92rem; }
+        .flash { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border-left: 5px solid transparent; }
+        .flash.error { background: #fdedec; color: var(--err); border-color: var(--err); }
+        .flash.success { background: #eafaf1; color: var(--ok); border-color: var(--ok); }
+        .nav-links { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 25px; }
+        .nav-links a { color: var(--blue); font-weight: 500; }
+        .upload-box { background: #f8f9fa; padding: 40px; border-radius: 10px; text-align: center; border: 2px dashed #ccc; }
+        .upload-box input { max-width: 100%; margin: 20px 0; }
+        .upload-box button { background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        @media (max-width: 1000px) {
+            body { padding: 8px; }
+            .container { padding: 18px; }
+            table, tbody, tr, td { display: block; width: 100%; }
+            thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+            tbody tr { border: 1px solid #ccd7e0; border-radius: 8px; margin: 0 0 20px; overflow: hidden; }
+            td, body.show-solutions td { width: 100% !important; }
+            td::before { content: attr(data-label); display: block; font-weight: bold; margin-bottom: 8px; }
+            body.show-solutions .solution-col { display: block; }
+            .final-score { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body class="show-solutions"><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
+    <main class="container">
+        <header class="header">
+            <h1>TD1 S1 - Variables et types</h1>
+            <p>Travaux dirigés — Autoévaluation formative</p>
+        </header>
+
+
+
+
+
+
+            <div class="student-info">
+                <p><strong>Étudiant :</strong> Alex ESSAI (S1)</p>
+            </div>
+            <div class="final-score">Score formatif provisoire : 6.00 / 6.0</div>
+            <div class="report-guide">
+                <p>Comparez votre réponse au résultat attendu. Le ✓ vert indique que les critères vérifiés sont satisfaits ; les explications et interprétations restent à autoévaluer avec les critères du TD.</p>
+                <p>Le correcteur lit le code et les sorties enregistrées ; il n’exécute pas votre programme. Pour éviter une sortie périmée, réexécutez les cellules dans l’ordre et enregistrez avant l’envoi. Les solutions réutilisent la préparation du TD.</p>
+            </div>
+
+            <div class="toggle-box">
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table" checked> Afficher le résultat attendu et la solution</label>
+            </div>
+
+
+            <details class="score-scope">
+                <summary>Portée du score</summary>
+                <p>Score technique provisoire sur les traces enregistrées. Le serveur ne lance pas votre code et ne certifie ni l’authenticité ni la fraîcheur des sorties. Réexécutez les cellules dans l’ordre. Les explications ne sont pas évaluées automatiquement. Comparez-les aux critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
+            </details>
+
+
+            <table id="feedback-table">
+                <caption>Retour par question</caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="question-col">Question</th>
+                        <th scope="col" class="answer-col">Votre réponse retrouvée</th>
+                        <th scope="col" class="solution-col">Résultat attendu</th>
+                        <th scope="col" class="status">Bilan</th>
+                        <th scope="col" class="points">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q1 — Calcul numérique</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 11.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>prix_par_mot=.12
+nb_mots=125
+cout_total=prix_par_mot*nb_mots
+print(&#34;Résultat Q1 :&#34;,cout_total)</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q1 : 15.0
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code>prix_par_mot = 0.12
+nb_mots = 125
+cout_total = prix_par_mot * nb_mots
+print(&#34;Résultat Q1 :&#34;, cout_total)</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Multipliez le prix unitaire par le nombre de mots : le coût est 15 euros.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q2 — Observation de type</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 16.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>note=14.5
+print(&#34;Résultat Q2 :&#34;,type(note))</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q2 : &lt;class &#39;float&#39;&gt;
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code># Prédiction : un nombre décimal a ici le type float.
+note = 14.5
+print(&#34;Résultat Q2 :&#34;, type(note))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">type(note) affiche le type de la valeur, ici float.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q3 — Comparaison et conjonction</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 21.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>meme_nombre=nb_mots==125
+commande_importante=nb_mots&gt;=100 and prix_par_mot&gt;0
+print(&#34;Résultat Q3 :&#34;,meme_nombre,commande_importante)</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q3 : True True
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code>meme_nombre = nb_mots == 125
+commande_importante = nb_mots &gt;= 100 and prix_par_mot &gt; 0
+print(&#34;Résultat Q3 :&#34;, meme_nombre, commande_importante)</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Réutilisez les données de Q1. == compare deux valeurs ; and exige que les deux conditions soient vraies. Les deux réponses valent ici True.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q4 — f-string</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 26.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>langue_source=&#34;français&#34;
+langue_cible=&#34;anglais&#34;
+phrase_presentation=f&#39;Traduction du {langue_source} vers l’{langue_cible}.&#39;
+print(&#34;Résultat Q4 :&#34;,phrase_presentation)</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q4 : Traduction du français vers l’anglais.
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code>langue_source = &#34;français&#34;
+langue_cible = &#34;anglais&#34;
+phrase_presentation = f&#34;Traduction du {langue_source} vers l’{langue_cible}.&#34;
+print(&#34;Résultat Q4 :&#34;, phrase_presentation)</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Les accolades insèrent les deux variables. Conservez les espaces, l’apostrophe et le point final de la phrase demandée.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q5 — Conversion en entier</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 31.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>volume_saisi=&#34;80&#34;
+volume_corrige=int(volume_saisi)+20
+print(&#34;Résultat Q5 :&#34;,volume_corrige,type(volume_corrige))</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q5 : 100 &lt;class &#39;int&#39;&gt;
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code>volume_saisi = &#34;80&#34;
+volume_corrige = int(volume_saisi) + 20
+print(&#34;Résultat Q5 :&#34;, volume_corrige, type(volume_corrige))</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Convertissez la chaîne en entier avant l’addition : le résultat est 100, de type int.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="Question"><strong>Q6 — Chaîne et appartenance</strong></td>
+                        <td data-label="Votre réponse retrouvée">
+
+                                <p class="evidence-location">Cellule du notebook : 36.</p>
+                                <h4>Code retrouvé</h4>
+                                <pre><code>phrase=&#34;Le TAL aide.&#34;
+print(&#34;Résultat Q6 :&#34;,len(phrase),&#34;TAL&#34; in phrase)
+print(&#34;Résultat Q6b :&#34;,repr(phrase))</code></pre>
+                                <h4>Sorties enregistrées</h4>
+                                <pre>Résultat Q6 : 12 True
+Résultat Q6b : &#39;Le TAL aide.&#39;
+</pre>
+
+                        </td>
+                        <td class="solution-col" data-label="Résultat attendu">
+
+                                <h4>Un exemple de code</h4><pre><code>phrase = &#34;Le TAL aide.&#34;
+print(&#34;Résultat Q6 :&#34;, len(phrase), &#34;TAL&#34; in phrase)
+print(&#34;Résultat Q6b :&#34;, repr(phrase))
+# Les espaces et le point comptent ; TAL est présent avec cette casse.</code></pre>
+                                <h4>Ce qui est attendu</h4><p class="explanation">Cet exemple utilise une phrase possible ; gardez votre propre choix. len compte tous les caractères, et in distingue les majuscules des minuscules. repr rend la donnée choisie visible.</p>
+
+
+                        </td>
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
+                        </td>
+                        <td class="points" data-label="Points">1.00 / 1.00</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+            <details class="report-guide"><summary>Autres productions enregistrées dans votre notebook</summary>
+
+<h2>Vos textes, essais et affichages enregistrés</h2>
+<p>Retrouvez ici les cellules de votre notebook, y compris les explications qui ne donnent pas de points automatiques.
+Les numéros suivent l’ordre du fichier. Les figures et les affichages HTML sont signalés ; ouvrez votre notebook pour les voir.</p>
+
+
+<section id="review-1"><h3>Q1</h3>
+
+<details id="cell-9"><summary>Cellule 9 — code</summary>
+<pre># Prédiction : la dernière affectation recalcule-t-elle budget_cahiers ?
+# Recalculez ce budget après le changement de nombre_cahiers.
+# Expliquez pourquoi une variable résultat ne se met pas à jour seule.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-11"><summary>Cellule 11 — code</summary>
+<pre>prix_par_mot=.12
+nb_mots=125
+cout_total=prix_par_mot*nb_mots
+print(&#34;Résultat Q1 :&#34;,cout_total)</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q1 : 15.0
+</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-2"><h3>Q2</h3>
+
+<details id="cell-14"><summary>Cellule 14 — code</summary>
+<pre># Prédisez les types de 6, 6.0 et &#34;6&#34;.
+# Créez trois variables contenant ces valeurs puis vérifiez leurs types.
+# Quel type choisiriez-vous pour un titre de document ? Pourquoi ?
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-16"><summary>Cellule 16 — code</summary>
+<pre>note=14.5
+print(&#34;Résultat Q2 :&#34;,type(note))</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q2 : &lt;class &#39;float&#39;&gt;
+</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-3"><h3>Q3</h3>
+
+<details id="cell-19"><summary>Cellule 19 — code</summary>
+<pre># Prédisez le résultat si inscrits vaut 18 puis 19.
+# Vérifiez avec deux essais, sans modifier la variable places.
+# Expliquez la différence entre &lt; et &lt;= dans cette situation.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-21"><summary>Cellule 21 — code</summary>
+<pre>meme_nombre=nb_mots==125
+commande_importante=nb_mots&gt;=100 and prix_par_mot&gt;0
+print(&#34;Résultat Q3 :&#34;,meme_nombre,commande_importante)</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q3 : True True
+</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-4"><h3>Q4</h3>
+
+<details id="cell-24"><summary>Cellule 24 — code</summary>
+<pre># Construisez une annonce analogue pour un autre atelier et une autre salle.
+# Changez une variable, reconstruisez l’annonce et observez le résultat.
+# Expliquez à quoi servent les accolades.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-26"><summary>Cellule 26 — code</summary>
+<pre>langue_source=&#34;français&#34;
+langue_cible=&#34;anglais&#34;
+phrase_presentation=f&#39;Traduction du {langue_source} vers l’{langue_cible}.&#39;
+print(&#34;Résultat Q4 :&#34;,phrase_presentation)</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q4 : Traduction du français vers l’anglais.
+</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-5"><h3>Q5</h3>
+
+<details id="cell-29"><summary>Cellule 29 — code</summary>
+<pre># Prédisez les deux affichages pour une saisie &#34;42&#34; et un ajout de 3.
+# Vérifiez avec des variables nouvelles.
+# Expliquez pourquoi retirer les guillemets dans le résultat affiché ne suffit pas à convertir une variable.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-31"><summary>Cellule 31 — code</summary>
+<pre>volume_saisi=&#34;80&#34;
+volume_corrige=int(volume_saisi)+20
+print(&#34;Résultat Q5 :&#34;,volume_corrige,type(volume_corrige))</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q5 : 100 &lt;class &#39;int&#39;&gt;
+</pre>
+
+
+</details>
+
+
+</section>
+
+<section id="review-6"><h3>Q6</h3>
+
+<details id="cell-34"><summary>Cellule 34 — code</summary>
+<pre># Avant la Q6 : expliquez si TAL et tal désignent la même sous-chaîne.
+# Essayez les deux recherches sur une phrase différente de celle que vous choisirez pour Q6.
+# Pour Q6, choisissez librement votre phrase : sa qualité rédactionnelle n’est pas notée automatiquement.
+</pre>
+
+
+
+
+</details>
+
+<details id="cell-36"><summary>Cellule 36 — code</summary>
+<pre>phrase=&#34;Le TAL aide.&#34;
+print(&#34;Résultat Q6 :&#34;,len(phrase),&#34;TAL&#34; in phrase)
+print(&#34;Résultat Q6b :&#34;,repr(phrase))</pre>
+
+<h4>Sorties textuelles enregistrées</h4><pre>Résultat Q6 : 12 True
+Résultat Q6b : &#39;Le TAL aide.&#39;
+</pre>
+
+
+</details>
+
+
+</section>
+
+            </details>
+
+            <nav class="nav-links" aria-label="Navigation du correcteur">
+                <a href="/eval/td1-s1">Refaire une soumission</a>
+                <a href="/semestre/S1">Retour aux correcteurs S1</a>
+<a href="/">Changer de semestre</a>
+            </nav>
+
+
+    </main>
+
+    <script>
+        document.getElementById('toggle-solutions')?.addEventListener('change', function() {
+            document.body.classList.toggle('show-solutions', this.checked);
+        });
+    </script>
+    <noscript><style>.solution-col { display: table-cell; } .toggle-box { display: none; } @media (max-width: 1000px) { .solution-col { display: block; } }</style></noscript>
+</body>
+</html>

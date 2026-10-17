@@ -6,6 +6,8 @@ import re
 
 from notebook_contract import ContractError, evaluation_cells, validate_cell_metadata, s3_contract_identity, CONTRACT_VERSIONS
 from s3_review import review_evidence
+from report_evidence import answer_evidence
+from s3_feedback import solution_for
 
 TRACE_RE = re.compile(r'^S3_TD([0-7])_Q([1-9][0-9]*):\s*(.*)$')
 TD_LIMIT_NOTE = (
@@ -199,6 +201,31 @@ def check_audit(content_str, filename, td, checks, *, evaluator=None, trace_re=T
     except (ValueError, TypeError, RecursionError, OverflowError) as exc:
         return 0.0, [], maximum, {}, 'Erreur JSON/notebook : ' + str(exc)
     score, details, deferred = grade_traces(displays, records, checks, [1.0] * len(checks))
+    # Formative feedback is enriched here, outside grade_traces, which is also
+    # used by summative controls and must not disclose worked solutions.
+    for number, detail in enumerate(details, 1):
+        detail.update(answer_evidence(notebook, number))
+        detail['student_answer'] = detail['student_code']
+        detail['solution_code'], detail['solution_explanation'] = solution_for(evaluator, number)
+        if detail['evaluation_status'] == 'conforme':
+            detail['diagnostic'] = 'Les résultats enregistrés correspondent à la vérification de cette question. '
+        elif detail['evaluation_status'] == 'incorrect':
+            detail['diagnostic'] = 'Comparez les valeurs et les clés de votre sortie avec les calculs de l’exemple. '
+        else:
+            detail['diagnostic'] = detail['diagnostic'].split(' Production rédigée absente', 1)[0].replace('Preuve absente ou inexploitable.', 'Le résultat enregistré ne peut pas être vérifié.')
+            if detail['evaluation_status'] == 'non_verifiable':
+                detail['diagnostic'] = ('Cette question utilise le résultat de ' + ', '.join(detail['dependencies'])
+                                        + ', qui manque ou ne peut pas être lu. Votre calcul reste à vérifier après reprise de cette réponse. ')
+        if detail['missing_fields']:
+            detail['diagnostic'] = detail['diagnostic'].rstrip() + ' '
+            detail['diagnostic'] += ('Complétez le contenu du champ ' + ', '.join(detail['missing_fields'])
+                                     + ' ; relisez-le avec les critères du sujet.')
+        detail['action'] = {
+            'conforme': 'Poursuivez avec les essais et l’interprétation demandés dans le sujet : un résultat conforme ne valide pas à lui seul votre explication.',
+            'incorrect': 'Reprenez le calcul et ses données dans votre cellule, comparez les clés et les valeurs à l’exemple, puis exécutez-la et enregistrez le notebook.',
+            'preuve_absente': 'Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.',
+            'non_verifiable': 'Complétez d’abord ' + ', '.join(detail['dependencies']) + ', puis réexécutez les cellules qui en dépendent et enregistrez le notebook.',
+        }[detail['evaluation_status']]
     details.append({'check': 'Portée du score', 'student_answer': TD_LIMIT_NOTE if optional_review else LIMIT_NOTE,
                     'correct_answer': '1 point par vérification déclarée dans le sujet ; aucune note automatique sur la qualité de l’argumentation.',
                     'status': 'ℹ️', 'points': 0.0, 'max_points': 0.0})
