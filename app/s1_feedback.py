@@ -7,6 +7,7 @@ import re
 from textwrap import dedent
 
 from report_evidence import answer_evidence
+from s1_expansion_feedback import SOLUTIONS as EXPANSION_SOLUTIONS
 
 
 def example(source, explanation):
@@ -358,7 +359,7 @@ def enrich_s1_details(notebook, evaluator, details):
     if not match:
         return details
     td = int(match[1])
-    solutions = SOLUTIONS[td] if match[2] is None else []
+    solutions = SOLUTIONS[td] if match[2] is None else EXPANSION_SOLUTIONS.get(evaluator, [])
     for number, detail in enumerate(details, 1):
         detail.update(answer_evidence(notebook, f'Q{number}'))
         if number <= len(solutions):

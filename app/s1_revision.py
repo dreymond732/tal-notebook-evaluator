@@ -10,7 +10,7 @@ import re
 import tokenize
 from dataclasses import dataclass
 
-from notebook_contract import ContractError, strict_contract_identity, validate_cell_metadata
+from notebook_contract import ContractError, strict_contract_identity, validate_cell_metadata, STRICT_S1
 from s3_audit import read_notebook, text
 from s3_review import review_evidence
 from s1_feedback import enrich_s1_details
@@ -199,7 +199,14 @@ class Slicer:
                         return result
                     nodes.extend(returns(function.body))
                     nodes.append(function)
-                if isinstance(node.func, ast.Attribute) and node.func.attr in {'read_text', 'read', 'readlines'}:
+                reader = False
+                if isinstance(node.func, ast.Name):
+                    reader = self.aliases.get(node.func.id) == 'csv.reader'
+                elif isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
+                    reader = (node.func.attr == 'reader'
+                              and self.aliases.get(node.func.value.id) == 'csv')
+                if reader or (isinstance(node.func, ast.Attribute)
+                              and node.func.attr in {'read_text', 'read', 'readlines'}):
                     nodes.extend(self.files)
         return _dedup(nodes)
 
@@ -316,7 +323,7 @@ def collect(notebook):
             continue
         if tal.get('role') != 'answer':
             # Library aliases are context, never pedagogical evidence.
-            if tal.get('role') == 'provided':
+            if tal.get('role') in {'provided', 'example'}:
                 try:
                     for statement in ast.parse(text(cell.get('source', ''))).body:
                         if isinstance(statement, (ast.Import, ast.ImportFrom)):
@@ -433,7 +440,7 @@ def check_saved_notebook(content_str, filename, evaluator, checks):
                         'diagnostic': diagnostic, 'evaluation_status': state,
                         'points': points if valid else 0.0, 'max_points': points})
     enrich_s1_details(notebook, evaluator, details)
-    optional_review = evaluator in {f'td{number}-s1' for number in range(1, 8)}
+    optional_review = evaluator in STRICT_S1
     review_note = ('Les explications ne sont pas évaluées automatiquement. Comparez-les aux critères du TD ; '
                    'sollicitez l’enseignant si une difficulté persiste.' if optional_review else
                    'Les justifications sont à relire humainement.')

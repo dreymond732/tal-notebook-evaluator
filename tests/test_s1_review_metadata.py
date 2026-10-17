@@ -61,7 +61,15 @@ class S1ReviewTests(unittest.TestCase):
     def test_seven_names_root_contracts_and_all_45_question_cells(self):
         self.assertEqual(len(S1_RENAMED_SUBJECTS), 7)
         self.assertEqual({p.name for p in (ROOT / 'Notebooks TD/S1').glob('*.ipynb')},
-                         {Path(p).name for p in S1_RENAMED_SUBJECTS.values()})
+                         {Path(p).name for p in S1_RENAMED_SUBJECTS.values()} | {
+                             'TD3-one_S1_listes.ipynb', 'TD3-bis_S1_tuples.ipynb',
+                             'TD3-ter_S1_dictionnaires_ensembles.ipynb',
+                             'TD4-one_S1_conditions_filtres.ipynb',
+                             'TD4-bis_S1_bornes_repetitions.ipynb',
+                             'TD4-ter_S1_comptages_comprehensions.ipynb',
+                             'TD5-one_S1_fonctions.ipynb', 'TD5-bis_S1_parametres_portee.ipynb',
+                             'TD5-ter_S1_composition_texte.ipynb', 'TD6-one_S1_fichiers_texte.ipynb',
+                             'TD6-bis_S1_donnees_delimitees.ipynb', 'TD6-ter_S1_csv.ipynb'})
         total_answers, total_cells = 0, 0
         for number, entry, nb in subjects():
             with self.subTest(evaluator=entry['id']):

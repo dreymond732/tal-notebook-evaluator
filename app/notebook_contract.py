@@ -21,6 +21,8 @@ S3_QUESTION_COUNTS = {**{f'td{n}-s3': (6 if n == 1 else 7) for n in range(8)},
                       **{name: 4 for name in STRICT_REVISIONS}}
 STRICT_S3 = frozenset(S3_QUESTION_COUNTS)
 S1_QUESTION_COUNTS = {f'td{n}-s1': count for n, count in enumerate((6, 7, 6, 7, 6, 6, 7), 1)}
+S1_EXPANSION_IDS = frozenset(f'td{n}-{part}-s1' for n in (3, 4, 5, 6) for part in ('one', 'bis', 'ter'))
+S1_QUESTION_COUNTS.update(dict.fromkeys(S1_EXPANSION_IDS, 6))
 STRICT_S1 = frozenset(S1_QUESTION_COUNTS)
 S2_QUESTION_COUNTS = {'td2-S2': 13, 'td3-S2': 30, 'td4-S2': 14,
                       'td5-S2': 25, 'td6-S2': 10, 'ControleDevoirMaisonS2': 30}

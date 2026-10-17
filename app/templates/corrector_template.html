@@ -19,10 +19,9 @@
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
         th { background: #f8f9fa; }
         .question-col { width: 15%; }
-        .answer-col { width: 32%; }
-        .feedback-col { width: 25%; }
-        .status { width: 16%; }
-        .points { width: 12%; }
+        .answer-col { width: 45%; }
+        .status { width: 30%; }
+        .points { width: 10%; }
         .status-label { font-weight: 600; }
         .status-ok { color: var(--ok); }
         .status-error { color: var(--err); }
@@ -30,10 +29,9 @@
         .solution-col { display: none; background-color: #f0f7ff; }
         body.show-solutions .solution-col { display: table-cell; }
         body.show-solutions .question-col { width: 12%; }
-        body.show-solutions .answer-col { width: 26%; }
-        body.show-solutions .feedback-col { width: 20%; }
-        body.show-solutions .solution-col { width: 25%; }
-        body.show-solutions .status { width: 10%; }
+        body.show-solutions .answer-col { width: 28%; }
+        body.show-solutions .solution-col { width: 31%; }
+        body.show-solutions .status { width: 22%; }
         body.show-solutions .points { width: 7%; }
         .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
@@ -65,7 +63,7 @@
         }
     </style>
 </head>
-<body>
+<body class="show-solutions">
     <main class="container">
         <header class="header">
             <h1>{{ display_name }}</h1>
@@ -84,20 +82,19 @@
             </div>
             <div class="final-score">Score formatif provisoire : {{ "%.2f"|format(score) }} / {{ max_score }}</div>
             <div class="report-guide">
-                <p>Ce rapport vous aide à reprendre votre travail. Pour chaque question, comparez ce qui a été retrouvé dans votre notebook avec le diagnostic, puis consultez l’exemple de solution si nécessaire.</p>
-                <p>Les exemples réutilisent les données et fonctions préparées dans le TD : exécutez les cellules précédentes avant de les essayer.</p>
-                <p>Le correcteur lit le code et les sorties déjà enregistrées dans le fichier ; il n’exécute pas votre programme. Une sortie périmée peut ne plus correspondre au code affiché : réexécutez les cellules dans l’ordre et enregistrez le notebook avant l’envoi. Un critère satisfait ne garantit pas que toute la réponse est correcte. Les explications et interprétations restent à autoévaluer avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
+                <p>Comparez votre réponse au résultat attendu. Le ✓ vert indique que les critères vérifiés sont satisfaits ; les explications et interprétations restent à autoévaluer avec les critères du TD.</p>
+                <p>Le correcteur lit le code et les sorties enregistrées ; il n’exécute pas votre programme. Pour éviter une sortie périmée, réexécutez les cellules dans l’ordre et enregistrez avant l’envoi. Les solutions réutilisent la préparation du TD.</p>
             </div>
 
             <div class="toggle-box">
-                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table"> Afficher les exemples de solutions et les résultats attendus</label>
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table" checked> Afficher le résultat attendu et la solution</label>
             </div>
 
             {% for d in details if d.check.startswith('Portée') %}
-            <aside class="score-scope" aria-label="Portée du score">
-                <h2>{{ d.check }}</h2>
+            <details class="score-scope">
+                <summary>{{ d.check }}</summary>
                 <p>{{ d.solution_explanation if d.solution_explanation is defined else d.student_answer }}</p>
-            </aside>
+            </details>
             {% endfor %}
 
             <table id="feedback-table">
@@ -106,9 +103,8 @@
                     <tr>
                         <th scope="col" class="question-col">Question</th>
                         <th scope="col" class="answer-col">Votre réponse retrouvée</th>
-                        <th scope="col" class="feedback-col">Diagnostic et prochaine étape</th>
-                        <th scope="col" class="solution-col">Exemple de solution et résultat attendu</th>
-                        <th scope="col" class="status">État</th>
+                        <th scope="col" class="solution-col">Résultat attendu</th>
+                        <th scope="col" class="status">Bilan</th>
                         <th scope="col" class="points">Points</th>
                     </tr>
                 </thead>
@@ -127,12 +123,7 @@
                                 <pre>{{ d.student_answer }}</pre>
                             {% endif %}
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            {% if d.diagnostic %}<h4>Diagnostic</h4><p class="explanation">{{ d.diagnostic }}</p>{% endif %}
-                            {% if d.action %}<h4>Pour progresser</h4><p class="explanation">{{ d.action }}</p>{% endif %}
-                            {% if not d.diagnostic and not d.action %}<p>Comparez votre réponse au résultat attendu et reprenez la consigne de la question.</p>{% endif %}
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
+                        <td class="solution-col" data-label="Résultat attendu">
                             {% if d.solution_code is defined %}
                                 {% if d.solution_code %}<h4>Un exemple de code</h4><pre><code>{{ d.solution_code }}</code></pre>{% endif %}
                                 {% if d.solution_explanation %}<h4>Ce qui est attendu</h4><p class="explanation">{{ d.solution_explanation }}</p>{% endif %}
@@ -141,13 +132,24 @@
                                 <pre>{{ d.correct_answer }}</pre>
                             {% endif %}
                         </td>
-                        <td class="status" data-label="État">
-                            {% if d.evaluation_status == 'non_verifiable' %}<span class="status-label status-review">Non vérifiable</span>
+                        <td class="status" data-label="Bilan">
+                            {% set success = d.status == '✅' and d.evaluation_status not in ['non_verifiable', 'preuve_absente'] and not d.missing_fields %}
+                            {% if success %}<span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+                            {% elif d.evaluation_status == 'non_verifiable' %}<span class="status-label status-review">Non vérifiable</span>
                             {% elif d.evaluation_status == 'preuve_absente' %}<span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            {% elif d.status == '✅' %}<span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
+                            {% elif d.status == '✅' and d.missing_fields %}<span class="status-label status-review">À compléter</span>
                             {% elif d.status == '❌' %}<span class="status-label status-error"><span aria-hidden="true">✗ </span>À reprendre</span>
                             {% elif d.status == 'ℹ️' %}<span class="status-label">À autoévaluer</span>
                             {% else %}<span class="status-label status-review">À vérifier</span>{% endif %}
+                            {% if not success %}
+                                {% if d.status == '✅' and d.missing_fields %}
+                                    <p class="explanation">Complétez : {{ d.missing_fields|join(', ') }}.</p>
+                                {% else %}
+                                    {% if d.diagnostic %}<p class="explanation">{{ d.diagnostic }}</p>{% endif %}
+                                    {% if d.action %}<p class="explanation">{{ d.action }}</p>{% endif %}
+                                    {% if not d.diagnostic and not d.action %}<p>Comparez votre réponse au résultat attendu.</p>{% endif %}
+                                {% endif %}
+                            {% endif %}
                         </td>
                         <td class="points" data-label="Points">{% if d.status == 'ℹ️' and d.max_points == 0 %}Non noté{% else %}{{ "%.2f"|format(d.points) }} / {{ "%.2f"|format(d.max_points) }}{% endif %}</td>
                     </tr>

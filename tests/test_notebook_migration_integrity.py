@@ -63,6 +63,36 @@ ADDED_EXCLUDED_NOTEBOOKS = {
 }
 
 
+SWINNEN_SUBJECTS = {
+    'Notebooks TD/S1/TD3-bis_S1_tuples.ipynb',
+    'Notebooks TD/S1/TD3-one_S1_listes.ipynb',
+    'Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb',
+    'Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb',
+    'Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb',
+    'Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb',
+    'Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb',
+    'Notebooks TD/S1/TD5-one_S1_fonctions.ipynb',
+    'Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb',
+    'Notebooks TD/S1/TD6-bis_S1_donnees_delimitees.ipynb',
+    'Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb',
+    'Notebooks TD/S1/TD6-ter_S1_csv.ipynb',
+}
+ADDED_EXCLUDED_NOTEBOOKS |= {
+    'Corrigés modèles/TD/td4-swinnen/TD4-one_S1_conditions_filtres_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/td4-swinnen/TD4-bis_S1_bornes_repetitions_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/td4-swinnen/TD4-ter_S1_comptages_comprehensions_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD3-bis_S1_tuples_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD3-one_S1_listes_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD3-ter_S1_dictionnaires_ensembles_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD5-bis_S1_parametres_portee_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD5-one_S1_fonctions_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD5-ter_S1_composition_texte_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD6-bis_S1_donnees_delimitees_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD6-one_S1_fichiers_texte_corrige_non_execute.ipynb',
+    'Corrigés modèles/TD/s1-swinnen/TD6-ter_S1_csv_corrige_non_execute.ipynb',
+}
+
+
 # The PR19 rename remains independently checked against the historical fixture.
 # The seven newly revised subjects are separately checked against PR19 below.
 S1_RENAMED_SUBJECTS = {
@@ -234,7 +264,7 @@ class MigrationIntegrityTests(unittest.TestCase):
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
         self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
         current_original_paths = {S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path)) for path in self.baseline["active"]}
-        self.assertEqual({presentation_path(p) for p in current_original_paths | ADDED_ACTIVE_SUBJECTS},
+        self.assertEqual({presentation_path(p) for p in current_original_paths | ADDED_ACTIVE_SUBJECTS | SWINNEN_SUBJECTS},
                          {e["notebook"] for e in active})
         self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
                          {e["notebook"] for e in inactive} |

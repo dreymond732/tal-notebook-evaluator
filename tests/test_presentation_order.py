@@ -137,8 +137,8 @@ class PresentationOrderTests(unittest.TestCase):
         import prepare_student_notebooks as prep
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'dist'
-            self.assertEqual(prep.render(output, 'https://example.test/tal'), 34)
-            self.assertEqual(prep.verify_rendered(output, 'https://example.test/tal'), 34)
+            self.assertEqual(prep.render(output, 'https://example.test/tal'), 46)
+            self.assertEqual(prep.verify_rendered(output, 'https://example.test/tal'), 46)
             for oldpath, newpath in RENAMED.items():
                 self.assertFalse((output / oldpath).exists())
                 rendered = json.loads((output / newpath).read_text())

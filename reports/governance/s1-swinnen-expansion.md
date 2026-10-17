@@ -1,0 +1,47 @@
+# Gouvernance — Renforcement Swinnen du S1
+
+## Mission et périmètre
+
+Audit indépendant du 15 octobre 2026, rôle `TAL-Governance-Auditor`, branche dédiée `pedagogy/s1-swinnen-renforcement`, base `c81c38641ecddb66c5ea65c78eafbd2d8d3cbbc5`. La demande enseignante autorise le renforcement des TD3, TD5 et TD6 et leur découpage en unités one, bis et ter. Aucun rôle normatif supplémentaire n'est nécessaire.
+
+Périmètre : neuf nouveaux sujets, leurs 54 questions, neuf correcteurs v2, intégration au catalogue/routes/tutorat/distribution, neuf corrigés de référence et documentation. Les trois sujets et contrats historiques restent disponibles. Le présent audit ne modifie que ce rapport ; il ne produit ni support, ni correcteur, ni règle, ni verdict d'intégration.
+
+**Verdict final : CONFORME**, pour l'état relu et les preuves consignées ci-dessous. Aucun blocage de gouvernance restant. Ce verdict ne vaut ni autorisation de fusion ni validation du serveur de production.
+
+## Règles, couverture et séparation
+
+Sources normatives lues : `AGENTS.md`, `docs/AGENT_PERMISSION_MATRIX.md`, `docs/EVALUATOR_CONTRACT.md`, `docs/agents/WORKFLOW.md` et fiche du rôle gouvernance. Aucune de ces règles n'est modifiée par la mission de contenu. Le travail est sur une branche pédagogique dédiée ; aucune fusion ni mise en production n'est incluse.
+
+Le cadrage préalable `docs/pedagogy/s1-swinnen-expansion.md` identifie la base technique, les trois sources historiques, chaque activité à conserver, les cibles, les prérequis et les apports authentiques de Swinnen. Il ne revendique pas une version historique plus riche non retrouvée. La demande d'enrichissement ne vaut pas autorisation de suppression ; la matrice prescrit la conservation des exemples, essais, interprétations et productions, ainsi que des cas limites. Les cibles sont réellement livrées : aucune activité n'est déclarée couverte dans un futur cahier absent.
+
+Les producteurs sont distincts des trois réviseurs : `/root/prof`, `/root/designer_td3`, `/root/designer_td5`, `/root/designer_td6` et `/root/student_model` ont respectivement assuré cadrage, conception et résolution. Les revues proviennent de `/root/pedagogy`, `/root/editorial` et `/root/code_review`. L'orchestrateur a ensuite pris successivement les fonctions productrices Prof (manifestes), Designer (reprises, annexes et tutorat) et Architecte (code, tests et intégration) ; ces reprises ne lui confèrent aucune indépendance de revue. Son verdict d'intégration est donc limité à `MAINTAINER_REVIEW`.
+
+La revue pédagogique indépendante, consignée avec preuves par question dans `docs/s1_swinnen_pedagogy_review.md`, rend `ACCEPT — COUVERTURE_PÉDAGOGIQUE_CONSERVÉE`, après les deux reprises : compréhension réautorisée dans TD5-ter Q3 et observation du texte CSV historique dans TD6-ter Q5. La lecture éditoriale indépendante, archivée dans `reports/editorial/s1-swinnen-expansion.md`, couvre les 54 questions, les cours/essais, les cellules lues et les limites de preuve ; verdict `ACCEPT — LISIBILITÉ_ÉTUDIANTE_VALIDÉE`. Elle n'est pas assimilée à une validation technique.
+
+La lecture de l'Étudiant-Modèle est archivée dans `Corrigés modèles/TD/s1-swinnen/lecture.md` : identité fictive, neuf sujets et seuls acquis autorisés, réponses et ambiguïtés par question ; correcteurs/tests/infrastructure non consultés selon son relais. Les neuf copies produites restent non exécutées, sans sorties ; les essais supplémentaires encore à compléter sont déclarés. Après une synchronisation préparatoire du producteur, l'auteur `/root/student_model` a repris et réécrit lui-même les métadonnées et cellules non-réponse finales depuis les seuls sujets autorisés, en conservant ses 54 réponses et identités. Sa note finale contient les neuf empreintes des sujets repris, vérifiées indépendamment : elles correspondent aux fichiers actuels ; métadonnées et cellules non-réponse sont égales aux sujets et les modèles sont sans sorties. Le point de permissions sur cette reprise finale est ainsi levé. La QA d'exécution a été conduite séparément par l'Architecte sur copies temporaires synthétiques, dans neuf dossiers vides distincts : neuf exécutions sans erreur, neuf scores de 6/6, selon le relais technique. Cette QA ne démontre pas les interprétations personnelles ni l'exécution future en classe.
+
+## Sources et conditions de redistribution
+
+Source consultée : Gérard Swinnen, *Apprendre à programmer avec Python*, PDF `apprendre_python3_5.pdf` fourni par l'enseignant, copyright 2000–2012. La matrice donne sections/exercices et pages imprimées ; les adaptations au TAL, ensembles et CSV ne sont pas attribuées fictivement au manuel.
+
+Vérifications indépendantes : le texte de l'avis original, de la préface et de la licence complète contenu dans `docs/swinnen/NOTICE_PREFACE_LICENCE.txt` correspond à des blocs intégraux de l'extraction du PDF fourni, après normalisation des blancs. L'empreinte SHA-256 du fichier est `76963e6d13a900c779cebed564833d507ceab228cb6412390413549e96cc3b61`. Après décodage HTML, les neuf annexes reproduisent exactement ce fichier. Attribution, contexte d'adaptation et conditions CC BY-NC-SA 2.0 France sont présents dans chaque cahier ; la notice reste incluse lors de la génération des copies. Aucun changement de la licence du serveur n'est proposé. Ce contrôle vérifie la conservation des conditions présentes dans le document fourni.
+
+## Contrats, sécurité et distribution
+
+- Le `CHANGEMENT_DE_CONTRAT` est annoncé comme additif : neuf identifiants `td{3,5,6}-{one,bis,ter}-s1`, version 2, six cellules-réponses et maximum technique de 6 points par unité. Pas de migration silencieuse des copies historiques.
+- Les trois notebooks historiques TD3/TD5/TD6 sont, à la vérification indépendante, identiques octet pour octet à `HEAD`. Catalogue et routes historiques sont conservés ; les titres du sélecteur les distinguent comme synthèses historiques.
+- La correction réutilise l'analyse des sources et des sorties enregistrées : aucun programme, import, fonction ou fichier étudiant n'est exécuté/ouvert par le serveur. Les références et prédicats appartiennent à l'application. Les limites de l'approximation syntaxique et des traces périmées/fabriquées sont déclarées.
+- L'extension de contexte d'alias aux exemples n'accorde pas de points à leur production ; le suivi syntaxique de `csv.reader` n'ouvre pas le fichier désigné. Les variantes autorisées conservent types/champs, cohérence du lexique et comptes/unicité CSV. La contrainte de boucle de TD5-ter Q3 est retirée lorsque l'énoncé accepte une compréhension.
+- Contrôles JSON indépendants réussis : neuf sujets/54 cellules-réponses, catalogue v2, présence au manifeste, contexte Colab intégral repris dans la première cellule Markdown avec titre visible, aucune sortie ni numéro d'exécution dans les sujets. Les contrôles exhaustifs de synchronisation sont distincts de cette inspection.
+- Les neuf références sont exclues du catalogue des sujets et du manifeste des tuteurs, et restent sans sorties. La distribution est produite depuis les seuls sujets actifs du catalogue ; elle conserve les annexes et ne modifie que la restitution canonique. Les sources conservent `__TAL_PUBLIC_URL__` ; URL neutre utilisée pour la QA.
+- Le parcours renforcé comporte treize cahiers TD, plus DM et contrôle distincts. Les synthèses historiques restent accessibles sans exiger leur répétition intégrale en plus du nouveau parcours. La documentation de distribution a été clarifiée après signalement de l'ancienne mention limitée à sept fichiers.
+
+## Preuves finales et limites
+
+Preuves de l'orchestrateur déjà reçues : validation nbformat des 18 sujets/références, absence de sorties ; validation de l'inventaire ; `python app/tutor_metadata.py --check` réussi ; génération temporaire puis `verify_rendered` avec URL neutre `https://example.test/universite/tal` : 43/43 fichiers, aucune référence incluse ; `git diff --check` réussi.
+
+La suite complète finale annoncée par l'orchestrateur (`python -m pytest -q --disable-warnings --maxfail=2`) donne **308 tests réussis, 7 ignorés et 2 241 sous-tests réussis**, en 7,03 s. Les cas ignorés concernent l'outil optionnel de nettoyage historique `git_filter_repo` absent ; ils préexistent à cette mission et ne sont pas comptés comme réussis. L'audit indépendant consigné dans `docs/s1_swinnen_code_review.md` a été lu : **ACCEPT**, avec 40 tests et 281 sous-tests propres à l'auditeur. Il couvre les neuf correcteurs, routes avec proxy, POST, tuple de retour, rejet de version et persistances distinctes, ainsi que les variantes et tests négatifs. Les cinq constats techniques sont clos ; le test local des neuf références est distingué des sondes propres à l'auditeur.
+
+Une réussite locale n'est ni un déploiement de production ni un essai réel du tuteur Gemini dans Colab. La charge accrue n'a pas été mesurée en classe et treize cahiers ne sont pas treize séances ; la répartition relève de l'enseignant, sans réduction implicite des activités. DM et contrôle n'ont pas été révisés par cette mission. Les explications restent hors validation automatique. Docker local, CI distante et production : `NOT_TESTED` dans cette revue ; les contrôler sur le commit exact avant fusion selon le relais d'intégration.
+
+Le relais d'intégration restera **MAINTAINER_REVIEW**, puisque l'Architecte principal a produit l'intégration. Aucun `READY_TO_MERGE` auto-attribué ; fusion et production relèvent du mainteneur.

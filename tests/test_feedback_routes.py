@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from unittest.mock import patch
+from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'app'))
@@ -21,7 +22,7 @@ class StudentFeedbackRoutes(unittest.TestCase):
         entries = [e for e in load_catalog() if e['active']
                    and e['semester'] in ('S1', 'S3')
                    and EVALUATOR_MODES.get(e['evaluator']) == 'td']
-        self.assertGreaterEqual(len(entries), 19)
+        self.assertEqual(len(entries), 31)
         sentinel_source = 'raise RuntimeError("SOURCE_OBSERVEE_JAMAIS_EXECUTEE")'
         sentinel_output = 'SORTIE_OBSERVEE <script>copie()</script>\n'
         for entry in entries:
@@ -54,6 +55,10 @@ class StudentFeedbackRoutes(unittest.TestCase):
                         self.assertNotIn('<script>copie()</script>', html)
                         self.assertIn('toggle-solutions', html)
                         self.assertIn('/universite/tal/', html)
+                        soup = BeautifulSoup(html, 'html.parser')
+                        self.assertIn('show-solutions', soup.body['class'])
+                        self.assertIsNotNone(soup.select_one('td.solution-col code'))
+                        self.assertNotIn('Aucun exemple de solution disponible', soup.get_text())
                     self.assertEqual(len(list(Path(directory).rglob('*.ipynb'))), 1)
                     self.assertEqual(len(list(Path(directory).rglob('*.csv'))), 1)
 

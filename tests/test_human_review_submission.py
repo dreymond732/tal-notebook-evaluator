@@ -53,7 +53,7 @@ class CompanionContractTests(unittest.TestCase):
         entry = resolve_notebook(notebook())
         self.assertEqual((entry['version'], entry['evaluator']), (3, 'td1b-s3'))
         self.assertFalse(any(e.get('assessment') == 'human_review' for e in load_catalog()))
-        self.assertEqual(len(routes.EVALUATORS), 34)
+        self.assertEqual(len(routes.EVALUATORS), 46)
         routes.validate_evaluator_semesters()
         for version in (None, 1, 2, True, '3', 4):
             nb = notebook(); nb['metadata']['tal']['version'] = version
@@ -156,7 +156,7 @@ class CompanionRoutesTests(unittest.TestCase):
         self.assertEqual(json.loads(paths[0].read_text()), nb)
         self.assertEqual(len(list(self.root.rglob('*.html'))), 1)
         self.assertEqual(len(list(self.root.rglob('*.csv'))), 1)
-        self.assertEqual(self.client.get('/health').json['evaluators'], 34)
+        self.assertEqual(self.client.get('/health').json['evaluators'], 46)
 
     def test_first_storage_failure_is_visible_without_a_score(self):
         real_open = open

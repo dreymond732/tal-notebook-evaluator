@@ -122,11 +122,12 @@ class S1FeedbackTests(unittest.TestCase):
         details = copy.deepcopy(original)
         self.assertIs(enrich_s1_details(subject(1), 'td2-S2', details), details)
         self.assertEqual(details, original)
-        # Future one/bis/ter IDs receive evidence, not mismatched historical examples.
+        # Expansion IDs receive their own example, never the historical TD3 answer.
         details = copy.deepcopy(original)
         enrich_s1_details(subject(1), 'td3-one-s1', details)
         self.assertTrue(details[0]['answer_cells'])
-        self.assertNotIn('solution_code', details[0])
+        self.assertIn('mots[0]', details[0]['solution_code'])
+        self.assertNotIn('outils.append', details[0]['solution_code'])
         self.assertEqual(details[0]['points'], 0.5)
 
     def test_diagnostics_locate_missing_companion_display_and_dependencies(self):

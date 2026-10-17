@@ -19,10 +19,9 @@
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
         th { background: #f8f9fa; }
         .question-col { width: 15%; }
-        .answer-col { width: 32%; }
-        .feedback-col { width: 25%; }
-        .status { width: 16%; }
-        .points { width: 12%; }
+        .answer-col { width: 45%; }
+        .status { width: 30%; }
+        .points { width: 10%; }
         .status-label { font-weight: 600; }
         .status-ok { color: var(--ok); }
         .status-error { color: var(--err); }
@@ -30,10 +29,9 @@
         .solution-col { display: none; background-color: #f0f7ff; }
         body.show-solutions .solution-col { display: table-cell; }
         body.show-solutions .question-col { width: 12%; }
-        body.show-solutions .answer-col { width: 26%; }
-        body.show-solutions .feedback-col { width: 20%; }
-        body.show-solutions .solution-col { width: 25%; }
-        body.show-solutions .status { width: 10%; }
+        body.show-solutions .answer-col { width: 28%; }
+        body.show-solutions .solution-col { width: 31%; }
+        body.show-solutions .status { width: 22%; }
         body.show-solutions .points { width: 7%; }
         .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
@@ -65,38 +63,37 @@
         }
     </style>
 </head>
-<body><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
+<body class="show-solutions"><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
     <main class="container">
         <header class="header">
             <h1>TD1 S1 - Variables et types</h1>
             <p>Travaux dirigés — Autoévaluation formative</p>
         </header>
 
-        
-            
-        
 
-        
+
+
+
+
             <div class="student-info">
                 <p><strong>Étudiant :</strong> Alex ESSAI (S1)</p>
             </div>
             <div class="final-score">Score formatif provisoire : 6.00 / 6.0</div>
             <div class="report-guide">
-                <p>Ce rapport vous aide à reprendre votre travail. Pour chaque question, comparez ce qui a été retrouvé dans votre notebook avec le diagnostic, puis consultez l’exemple de solution si nécessaire.</p>
-                <p>Les exemples réutilisent les données et fonctions préparées dans le TD : exécutez les cellules précédentes avant de les essayer.</p>
-                <p>Le correcteur lit le code et les sorties déjà enregistrées dans le fichier ; il n’exécute pas votre programme. Une sortie périmée peut ne plus correspondre au code affiché : réexécutez les cellules dans l’ordre et enregistrez le notebook avant l’envoi. Un critère satisfait ne garantit pas que toute la réponse est correcte. Les explications et interprétations restent à autoévaluer avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
+                <p>Comparez votre réponse au résultat attendu. Le ✓ vert indique que les critères vérifiés sont satisfaits ; les explications et interprétations restent à autoévaluer avec les critères du TD.</p>
+                <p>Le correcteur lit le code et les sorties enregistrées ; il n’exécute pas votre programme. Pour éviter une sortie périmée, réexécutez les cellules dans l’ordre et enregistrez avant l’envoi. Les solutions réutilisent la préparation du TD.</p>
             </div>
 
             <div class="toggle-box">
-                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table"> Afficher les exemples de solutions et les résultats attendus</label>
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table" checked> Afficher le résultat attendu et la solution</label>
             </div>
 
-            
-            <aside class="score-scope" aria-label="Portée du score">
-                <h2>Portée du score</h2>
+
+            <details class="score-scope">
+                <summary>Portée du score</summary>
                 <p>Score technique provisoire sur les traces enregistrées. Le serveur ne lance pas votre code et ne certifie ni l’authenticité ni la fraîcheur des sorties. Réexécutez les cellules dans l’ordre. Les explications ne sont pas évaluées automatiquement. Comparez-les aux critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
-            </aside>
-            
+            </details>
+
 
             <table id="feedback-table">
                 <caption>Retour par question</caption>
@@ -104,18 +101,17 @@
                     <tr>
                         <th scope="col" class="question-col">Question</th>
                         <th scope="col" class="answer-col">Votre réponse retrouvée</th>
-                        <th scope="col" class="feedback-col">Diagnostic et prochaine étape</th>
-                        <th scope="col" class="solution-col">Exemple de solution et résultat attendu</th>
-                        <th scope="col" class="status">État</th>
+                        <th scope="col" class="solution-col">Résultat attendu</th>
+                        <th scope="col" class="status">Bilan</th>
                         <th scope="col" class="points">Points</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q1 — Calcul numérique</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 11.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>prix_par_mot=.12
@@ -125,34 +121,31 @@ print(&#34;Résultat Q1 :&#34;,cout_total)</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>Résultat Q1 : 15.0
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>prix_par_mot = 0.12
 nb_mots = 125
 cout_total = prix_par_mot * nb_mots
 print(&#34;Résultat Q1 :&#34;, cout_total)</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Multipliez le prix unitaire par le nombre de mots : le coût est 15 euros.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q2 — Observation de type</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 16.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>note=14.5
@@ -160,33 +153,30 @@ print(&#34;Résultat Q2 :&#34;,type(note))</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>Résultat Q2 : &lt;class &#39;float&#39;&gt;
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code># Prédiction : un nombre décimal a ici le type float.
 note = 14.5
 print(&#34;Résultat Q2 :&#34;, type(note))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">type(note) affiche le type de la valeur, ici float.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q3 — Comparaison et conjonction</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 21.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>meme_nombre=nb_mots==125
@@ -195,33 +185,30 @@ print(&#34;Résultat Q3 :&#34;,meme_nombre,commande_importante)</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>Résultat Q3 : True True
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>meme_nombre = nb_mots == 125
 commande_importante = nb_mots &gt;= 100 and prix_par_mot &gt; 0
 print(&#34;Résultat Q3 :&#34;, meme_nombre, commande_importante)</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Réutilisez les données de Q1. == compare deux valeurs ; and exige que les deux conditions soient vraies. Les deux réponses valent ici True.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q4 — f-string</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 26.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>langue_source=&#34;français&#34;
@@ -231,34 +218,31 @@ print(&#34;Résultat Q4 :&#34;,phrase_presentation)</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>Résultat Q4 : Traduction du français vers l’anglais.
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>langue_source = &#34;français&#34;
 langue_cible = &#34;anglais&#34;
 phrase_presentation = f&#34;Traduction du {langue_source} vers l’{langue_cible}.&#34;
 print(&#34;Résultat Q4 :&#34;, phrase_presentation)</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Les accolades insèrent les deux variables. Conservez les espaces, l’apostrophe et le point final de la phrase demandée.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q5 — Conversion en entier</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 31.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>volume_saisi=&#34;80&#34;
@@ -267,33 +251,30 @@ print(&#34;Résultat Q5 :&#34;,volume_corrige,type(volume_corrige))</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>Résultat Q5 : 100 &lt;class &#39;int&#39;&gt;
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>volume_saisi = &#34;80&#34;
 volume_corrige = int(volume_saisi) + 20
 print(&#34;Résultat Q5 :&#34;, volume_corrige, type(volume_corrige))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Convertissez la chaîne en entier avant l’addition : le résultat est 100, de type int.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q6 — Chaîne et appartenance</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 36.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>phrase=&#34;Le TAL aide.&#34;
@@ -303,37 +284,34 @@ print(&#34;Résultat Q6b :&#34;,repr(phrase))</code></pre>
                                 <pre>Résultat Q6 : 12 True
 Résultat Q6b : &#39;Le TAL aide.&#39;
 </pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Les résultats enregistrés et le traitement repéré correspondent aux critères vérifiés. Relisez aussi les explications et les essais demandés dans le TD.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez aussi les essais et les explications demandés dans l’énoncé : la note automatique ne valide pas leur contenu.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>phrase = &#34;Le TAL aide.&#34;
 print(&#34;Résultat Q6 :&#34;, len(phrase), &#34;TAL&#34; in phrase)
 print(&#34;Résultat Q6b :&#34;, repr(phrase))
 # Les espaces et le point comptent ; TAL est présent avec cette casse.</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Cet exemple utilise une phrase possible ; gardez votre propre choix. len compte tous les caractères, et in distingue les majuscules des minuscules. repr rend la donnée choisie visible.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
-                            <span class="status-label status-ok"><span aria-hidden="true">✓ </span>Critère satisfait</span>
-                            
+                        <td class="status" data-label="Bilan">
+
+                            <span class="status-label status-ok" role="img" aria-label="Critères vérifiés satisfaits">✓</span>
+
+
                         </td>
                         <td class="points" data-label="Points">1.00 / 1.00</td>
                     </tr>
-                    
+
                 </tbody>
             </table>
 
-            
-            
+
+
             <details class="report-guide"><summary>Autres productions enregistrées dans votre notebook</summary>
-                
+
 <h2>Vos textes, essais et affichages enregistrés</h2>
 <p>Retrouvez ici les cellules de votre notebook, y compris les explications qui ne donnent pas de points automatiques.
 Les numéros suivent l’ordre du fichier. Les figures et les affichages HTML sont signalés ; ouvrez votre notebook pour les voir.</p>
@@ -504,14 +482,14 @@ Résultat Q6b : &#39;Le TAL aide.&#39;
 </section>
 
             </details>
-            
+
             <nav class="nav-links" aria-label="Navigation du correcteur">
                 <a href="/eval/td1-s1">Refaire une soumission</a>
                 <a href="/semestre/S1">Retour aux correcteurs S1</a>
 <a href="/">Changer de semestre</a>
             </nav>
 
-        
+
     </main>
 
     <script>

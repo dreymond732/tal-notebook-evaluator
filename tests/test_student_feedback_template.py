@@ -45,11 +45,11 @@ class StudentFeedbackTemplateTests(unittest.TestCase):
         self.assertIn('Résultat Q1 : 42', cells[1].get_text())
         self.assertIn('3, 5', cells[1].get_text())
         self.assertNotIn('La sortie ne correspond', cells[1].get_text())
-        self.assertIn('La sortie ne correspond', cells[2].get_text())
-        self.assertIn('Recalculez la valeur', cells[2].get_text())
-        self.assertIn('print("Résultat Q1 :", 43)', cells[3].get_text())
-        self.assertIn('La valeur attendue est 43.', cells[3].get_text())
-        self.assertIn('À reprendre', cells[4].get_text())
+        self.assertIn('La sortie ne correspond', cells[3].get_text())
+        self.assertIn('Recalculez la valeur', cells[3].get_text())
+        self.assertIn('print("Résultat Q1 :", 43)', cells[2].get_text())
+        self.assertIn('La valeur attendue est 43.', cells[2].get_text())
+        self.assertIn('À reprendre', cells[3].get_text())
         self.assertNotIn('Ancien résumé', html)
         self.assertNotIn('Note Finale', html)
         self.assertIn('Score formatif provisoire', html)
@@ -89,7 +89,8 @@ class StudentFeedbackTemplateTests(unittest.TestCase):
         html = self.render([old], evaluator_name='td1-s2')
         self.assertIn('Réponse historique &lt;script&gt;ancien&lt;/script&gt;', html)
         self.assertIn('Attendu historique', html)
-        self.assertIn('Critère satisfait', html)
+        success = BeautifulSoup(html, 'html.parser').select_one('.status-ok')
+        self.assertEqual(success.get_text(), '✓')
 
     def test_ungraded_observations_are_not_presented_as_missing_evidence(self):
         html = self.render([self.detail(status='ℹ️', points=0, max_points=0)])
@@ -105,7 +106,7 @@ class StudentFeedbackTemplateTests(unittest.TestCase):
             with self.subTest(state=state):
                 html = self.render([self.detail(status='❌', evaluation_status=state)])
                 row = BeautifulSoup(html, 'html.parser').select_one('#feedback-table tbody tr')
-                self.assertEqual(row.select_one('.status').get_text().strip(), expected)
+                self.assertEqual(row.select_one('.status-label').get_text().strip(), expected)
                 self.assertNotIn('À reprendre', row.select_one('.status').get_text())
                 self.assertEqual(row.select_one('.points').get_text().strip(), '0.00 / 1.00')
 
@@ -113,10 +114,33 @@ class StudentFeedbackTemplateTests(unittest.TestCase):
         html = self.render([self.detail()])
         soup = BeautifulSoup(html, 'html.parser')
         self.assertIsNotNone(soup.select_one('#toggle-solutions[aria-controls="feedback-table"]'))
+        self.assertTrue(soup.select_one('#toggle-solutions').has_attr('checked'))
+        self.assertIn('show-solutions', soup.body['class'])
+        self.assertEqual(soup.select_one('th.solution-col').get_text(), 'Résultat attendu')
         self.assertEqual(soup.select('script[src]'), [])
         self.assertIn("classList.toggle('show-solutions', this.checked)", html)
         self.assertIsNotNone(soup.select_one('noscript'))
         self.assertIn('max-width: 1000px', html)
+
+    def test_success_shows_only_accessible_green_check_without_redundant_feedback(self):
+        html = self.render([self.detail(status='✅', points=1,
+                                      evaluation_status='conforme')])
+        soup = BeautifulSoup(html, 'html.parser')
+        status = soup.select_one('td.status')
+        self.assertEqual(status.get_text().strip(), '✓')
+        self.assertEqual(status.select_one('.status-ok')['aria-label'], 'Critères vérifiés satisfaits')
+        self.assertNotIn('La sortie ne correspond', html)
+        self.assertNotIn('Recalculez la valeur', html)
+        self.assertIn('print("Résultat Q1 :", 42)', soup.select_one('td[data-label="Votre réponse retrouvée"]').get_text())
+        self.assertIn('print("Résultat Q1 :", 43)', soup.select_one('td.solution-col').get_text())
+
+    def test_graded_success_with_missing_written_field_still_requests_completion(self):
+        html = self.render([self.detail(status='✅', points=1,
+                         evaluation_status='conforme', missing_fields=['interpretation'])])
+        status = BeautifulSoup(html, 'html.parser').select_one('td.status')
+        self.assertIsNone(status.select_one('.status-ok'))
+        self.assertIn('À compléter', status.get_text())
+        self.assertIn('interpretation', status.get_text())
 
     def test_student_supplement_preserves_ungraded_text_without_internal_cell_id(self):
         evidence = [dict(question='Q1', omitted=0, cells=[dict(cell_number=7,

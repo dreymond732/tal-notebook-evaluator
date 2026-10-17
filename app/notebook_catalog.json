@@ -352,6 +352,126 @@
       "notebook": "Notebooks TD/S3/TD1.c_S3_entites_similarite_regles.ipynb",
       "tutor_session": "TD1B_S3",
       "title": "TD1.c S3 — Entités, similarité et règles"
+    },
+    {
+      "id": "td3-one-s1",
+      "version": 2,
+      "evaluator": "td3-one-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD3-one_S1_listes.ipynb",
+      "tutor_session": "TD3_ONE_S1"
+    },
+    {
+      "id": "td3-bis-s1",
+      "version": 2,
+      "evaluator": "td3-bis-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD3-bis_S1_tuples.ipynb",
+      "tutor_session": "TD3_BIS_S1"
+    },
+    {
+      "id": "td3-ter-s1",
+      "version": 2,
+      "evaluator": "td3-ter-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb",
+      "tutor_session": "TD3_TER_S1"
+    },
+    {
+      "id": "td5-one-s1",
+      "version": 2,
+      "evaluator": "td5-one-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD5-one_S1_fonctions.ipynb",
+      "tutor_session": "TD5_ONE_S1"
+    },
+    {
+      "id": "td5-bis-s1",
+      "version": 2,
+      "evaluator": "td5-bis-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb",
+      "tutor_session": "TD5_BIS_S1"
+    },
+    {
+      "id": "td5-ter-s1",
+      "version": 2,
+      "evaluator": "td5-ter-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb",
+      "tutor_session": "TD5_TER_S1"
+    },
+    {
+      "id": "td6-one-s1",
+      "version": 2,
+      "evaluator": "td6-one-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb",
+      "tutor_session": "TD6_ONE_S1"
+    },
+    {
+      "id": "td6-bis-s1",
+      "version": 2,
+      "evaluator": "td6-bis-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD6-bis_S1_donnees_delimitees.ipynb",
+      "tutor_session": "TD6_BIS_S1"
+    },
+    {
+      "id": "td6-ter-s1",
+      "version": 2,
+      "evaluator": "td6-ter-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD6-ter_S1_csv.ipynb",
+      "tutor_session": "TD6_TER_S1"
+    },
+    {
+      "id": "td4-one-s1",
+      "version": 2,
+      "evaluator": "td4-one-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb",
+      "tutor_session": "TD4_ONE_S1"
+    },
+    {
+      "id": "td4-bis-s1",
+      "version": 2,
+      "evaluator": "td4-bis-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb",
+      "tutor_session": "TD4_BIS_S1"
+    },
+    {
+      "id": "td4-ter-s1",
+      "version": 2,
+      "evaluator": "td4-ter-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb",
+      "tutor_session": "TD4_TER_S1"
     }
   ]
 }

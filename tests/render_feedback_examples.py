@@ -51,8 +51,8 @@ def render_examples(destination):
                 evaluator_name=evaluator, allowed_extension='.ipynb', score=score, details=details,
                 max_score=maximum, student_info=info, is_td=True)
         path = destination / ('rapport_' + evaluator.replace('-', '_') + '.html')
-        html = html.replace('<body>', '<body><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>', 1)
-        path.write_text(html)
+        html = html.replace('<body class="show-solutions">', '<body class="show-solutions"><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>', 1)
+        path.write_text('\n'.join(line.rstrip() for line in html.splitlines()) + '\n')
         print(f'{path}: {score}/{maximum}')
 
 

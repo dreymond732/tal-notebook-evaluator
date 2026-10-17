@@ -19,10 +19,9 @@
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; overflow-wrap: anywhere; }
         th { background: #f8f9fa; }
         .question-col { width: 15%; }
-        .answer-col { width: 32%; }
-        .feedback-col { width: 25%; }
-        .status { width: 16%; }
-        .points { width: 12%; }
+        .answer-col { width: 45%; }
+        .status { width: 30%; }
+        .points { width: 10%; }
         .status-label { font-weight: 600; }
         .status-ok { color: var(--ok); }
         .status-error { color: var(--err); }
@@ -30,10 +29,9 @@
         .solution-col { display: none; background-color: #f0f7ff; }
         body.show-solutions .solution-col { display: table-cell; }
         body.show-solutions .question-col { width: 12%; }
-        body.show-solutions .answer-col { width: 26%; }
-        body.show-solutions .feedback-col { width: 20%; }
-        body.show-solutions .solution-col { width: 25%; }
-        body.show-solutions .status { width: 10%; }
+        body.show-solutions .answer-col { width: 28%; }
+        body.show-solutions .solution-col { width: 31%; }
+        body.show-solutions .status { width: 22%; }
         body.show-solutions .points { width: 7%; }
         .toggle-box { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .toggle-box label { cursor: pointer; font-weight: bold; color: var(--blue); }
@@ -65,38 +63,37 @@
         }
     </style>
 </head>
-<body><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
+<body class="show-solutions"><p role="note" style="text-align:center">Exemple synthétique de restitution — aucune copie étudiante réelle.</p>
     <main class="container">
         <header class="header">
             <h1>TD1.a S3 - Annoter avec spaCy</h1>
             <p>Travaux dirigés — Autoévaluation formative</p>
         </header>
 
-        
-            
-        
 
-        
+
+
+
+
             <div class="student-info">
                 <p><strong>Étudiant :</strong> Alex EXEMPLE (Demonstration)</p>
             </div>
             <div class="final-score">Score formatif provisoire : 0.00 / 6.0</div>
             <div class="report-guide">
-                <p>Ce rapport vous aide à reprendre votre travail. Pour chaque question, comparez ce qui a été retrouvé dans votre notebook avec le diagnostic, puis consultez l’exemple de solution si nécessaire.</p>
-                <p>Les exemples réutilisent les données et fonctions préparées dans le TD : exécutez les cellules précédentes avant de les essayer.</p>
-                <p>Le correcteur lit le code et les sorties déjà enregistrées dans le fichier ; il n’exécute pas votre programme. Une sortie périmée peut ne plus correspondre au code affiché : réexécutez les cellules dans l’ordre et enregistrez le notebook avant l’envoi. Un critère satisfait ne garantit pas que toute la réponse est correcte. Les explications et interprétations restent à autoévaluer avec les critères du TD ; sollicitez l’enseignant si une difficulté persiste.</p>
+                <p>Comparez votre réponse au résultat attendu. Le ✓ vert indique que les critères vérifiés sont satisfaits ; les explications et interprétations restent à autoévaluer avec les critères du TD.</p>
+                <p>Le correcteur lit le code et les sorties enregistrées ; il n’exécute pas votre programme. Pour éviter une sortie périmée, réexécutez les cellules dans l’ordre et enregistrez avant l’envoi. Les solutions réutilisent la préparation du TD.</p>
             </div>
 
             <div class="toggle-box">
-                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table"> Afficher les exemples de solutions et les résultats attendus</label>
+                <label><input type="checkbox" id="toggle-solutions" aria-controls="feedback-table" checked> Afficher le résultat attendu et la solution</label>
             </div>
 
-            
-            <aside class="score-scope" aria-label="Portée du score">
-                <h2>Portée du score</h2>
+
+            <details class="score-scope">
+                <summary>Portée du score</summary>
                 <p>Traces enregistrées uniquement : le serveur n&#39;exécute pas votre programme. Il ne certifie ni leur authenticité ni leur fraîcheur. Réexécutez votre notebook dans l&#39;ordre. Les interprétations et les annotations linguistiques relèvent de votre autoévaluation ; ce score formatif ne mesure pas leur qualité. Une relecture individuelle par l’enseignant n’est pas systématique.</p>
-            </aside>
-            
+            </details>
+
 
             <table id="feedback-table">
                 <caption>Retour par question</caption>
@@ -104,18 +101,17 @@
                     <tr>
                         <th scope="col" class="question-col">Question</th>
                         <th scope="col" class="answer-col">Votre réponse retrouvée</th>
-                        <th scope="col" class="feedback-col">Diagnostic et prochaine étape</th>
-                        <th scope="col" class="solution-col">Exemple de solution et résultat attendu</th>
-                        <th scope="col" class="status">État</th>
+                        <th scope="col" class="solution-col">Résultat attendu</th>
+                        <th scope="col" class="status">Bilan</th>
                         <th scope="col" class="points">Points</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q1 — Annotations traçables</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 18.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code>annotations = []
@@ -124,15 +120,10 @@ for token in doc:
 print(annotations)</code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <pre>NameError: name &#39;doc&#39; is not defined</pre>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 annotations = []
 for token in doc:
@@ -143,20 +134,28 @@ for token in doc:
 resultat_q1 = {&#34;annotations&#34;: annotations}
 print(&#34;S3_TD1_Q1:&#34;, json.dumps(resultat_q1, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Parcourez doc dans l’ordre. Les bornes doivent restituer exactement chaque forme dans texte ; les étiquettes sont les prédictions du modèle chargé.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q2 — Phrases et tailles</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 22.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code># Vos prédictions, votre code et votre interprétation
@@ -165,15 +164,10 @@ print(&#34;S3_TD1_Q1:&#34;, json.dumps(resultat_q1, ensure_ascii=False))</code><
 </code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 phrases = []
 for phrase in doc.sents:
@@ -181,20 +175,28 @@ for phrase in doc.sents:
 resultat_q2 = {&#34;phrases&#34;: phrases}
 print(&#34;S3_TD1_Q2:&#34;, json.dumps(resultat_q2, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Chaque phrase conserve son texte et son nombre de tokens, ponctuation comprise. Comparez avec votre segmentation manuelle.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q3 — Filtres conformes au pipeline</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 26.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code># Vos prédictions, votre code et votre interprétation
@@ -203,15 +205,10 @@ print(&#34;S3_TD1_Q2:&#34;, json.dumps(resultat_q2, ensure_ascii=False))</code><
 </code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 noms, verbes, mots_pleins = [], [], []
 for token in doc:
@@ -224,20 +221,28 @@ for token in doc:
 resultat_q3 = {&#34;noms&#34;: noms, &#34;verbes&#34;: verbes, &#34;mots_pleins&#34;: mots_pleins}
 print(&#34;S3_TD1_Q3:&#34;, json.dumps(resultat_q3, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Filtrez les tokens puis prélevez leurs lemmes. Conservez l’ordre et les répétitions ; la liste des mots pleins applique aussi le filtre des mots vides.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q4 — Repères de dépendance</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 30.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code># Vos prédictions, votre code et votre interprétation
@@ -246,15 +251,10 @@ print(&#34;S3_TD1_Q3:&#34;, json.dumps(resultat_q3, ensure_ascii=False))</code><
 </code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 from spacy import displacy
 phrase = list(doc.sents)[0]
@@ -268,20 +268,28 @@ resultat_q4 = {&#34;verbe&#34;: verbe.text, &#34;verbe_debut&#34;: verbe.idx,
                &#34;interpretation&#34;: &#34;La relation affichée décrit un lien syntaxique proposé entre ces deux tokens ; elle ne permet pas de décider à qui attribuer un propos cité.&#34;}
 print(&#34;S3_TD1_Q4:&#34;, json.dumps(resultat_q4, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Exemple de repérage d’un verbe et de l’un de ses dépendants dans la première phrase. Précisez votre interprétation en nommant les deux tokens et en discutant la relation observée ; la syntaxe seule ne résout pas la question du locuteur.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q5 — Comparaison des découpages</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 34.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code># Vos prédictions, votre code et votre interprétation
@@ -290,15 +298,10 @@ print(&#34;S3_TD1_Q4:&#34;, json.dumps(resultat_q4, ensure_ascii=False))</code><
 </code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 doc_td0 = nlp(texte_td0)
 resultat_q5 = {&#34;split&#34;: len(texte_td0.split()), &#34;tokens&#34;: len(doc_td0),
@@ -306,20 +309,28 @@ resultat_q5 = {&#34;split&#34;: len(texte_td0.split()), &#34;tokens&#34;: len(do
                &#34;interpretation&#34;: &#34;split() suit les espaces ; spaCy sépare aussi certains éléments de ponctuation et contractions. Les unités comptées diffèrent.&#34;}
 print(&#34;S3_TD1_Q5:&#34;, json.dumps(resultat_q5, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Appliquez les trois règles au même texte. Gardez les tokens d’espacement hors du troisième compte ; dans votre commentaire, expliquez deux écarts précis avec les unités réellement obtenues.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ interpretation ; relisez-le avec les critères du sujet.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                     <tr>
                         <td data-label="Question"><strong>Q6 — Transfert documenté</strong></td>
                         <td data-label="Votre réponse retrouvée">
-                            
+
                                 <p class="evidence-location">Cellule du notebook : 36.</p>
                                 <h4>Code retrouvé</h4>
                                 <pre><code># Vos prédictions, votre code et votre interprétation
@@ -328,15 +339,10 @@ print(&#34;S3_TD1_Q5:&#34;, json.dumps(resultat_q5, ensure_ascii=False))</code><
 </code></pre>
                                 <h4>Sorties enregistrées</h4>
                                 <p class="empty-evidence">Aucune sortie textuelle enregistrée retrouvée pour cette question.</p>
-                            
+
                         </td>
-                        <td data-label="Diagnostic et prochaine étape">
-                            <h4>Diagnostic</h4><p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ question ; relisez-le avec les critères du sujet.</p>
-                            <h4>Pour progresser</h4><p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
-                            
-                        </td>
-                        <td class="solution-col" data-label="Exemple de solution et résultat attendu">
-                            
+                        <td class="solution-col" data-label="Résultat attendu">
+
                                 <h4>Un exemple de code</h4><pre><code>import json
 extrait = &#34;Les étudiantes analysent des corpus français. Elles comparent ensuite les résultats et rédigent une interprétation.&#34;
 doc_extrait = nlp(extrait)
@@ -351,23 +357,31 @@ resultat_q6 = {&#34;texte&#34;: extrait, &#34;phrases&#34;: len(list(doc_extrait
                &#34;question&#34;: &#34;Quels noms désignent les objets analysés et quels verbes décrivent les activités ?&#34;}
 print(&#34;S3_TD1_Q6:&#34;, json.dumps(resultat_q6, ensure_ascii=False))</code></pre>
                                 <h4>Ce qui est attendu</h4><p class="explanation">Exemple sur deux phrases du sujet. Pour votre transfert, choisissez votre propre extrait de deux à quatre phrases, contrôlez ses cinq premières annotations et formulez une question qui lui convient.</p>
-                                
-                            
+
+
                         </td>
-                        <td class="status" data-label="État">
+                        <td class="status" data-label="Bilan">
+
                             <span class="status-label status-review">Résultat manquant ou inexploitable</span>
-                            
+
+
+
+                                    <p class="explanation">Le résultat enregistré ne peut pas être vérifié. Un print et une sortie JSON uniques sont attendus dans la même cellule. Complétez le contenu du champ question ; relisez-le avec les critères du sujet.</p>
+                                    <p class="explanation">Vérifiez que le print demandé est actif une seule fois dans la cellule de réponse, corrigez les erreurs éventuelles, puis réexécutez et enregistrez avec les sorties.</p>
+
+
+
                         </td>
                         <td class="points" data-label="Points">0.00 / 1.00</td>
                     </tr>
-                    
+
                 </tbody>
             </table>
 
-            
-            
+
+
             <details class="report-guide"><summary>Autres productions enregistrées dans votre notebook</summary>
-                
+
 <h2>Vos textes, essais et affichages enregistrés</h2>
 <p>Retrouvez ici les cellules de votre notebook, y compris les explications qui ne donnent pas de points automatiques.
 Les numéros suivent l’ordre du fichier. Les figures et les affichages HTML sont signalés ; ouvrez votre notebook pour les voir.</p>
@@ -481,14 +495,14 @@ print(annotations)</pre>
 </section>
 
             </details>
-            
+
             <nav class="nav-links" aria-label="Navigation du correcteur">
                 <a href="/eval/td1-s3">Refaire une soumission</a>
                 <a href="/semestre/S3">Retour aux correcteurs S3</a>
 <a href="/">Changer de semestre</a>
             </nav>
 
-        
+
     </main>
 
     <script>
