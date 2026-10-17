@@ -442,6 +442,36 @@
       "mode": "td",
       "notebook": "Notebooks TD/S1/TD6-ter_S1_csv.ipynb",
       "tutor_session": "TD6_TER_S1"
+    },
+    {
+      "id": "td4-one-s1",
+      "version": 2,
+      "evaluator": "td4-one-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb",
+      "tutor_session": "TD4_ONE_S1"
+    },
+    {
+      "id": "td4-bis-s1",
+      "version": 2,
+      "evaluator": "td4-bis-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb",
+      "tutor_session": "TD4_BIS_S1"
+    },
+    {
+      "id": "td4-ter-s1",
+      "version": 2,
+      "evaluator": "td4-ter-s1",
+      "active": true,
+      "semester": "S1",
+      "mode": "td",
+      "notebook": "Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb",
+      "tutor_session": "TD4_TER_S1"
     }
   ]
 }

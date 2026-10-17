@@ -6772,6 +6772,351 @@
           ]
         }
       ]
+    },
+    {
+      "id": "TD4_ONE_S1",
+      "notebook": "Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD4-one — Choisir et filtrer dans un parcours",
+      "prerequisites": [
+        "TD1–2 : variables, chaînes, indexation et affichage",
+        "TD3-one/bis/ter : listes, tuples, dictionnaires, for, append et appartenance"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Transformer une liste",
+          "available_concepts": [
+            "variables et affichage",
+            "listes, append et ordre",
+            "for et indentation",
+            "initialisation hors boucle",
+            "upper",
+            "liste vide"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Filtrer par longueur",
+          "available_concepts": [
+            "variables et affichage",
+            "listes et append",
+            "for et indentation",
+            "if",
+            "len et comparaisons",
+            "seuil strict ou inclusif",
+            "liste vide"
+          ],
+          "introduced_here": [
+            "if",
+            "seuil strict ou inclusif"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Filtrer par lettre",
+          "available_concepts": [
+            "variables et affichage",
+            "listes et append",
+            "for et if",
+            "appartenance dans une chaîne",
+            "lower",
+            "casse, accents et source"
+          ],
+          "introduced_here": [],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Tester une présence",
+          "available_concepts": [
+            "variables et affichage",
+            "chaînes et listes",
+            "for",
+            "appartenance et booléen",
+            "lower",
+            "if/else",
+            "casse et accents"
+          ],
+          "introduced_here": [
+            "if/else"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Répartir les mots",
+          "available_concepts": [
+            "variables et affichage",
+            "listes, append et ordre",
+            "for et if/else",
+            "len et seuils 5/6",
+            "partition exhaustive",
+            "doublons"
+          ],
+          "introduced_here": [
+            "partition exhaustive"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Répartir pairs et impairs",
+          "available_concepts": [
+            "variables et affichage",
+            "entiers et listes",
+            "for et if/else",
+            "append et len",
+            "modulo et parité",
+            "ordre, doublons et vide"
+          ],
+          "introduced_here": [
+            "modulo et parité"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD4_BIS_S1",
+      "notebook": "Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD4-bis — Bornes et répétitions",
+      "prerequisites": [
+        "TD1–3 : variables, listes, for et affichages",
+        "TD4-one : conditions, if/else, comparaison, modulo et filtres"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Bornes de range",
+          "available_concepts": [
+            "variables et affichage",
+            "range à 1/2/3 arguments",
+            "début inclus et fin exclue",
+            "pas positif ou négatif",
+            "list et for",
+            "modulo et filtre pair"
+          ],
+          "introduced_here": [
+            "range à 1/2/3 arguments",
+            "début inclus et fin exclue",
+            "pas positif ou négatif"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Parcours inverse",
+          "available_concepts": [
+            "variables et affichage",
+            "range et list",
+            "pas négatif",
+            "borne exclue",
+            "parcours vide",
+            "for"
+          ],
+          "introduced_here": [
+            "parcours vide"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Arrêt de while",
+          "available_concepts": [
+            "variables et affichage",
+            "while et comparaison",
+            "état initial et mise à jour",
+            "liste et append",
+            "borne incluse et valeur rejetée",
+            "terminaison"
+          ],
+          "introduced_here": [
+            "while et comparaison",
+            "état initial et mise à jour",
+            "terminaison"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Vingt termes",
+          "available_concepts": [
+            "variables et affichage",
+            "while et comparaison",
+            "liste, append et len",
+            "compteur de tours",
+            "terme courant et incrémentation",
+            "table d’états"
+          ],
+          "introduced_here": [
+            "compteur de tours",
+            "table d’états"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Filtrer des multiples",
+          "available_concepts": [
+            "variables et affichage",
+            "for et range",
+            "rang et multiplication",
+            "if et modulo",
+            "liste et append",
+            "bornes incluses"
+          ],
+          "introduced_here": [
+            "rang et multiplication"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Sommes avec et/ou",
+          "available_concepts": [
+            "variables et affichage",
+            "for, range et if",
+            "modulo et divisibilité",
+            "and et or",
+            "accumulation de somme",
+            "bornes incluses",
+            "ajout unique",
+            "liste",
+            "append()"
+          ],
+          "introduced_here": [
+            "and et or",
+            "accumulation de somme",
+            "ajout unique"
+          ],
+          "allowed_libraries": []
+        }
+      ]
+    },
+    {
+      "id": "TD4_TER_S1",
+      "notebook": "Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb",
+      "semester": 1,
+      "activity": "td",
+      "title": "TD4.ter — Comptages et compréhensions",
+      "prerequisites": [
+        "TD1–3 : chaînes, listes, dictionnaires, items, indices et parcours",
+        "TD4-one/bis : if/else, filtres, bornes, while, compteurs et accumulation"
+      ],
+      "allowed_libraries": [],
+      "provided_libraries": [],
+      "exercises": [
+        {
+          "id": "Q1",
+          "topic": "Compter un caractère",
+          "available_concepts": [
+            "variables et affichage",
+            "chaîne et lower",
+            "for et if",
+            "comparaison de caractères",
+            "compteur et incrémentation",
+            "casse, accents et vide"
+          ],
+          "introduced_here": [
+            "comparaison de caractères"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q2",
+          "topic": "Maximum par parcours",
+          "available_concepts": [
+            "variables et affichage",
+            "liste non vide et indices",
+            "for et if",
+            "comparaison",
+            "meilleur candidat et mise à jour",
+            "nombres négatifs"
+          ],
+          "introduced_here": [
+            "meilleur candidat et mise à jour"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q3",
+          "topic": "Fréquences avec condition",
+          "available_concepts": [
+            "variables et affichage",
+            "liste et dictionnaire",
+            "for et if/else",
+            "appartenance aux clés",
+            "initialisation et incrémentation",
+            "fréquence et présence"
+          ],
+          "introduced_here": [
+            "fréquence et présence"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q4",
+          "topic": "Deux écritures des fréquences",
+          "available_concepts": [
+            "variables et affichage",
+            "dictionnaire et items",
+            "for et if/else",
+            "get avec valeur par défaut",
+            "lower et split",
+            "initialisation et incrémentation",
+            "total des effectifs",
+            "len()"
+          ],
+          "introduced_here": [
+            "get avec valeur par défaut",
+            "total des effectifs"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q5",
+          "topic": "Compréhension simple",
+          "available_concepts": [
+            "variables et affichage",
+            "liste, len et upper",
+            "for et append",
+            "compréhension sans filtre",
+            "ordre, doublons et vide"
+          ],
+          "introduced_here": [
+            "compréhension sans filtre"
+          ],
+          "allowed_libraries": []
+        },
+        {
+          "id": "Q6",
+          "topic": "Compréhension filtrée",
+          "available_concepts": [
+            "variables et affichage",
+            "liste et len",
+            "for, if et append",
+            "compréhension avec filtre",
+            "transformation et parcours",
+            "seuil strict 5",
+            "ordre et doublons"
+          ],
+          "introduced_here": [
+            "compréhension avec filtre"
+          ],
+          "allowed_libraries": []
+        }
+      ]
     }
   ],
   "excluded_notebooks": [
@@ -6850,6 +7195,18 @@
     {
       "notebook": "Corrigés modèles/TD/s1-swinnen/TD3-ter_S1_dictionnaires_ensembles_corrige_non_execute.ipynb",
       "reason": "Copie de référence non exécutée, hors distribution étudiante ; lecture indépendante des sujets renforcés Swinnen."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/td4-swinnen/TD4-one_S1_conditions_filtres_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, avec lecture indépendante du TD4 renforcé ; hors distribution étudiante."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/td4-swinnen/TD4-bis_S1_bornes_repetitions_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, avec lecture indépendante du TD4 renforcé ; hors distribution étudiante."
+    },
+    {
+      "notebook": "Corrigés modèles/TD/td4-swinnen/TD4-ter_S1_comptages_comprehensions_corrige_non_execute.ipynb",
+      "reason": "Copie de référence non exécutée, avec lecture indépendante du TD4 renforcé ; hors distribution étudiante."
     }
   ]
 }

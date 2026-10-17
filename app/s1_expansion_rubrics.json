@@ -706,5 +706,218 @@
       "required_nodes": [],
       "feedback": "Relisez les données et les critères de Q6, puis comparez chaque élément de votre affichage aux informations du fichier."
     }
+  ],
+  "td4-one-s1": [
+    {
+      "label": "Q1 — Transformer chaque mot",
+      "traces": {
+        "Q1": "(['TAL', 'CORPUS', 'ANALYSE', 'IA'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q2 — Filtrer selon la longueur",
+      "traces": {
+        "Q2": "(['corpus', 'analyse'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q3 — Filtrer selon une lettre",
+      "traces": {
+        "Q3": "(['TAL', 'analyse', 'IA'],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q4 — Distinguer présence, casse et accent",
+      "traces": {
+        "Q4": "(True, False, False)"
+      },
+      "required_calls": [],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q5 — Répartir les mots selon leur longueur",
+      "traces": {
+        "Q5": "(['Jean', 'Sonia'], ['Maximilien', 'Brigitte', 'Jean-Pierre', 'Sandra'])"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For",
+        "If"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q6 — Répartir les nombres pairs et impairs",
+      "traces": {
+        "Q6": "([32, 12, 8, 2], [5, 3, 75, 15])"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    }
+  ],
+  "td4-bis-s1": [
+    {
+      "label": "Q1 — Choisir les bornes de range",
+      "traces": {
+        "Q1": "([0, 2, 4, 6, 8, 10],)"
+      },
+      "required_calls": [
+        "range"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q2 — Parcourir dans le sens inverse",
+      "traces": {
+        "Q2": "([10, 8, 6, 4, 2, 0], [])"
+      },
+      "required_calls": [
+        "range"
+      ],
+      "required_nodes": [],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q3 — Garantir l’arrêt d’une boucle while",
+      "traces": {
+        "Q3": "([7, 14, 21, 28, 35, 42, 49, 56, 63, 70],)",
+        "Q3b": "(77,)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "While"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q4 — Produire exactement vingt termes",
+      "traces": {
+        "Q4": "([7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98, 105, 112, 119, 126, 133, 140], 20)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "While"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q5 — Sélectionner parmi cinquante multiples",
+      "traces": {
+        "Q5": "([91, 182, 273, 364, 455, 546, 637],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q6 — Distinguer « et » de « ou »",
+      "traces": {
+        "Q6": "(45, 225)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    }
+  ],
+  "td4-ter-s1": [
+    {
+      "label": "Q1 — Compter un caractère exact",
+      "traces": {
+        "Q1": "(6,)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q2 — Rechercher un maximum par parcours",
+      "traces": {
+        "Q2": "(75, -3)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For"
+      ],
+      "feedback": "Comparez le candidat à chaque valeur du parcours, y compris avec des nombres négatifs. Les appels à max ou à un tri ne répondent pas à la méthode demandée ici.",
+      "forbidden_calls": [
+        "max",
+        "sorted",
+        "sort"
+      ]
+    },
+    {
+      "label": "Q3 — Mémoriser des fréquences par condition",
+      "traces": {
+        "Q3": "({'chat': 3, 'chien': 2, 'oiseau': 1},)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "For",
+        "If"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q4 — Comparer deux écritures du comptage",
+      "traces": {
+        "Q4": "({'le': 3, 'tal': 1, 'traite': 1, 'langage': 1, 'et': 1, 'texte': 1}, {'le': 3, 'tal': 1, 'traite': 1, 'langage': 1, 'et': 1, 'texte': 1}, 8, 8)"
+      },
+      "required_calls": [
+        "get"
+      ],
+      "required_nodes": [
+        "For",
+        "If"
+      ],
+      "feedback": "Construisez un dictionnaire avec get et l’autre avec if/else ; comparez leurs effectifs et leur total au nombre d’éléments de la liste."
+    },
+    {
+      "label": "Q5 — Transformer par compréhension",
+      "traces": {
+        "Q5": "([3, 6, 7, 2],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "ListComp"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    },
+    {
+      "label": "Q6 — Combiner filtre et transformation",
+      "traces": {
+        "Q6": "([6, 7],)"
+      },
+      "required_calls": [],
+      "required_nodes": [
+        "ListComp"
+      ],
+      "feedback": "Relisez les données et les limites de la consigne ; confrontez chaque affichage aux vérifications demandées."
+    }
   ]
 }

@@ -1,4 +1,4 @@
-"""Independent saved traces: nine isolated contracts, safe routing and alternatives."""
+"""Independent saved traces: twelve isolated contracts, safe routing and alternatives."""
 import copy
 import importlib
 import io
@@ -17,7 +17,7 @@ from notebook_contract import ContractError, load_catalog, resolve_notebook, val
 from routes import EVALUATORS
 from s1_expansion import CHECKS
 
-IDS = {f'td{n}-{part}-s1' for n in (3, 5, 6) for part in ('one', 'bis', 'ter')}
+IDS = {f'td{n}-{part}-s1' for n in (3, 4, 5, 6) for part in ('one', 'bis', 'ter')}
 
 
 def fixture(identifier):
@@ -39,7 +39,7 @@ def grade(identifier, nb):
 
 
 class ExpansionTests(unittest.TestCase):
-    def test_nine_complete_contracts_blank_answers_and_no_code_execution(self):
+    def test_twelve_complete_contracts_blank_answers_and_no_code_execution(self):
         self.assertEqual(set(CHECKS), IDS)
         with patch('builtins.exec', side_effect=AssertionError('No student execution')):
             for identifier in sorted(IDS):
@@ -141,7 +141,7 @@ class ExpansionTests(unittest.TestCase):
         ):
             self.assertFalse(validator(repr(bad), proof, {}))
 
-    def test_all_nine_routes_auto_submission_and_separate_persistence(self):
+    def test_all_twelve_routes_auto_submission_and_separate_persistence(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
             app = create_app(); app.config['TESTING'] = True
             client = app.test_client()

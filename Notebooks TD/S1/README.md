@@ -9,7 +9,9 @@ Travaillez dans cet ordre. Les trois cahiers d'un même thème se suivent : **on
 | TD3-one | [Listes](TD3-one_S1_listes.ipynb) | Lire, modifier, parcourir et copier une liste |
 | TD3-bis | [Tuples](TD3-bis_S1_tuples.ipynb) | Indexer, déballer et reconstruire une séquence stable |
 | TD3.ter | [Dictionnaires et ensembles](TD3-ter_S1_dictionnaires_ensembles.ipynb) | Construire un lexique et comparer des vocabulaires |
-| TD4 | [Boucles, conditions et comptages](TD4_S1_boucles_conditions_comptages.ipynb) | Répéter et sélectionner des traitements |
+| TD4-one | [Conditions et filtres](TD4-one_S1_conditions_filtres.ipynb) | Comparer, transformer et sélectionner |
+| TD4-bis | [Bornes et répétitions](TD4-bis_S1_bornes_repetitions.ipynb) | Construire un parcours et garantir son arrêt |
+| TD4.ter | [Comptages et compréhensions](TD4-ter_S1_comptages_comprehensions.ipynb) | Accumuler des effectifs et comparer des écritures |
 | TD5-one | [Fonctions](TD5-one_S1_fonctions.ipynb) | Définir, appeler et retourner une valeur |
 | TD5-bis | [Paramètres et portée](TD5-bis_S1_parametres_portee.ipynb) | Varier les arguments et distinguer les variables locales |
 | TD5.ter | [Composition et texte](TD5-ter_S1_composition_texte.ipynb) | Réemployer des fonctions pour compter et traduire |
@@ -21,6 +23,6 @@ Travaillez dans cet ordre. Les trois cahiers d'un même thème se suivent : **on
 
 Les exemples précèdent les exercices ; leurs données sont distinctes. Gardez vos essais et vos explications, même lorsqu'ils ne donnent pas de point automatique. Chaque nouveau cahier contient six exercices avec un correcteur propre. Le score technique porte sur les résultats enregistrés et certaines constructions demandées ; il ne certifie pas la compréhension des explications.
 
-Les exercices inspirés de Gérard Swinnen sont repérés par leur numéro et la page imprimée du manuel *Apprendre à programmer avec Python* fourni dans le cours. Les neuf cahiers adaptés incluent la notice, la préface et la licence CC BY-NC-SA 2.0 France dans une annexe repliable. Les exercices sur les ensembles et le module CSV sont des ajouts du cours lorsqu'aucun exercice du livre n'est cité.
+Les exercices inspirés de Gérard Swinnen sont repérés par leur numéro et la page imprimée du manuel *Apprendre à programmer avec Python* fourni dans le cours. Les douze cahiers adaptés incluent la notice, la préface et la licence CC BY-NC-SA 2.0 France dans une annexe repliable. Les exercices sur les ensembles et le module CSV sont des ajouts du cours lorsqu'aucun exercice du livre n'est cité.
 
-Les trois anciennes synthèses [Collections](TD3_S1_collections.ipynb), [Fonctions](TD5_S1_fonctions_reutilisation.ipynb) et [Fichiers et CSV](TD6_S1_fichiers_csv.ipynb) restent accessibles pour reprendre une copie commencée. Elles ne s'ajoutent pas aux treize cahiers du parcours renforcé.
+Les quatre anciennes synthèses [Collections](TD3_S1_collections.ipynb), [Boucles et conditions](TD4_S1_boucles_conditions_comptages.ipynb), [Fonctions](TD5_S1_fonctions_reutilisation.ipynb) et [Fichiers et CSV](TD6_S1_fichiers_csv.ipynb) restent accessibles pour reprendre une copie commencée. Elles ne s'ajoutent pas aux quinze cahiers du parcours renforcé.
