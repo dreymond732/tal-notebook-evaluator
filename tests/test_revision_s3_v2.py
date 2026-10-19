@@ -202,7 +202,7 @@ class RevisionRoutes(unittest.TestCase):
         nb=fixture(0)
         nb['cells'][4]['source']+="\n# <script>alert('xss')</script>"
         body=self.post(nb,'/submit').get_data(as_text=True)
-        self.assertIn('Score technique provisoire',body)
+        self.assertIn('Score formatif provisoire',body)
         self.assertIn('&lt;script&gt;',body)
         self.assertNotIn("<script>alert('xss')",body)
         copies=list(Path(self.temp.name).rglob('*.ipynb'))

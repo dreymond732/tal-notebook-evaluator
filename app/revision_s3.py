@@ -9,6 +9,8 @@ import json
 from notebook_contract import (ContractError, WRONG_VERSION, resolve_notebook,
                                validate_cell_metadata, s3_contract_identity)
 from s3_review import review_evidence
+from report_evidence import answer_evidence
+from s3_feedback import solution_for
 
 TEXT_R0 = 'Python est utile. Python sert au TAL et le TAL sert à analyser des textes.'
 # These tables are reference annotations for the pinned fr_core_news_sm 3.8.0 model.
@@ -424,21 +426,28 @@ def check_revision(content_str, evaluator):
             ok = _check(revision, q, tree, relevant, trees, value)
             feedback = ('Structure du calcul et résultats enregistrés concordants.' if ok else
                         'Vérifiez le calcul demandé, ses essais et les valeurs affichées dans cette cellule.')
+            state = 'conforme' if ok else 'incorrect'
         except (ValueError, TypeError, SyntaxError, RecursionError, KeyError) as exc:
-            ok, feedback = False, str(exc)
+            ok, state = False, 'preuve_absente'
+            feedback = ('Le code contient une erreur de syntaxe : corrigez la cellule avant de la réexécuter.'
+                        if isinstance(exc, SyntaxError) else str(exc))
         score += float(ok)
-        details.append({'check': f'Question {q}', 'student_answer': feedback,
-                        'correct_answer': 'Concordance technique du code et des traces attendues.',
-                        'status': '✅' if ok else '❌', 'points': float(ok), 'max_points': 1.0})
+        evidence = answer_evidence(notebook, q)
+        solution_code, explanation = solution_for(evaluator, q)
+        details.append({'check': f'Question {q}', 'student_answer': evidence['student_code'],
+                        **evidence, 'diagnostic': feedback,
+                        'evaluation_status': state,
+                        'action': ('Poursuivez les essais et votre interprétation à partir des critères du sujet.' if ok
+                                   else 'Comparez votre code à l’exemple, vérifiez les appels et le print demandé, puis réexécutez la cellule et enregistrez ses sorties.'),
+                        'correct_answer': explanation, 'solution_code': solution_code,
+                        'solution_explanation': explanation,
+                        'status': '✅' if ok else ('⚠️' if state == 'preuve_absente' else '❌'),
+                        'points': float(ok), 'max_points': 1.0})
     if revision in {0, 1, 2}:
-        try:
-            observation = _text(index[('Q4', 'answer')].get('source', ''))
-        except ValueError:
-            observation = 'Source Q4 invalide.'
-        details.append({'check': 'Observation Q4 — relecture', 'student_answer':
-                        'Le point Q4 porte sur le calcul, pas sur la qualité de l’explication. '
-                        'La pertinence linguistique de cette explication reste à relire.\n'
-                        + observation, 
+        details.append({'check': 'Portée du score', 'student_answer':
+                        'Les quatre points portent sur la structure du calcul et les sorties enregistrées. '
+                        'Vérifiez votre explication avec les critères du sujet ; sa qualité linguistique n’est pas notée automatiquement. '
+                        'Le serveur ne lance pas votre code : exécutez les cellules dans l’ordre puis enregistrez le notebook avec ses sorties.',
                         'correct_answer': '', 'status': 'ℹ️', 'points': 0, 'max_points': 0})
     info.update(score_brut=score, score_nature='technique_provisoire', score_max=maximum,
                 contract_version=2, relecture_humaine='Interprétation et reproductibilité à relire.',
