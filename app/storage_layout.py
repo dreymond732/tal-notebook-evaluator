@@ -19,3 +19,9 @@ def storage_id(evaluator):
     if not name or not all(c.isalnum() or c == "_" for c in name):
         raise ValueError("Identifiant de stockage invalide pour " + evaluator)
     return name
+
+GRADE_COLUMNS = (
+    "Date", "Nom", "Prénom", "Classe", "Score", "Bonus", "Nature du score",
+    "Maximum technique", "Relecture humaine", "Numéro étudiant",
+    "Version du contrat", "Origine", "Ligne origine",
+)
