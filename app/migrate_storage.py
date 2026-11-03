@@ -53,6 +53,12 @@ def _normalise(row, fields, origin, number, version):
         "Origine": "migration:" + origin,
         "Ligne origine": str(number),
     }
+    # Neutralise les valeurs qui pourraient être interprétées comme formules
+    # lors d'une ouverture directe du CSV dans un tableur.
+    for key in ("Nom", "Prénom", "Classe", "Numéro étudiant"):
+        value = str(out[key])
+        if value.lstrip().startswith(("=", "+", "-", "@")):
+            out[key] = "'" + value
     return {key: out[key] for key in GRADE_COLUMNS}
 
 
