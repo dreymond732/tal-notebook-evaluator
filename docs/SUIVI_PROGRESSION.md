@@ -104,3 +104,5 @@ Les tests de suivi reposent sur des noms, identifiants et scores fictifs.
 La structure physique et la migration non destructive sont décrites dans
 MIGRATION_STOCKAGE_EVALUATIONS.md. Une migration --apply est obligatoire
 avant que le nouveau suivi puisse reprendre les anciens dépôts.
+
+La nouvelle nomenclature des dossiers physiques du S1 est `S1_TD1` à `S1_TD7`, avec déclinaisons `S1_TD3_one/bis/ter` et `S1_TD4_A/B/C` à `S1_TD6_A/B/C`. Voir [MIGRATION_PHYSIQUE_S1_V2.md](MIGRATION_PHYSIQUE_S1_V2.md) avant d'activer le stockage sur le serveur.
