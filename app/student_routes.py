@@ -27,7 +27,8 @@ def _verify_csrf():
 
 def _ready():
     return (student_access.mail_ready()
-            and bool(os.environ.get("TAL_ACADEMIC_YEAR", "").strip()))
+            and bool(os.environ.get("TAL_ACADEMIC_YEAR", "").strip())
+            and (request.is_secure or current_app.config.get("TESTING", False)))
 
 
 @student_bp.after_request
