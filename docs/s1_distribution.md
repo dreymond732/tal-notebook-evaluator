@@ -8,13 +8,13 @@ nom téléchargé. Les autres supports ne sont pas renommés.
 
 | TD | Fichier dans `Notebooks TD/S1/` |
 |---|---|
-| 1 | `TD1_S1_variables_types.ipynb` |
-| 2 | `TD2_S1_chaines_sequences.ipynb` |
-| 3 | `TD3_S1_collections.ipynb` |
-| 4 | `TD4_S1_boucles_conditions_comptages.ipynb` |
-| 5 | `TD5_S1_fonctions_reutilisation.ipynb` |
-| 6 | `TD6_S1_fichiers_csv.ipynb` |
-| 7 | `TD7_S1_expressions_regulieres_pipeline.ipynb` |
+| 1 | `S1_TD1_variables_types.ipynb` |
+| 2 | `S1_TD2_chaines_sequences.ipynb` |
+| 3 | `S1_TD3_collections.ipynb` |
+| 4 | `S1_TD4_boucles_conditions_comptages.ipynb` |
+| 5 | `S1_TD5_fonctions_reutilisation.ipynb` |
+| 6 | `S1_TD6_fichiers_csv.ipynb` |
+| 7 | `S1_TD7_expressions_regulieres_pipeline.ipynb` |
 
 ## Cellule source et adresse injectée
 
