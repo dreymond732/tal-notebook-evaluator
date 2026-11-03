@@ -84,7 +84,7 @@ class ControlFeedbackTests(unittest.TestCase):
         self.assertNotIn('<script>PRIVATE_ANSWER</script>', report)
         self.assertIn('&lt;script&gt;PRIVATE_ANSWER&lt;/script&gt;', report)
         self.assertEqual(len(list(root.rglob('*.ipynb'))), 1)
-        self.assertIn('13,37', next((root / 'Controletilt-s1').rglob('*.csv')).read_text())
+        self.assertIn('13,37', next((root / 'controle_S1').rglob('*.csv')).read_text())
         self.assertEqual(self.client.get('/soumissions/' + str(reports[0].relative_to(root))).status_code, 404)
 
     def test_td_feedback_stays_available(self):
