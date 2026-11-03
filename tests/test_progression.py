@@ -168,7 +168,7 @@ class ProgressionTests(unittest.TestCase):
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__essais"], "3")
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__min"], "2,00")
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__max"], "5,00")
-        self.assertTrue(list((self.root / "TD1_S1" / "nb").glob("*.ipynb")))
+        self.assertTrue(list((self.root / "S1_TD1" / "nb").glob("*.ipynb")))
 
     def test_invalid_year_is_refused(self):
         with self.assertRaisesRegex(ValueError, "TAL_ACADEMIC_YEAR"):
