@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ma progression — TAL</title>
+  <style>
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:#f3f6f9; color:#203047; }
+    main { max-width:960px; margin:3rem auto; padding:0 1.2rem 3rem; }
+    h1 { font-size:1.8rem; margin-bottom:.2rem; }
+    h2 { font-size:1.2rem; margin-top:0; }
+    .sub { color:#556477; margin-top:.25rem; }
+    .panel { background:white; border:1px solid #d7dee8; border-radius:12px; padding:1.3rem; margin:1.2rem 0; }
+    .cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.2rem; }
+    label { display:block; font-weight:600; margin-top:.9rem; margin-bottom:.3rem; }
+    input { box-sizing:border-box; width:100%; padding:.75rem; border:1px solid #a8b3c4; border-radius:6px; font-size:1rem; }
+    button { border:0; background:#075794; color:white; padding:.75rem 1.1rem; border-radius:6px; font-weight:600; margin-top:1rem; cursor:pointer; }
+    button:hover { background:#064574; }
+    .secondary { background:#4f5d70; }
+    .small { font-size:.88rem; color:#536276; }
+    .message { padding:.8rem 1rem; border-radius:6px; background:#eff4f8; border:1px solid #cbd9e5; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; }
+    th,td { text-align:left; padding:.65rem; border-bottom:1px solid #e3e8ee; }
+    th { background:#f1f5f9; }
+    .numbers { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    a { color:#075794; }
+    :focus-visible { outline:3px solid #f09627; outline-offset:3px; }
+  </style>
+</head>
+<body>
+<main>
+  <nav><a href="{{ url_for('main.index') }}">← Retour aux correcteurs</a></nav>
+  <h1>Ma progression en TAL</h1>
+  <p class="sub">Suivi individuel des TD formatifs{% if year %} · Année universitaire {{ year }}{% endif %}</p>
+  {% with messages=get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <p class="message" role="status">{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+
+  {% if not ready %}
+    <div class="panel"><p>La consultation individuelle n'est pas encore configurée. Contactez l'enseignant.</p></div>
+  {% elif profile %}
+    <div class="panel">
+      <h2>{{ profile.first_name }} {{ profile.name }}</h2>
+      <p class="small">Numéro étudiant : {{ profile.number }}</p>
+      <form method="post" action="{{ url_for('student.logout') }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button class="secondary" type="submit">Se déconnecter</button>
+      </form>
+    </div>
+    {% for semester in profile.semesters %}
+      <section class="panel">
+        <h2>{{ semester.name }} — {{ semester.completed }} TD réalisés sur {{ semester.total }}</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Activité</th><th class="numbers">Minimum</th><th class="numbers">Maximum</th><th class="numbers">Essais</th></tr></thead>
+            <tbody>
+            {% for item in semester.activities %}
+              <tr>
+                <td>{{ item.name }}</td>
+                <td class="numbers">{{ item.min if item.min else '—' }}</td>
+                <td class="numbers">{{ item.max if item.max else '—' }}</td>
+                <td class="numbers">{{ item.attempts }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    {% endfor %}
+    <p class="small">Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles et devoirs maison ne sont pas publiés sur cette page.</p>
+  {% else %}
+    <div class="panel">
+      <h2>Accès personnel par email</h2>
+      <p>À la première demande, un code personnel est envoyé à l'adresse indiquée. L'association entre le numéro étudiant et l'email est confirmée lorsque le code est utilisé. Ensuite, seul cet email peut recevoir un nouveau code.</p>
+      <p class="small">Conservez votre code : une fois confirmé, il reste utilisable pour consulter votre progression. Une nouvelle demande, confirmée avec le nouveau code, remplace le précédent.</p>
+    </div>
+    <div class="cols">
+      <section class="panel">
+        <h2>1. Recevoir mon code</h2>
+        <form method="post" action="{{ url_for('student.ask_code') }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <label for="request-number">Numéro étudiant</label>
+          <input id="request-number" name="numero" required maxlength="64" autocomplete="username">
+          <label for="request-email">Adresse email</label>
+          <input id="request-email" name="email" type="email" maxlength="254" required autocomplete="email">
+          <button type="submit">Envoyer le code</button>
+        </form>
+      </section>
+      <section class="panel">
+        <h2>2. Consulter ma progression</h2>
+        <form method="post" action="{{ url_for('student.login') }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <label for="login-number">Numéro étudiant</label>
+          <input id="login-number" name="numero" required maxlength="64" autocomplete="username">
+          <label for="login-email">Adresse email associée</label>
+          <input id="login-email" name="email" type="email" maxlength="254" required autocomplete="email">
+          <label for="login-code">Code personnel reçu</label>
+          <input id="login-code" name="code" required maxlength="64" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <button type="submit">Voir ma progression</button>
+        </form>
+      </section>
+    </div>
+    <p class="small">Si vous avez oublié votre code, saisissez à nouveau votre numéro étudiant et l'email déjà associé dans le formulaire « Recevoir mon code ». L'enseignant pourra intervenir en cas d'erreur d'association initiale.</p>
+  {% endif %}
+</main>
+</body>
+</html>
