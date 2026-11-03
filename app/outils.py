@@ -8,6 +8,8 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple, Union
 from werkzeug.utils import secure_filename
 from notebook_contract import evaluation_cells, resolve_cells, validate_cell_metadata, literal_identity
+from storage_layout import GRADE_COLUMNS
+from uuid import uuid4
 
 # --- Constantes ---
 BASE_DIR = "soumissions"
@@ -84,16 +86,17 @@ def create_seed_from_name(nom: str, prenom: str) -> int:
 
 # --- Chemins ---
 def get_nb_path(eval_id, group, filename):
-    return os.path.join(BASE_DIR, secure_filename(eval_id), secure_filename(group), "nb", filename)
+    """Stockage par évaluation ; le groupe reste une information pédagogique."""
+    return os.path.join(BASE_DIR, secure_filename(eval_id), "nb", filename)
 
 
 def get_rapport_path(eval_id, group, filename):
-    return os.path.join(BASE_DIR, secure_filename(eval_id), secure_filename(group), "rapport", filename)
+    return os.path.join(BASE_DIR, secure_filename(eval_id), "rapport", filename)
 
 
-def get_csv_path(eval_id, group):
-    e, g = secure_filename(eval_id), secure_filename(group)
-    return os.path.join(BASE_DIR, e, g, f"notes_{e}_{g}.csv")
+def get_csv_path(eval_id, group=None):
+    e = secure_filename(eval_id)
+    return os.path.join(BASE_DIR, e, f"notes_{e}.csv")
 
 
 # --- Utilitaires de conversion ---
@@ -185,19 +188,32 @@ def extract_numeric_result(text: str, keyword: str) -> Optional[float]:
 
 
 def log_grade_to_csv(eval_id, info, score, bonus=0.0):
-    csv_path = get_csv_path(eval_id, info.get('classe', 'SANS_CLASSE'))
+    """Ajoute un essai au journal unique, sous verrou du déposant.
+
+    Ne complète jamais un ancien CSV dont l'en-tête est incompatible :
+    la migration explicite doit être effectuée avant le changement de format.
+    """
+    csv_path = get_csv_path(eval_id)
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
     write_h = not os.path.exists(csv_path) or os.path.getsize(csv_path) == 0
-    with open(csv_path, 'a', newline='', encoding='utf-8') as f:
-        w = csv.writer(f, delimiter=';')
-        technical = info.get('score_nature') == 'technique_provisoire'
-        extra_header = ['Nature du score', 'Maximum technique', 'Relecture humaine'] if technical else []
-        extra_row = [info['score_nature'], info.get('score_max', ''), info.get('relecture_humaine', '')] if technical else []
-        if 'numero_etudiant' in info:
-            extra_header += ['Numéro étudiant']
-            extra_row += [info['numero_etudiant']]
-        score_header = 'Score technique provisoire' if technical else 'Note'
-        if write_h: w.writerow(['Date', 'Nom', 'Prénom', 'Classe', score_header, 'Bonus'] + extra_header)
-        w.writerow([datetime.now().strftime("%d/%m/%Y %H:%M"), info.get('nom', '').upper(),
-                    info.get('prenom', '').capitalize(), info.get('classe', ''),
-                    f"{score:.2f}".replace('.', ','), f"{bonus:.2f}".replace('.', ',')] + extra_row)
+    if not write_h:
+        with open(csv_path, 'r', newline='', encoding='utf-8-sig') as check:
+            if next(csv.reader(check, delimiter=';'), None) != list(GRADE_COLUMNS):
+                raise ValueError("Schéma CSV ancien : lancer la migration des soumissions avant les nouveaux dépôts.")
+    def protect(value):
+        value = str(value)
+        return "'" + value if value.lstrip().startswith(('=', '+', '-', '@')) else value
+    with open(csv_path, 'a', newline='', encoding='utf-8') as stream:
+        writer = csv.writer(stream, delimiter=';')
+        if write_h:
+            writer.writerow(GRADE_COLUMNS)
+        row = [
+            datetime.now().strftime("%d/%m/%Y %H:%M"),
+            info.get('nom', '').upper(), info.get('prenom', '').capitalize(),
+            info.get('classe', ''), f"{score:.2f}".replace('.', ','),
+            f"{bonus:.2f}".replace('.', ','),
+            info.get('score_nature', 'note'), info.get('score_max', ''),
+            info.get('relecture_humaine', ''), info.get('numero_etudiant', ''),
+            info.get('contract_version', 1), 'direct:' + uuid4().hex, '',
+        ]
+        writer.writerow([protect(value) for value in row])
