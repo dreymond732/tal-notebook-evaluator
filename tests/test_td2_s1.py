@@ -231,10 +231,10 @@ class TD2Tests(unittest.TestCase):
                 self.assertIn("périmée", html)
                 if not valid:
                     self.assertIn("différent de l’attendu", html)
-            root = Path(directory) / "TD2_S1"
+            root = Path(directory) / "S1_TD2"
             self.assertEqual(len(list((root / "rapport").glob("MODELE_Test_TEST001_*_td2-s1.html"))), 2)
             self.assertEqual(len(list((root / "nb").glob("MODELE_Test_TEST001_*_copie.ipynb"))), 2)
-            csv = root / "notes_TD2_S1.csv"
+            csv = root / "notes_S1_TD2.csv"
             self.assertTrue(csv.is_file())
             self.assertIn("MODELE;Test;S1;6,50", csv.read_text())
             self.assertFalse(list(Path(directory).rglob("*NON_RENSEIGNE*")))
