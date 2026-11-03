@@ -21,7 +21,8 @@ import outils
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 from prepare_student_notebooks import submission_cell
 from routes import EVALUATORS
-from test_notebook_migration_integrity import S1_RENAMED_SUBJECTS
+from test_notebook_migration_integrity import S1_RENAMED_SUBJECTS, SWINNEN_SUBJECTS
+from presentation_order_evidence import s1_current_path
 from test_td2_s1 import SOURCES as TD2_SOURCES, OUTPUTS as TD2_OUTPUTS
 
 # Independent, nonzero Q1 probes for all seven real evaluators. Subsequent
@@ -41,7 +42,7 @@ QUESTION_COUNTS = (6, 7, 6, 7, 6, 6, 7)
 def subjects():
     entries = {e['id']: e for e in load_catalog()}
     for number, path in enumerate(S1_RENAMED_SUBJECTS.values(), 1):
-        yield number, entries[f'td{number}-s1'], json.loads((ROOT / path).read_text())
+        yield number, entries[f'td{number}-s1'], json.loads((ROOT / s1_current_path(path)).read_text())
 
 
 def observed_copy(number, notebook):
@@ -60,16 +61,10 @@ def observed_copy(number, notebook):
 class S1ReviewTests(unittest.TestCase):
     def test_seven_names_root_contracts_and_all_45_question_cells(self):
         self.assertEqual(len(S1_RENAMED_SUBJECTS), 7)
-        self.assertEqual({p.name for p in (ROOT / 'Notebooks TD/S1').glob('*.ipynb')},
-                         {Path(p).name for p in S1_RENAMED_SUBJECTS.values()} | {
-                             'TD3-one_S1_listes.ipynb', 'TD3-bis_S1_tuples.ipynb',
-                             'TD3-ter_S1_dictionnaires_ensembles.ipynb',
-                             'TD4-one_S1_conditions_filtres.ipynb',
-                             'TD4-bis_S1_bornes_repetitions.ipynb',
-                             'TD4-ter_S1_comptages_comprehensions.ipynb',
-                             'TD5-one_S1_fonctions.ipynb', 'TD5-bis_S1_parametres_portee.ipynb',
-                             'TD5-ter_S1_composition_texte.ipynb', 'TD6-one_S1_fichiers_texte.ipynb',
-                             'TD6-bis_S1_donnees_delimitees.ipynb', 'TD6-ter_S1_csv.ipynb'})
+        expected = ({Path(s1_current_path(path)).name for path in S1_RENAMED_SUBJECTS.values()}
+                    | {Path(path).name for path in SWINNEN_SUBJECTS})
+        self.assertEqual(len(expected), 19)
+        self.assertEqual({p.name for p in (ROOT / 'Notebooks TD/S1').glob('*.ipynb')}, expected)
         total_answers, total_cells = 0, 0
         for number, entry, nb in subjects():
             with self.subTest(evaluator=entry['id']):
