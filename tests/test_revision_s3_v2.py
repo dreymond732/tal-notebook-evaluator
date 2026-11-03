@@ -209,7 +209,7 @@ class RevisionRoutes(unittest.TestCase):
         self.assertEqual(len(copies),1)
         self.assertIn('td-r0-s3-v2',str(copies[0]))
         self.assertIn('_900001_',copies[0].name)
-        csv_path=next(Path(self.temp.name).rglob('*.csv'))
+        csv_path=next((Path(self.temp.name) / 'td-r0-s3-v2').rglob('*.csv'))
         import csv
         with csv_path.open() as handle:
             rows=list(csv.reader(handle,delimiter=';'))
