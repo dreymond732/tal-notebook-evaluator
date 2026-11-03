@@ -3,6 +3,7 @@ import copy
 import hashlib
 import importlib
 import json
+import re
 from pathlib import Path
 import sys
 import unittest
@@ -12,6 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from notebook_contract import load_catalog, validate_cell_metadata
 from routes import EVALUATORS
+from presentation_order_evidence import s1_current_path
 
 IDS=('td4-one-s1','td4-bis-s1','td4-ter-s1')
 
@@ -36,7 +38,29 @@ class TD4ExpansionTests(unittest.TestCase):
         self.assertEqual(len(proof['sha256']),12)
         for path,expected in proof['sha256'].items():
             with self.subTest(path=path):
-                self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),expected)
+                if path.startswith('Notebooks TD/S1/'):
+                    # Reconstituer exclusivement le titre et le chemin de
+                    # session d'origine avant comparaison au SHA figé.
+                    nb = json.loads((ROOT / s1_current_path(path)).read_text())
+                    match = re.search(r'TD([3-6])-(one|bis|ter)_S1_', path)
+                    if match:
+                        number, part = match.groups()
+                        old_label = f'TD{number}' + ('.ter' if part == 'ter' else '-' + part)
+                        if number == '6':
+                            old_label += ' S1'
+                    else:
+                        old_label = 'TD4 S1'
+                    first = nb['cells'][0]['source']
+                    old_line = first[0]
+                    marker = ' — '
+                    if not old_line.startswith('# S1 — TD') or old_line.count(marker) < 2:
+                        self.fail('Titre S1 inattendu : ' + path)
+                    first[0] = '# ' + old_label + marker + old_line.split(marker, 2)[2]
+                    nb['metadata']['tal_tutor']['session']['notebook'] = path
+                    canonical = (json.dumps(nb, ensure_ascii=False, indent=1) + '\n').encode('utf-8')
+                    self.assertEqual(hashlib.sha256(canonical).hexdigest(), expected)
+                else:
+                    self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(), expected)
 
     def test_previous_nine_rubrics_remain_identical(self):
         proof=json.loads((ROOT/'tests/fixtures/td4_swinnen_source_baseline.json').read_text())
