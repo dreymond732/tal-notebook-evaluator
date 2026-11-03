@@ -110,7 +110,7 @@ class S1ReferenceTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         total=0
         for td in ANSWERS:
-            subject=next((root/'Notebooks TD'/'S1').glob(f'TD{td}_*.ipynb'))
+            subject=root / next(entry['notebook'] for entry in __import__('notebook_contract').load_catalog() if entry['id'] == f'td{td}-s1')
             nb=json.loads(subject.read_text())
             replacements={cell['metadata']['tal']['question']:cell for cell in notebook(td)['cells']}
             for cell in nb['cells']:
