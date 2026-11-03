@@ -207,14 +207,14 @@ class RevisionRoutes(unittest.TestCase):
         self.assertNotIn("<script>alert('xss')",body)
         copies=list(Path(self.temp.name).rglob('*.ipynb'))
         self.assertEqual(len(copies),1)
-        self.assertIn('td-r0-s3-v2',str(copies[0]))
+        self.assertIn('R0_S3',str(copies[0]))
         self.assertIn('_900001_',copies[0].name)
-        csv_path=next((Path(self.temp.name) / 'td-r0-s3-v2').rglob('*.csv'))
+        csv_path=next((Path(self.temp.name) / 'R0_S3').rglob('*.csv'))
         import csv
         with csv_path.open() as handle:
             rows=list(csv.reader(handle,delimiter=';'))
         self.assertEqual(len(rows[0]),len(rows[1]))
-        self.assertEqual(rows[1][-1],'900001')
+        self.assertEqual(rows[1][rows[0].index('Numéro étudiant')],'900001')
         self.assertEqual(rows[1][7],'4.0')
 
 
