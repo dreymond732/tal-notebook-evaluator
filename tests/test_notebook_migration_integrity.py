@@ -16,7 +16,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
-from presentation_order_evidence import current_path as presentation_path, before_title_move, parent_raw
+from presentation_order_evidence import current_path as presentation_path, s1_current_path, before_title_move, parent_raw
 import routes
 from prepare_student_notebooks import submission_cell
 
@@ -77,6 +77,7 @@ SWINNEN_SUBJECTS = {
     'Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb',
     'Notebooks TD/S1/TD6-ter_S1_csv.ipynb',
 }
+SWINNEN_SUBJECTS = {s1_current_path(path) for path in SWINNEN_SUBJECTS}
 ADDED_EXCLUDED_NOTEBOOKS |= {
     'Corrigés modèles/TD/td4-swinnen/TD4-one_S1_conditions_filtres_corrige_non_execute.ipynb',
     'Corrigés modèles/TD/td4-swinnen/TD4-bis_S1_bornes_repetitions_corrige_non_execute.ipynb',
@@ -114,7 +115,8 @@ def original_s1_content(notebook):
     number = int(evaluator.split("-")[0][2:])
     old_path = f"Notebooks TD/S1/TD{number}_S1_python_texte.ipynb"
     session = original["metadata"]["tal_tutor"]["session"]
-    if session["notebook"] != S1_RENAMED_SUBJECTS[old_path]:
+    if session["notebook"] not in {S1_RENAMED_SUBJECTS[old_path],
+                                   s1_current_path(S1_RENAMED_SUBJECTS[old_path])}:
         raise AssertionError("The tutor session must point to the renamed subject")
     session["notebook"] = old_path
     # At the frozen revision only the first tutor cell already had an ID.
@@ -157,7 +159,7 @@ class MigrationIntegrityTests(unittest.TestCase):
             if path in REVISED_SUBJECTS:
                 continue
             with self.subTest(notebook=path):
-                current_path = S1_RENAMED_SUBJECTS.get(path, path)
+                current_path = s1_current_path(S1_RENAMED_SUBJECTS.get(path, path))
                 notebook = before_title_move(json.loads((ROOT / current_path).read_text()), current_path)
                 original = original_s1_content(notebook) if path in S1_RENAMED_SUBJECTS else notebook
                 self.assertEqual(canonical_hash(without_routing_metadata(original)), expected,
@@ -263,7 +265,7 @@ class MigrationIntegrityTests(unittest.TestCase):
         inactive = [entry for entry in self.catalog if not entry["active"]]
         self.assertTrue(ADDED_ACTIVE_SUBJECTS.isdisjoint(self.baseline["active"]))
         self.assertTrue(ADDED_EXCLUDED_NOTEBOOKS.isdisjoint(self.baseline["unchanged"]))
-        current_original_paths = {S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path)) for path in self.baseline["active"]}
+        current_original_paths = {s1_current_path(S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path))) for path in self.baseline["active"]}
         self.assertEqual({presentation_path(p) for p in current_original_paths | ADDED_ACTIVE_SUBJECTS | SWINNEN_SUBJECTS},
                          {e["notebook"] for e in active})
         self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
