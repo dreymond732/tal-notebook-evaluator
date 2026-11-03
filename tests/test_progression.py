@@ -24,23 +24,41 @@ class ProgressionTests(unittest.TestCase):
         self.root = Path(self.temp.name)
 
     def write_notes(self, storage, group, values, provisional=False):
-        directory = self.root / storage / group
+        from storage_layout import GRADE_COLUMNS, storage_id
+        from notebook_contract import load_catalog
+        import re
+        evaluator = re.sub(r"-v\d+$", "", storage)
+        registered = {entry.get("evaluator"): entry for entry in load_catalog()
+                      if entry.get("evaluator") and entry["active"]}
+        current = (evaluator in registered and
+                   evaluator not in {"td3-s1", "td4-s1", "td5-s1", "td6-s1", "Controletilt-s1"} and
+                   (storage.endswith("-v" + str(registered[evaluator]["version"]))
+                    or storage == evaluator and registered[evaluator]["version"] == 1))
+        if current:
+            folder = storage_id(evaluator)
+            directory = self.root / folder
+            path = directory / ("notes_" + folder + ".csv")
+        else:
+            directory = self.root / storage / group
+            path = directory / ("notes_" + storage + "_" + group + ".csv")
         directory.mkdir(parents=True, exist_ok=True)
-        path = directory / f"notes_{storage}_{group}.csv"
-        name = "Score technique provisoire" if provisional else "Note"
-        header = ["Date", "Nom", "Prénom", "Classe", name, "Bonus", "Numéro étudiant"]
-        if provisional:
-            header = ["Date", "Nom", "Prénom", "Classe", name, "Bonus",
-                      "Nature du score", "Maximum technique", "Relecture humaine",
-                      "Numéro étudiant"]
         with path.open("w", encoding="utf-8", newline="") as stream:
             writer = csv.writer(stream, delimiter=";")
-            writer.writerow(header)
-            for date, nom, prenom, score, numero in values:
-                common = [date, nom, prenom, group, score, "0,00"]
-                if provisional:
-                    common += ["technique_provisoire", "6", "requise"]
-                writer.writerow(common + [numero])
+            if current:
+                writer.writerow(GRADE_COLUMNS)
+                for date, nom, prenom, score, numero in values:
+                    writer.writerow([
+                        date, nom, prenom, group, score, "0,00",
+                        "technique_provisoire" if provisional else "note",
+                        "6" if provisional else "", "requise" if provisional else "",
+                        numero, str(registered[evaluator]["version"]), "direct:test", ""
+                    ])
+            else:
+                writer.writerow(["Date", "Nom", "Prénom", "Classe",
+                                 "Score technique provisoire" if provisional else "Note",
+                                 "Bonus", "Numéro étudiant"])
+                for date, nom, prenom, score, numero in values:
+                    writer.writerow([date, nom, prenom, group, score, "0,00", numero])
         return path
 
     def read_export(self, filename):
@@ -150,7 +168,7 @@ class ProgressionTests(unittest.TestCase):
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__essais"], "3")
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__min"], "2,00")
         self.assertEqual(self.read_export("progression_S1.csv")[0]["td1-s1__max"], "5,00")
-        self.assertTrue(list((self.root / "td1-s1-v2" / "G1" / "nb").glob("*.ipynb")))
+        self.assertTrue(list((self.root / "TD1_S1" / "nb").glob("*.ipynb")))
 
     def test_invalid_year_is_refused(self):
         with self.assertRaisesRegex(ValueError, "TAL_ACADEMIC_YEAR"):
