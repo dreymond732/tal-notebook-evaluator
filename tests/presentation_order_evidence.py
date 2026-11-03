@@ -37,13 +37,13 @@ def s1_legacy_path(path):
     import re
     if not path.startswith("Notebooks TD/S1/"):
         return path
-    path = re.sub(r"S1_TD([1-7])_([^/]+\.ipynb)",
-                  lambda m: f"TD{m[1]}_S1_{m[2]}", path)
     def variant(match):
         n, label, detail = match.groups()
         v = label if n == "3" else {"A": "one", "B": "bis", "C": "ter"}[label]
         return f"TD{n}-{v}_S1_{detail}"
     path = re.sub(r"S1_TD([3-6])_(one|bis|ter|A|B|C)_([^/]+\.ipynb)", variant, path)
+    path = re.sub(r"S1_TD([1-7])_([^/]+\.ipynb)",
+                  lambda m: f"TD{m[1]}_S1_{m[2]}", path)
     return path
 
 
