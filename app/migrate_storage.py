@@ -17,7 +17,7 @@ from pathlib import Path
 import outils
 from notebook_contract import load_catalog
 from progression import progression_lock, refresh_progression
-from storage_layout import GRADE_COLUMNS, storage_id
+from storage_layout import GRADE_COLUMNS, storage_id, legacy_storage_id
 
 
 def _sha(path):
@@ -212,7 +212,12 @@ def prepare(root):
 
 
 def execute(root, apply=False):
-    """Prépare puis éventuellement copie ; réexécution sans doublons."""
+    """Migration historique v1 ; refuser l'ancien outil après la bascule S1."""
+    if storage_id("td1-s1") != legacy_storage_id("td1-s1"):
+        raise ValueError(
+            "Migration v1 obsolète après renommage S1 : "
+            "utiliser migrate_storage_s1.py, jamais migrate_storage.py."
+        )
     root = Path(root)
     with progression_lock(root):
         plan = prepare(root)

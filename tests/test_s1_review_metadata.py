@@ -123,7 +123,7 @@ class S1ReviewTests(unittest.TestCase):
                     self.assertTrue((Path(directory) / __import__('storage_layout').storage_id(entry['evaluator'])).is_dir())
                     self.assertIn('MODELE', response.get_data(as_text=True).upper())
             self.assertEqual({p.name for p in Path(directory).iterdir()},
-                             {f'TD{n}_S1' for n in range(1, 8)} | {'suivi'})
+                             {f'S1_TD{n}' for n in range(1, 8)} | {'suivi'})
 
 
 if __name__ == '__main__':

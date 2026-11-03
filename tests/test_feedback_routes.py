@@ -15,6 +15,7 @@ from app import create_app
 from notebook_contract import load_catalog
 import outils
 import routes
+from storage_layout import storage_id
 from routes import EVALUATOR_MODES
 
 
@@ -61,7 +62,7 @@ class StudentFeedbackRoutes(unittest.TestCase):
                         self.assertIsNotNone(soup.select_one('td.solution-col code'))
                         self.assertNotIn('Aucun exemple de solution disponible', soup.get_text())
                     self.assertEqual(len(list(Path(directory).rglob('*.ipynb'))), 1)
-                    self.assertEqual(len(list((Path(directory) / routes.EVALUATORS[evaluator][1].removeprefix('app_correction_')).rglob('*.csv'))), 1)
+                    self.assertEqual(len(list((Path(directory) / storage_id(evaluator)).rglob('*.csv'))), 1)
 
 
 if __name__ == '__main__':
