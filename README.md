@@ -162,8 +162,8 @@ de classe saisi et de la version du cahier.
 
 Exemple pour TD2 S1 :
 
-    soumissions/TD2_S1/
-      notes_TD2_S1.csv
+    soumissions/S1_TD2/
+      notes_S1_TD2.csv
       nb/NOM_Prenom_Numero_Reception_Copie.ipynb
       rapport/NOM_Prenom_Numero_Reception_td2-s1.html
 
@@ -175,3 +175,7 @@ Le suivi semestriel privé est rangé dans soumissions/suivi/.
 La migration non destructive des anciens sous-dossiers de classe est décrite
 dans [MIGRATION_STOCKAGE_EVALUATIONS.md](docs/MIGRATION_STOCKAGE_EVALUATIONS.md).
 Effectuer cette migration avant de remplacer l'application en production.
+
+### Migration des répertoires S1 après la nouvelle nomenclature
+
+Pour les 19 TD du S1, les dossiers physiques suivent désormais les cahiers renommés (`S1_TD1`, `S1_TD4_A`, etc.). Avant le démarrage du nouveau service, sauvegarder les soumissions et exécuter la migration non destructive, en simulation puis avec validation explicite : [procédure de migration v2](docs/MIGRATION_PHYSIQUE_S1_V2.md). L'ancien migrateur de classes/version `migrate_storage.py` est obsolète.
