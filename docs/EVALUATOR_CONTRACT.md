@@ -24,7 +24,7 @@ Les marqueurs, variables, sorties, méthodes de validation, types, formes, tolé
 
 Les routes GET/POST, templates et sélecteur restent cohérents. Les URL utilisent `url_for()`. L'application fonctionne sous `/universite/tal/` grâce à `ProxyFix` et aux en-têtes transmis par le proxy.
 
-Une soumission acceptée persiste copie, rapport HTML et CSV de notes dans `soumissions/<évaluation>/<classe>/`. Une erreur de persistance ne vaut jamais succès silencieux.
+Une soumission acceptée persiste copie, rapport HTML et CSV de notes dans `soumissions/<module-évaluation>/` (sous-dossiers `nb/`, `rapport/` et journal `notes_<module-évaluation>.csv`). Une erreur de persistance ne vaut jamais succès silencieux.
 
 Les TD peuvent être formatifs ; les contrôles restent sommatifs, sans divulgation du détail de correction.
 
