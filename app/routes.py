@@ -6,6 +6,8 @@ from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
 from markupsafe import escape
+from uuid import uuid4
+from storage_layout import storage_id
 import outils
 from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_VERSIONED, CONTRACT_VERSIONS, strict_contract_identity, human_review_identity
 main_bp = Blueprint('main', __name__)
@@ -356,39 +358,40 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 
 
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
-    """Sauvegarde les originaux puis régénère les suivis privés sous verrou."""
+    """Journal et fichiers regroupés par évaluation, sans répertoire de classe."""
     from progression import progression_lock, refresh_progression
 
-    # Sérialiser l'ajout CSV, les deux fichiers et le calcul pour ne pas
-    # perdre une tentative en présence de plusieurs workers.
     with progression_lock():
+        ident = storage_id(eval_name)
+        classe = info.get('classe', 'SANS_CLASSE')
+        s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
+        s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
+        student_suffix = ('_' + secure_filename(info['numero_etudiant'])) if info.get('numero_etudiant') else ''
+        receipt = uuid4().hex
+        nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{receipt}_{secure_filename(file.filename)}"
+        rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{receipt}_{eval_name}.html"
+        nb_path = outils.get_nb_path(ident, classe, nb_name)
+        rep_path = outils.get_rapport_path(ident, classe, rep_name)
+        created = []
         try:
-            version = CONTRACT_VERSIONS.get(eval_name)
-            strict_versioned = version is not None and info.get('contract_version') == version
-            storage_id = f'{eval_name}-v{version}' if strict_versioned else eval_name
-            outils.log_grade_to_csv(storage_id, info, score)
-
-            classe = info.get('classe', 'SANS_CLASSE')
-            s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
-            s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
-            student_suffix = ('_' + info['numero_etudiant']) if strict_versioned else ''
-
-            nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"
-            nb_path = outils.get_nb_path(storage_id, classe, nb_name)
+            # Un identifiant par réception empêche l'écrasement de deux essais,
+            # y compris lorsque les étudiants changent la classe renseignée.
             os.makedirs(os.path.dirname(nb_path), exist_ok=True)
-            with open(nb_path, 'wb') as stream:
-                stream.write(nb_bytes)
-
-            rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{eval_name}.html"
-            rep_path = outils.get_rapport_path(storage_id, classe, rep_name)
             os.makedirs(os.path.dirname(rep_path), exist_ok=True)
-            with open(rep_path, 'w', encoding='utf-8') as stream:
+            with open(nb_path, 'xb') as stream:
+                created.append(nb_path)
+                stream.write(nb_bytes)
+            with open(rep_path, 'x', encoding='utf-8') as stream:
+                created.append(rep_path)
                 stream.write(html_report)
-        except OSError as exc:
+            outils.log_grade_to_csv(ident, dict(info, submission_id=receipt), score)
+        except (OSError, ValueError) as exc:
+            for path in created:
+                try:
+                    os.unlink(path)
+                except OSError:
+                    current_app.logger.exception("Nettoyage d'un dépôt incomplet : %s", eval_name)
             raise RuntimeError(f"Erreur lors de la sauvegarde : {exc}") from exc
-
-        # L'export est dérivé : un incident de consolidation ne doit jamais
-        # transformer un dépôt déjà enregistré en échec pour l'étudiant.
         try:
             refresh_progression()
         except Exception:

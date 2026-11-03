@@ -126,7 +126,7 @@ class StrictS3Routes(unittest.TestCase):
                 if evaluator.startswith('controle-'):
                     self.assertIn('Copie reçue et enregistrée', body)
                     self.assertNotIn('Score technique provisoire', body)
-            folder = Path(self.temp.name) / (evaluator + '-v2') / 'G1'
+            folder = Path(self.temp.name) / __import__('storage_layout').storage_id(evaluator)
             self.assertEqual(len(list(folder.rglob('*.ipynb'))), 2)
             self.assertEqual(len(list(folder.rglob('*.html'))), 2)
             for path in folder.rglob('*.ipynb'):
@@ -135,7 +135,7 @@ class StrictS3Routes(unittest.TestCase):
                 rows = list(csv.reader(handle, delimiter=';'))
             self.assertEqual(len(rows), 3)
             self.assertTrue(all(len(row) == len(rows[0]) for row in rows))
-            self.assertEqual([row[-1] for row in rows[1:]], ['E1', '_E1'])
+            self.assertEqual([row[rows[0].index('Numéro étudiant')] for row in rows[1:]], ['E1', '_E1'])
             self.assertEqual(historical.read_text(), 'old header\nold grade\n')
 
 

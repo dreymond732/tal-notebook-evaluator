@@ -114,7 +114,7 @@ class ControlRouteTests(unittest.TestCase):
                 self.assertIn('Copie reçue et enregistrée', public)
                 for secret in ('SECRET_COPIE', 'Score technique', 'Critère technique', '✅', '❌'):
                     self.assertNotIn(secret, public)
-                base = Path(self.directory.name) / (identifier + '-v2') / 'S3'
+                base = Path(self.directory.name) / __import__('storage_layout').storage_id(identifier)
                 report_path = next(base.rglob('*.html'))
                 report = report_path.read_text()
                 self.assertIn('Score technique provisoire', report)

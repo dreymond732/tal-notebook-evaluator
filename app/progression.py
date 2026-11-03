@@ -21,6 +21,7 @@ from pathlib import Path
 
 import outils
 from notebook_contract import CONTRACT_VERSIONS, load_catalog
+from storage_layout import GRADE_COLUMNS, storage_id
 
 SEMESTERS = ("S1", "S2", "S3")
 # Ces synthèses historiques restent actives pour les anciennes URL, pas pour le suivi.
@@ -141,7 +142,7 @@ def _catalog():
         version = CONTRACT_VERSIONS.get(evaluator)
         if version is not None and version != item["version"]:
             raise ValueError("Contrat incohérent : " + evaluator)
-        storage = evaluator + "-v" + str(version) if version is not None else evaluator
+        storage = storage_id(evaluator)
         kind = ("DM" if evaluator.startswith("dm-") or "DevoirMaison" in evaluator
                 else "Contrôle" if item["mode"] == "controle" else "TD")
         entries.append(dict(item, storage=storage, kind=kind))
@@ -149,52 +150,65 @@ def _catalog():
 
 
 def _read_records(root, entries, first_year, errors):
+    """Consomme exclusivement les journaux fusionnés à schéma stable."""
     records = []
     for item in entries:
-        for path in sorted((root / item["storage"]).glob("*/notes_*.csv")):
-            try:
-                with path.open(encoding="utf-8-sig", newline="") as stream:
-                    reader = csv.DictReader(stream, delimiter=";")
-                    fields = reader.fieldnames or []
-                    kinds = [v for v in ("Note", "Score technique provisoire") if v in fields]
-                    if (len(kinds) != 1 or not set(IDENTITY_HEADER[:3]) <= set(fields)
-                            or "Date" not in fields or len(set(fields)) != len(fields)):
-                        errors.append((str(path.relative_to(root)), "", "schema_invalide", "Colonnes obligatoires absentes ou ambigües"))
+        path = root / item["storage"] / ("notes_" + item["storage"] + ".csv")
+        if not path.exists():
+            continue
+        try:
+            with path.open(encoding="utf-8-sig", newline="") as stream:
+                reader = csv.DictReader(stream, delimiter=";")
+                fields = reader.fieldnames or []
+                if fields != list(GRADE_COLUMNS):
+                    errors.append((str(path.relative_to(root)), "", "schema_invalide",
+                                   "Lancer la migration pour obtenir le schéma canonique"))
+                    continue
+                for line, row in enumerate(reader, 2):
+                    origin = str(path.relative_to(root))
+                    if None in row or any(v is None for v in row.values()):
+                        errors.append((origin, line, "ligne_invalide", "Nombre de colonnes incorrect"))
                         continue
-                    kind = kinds[0]
-                    for line, row in enumerate(reader, 2):
-                        origin = str(path.relative_to(root))
-                        if None in row or any(v is None for v in row.values()):
-                            errors.append((origin, line, "ligne_invalide", "Nombre de colonnes incorrect"))
+                    version = row.get("Version du contrat", "").strip()
+                    if version != str(item["version"]):
+                        # Les essais des précédents contrats sont archivés dans
+                        # le même journal mais exclus du suivi courant.
+                        if not version.isdecimal():
+                            errors.append((origin, line, "version_invalide", "Contrat non identifié"))
+                        continue
+                    value = _score(row.get("Score", ""))
+                    if value is None:
+                        errors.append((origin, line, "score_invalide", "Valeur absente ou non numérique"))
+                        continue
+                    date = _date(row.get("Date", ""))
+                    if date is None:
+                        errors.append((origin, line, "date_invalide", "Date illisible"))
+                        if first_year is not None:
                             continue
-                        value = _score(row.get(kind, ""))
-                        if value is None:
-                            errors.append((origin, line, "score_invalide", "Valeur absente ou non numérique"))
-                            continue
-                        date = _date(row.get("Date", ""))
-                        if date is None:
-                            errors.append((origin, line, "date_invalide", "Date illisible"))
-                            if first_year is not None:
-                                continue
-                        elif first_year is not None and not (
-                            datetime(first_year, 9, 1) <= date < datetime(first_year + 1, 9, 1)
-                        ):
-                            continue
-                        identity = tuple((row.get(k) or "").strip() for k in IDENTITY_HEADER[:3])
-                        if not all(identity):
-                            errors.append((origin, line, "identite_incomplete", "Nom, prénom ou classe manquant"))
-                            continue
-                        number = (row.get("Numéro étudiant") or "").strip()
-                        if number and not NUMBER_RE.fullmatch(number):
-                            errors.append((origin, line, "numero_invalide", "Numéro étudiant mal formé"))
-                            continue
-                        records.append({
-                            "item": item, "number": number, "identity": identity,
-                            "date": date, "score": value, "nature": kind,
-                            "source": origin, "line": line
-                        })
-            except (OSError, UnicodeError, csv.Error) as exc:
-                errors.append((str(path.relative_to(root)), "", "lecture_impossible", type(exc).__name__))
+                    elif first_year is not None and not (
+                        datetime(first_year, 9, 1) <= date < datetime(first_year + 1, 9, 1)
+                    ):
+                        continue
+                    identity = tuple((row.get(k) or "").strip() for k in IDENTITY_HEADER[:3])
+                    if not all(identity):
+                        errors.append((origin, line, "identite_incomplete", "Nom, prénom ou classe manquant"))
+                        continue
+                    number = (row.get("Numéro étudiant") or "").strip()
+                    if number and not NUMBER_RE.fullmatch(number):
+                        errors.append((origin, line, "numero_invalide", "Numéro étudiant mal formé"))
+                        continue
+                    nature = row.get("Nature du score", "").strip()
+                    if nature not in {"note", "technique_provisoire"}:
+                        errors.append((origin, line, "nature_invalide", "Nature de score inconnue"))
+                        continue
+                    records.append({
+                        "item": item, "number": number, "identity": identity,
+                        "date": date, "score": value,
+                        "nature": "Score technique provisoire" if nature == "technique_provisoire" else "Note",
+                        "source": origin, "line": line
+                    })
+        except (OSError, UnicodeError, csv.Error) as exc:
+            errors.append((str(path.relative_to(root)), "", "lecture_impossible", type(exc).__name__))
     return records
 
 

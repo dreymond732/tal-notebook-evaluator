@@ -151,11 +151,12 @@ class CompanionRoutesTests(unittest.TestCase):
             self.assertIn('Analyse &lt;script&gt;', body)
             self.assertIn('Bilan personnel &lt;preuve&gt;', body)
         paths = list(self.root.rglob('*.ipynb'))
-        self.assertEqual(len(paths), 1)
-        self.assertIn('td1b-s3-v3', str(paths[0]))
-        self.assertEqual(json.loads(paths[0].read_text()), nb)
-        self.assertEqual(len(list(self.root.rglob('*.html'))), 1)
-        self.assertEqual(len(list((self.root / 'td1b-s3-v3').rglob('*.csv'))), 1)
+        # Chaque soumission distincte est désormais conservée.
+        self.assertEqual(len(paths), 2)
+        self.assertTrue(all('TD1B_S3' in str(path) for path in paths))
+        self.assertTrue(all(json.loads(path.read_text()) == nb for path in paths))
+        self.assertEqual(len(list(self.root.rglob('*.html'))), 2)
+        self.assertEqual(len(list((self.root / 'TD1B_S3').rglob('*.csv'))), 1)
         self.assertEqual(self.client.get('/health').json['evaluators'], 46)
 
     def test_first_storage_failure_is_visible_without_a_score(self):
