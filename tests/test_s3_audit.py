@@ -140,9 +140,9 @@ class S3RouteTests(unittest.TestCase):
         root = Path(self.directory.name)
         self.assertEqual(len(list(root.rglob('*.ipynb'))), 1)
         self.assertEqual(len(list(root.rglob('*.html'))), 1)
-        self.assertEqual(len(list(root.rglob('*.csv'))), 1)
+        self.assertEqual(len(list((root / 'td4-s3-v2').rglob('*.csv'))), 1)
         self.assertEqual(next(root.rglob('*.ipynb')).read_bytes(), content)
-        self.assertIn('EXEMPLE', next(root.rglob('*.csv')).read_text())
+        self.assertIn('EXEMPLE', next((root / 'td4-s3-v2').rglob('*.csv')).read_text())
 
 class AuditCalculationTests(unittest.TestCase):
     def check(self, td, values):
