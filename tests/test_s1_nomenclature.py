@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT / "app"))
 
 from notebook_contract import load_catalog, resolve_notebook
 from routes import EVALUATORS
-from storage_layout import storage_id
+from storage_layout import storage_id, legacy_storage_id
 
 
 class S1NomenclatureTests(unittest.TestCase):
@@ -53,10 +53,13 @@ class S1NomenclatureTests(unittest.TestCase):
             self.assertIn(f"S1_TD3_{part}_",
                           catalog[f"td3-{part}-s1"]["notebook"])
 
-    def test_physical_storage_stays_unchanged_until_separate_migration(self):
-        self.assertEqual(storage_id("td4-s1"), "TD4_S1")
-        self.assertEqual(storage_id("td4-one-s1"), "TD4_one_S1")
-        self.assertEqual(storage_id("td1-s1"), "TD1_S1")
+    def test_physical_storage_uses_s1_first_and_keeps_legacy_mapping(self):
+        self.assertEqual(storage_id("td4-s1"), "S1_TD4")
+        self.assertEqual(storage_id("td4-one-s1"), "S1_TD4_A")
+        self.assertEqual(storage_id("td1-s1"), "S1_TD1")
+        self.assertEqual(legacy_storage_id("td4-s1"), "TD4_S1")
+        self.assertEqual(legacy_storage_id("td4-one-s1"), "TD4_one_S1")
+        self.assertEqual(legacy_storage_id("td1-s1"), "TD1_S1")
 
 
 if __name__ == "__main__":
