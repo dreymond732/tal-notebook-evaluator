@@ -3,7 +3,7 @@
   "sessions": [
     {
       "id": "TD1_S1",
-      "notebook": "Notebooks TD/S1/TD1_S1_variables_types.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD1_variables_types.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Variables, types et premières expressions",
@@ -365,7 +365,7 @@
     },
     {
       "id": "TD2_S1",
-      "notebook": "Notebooks TD/S1/TD2_S1_chaines_sequences.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD2_chaines_sequences.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Chaînes et séquences",
@@ -527,7 +527,7 @@
     },
     {
       "id": "TD3_S1",
-      "notebook": "Notebooks TD/S1/TD3_S1_collections.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_collections.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Collections : listes, dictionnaires et ensembles",
@@ -671,7 +671,7 @@
     },
     {
       "id": "TD4_S1",
-      "notebook": "Notebooks TD/S1/TD4_S1_boucles_conditions_comptages.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD4_boucles_conditions_comptages.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Boucles, conditions et comptages",
@@ -830,7 +830,7 @@
     },
     {
       "id": "TD5_S1",
-      "notebook": "Notebooks TD/S1/TD5_S1_fonctions_reutilisation.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD5_fonctions_reutilisation.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Fonctions et réutilisation du code",
@@ -998,7 +998,7 @@
     },
     {
       "id": "TD6_S1",
-      "notebook": "Notebooks TD/S1/TD6_S1_fichiers_csv.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD6_fichiers_csv.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Lire, transformer et écrire des fichiers",
@@ -1172,7 +1172,7 @@
     },
     {
       "id": "TD7_S1",
-      "notebook": "Notebooks TD/S1/TD7_S1_expressions_regulieres_pipeline.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD7_expressions_regulieres_pipeline.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "Motifs, expressions régulières et pipeline",
@@ -5352,7 +5352,7 @@
     },
     {
       "id": "TD3_ONE_S1",
-      "notebook": "Notebooks TD/S1/TD3-one_S1_listes.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_one_listes.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD3-one — Construire et transformer des listes",
@@ -5542,7 +5542,7 @@
     },
     {
       "id": "TD3_BIS_S1",
-      "notebook": "Notebooks TD/S1/TD3-bis_S1_tuples.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_bis_tuples.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD3-bis — Lire et recomposer des tuples",
@@ -5746,7 +5746,7 @@
     },
     {
       "id": "TD3_TER_S1",
-      "notebook": "Notebooks TD/S1/TD3-ter_S1_dictionnaires_ensembles.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_ter_dictionnaires_ensembles.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD3.ter — Associer et comparer les données",
@@ -5905,7 +5905,7 @@
     },
     {
       "id": "TD5_ONE_S1",
-      "notebook": "Notebooks TD/S1/TD5-one_S1_fonctions.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD5_A_fonctions.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD5-one — Définir, appeler et retourner",
@@ -6047,7 +6047,7 @@
     },
     {
       "id": "TD5_BIS_S1",
-      "notebook": "Notebooks TD/S1/TD5-bis_S1_parametres_portee.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD5_B_parametres_portee.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD5-bis — Paramètres, défauts et portée",
@@ -6197,7 +6197,7 @@
     },
     {
       "id": "TD5_TER_S1",
-      "notebook": "Notebooks TD/S1/TD5-ter_S1_composition_texte.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD5_C_composition_texte.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD5.ter — Composer des fonctions pour le texte",
@@ -6363,7 +6363,7 @@
     },
     {
       "id": "TD6_ONE_S1",
-      "notebook": "Notebooks TD/S1/TD6-one_S1_fichiers_texte.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD6_A_fichiers_texte.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD6-one — Fichiers texte",
@@ -6484,7 +6484,7 @@
     },
     {
       "id": "TD6_BIS_S1",
-      "notebook": "Notebooks TD/S1/TD6-bis_S1_donnees_delimitees.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD6_B_donnees_delimitees.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD6-bis — Données délimitées et regroupement",
@@ -6622,7 +6622,7 @@
     },
     {
       "id": "TD6_TER_S1",
-      "notebook": "Notebooks TD/S1/TD6-ter_S1_csv.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD6_C_csv.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD6.ter — Écrire et relire des CSV",
@@ -6775,7 +6775,7 @@
     },
     {
       "id": "TD4_ONE_S1",
-      "notebook": "Notebooks TD/S1/TD4-one_S1_conditions_filtres.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD4_A_conditions_filtres.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD4-one — Choisir et filtrer dans un parcours",
@@ -6885,7 +6885,7 @@
     },
     {
       "id": "TD4_BIS_S1",
-      "notebook": "Notebooks TD/S1/TD4-bis_S1_bornes_repetitions.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD4_B_bornes_repetitions.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD4-bis — Bornes et répétitions",
@@ -7006,7 +7006,7 @@
     },
     {
       "id": "TD4_TER_S1",
-      "notebook": "Notebooks TD/S1/TD4-ter_S1_comptages_comprehensions.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD4_C_comptages_comprehensions.ipynb",
       "semester": 1,
       "activity": "td",
       "title": "TD4.ter — Comptages et compréhensions",
