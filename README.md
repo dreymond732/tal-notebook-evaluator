@@ -175,3 +175,12 @@ Le suivi semestriel privé est rangé dans soumissions/suivi/.
 La migration non destructive des anciens sous-dossiers de classe est décrite
 dans [MIGRATION_STOCKAGE_EVALUATIONS.md](docs/MIGRATION_STOCKAGE_EVALUATIONS.md).
 Effectuer cette migration avant de remplacer l'application en production.
+
+## Consultation individuelle des TD
+
+Une page privée par étudiant est accessible depuis l'accueil (`/ma-progression`),
+après confirmation d'un premier rattachement numéro étudiant / email.
+Le code personnel reçu reste réutilisable jusqu'à sa révocation ou rotation.
+L'activation demande SMTP, HTTPS et `TAL_ACADEMIC_YEAR` configurés.
+Voir [CONSULTATION_PROGRESSION_ETUDIANT.md](docs/CONSULTATION_PROGRESSION_ETUDIANT.md)
+pour la sécurité, la procédure et la limite du premier rattachement.
