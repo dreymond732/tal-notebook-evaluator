@@ -96,7 +96,7 @@ va du 1er septembre au 31 août, d'après les dates des CSV serveur.
 
 Vérifications prévues :
 
-    python -m unittest tests.test_progression -v
+    python -m unittest discover -s tests -p test_progression.py -v
     python -m unittest discover -s tests -v
 
 Les tests de suivi reposent sur des noms, identifiants et scores fictifs.
