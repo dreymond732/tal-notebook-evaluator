@@ -68,7 +68,7 @@ class PresentationOrderTests(unittest.TestCase):
             if path.startswith('Notebooks TD/S3/'):
                 continue
             with self.subTest(notebook=path):
-                current = json.loads((ROOT / path).read_text())
+                current = json.loads((ROOT / current_path(path)).read_text())
                 # Reversal is independent of migrate_notebook and fails on any
                 # alteration to title, remaining prose, code, IDs or metadata.
                 expected = json.loads(raw)
@@ -77,7 +77,7 @@ class PresentationOrderTests(unittest.TestCase):
                     prerequisites = expected['metadata']['tal_tutor']['session']['prerequisites']
                     self.assertEqual(prerequisites[0], 'TD0 à TD1 du S3 : compétences déjà pratiquées')
                     prerequisites[0] = 'TD0 à TD1.a du S3 : compétences déjà pratiquées'
-                self.assertEqual(before_title_move(current, path), expected)
+                self.assertEqual(before_title_move(current, current_path(path)), expected)
 
     def test_user_heading_is_preserved_and_migration_is_idempotent(self):
         old = json.loads(next(iter(self.baseline['subjects'].values())))
