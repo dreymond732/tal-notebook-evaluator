@@ -134,7 +134,9 @@ def _entry_plan(root, evaluator):
         if folder.exists():
             allowed = set(SUBDIRS) | {expected}
             for entry in folder.iterdir():
-                if entry.is_symlink() or entry.name not in allowed:
+                if entry.is_symlink():
+                    raise ValueError("Lien symbolique refusé : " + str(entry))
+                if entry.name not in allowed:
                     raise ValueError("Contenu imprévu dans " + str(folder) + " : " + entry.name)
                 if entry.name in SUBDIRS:
                     _directory(entry)
