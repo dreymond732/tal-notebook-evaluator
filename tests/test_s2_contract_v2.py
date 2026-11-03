@@ -137,7 +137,7 @@ class S2Routes(unittest.TestCase):
                     self.assertIn('Copie reçue et enregistrée', body)
                     for private in ('PRIVATE_CRITERION', 'PRIVATE_TRACE', 'PRIVATE_EXPECTED', 'PRIVATE_REVIEW', 'Score technique provisoire'):
                         self.assertNotIn(private, body)
-            folder = Path(self.temp.name) / (evaluator + '-v2') / 'G2'
+            folder = Path(self.temp.name) / __import__('storage_layout').storage_id(evaluator)
             self.assertEqual(len(list(folder.rglob('*.ipynb'))), 2)
             self.assertEqual(len(list(folder.rglob('*.html'))), 2)
             for report in folder.rglob('*.html'):
@@ -148,7 +148,7 @@ class S2Routes(unittest.TestCase):
                 rows = list(csv.reader(handle, delimiter=';'))
             self.assertEqual(len(rows), 3)
             self.assertTrue(all(len(row) == len(rows[0]) for row in rows))
-            self.assertEqual([row[-1] for row in rows[1:]], ['SYN-01', '_SYN-01'])
+            self.assertEqual([row[rows[0].index('Numéro étudiant')] for row in rows[1:]], ['SYN-01', '_SYN-01'])
             self.assertEqual(historical.read_text(), 'old header\nold grade\n')
 
 
