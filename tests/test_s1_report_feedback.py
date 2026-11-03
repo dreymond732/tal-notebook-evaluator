@@ -22,7 +22,7 @@ from s1_feedback import SOLUTIONS, enrich_s1_details
 
 
 def subject(td):
-    path = next((ROOT / 'Notebooks TD' / 'S1').glob(f'TD{td}_*.ipynb'))
+    path = next((ROOT / 'Notebooks TD' / 'S1').glob(f'S1_TD{td}_*.ipynb'))
     notebook = json.loads(path.read_text())
     for cell in notebook['cells']:
         if cell.get('metadata', {}).get('tal', {}).get('role') == 'identification':
