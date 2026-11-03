@@ -150,7 +150,7 @@ class ExpansionTests(unittest.TestCase):
                 response = client.post('/submit', data={'file': (io.BytesIO(json.dumps(fixture(identifier)).encode()), 'travail.ipynb')}, content_type='multipart/form-data')
                 self.assertEqual(response.status_code, 200)
                 self.assertTrue((Path(directory)/(identifier+'-v2')/'S1').is_dir())
-            self.assertEqual({p.name for p in Path(directory).iterdir()}, {identifier+'-v2' for identifier in IDS})
+            self.assertEqual({p.name for p in Path(directory).iterdir()}, {identifier+'-v2' for identifier in IDS} | {'suivi'})
 
 
 def setUpModule():
