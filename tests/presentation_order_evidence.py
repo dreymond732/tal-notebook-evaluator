@@ -74,6 +74,8 @@ def before_title_move(notebook, path):
     if not source.startswith(prefix):
         raise AssertionError(f'Unexpected first heading: {path}')
     result['cells'][0]['source'] = source[len(prefix):].splitlines(keepends=True)
+    if s1_legacy_path(path) != path:
+        result['metadata']['tal_tutor']['session']['notebook'] = s1_legacy_path(path)
     intro_index = previous['cells'].index(original_intro)
     intro = result['cells'][intro_index]
     if intro.get('id') != original_intro.get('id') or intro['metadata'] != original_intro['metadata']:
