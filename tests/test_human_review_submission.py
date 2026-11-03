@@ -155,7 +155,7 @@ class CompanionRoutesTests(unittest.TestCase):
         self.assertIn('td1b-s3-v3', str(paths[0]))
         self.assertEqual(json.loads(paths[0].read_text()), nb)
         self.assertEqual(len(list(self.root.rglob('*.html'))), 1)
-        self.assertEqual(len(list(self.root.rglob('*.csv'))), 1)
+        self.assertEqual(len(list((self.root / 'td1b-s3-v3').rglob('*.csv'))), 1)
         self.assertEqual(self.client.get('/health').json['evaluators'], 46)
 
     def test_first_storage_failure_is_visible_without_a_score(self):

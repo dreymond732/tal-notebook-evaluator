@@ -128,7 +128,7 @@ class S1ReviewTests(unittest.TestCase):
                     self.assertTrue((Path(directory) / (entry['evaluator'] + '-v2') / 'S1').is_dir())
                     self.assertIn('MODELE', response.get_data(as_text=True).upper())
             self.assertEqual({p.name for p in Path(directory).iterdir()},
-                             {f'td{n}-s1-v2' for n in range(1, 8)})
+                             {f'td{n}-s1-v2' for n in range(1, 8)} | {'suivi'})
 
 
 if __name__ == '__main__':

@@ -60,7 +60,7 @@ class StudentFeedbackRoutes(unittest.TestCase):
                         self.assertIsNotNone(soup.select_one('td.solution-col code'))
                         self.assertNotIn('Aucun exemple de solution disponible', soup.get_text())
                     self.assertEqual(len(list(Path(directory).rglob('*.ipynb'))), 1)
-                    self.assertEqual(len(list(Path(directory).rglob('*.csv'))), 1)
+                    self.assertEqual(len(list((Path(directory) / (evaluator + '-v' + str(entry['version']))).rglob('*.csv'))), 1)
 
 
 if __name__ == '__main__':

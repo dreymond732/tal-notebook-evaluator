@@ -356,33 +356,42 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
 
 
 def process_submission(file, nb_bytes, html_report, info, score, eval_name):
-    """Sauvegarde les fichiers et log la note."""
-    try:
-        # Versioned contracts have richer CSV schemas: keep historical files intact.
-        version = CONTRACT_VERSIONS.get(eval_name)
-        strict_versioned = version is not None and info.get('contract_version') == version
-        storage_id = f'{eval_name}-v{version}' if strict_versioned else eval_name
-        outils.log_grade_to_csv(storage_id, info, score)
+    """Sauvegarde les originaux puis régénère les suivis privés sous verrou."""
+    from progression import progression_lock, refresh_progression
 
-        classe = info.get('classe', 'SANS_CLASSE')
-        # Nettoyage des noms pour éviter les problèmes de chemin de fichier
-        s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
-        s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
+    # Sérialiser l'ajout CSV, les deux fichiers et le calcul pour ne pas
+    # perdre une tentative en présence de plusieurs workers.
+    with progression_lock():
+        try:
+            version = CONTRACT_VERSIONS.get(eval_name)
+            strict_versioned = version is not None and info.get('contract_version') == version
+            storage_id = f'{eval_name}-v{version}' if strict_versioned else eval_name
+            outils.log_grade_to_csv(storage_id, info, score)
 
-        student_suffix = ('_' + info['numero_etudiant']) if strict_versioned else ''
+            classe = info.get('classe', 'SANS_CLASSE')
+            s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
+            s_prenom = secure_filename(info.get('prenom', 'NON_RENSEIGNE')).capitalize()
+            student_suffix = ('_' + info['numero_etudiant']) if strict_versioned else ''
 
-        # 1. Sauvegarde Notebook
-        nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"
-        nb_path = outils.get_nb_path(storage_id, classe, nb_name)
-        os.makedirs(os.path.dirname(nb_path), exist_ok=True)
-        with open(nb_path, 'wb') as f:
-            f.write(nb_bytes)
+            nb_name = f"{s_nom}_{s_prenom}{student_suffix}_{secure_filename(file.filename)}"
+            nb_path = outils.get_nb_path(storage_id, classe, nb_name)
+            os.makedirs(os.path.dirname(nb_path), exist_ok=True)
+            with open(nb_path, 'wb') as stream:
+                stream.write(nb_bytes)
 
-        # 2. Sauvegarde Rapport HTML
-        rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{eval_name}.html"
-        rep_path = outils.get_rapport_path(storage_id, classe, rep_name)
-        os.makedirs(os.path.dirname(rep_path), exist_ok=True)
-        with open(rep_path, 'w', encoding='utf-8') as f:
-            f.write(html_report)
-    except OSError as e:
-        raise RuntimeError(f"Erreur lors de la sauvegarde : {e}") from e
+            rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{eval_name}.html"
+            rep_path = outils.get_rapport_path(storage_id, classe, rep_name)
+            os.makedirs(os.path.dirname(rep_path), exist_ok=True)
+            with open(rep_path, 'w', encoding='utf-8') as stream:
+                stream.write(html_report)
+        except OSError as exc:
+            raise RuntimeError(f"Erreur lors de la sauvegarde : {exc}") from exc
+
+        # L'export est dérivé : un incident de consolidation ne doit jamais
+        # transformer un dépôt déjà enregistré en échec pour l'étudiant.
+        try:
+            refresh_progression()
+        except Exception:
+            current_app.logger.exception(
+                "Consolidation privée indisponible après dépôt : %s", eval_name
+            )
