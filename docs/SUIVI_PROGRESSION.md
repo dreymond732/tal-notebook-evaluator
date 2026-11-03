@@ -2,17 +2,17 @@
 
 ## Périmètre et sources
 
-Les CSV originaux des évaluateurs restent la source de vérité, en lecture
-seule dans soumissions/. Chaque ligne correctement journalisée constitue
+Les CSV canoniques regroupés par évaluateur sont la source du suivi,
+en lecture seule dans soumissions/. Le migrateur conserve en parallèle
+les journaux source sans les modifier. Chaque ligne correctement journalisée constitue
 un essai (même si le score est 0). Min/max sont les scores bruts et ne sont
 pas normalisés sur 20.
 
 Les tableaux couvrent les TD, devoirs maison (DM) et contrôles actifs
 du catalogue. Les synthèses historiques td3-s1, td4-s1, td5-s1, td6-s1
-et le contrôle historique Controletilt-s1 sont exclus. Les anciennes
-versions des sujets sont également exclues : seul le répertoire correspondant
-au contrat actuel est lu. Le DM intermédiaire S1 conserve son contrat v1
-actuel et est inclus.
+et le contrôle historique Controletilt-s1 sont exclus. Les versions
+anciennes de chaque évaluateur sont filtrées par la colonne Version du contrat,
+sans devoir séparer les dossiers physiques. Le DM S1 v1 reste inclus.
 
 Un score technique provisoire ne constitue pas une note académique
 définitive ; aucune correction ni aucun barème n'est modifié.
@@ -63,8 +63,8 @@ accepté ou lors d'un recalcul manuel.
 
 ## Mise à jour et période
 
-Après chaque soumission acceptée, l'application écrit le CSV, le cahier
-et le rapport, puis recalcule les exports sous un verrou interprocessus
+Après chaque soumission acceptée, l'application écrit le cahier, le rapport
+et enfin le CSV, puis recalcule les exports sous un verrou interprocessus
 sur le même volume que les CSV. Chaque export est remplacé atomiquement.
 Une erreur de consolidation n'annule pas un dépôt étudiant déjà écrit ;
 elle est signalée dans les journaux du serveur.
@@ -85,8 +85,8 @@ va du 1er septembre au 31 août, d'après les dates des CSV serveur.
 ## Limites et validation
 
 - Un essai correspond à une ligne, non à un identifiant de dépôt unique.
-  L'ancien mécanisme peut laisser une ligne si la sauvegarde du cahier
-  échoue ensuite ; rien n'est supprimé ni réécrit.
+  Les journaux historiques de l'ancien mécanisme peuvent contenir des lignes
+  sans fichier associé ; le migrateur les conserve sans altération.
 - Les scores ne sont pas agrégés entre correcteurs à barèmes différents.
   Min/max n'indiquent pas à eux seuls le sens chronologique des progrès.
 - Les soumissions destinées à la relecture humaine seule ne reçoivent
@@ -100,3 +100,7 @@ Vérifications prévues :
     python -m unittest discover -s tests -v
 
 Les tests de suivi reposent sur des noms, identifiants et scores fictifs.
+
+La structure physique et la migration non destructive sont décrites dans
+MIGRATION_STOCKAGE_EVALUATIONS.md. Une migration --apply est obligatoire
+avant que le nouveau suivi puisse reprendre les anciens dépôts.
