@@ -164,6 +164,18 @@ class IndividualProgressTests(unittest.TestCase):
         finally:
             db.close()
 
+    def test_http_is_rejected_in_production_but_proxy_https_is_accepted(self):
+        self.app.config["TESTING"] = False
+        self.assertEqual(self.client.get("/ma-progression").status_code, 503)
+        secure = self.client.get(
+            "/ma-progression",
+            headers={"X-Forwarded-Proto": "https",
+                     "X-Forwarded-Prefix": "/universite/tal"},
+        )
+        self.assertEqual(secure.status_code, 200)
+        self.assertIn('action="/universite/tal/ma-progression/connexion"',
+                      secure.get_data(as_text=True))
+
     def test_disabled_without_year_or_sender(self):
         with patch.dict(os.environ, {"TAL_ACADEMIC_YEAR": ""}):
             self.assertEqual(self.client.get("/ma-progression").status_code, 503)
