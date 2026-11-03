@@ -125,10 +125,10 @@ class S1ReviewTests(unittest.TestCase):
                         'file': (io.BytesIO(json.dumps(nb).encode()), 'mon_travail.ipynb')},
                         content_type='multipart/form-data')
                     self.assertEqual(response.status_code, 200)
-                    self.assertTrue((Path(directory) / (entry['evaluator'] + '-v2') / 'S1').is_dir())
+                    self.assertTrue((Path(directory) / __import__('storage_layout').storage_id(entry['evaluator'])).is_dir())
                     self.assertIn('MODELE', response.get_data(as_text=True).upper())
             self.assertEqual({p.name for p in Path(directory).iterdir()},
-                             {f'td{n}-s1-v2' for n in range(1, 8)} | {'suivi'})
+                             {f'TD{n}_S1' for n in range(1, 8)} | {'suivi'})
 
 
 if __name__ == '__main__':
