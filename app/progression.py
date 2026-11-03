@@ -299,7 +299,7 @@ def refresh_progression(root=None, academic_year=None):
 
     _write_csv(output / "catalogue_evaluations.csv",
                ("Semestre", "Évaluation", "Intitulé", "Type", "Nature du score", "Version"),
-               ((i["semester"], i["evaluator"], i["title"], i["kind"],
+               ((i["semester"], i["evaluator"], i.get("title", i["evaluator"]), i["kind"],
                  natures.get(i["evaluator"], "non_observee"), i["version"]) for i in entries))
     _write_csv(output / "correspondances_a_valider.csv",
                (*IDENTITY_HEADER[:3], "Numéro proposé", "Essais", "Évaluations", "Statut"),
