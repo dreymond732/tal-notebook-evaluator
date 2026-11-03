@@ -66,7 +66,7 @@ class ProgressionTests(unittest.TestCase):
         ])
         with progression_lock(self.root):
             summary = refresh_progression(self.root, "2026-2027")
-        self.assertEqual(summary["essais"], 6)
+        self.assertEqual(summary["essais"], 7)
         s1 = {r["Numéro étudiant"]: r for r in self.read_export("progression_S1.csv")}
         self.assertEqual(len(s1), 2)
         self.assertEqual(s1["000123"]["td1-s1__min"], "2,00")
