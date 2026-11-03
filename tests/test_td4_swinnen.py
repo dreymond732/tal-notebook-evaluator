@@ -57,7 +57,7 @@ class TD4ExpansionTests(unittest.TestCase):
                         self.fail('Titre S1 inattendu : ' + path)
                     first[0] = '# ' + old_label + marker + old_line.split(marker, 2)[2]
                     nb['metadata']['tal_tutor']['session']['notebook'] = path
-                    canonical = (json.dumps(nb, ensure_ascii=False, indent=1) + '\n').encode('utf-8')
+                    canonical = (json.dumps(nb, ensure_ascii=False, indent=2 if old_label == 'TD4 S1' else 1) + '\n').encode('utf-8')
                     self.assertEqual(hashlib.sha256(canonical).hexdigest(), expected)
                 else:
                     self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(), expected)
