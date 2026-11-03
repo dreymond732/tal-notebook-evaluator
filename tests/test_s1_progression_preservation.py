@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'app'))
 from notebook_contract import resolve_notebook, validate_cell_metadata
 from prepare_student_notebooks import submission_cell
+from presentation_order_evidence import s1_current_path
 
 BASELINE = ROOT / 'tests/fixtures/s1_editorial_source_baseline.json'
 HISTORICAL = ROOT / 'tests/fixtures/s1_progression_v2_source_baseline.json'
@@ -29,7 +30,7 @@ class S1ProgressionPreservationTests(unittest.TestCase):
         self.assertEqual(len(baseline['subjects']), 7)
         total_questions = 0
         for path, previous in baseline['subjects'].items():
-            current = json.loads((ROOT / path).read_text())
+            current = json.loads((ROOT / s1_current_path(path)).read_text())
             with self.subTest(notebook=path):
                 self.assertEqual(resolve_notebook(current)['version'], 2)
                 indexed = validate_cell_metadata(current)
@@ -86,7 +87,7 @@ class S1ProgressionPreservationTests(unittest.TestCase):
         historical = json.loads(HISTORICAL.read_text())
         self.assertEqual(historical['source_commit'], '322abf53b4a1ff96c1652acfa21b4d27185bfa1a')
         for path, previous in historical['subjects'].items():
-            current = json.loads((ROOT / path).read_text())
+            current = json.loads((ROOT / s1_current_path(path)).read_text())
             cells = {cell['id']: cell for cell in current['cells']}
             old_ids = [cell['id'] for cell in previous['cells']]
             self.assertEqual([c['id'] for c in current['cells'] if c['id'] in old_ids], old_ids)
