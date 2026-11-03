@@ -208,7 +208,7 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
             self.assertIn('Généralité des fonctions', report)
             self.assertIn('TEST2026', report)
             self.assertNotIn('Qualité linguistique et retour aux passages', report)
-            csv = next(Path(directory).rglob('*.csv')).read_text()
+            csv = next((Path(directory) / 'dm-intermediaire-s1').rglob('*.csv')).read_text()
             self.assertIn('Numéro étudiant', csv)
             self.assertIn('TEST2026', csv)
             self.assertIn('technique_provisoire', csv)
