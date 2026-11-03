@@ -23,15 +23,15 @@ Les TD0 à TD7 et les activités R0–R2 du S3 disposent d’un correcteur forma
 
 ## S1 — Python pour le texte
 
-Le dossier `S1/` présente sept thèmes. Le parcours renforcé comporte quinze cahiers : les TD3, TD4, TD5 et TD6 se déclinent chacun en **one → bis → ter**. Voir [le parcours détaillé](S1/README.md). Les quatre cahiers de synthèse historiques et leurs correcteurs restent compatibles avec les copies déjà distribuées :
+Le dossier `S1/` présente sept thèmes. Le parcours renforcé comporte quinze cahiers : les TD3, TD4, TD5 et TD6 sont déclinés : one/bis/ter pour le TD3 historique, A/B/C pour les TD4 à TD6. Voir [le parcours détaillé](S1/README.md). Les quatre cahiers de synthèse historiques et leurs correcteurs restent compatibles avec les copies déjà distribuées :
 
-- `TD1_S1_variables_types.ipynb` : notebook, variables, types et premières expressions ;
-- `TD2_S1_chaines_sequences.ipynb` : chaînes, séquences et découpage naïf ;
-- `TD3_S1_collections.ipynb` : listes, tuples, dictionnaires et ensembles ;
-- `TD4_S1_boucles_conditions_comptages.ipynb` : boucles, tests, comptages et compréhension ;
-- `TD5_S1_fonctions_reutilisation.ipynb` : fonctions, retours et composition ;
-- `TD6_S1_fichiers_csv.ipynb` : fichiers UTF-8, données structurées et CSV ;
-- `TD7_S1_expressions_regulieres_pipeline.ipynb` : expressions régulières et pipeline textuel.
+- `S1_TD1_variables_types.ipynb` : notebook, variables, types et premières expressions ;
+- `S1_TD2_chaines_sequences.ipynb` : chaînes, séquences et découpage naïf ;
+- `S1_TD3_collections.ipynb` : listes, tuples, dictionnaires et ensembles ;
+- `S1_TD4_boucles_conditions_comptages.ipynb` : boucles, tests, comptages et compréhension ;
+- `S1_TD5_fonctions_reutilisation.ipynb` : fonctions, retours et composition ;
+- `S1_TD6_fichiers_csv.ipynb` : fichiers UTF-8, données structurées et CSV ;
+- `S1_TD7_expressions_regulieres_pipeline.ipynb` : expressions régulières et pipeline textuel.
 
 Chaque TD a un correcteur formatif associé. La matrice de couverture et la progression sont dans `docs/pedagogy/S1_COVERAGE_MATRIX.md`.
 
