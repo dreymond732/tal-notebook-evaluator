@@ -372,22 +372,25 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
         rep_name = f"{s_nom}_{s_prenom}{student_suffix}_{receipt}_{eval_name}.html"
         nb_path = outils.get_nb_path(ident, classe, nb_name)
         rep_path = outils.get_rapport_path(ident, classe, rep_name)
+        created = []
         try:
-            # Les noms uniques préservent les essais successifs et évitent
-            # les collisions entre groupes qui étaient autrefois séparés.
+            # Un identifiant par réception empêche l'écrasement de deux essais,
+            # y compris lorsque les étudiants changent la classe renseignée.
             os.makedirs(os.path.dirname(nb_path), exist_ok=True)
             os.makedirs(os.path.dirname(rep_path), exist_ok=True)
             with open(nb_path, 'xb') as stream:
+                created.append(nb_path)
                 stream.write(nb_bytes)
             with open(rep_path, 'x', encoding='utf-8') as stream:
+                created.append(rep_path)
                 stream.write(html_report)
-            # Le journal est écrit en dernier : un essai journalisé dispose
-            # ainsi de sa copie et de son rapport.
             outils.log_grade_to_csv(ident, dict(info, submission_id=receipt), score)
         except (OSError, ValueError) as exc:
-            for path in (nb_path, rep_path):
-                if os.path.exists(path):
+            for path in created:
+                try:
                     os.unlink(path)
+                except OSError:
+                    current_app.logger.exception("Nettoyage d'un dépôt incomplet : %s", eval_name)
             raise RuntimeError(f"Erreur lors de la sauvegarde : {exc}") from exc
         try:
             refresh_progression()
