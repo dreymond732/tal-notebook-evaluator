@@ -156,9 +156,22 @@ docker compose up -d --build
 ```
 ## 6. Récupération des notes et archivage
 
-Les résultats sont stockés de manière persistante dans le dossier soumissions/ à la racine du projet (ce dossier est lié au volume Docker).
+Les résultats restent persistants sous soumissions/, dans le volume Docker.
+Chaque évaluateur possède un répertoire **unique**, indépendant du nom
+de classe saisi et de la version du cahier.
 
-- soumissions/tdX-sY/Groupe/Notes.csv : contient l'historique complet de toutes les soumissions (date, évaluation, nom, prénom, note, classe).
-- Archivage : Chaque fichier soumis par un étudiant est renommé et sauvegardé dans le sous-dossier correspondant :
-  - soumissions/tdX-sY/Groupe/nb/NOM_PRENOM_Fichier.ipynb (Copie originale) 
-  - soumissions/tdX-sY/Groupe/rapport/NOM_PRENOM_Rapport.html (Rapport de correction généré)
+Exemple pour TD2 S1 :
+
+    soumissions/TD2_S1/
+      notes_TD2_S1.csv
+      nb/NOM_Prenom_Numero_Reception_Copie.ipynb
+      rapport/NOM_Prenom_Numero_Reception_td2-s1.html
+
+Le CSV conserve le nom de classe en colonne informative, la version du contrat
+et la provenance des anciennes lignes. Chaque dépôt conserve un fichier
+distinct grâce à son identifiant de réception.
+
+Le suivi semestriel privé est rangé dans soumissions/suivi/.
+La migration non destructive des anciens sous-dossiers de classe est décrite
+dans [MIGRATION_STOCKAGE_EVALUATIONS.md](docs/MIGRATION_STOCKAGE_EVALUATIONS.md).
+Effectuer cette migration avant de remplacer l'application en production.
