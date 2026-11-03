@@ -214,6 +214,6 @@ def log_grade_to_csv(eval_id, info, score, bonus=0.0):
             f"{bonus:.2f}".replace('.', ','),
             info.get('score_nature', 'note'), info.get('score_max', ''),
             info.get('relecture_humaine', ''), info.get('numero_etudiant', ''),
-            info.get('contract_version', 1), 'direct:' + uuid4().hex, '',
+            info.get('contract_version', 1), 'direct:' + info.get('submission_id', uuid4().hex), '',
         ]
         writer.writerow([protect(value) for value in row])
