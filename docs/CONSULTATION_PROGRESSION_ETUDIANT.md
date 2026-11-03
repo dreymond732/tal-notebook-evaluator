@@ -68,7 +68,11 @@ non maîtrisé.
 
 La page refuse l'accès tant que l'année universitaire, la clé Flask et
 l'envoi SMTP ne sont pas configurés. Le site doit être exposé uniquement
-en HTTPS (SESSION_COOKIE_SECURE). Les requêtes POST sont protégées
+en HTTPS (SESSION_COOKIE_SECURE) et les requêtes HTTP au portail sont
+refusées. Le port Docker 2026 est désormais lié à 127.0.0.1 seulement ;
+le proxy SWAG sur le réseau Docker proxnet continue d'accéder au service.
+Vérifier cette modification si un autre client utilisait directement
+le port 2026 sur le réseau local. Les requêtes POST sont protégées
 par un jeton CSRF et les demandes/essais sont limités par numéro et IP.
 Les réponses de demande de code restent volontairement identiques pour
 un numéro connu, inconnu ou un email non autorisé, afin d'éviter
