@@ -14,10 +14,12 @@ from flask import Flask
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "app"))
 
 import outils
+import migrate_storage
+import progression
 from migrate_storage import execute
 from progression import refresh_progression, progression_lock
 from routes import process_submission
-from storage_layout import GRADE_COLUMNS, storage_id
+from storage_layout import GRADE_COLUMNS, storage_id, legacy_storage_id
 
 
 class StorageMigrationTests(unittest.TestCase):
@@ -25,6 +27,12 @@ class StorageMigrationTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
+        # Le migrateur v1 reste vérifié dans son contexte historique,
+        # mais est désormais interdit en production avec le stockage S1 v2.
+        for module in (migrate_storage, progression):
+            guard = patch.object(module, "storage_id", legacy_storage_id)
+            guard.start()
+            self.addCleanup(guard.stop)
 
     def legacy(self, storage, group, values, technical=True):
         directory = self.root / storage / group
@@ -46,8 +54,10 @@ class StorageMigrationTests(unittest.TestCase):
             return list(csv.DictReader(stream, delimiter=";"))
 
     def test_canonical_names_follow_module_names(self):
-        self.assertEqual(storage_id("td2-s1"), "TD2_S1")
-        self.assertEqual(storage_id("td3-one-s1"), "TD3_one_S1")
+        self.assertEqual(legacy_storage_id("td2-s1"), "TD2_S1")
+        self.assertEqual(storage_id("td2-s1"), "S1_TD2")
+        self.assertEqual(legacy_storage_id("td3-one-s1"), "TD3_one_S1")
+        self.assertEqual(storage_id("td3-one-s1"), "S1_TD3_one")
         self.assertEqual(storage_id("td2-S2"), "TD2_S2")
         self.assertEqual(storage_id("td1b-s3"), "TD1B_S3")
         self.assertEqual(storage_id("controle-td1-s3"), "Controle_TD1_S3")
@@ -99,7 +109,9 @@ class StorageMigrationTests(unittest.TestCase):
         self.assertEqual(len(self.read(journal)), 4)
 
     def test_direct_writes_ignore_group_and_do_not_overwrite_attempts(self):
-        with patch.object(outils, "BASE_DIR", str(self.root)):
+        with patch.object(outils, "BASE_DIR", str(self.root)), patch.object(
+            progression, "storage_id", storage_id
+        ):
             app = Flask(__name__)
             with app.app_context():
                 for score, group in ((1.0, "M1_TILT"), (3.0, "Master_TILT")):
@@ -112,10 +124,10 @@ class StorageMigrationTests(unittest.TestCase):
                             "relecture_humaine": "requise",
                         }, score, "td2-s1"
                     )
-        folder = self.root / "TD2_S1"
+        folder = self.root / "S1_TD2"
         self.assertEqual(len(list((folder / "nb").glob("*.ipynb"))), 2)
         self.assertEqual(len(list((folder / "rapport").glob("*.html"))), 2)
-        data = self.read(folder / "notes_TD2_S1.csv")
+        data = self.read(folder / "notes_S1_TD2.csv")
         self.assertEqual(len(data), 2)
         self.assertEqual(list(data[0]), list(GRADE_COLUMNS))
         self.assertEqual([r["Classe"] for r in data], ["M1_TILT", "Master_TILT"])
@@ -129,6 +141,11 @@ class StorageMigrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Schéma CSV inconnu"):
             execute(self.root, apply=True)
         self.assertFalse((self.root / "TD2_S1").exists())
+
+    def test_old_migrator_refuses_to_write_with_new_layout(self):
+        with patch.object(migrate_storage, "storage_id", storage_id):
+            with self.assertRaisesRegex(ValueError, "obsolète"):
+                execute(self.root, apply=True)
 
     def test_bad_csv_existing_in_destination_is_never_overwritten(self):
         target = self.root / "TD2_S1"
