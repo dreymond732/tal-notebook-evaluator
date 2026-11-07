@@ -4,11 +4,17 @@ services:
     container_name: talcorrector
     restart: unless-stopped
     ports:
-     - "2026:5001"
+     - "127.0.0.1:2026:5001"
     environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY:?Définir FLASK_SECRET_KEY avant le déploiement}"
         TAL_EVALUATION_SESSION: "${TAL_EVALUATION_SESSION:-principale}"
         TAL_ACADEMIC_YEAR: "${TAL_ACADEMIC_YEAR:-}"
+        TAL_SMTP_HOST: "${TAL_SMTP_HOST:-}"
+        TAL_SMTP_PORT: "${TAL_SMTP_PORT:-465}"
+        TAL_SMTP_SECURITY: "${TAL_SMTP_SECURITY:-ssl}"
+        TAL_SMTP_FROM: "${TAL_SMTP_FROM:-}"
+        TAL_SMTP_USER: "${TAL_SMTP_USER:-}"
+        TAL_SMTP_PASSWORD: "${TAL_SMTP_PASSWORD:-}"
     volumes:
       # Ajout de ce volume pour la persistance des données
       - ./soumissions:/app/soumissions
