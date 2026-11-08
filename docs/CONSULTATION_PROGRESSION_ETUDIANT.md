@@ -111,3 +111,22 @@ la protection CSRF et les limites de débit.
 Un import administratif ultérieur ou une validation enseignante serait
 nécessaire pour cette garantie. Cette fonctionnalité ne constitue pas
 un accès aux notes officielles.
+
+## Cookie de session du correcteur TAL derrière SWAG
+
+L'interface étudiante et le tableau enseignant utilisent la session Flask
+propre au correcteur TAL. Pour éviter une collision avec Journalia et les
+autres services du même domaine, configurer dans le fichier .env du projet :
+
+    TAL_SESSION_COOKIE_NAME=tal_corrector_session
+    TAL_SESSION_COOKIE_PATH=/universite/tal/
+
+Le chemin correspond au préfixe **public** TAL avec une barre finale,
+et non au chemin réécrit en interne par SWAG. Ne pas utiliser le préfixe
+`/universite/tc-ia2026/`, réservé à Journalia.
+
+Changer le nom ou le chemin du cookie invalide les **sessions navigateur**
+TAL existantes : les étudiants devront se reconnecter, mais leurs comptes,
+codes personnels et progrès stockés dans `soumissions/suivi/` ne sont
+pas effacés. Le proxy doit toujours transmettre `X-Forwarded-Proto` et
+`X-Forwarded-Prefix`; `ProxyFix` est déjà installé côté Flask.
