@@ -134,3 +134,15 @@ automatiquement ses scores à la nouvelle version sans vérifier
 la correspondance pédagogique des barèmes. La présence de fichiers
 sources conserve la preuve du travail, indépendamment de leur
 évaluabilité automatique.
+
+## Audit de l'ensemble des TD
+
+Après le rétablissement des TD3–TD6 initiaux dans la PR #40,
+le contrôle exhaustif est documenté dans
+[AUDIT_PROGRESSIONS_TOUS_TD.md](AUDIT_PROGRESSIONS_TOUS_TD.md).
+Il couvre 34 TD actifs : 19 S1, 3 S2 et 12 S3.
+La commande audite les CSV et les relevés sans les réécrire :
+
+    docker-compose exec -T corrector-tal python audit_progressions.py --annee 2026-2027
+
+Ajouter --toutes-evaluations pour inclure les DM et contrôles.
