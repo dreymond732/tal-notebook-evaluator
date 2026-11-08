@@ -50,8 +50,13 @@ def _require_teacher():
 
 
 def _render(**kwargs):
+    attempted = session.get("teacher_code_requested_at", 0)
+    elapsed = time.time() - attempted if type(attempted) in (int, float) else teacher_access.CODE_SECONDS + 1
+    auto_send = (not kwargs.get("authenticated", False)
+                 and elapsed >= teacher_access.CODE_SECONDS)
     return render_template(
         "teacher_progress_template.html",
+        auto_send=auto_send,
         ready=True,
         year=os.environ["TAL_ACADEMIC_YEAR"],
         semesters=SEMESTERS,
@@ -101,6 +106,9 @@ def request_login_code():
     if not _enabled():
         abort(503)
     _require_csrf()
+    # Une demande par ouverture de page au maximum. Les tentatives et l'IP
+    # restent aussi limitées dans teacher_access.
+    session["teacher_code_requested_at"] = int(time.time())
     try:
         teacher_access.request_code(request.remote_addr or "unknown")
         flash(
