@@ -2,10 +2,14 @@
 
 ## Accès protégé
 
-La page /enseignant/progression est accessible depuis l'accueil du correcteur.
-Elle est indépendante du portail individuel des étudiants. Un code aléatoire
-de 12 caractères est envoyé à l'adresse TAL_TEACHER_EMAIL configurée sur le
-serveur. Il est valable 10 minutes et utilisable une seule fois.
+La page /enseignant/progression est accessible par un **lien discret**
+depuis l'accueil du correcteur. Elle est indépendante du portail
+individuel des étudiants. Le navigateur déclenche automatiquement la
+demande de code lors de la première ouverture de la page (avec
+JavaScript et protection CSRF). Un lien secondaire « Code non reçu ?
+Renvoyer le code » permet une nouvelle tentative. Le code aléatoire
+de 12 caractères est envoyé exclusivement à TAL_TEACHER_EMAIL, reste
+valable 10 minutes et n'est utilisable qu'une seule fois.
 La session enseignante est limitée à deux heures.
 
 Un seul destinataire autorisé est défini en configuration : il n'existe pas
@@ -66,7 +70,9 @@ communiquer publiquement les codes, les clés SMTP ou les secrets Flask.
 
 La synthèse par semestre S1, S2 ou S3 présente tous les étudiants ayant
 au moins un essai valide, avec le nombre de TD, de devoirs maison et de
-contrôles réalisés, et le nombre total de tentatives. Une recherche par
+contrôles réalisés, et le nombre total de tentatives. Un nouveau
+tableau « Détail des évaluations » affiche, pour chaque TD, DM ou
+contrôle, le nombre d'étudiants et le total d'essais reconnus. Une recherche par
 nom, prénom ou numéro fonctionne directement dans le navigateur sans
 envoyer la recherche au serveur ni l'inscrire dans une URL.
 
@@ -150,3 +156,29 @@ Dans ce diagnostic, un template absent ou une route absente signifie en
 premier lieu que le conteneur utilise une ancienne image. Un accès direct
 sur `http://127.0.0.1:5001` ne prouve pas la disponibilité de la connexion :
 le portail refuse volontairement les requêtes non HTTPS.
+
+## Parcours sous le reverse proxy
+
+Après validation du code, le serveur redirige directement vers la
+liste des étudiants du semestre S1. La redirection conserve
+explicitement le chemin public du cookie pour le cas où la requête
+POST ne reçoit pas l'en-tête X-Forwarded-Prefix de SWAG.
+
+Pour éviter les collisions avec Journalia, configurer dans le .env
+du correcteur :
+
+    TAL_SESSION_COOKIE_NAME=tal_corrector_session
+    TAL_SESSION_COOKIE_PATH=/universite/tal/
+
+Dans l'application, le lien enseignant est volontairement moins
+visible que celui des étudiants. Le retrait du bouton de premier
+envoi ne supprime pas la protection : les codes sont envoyés
+uniquement à l'adresse autorisée, et la limitation de débit reste
+en vigueur. La demande automatique est limitée à une fois par
+intervalle de dix minutes et par session/onglet, sauf renvoi explicite.
+
+Les TD3, TD4, TD5 et TD6 initiaux du S1, auparavant exclus,
+sont maintenant reconnus comme des travaux distincts de leurs
+approfondissements. Le détail des essais est lu dans les journaux
+CSV canoniques, pas à partir d'un décompte des fichiers nb/rapport/.
+Pour contrôler le cas de S1_TD4, voir docs/SUIVI_PROGRESSION.md.
