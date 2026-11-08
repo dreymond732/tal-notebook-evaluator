@@ -147,7 +147,7 @@ class S1RouteGateTests(unittest.TestCase):
             self.assertIn('&lt;script&gt;', body)
         copies = list(Path(self.temp.name).rglob('*.ipynb'))
         self.assertEqual(len(copies), 2)
-        self.assertTrue(all('TD1_S1' in str(p) and 'DUPONT_Alice_' in p.name for p in copies))
+        self.assertTrue(all('S1_TD1' in str(p) and 'DUPONT_Alice_' in p.name for p in copies))
         self.assertEqual(len(list(Path(self.temp.name).rglob('*.html'))), 2)
         self.assertTrue(any('_900001_' in p.name for p in copies))
         self.assertTrue(any('_900002_' in p.name for p in copies))

@@ -162,8 +162,8 @@ de classe saisi et de la version du cahier.
 
 Exemple pour TD2 S1 :
 
-    soumissions/TD2_S1/
-      notes_TD2_S1.csv
+    soumissions/S1_TD2/
+      notes_S1_TD2.csv
       nb/NOM_Prenom_Numero_Reception_Copie.ipynb
       rapport/NOM_Prenom_Numero_Reception_td2-s1.html
 
@@ -176,11 +176,6 @@ La migration non destructive des anciens sous-dossiers de classe est décrite
 dans [MIGRATION_STOCKAGE_EVALUATIONS.md](docs/MIGRATION_STOCKAGE_EVALUATIONS.md).
 Effectuer cette migration avant de remplacer l'application en production.
 
-## Consultation individuelle des TD
+### Migration des répertoires S1 après la nouvelle nomenclature
 
-Une page privée par étudiant est accessible depuis l'accueil (`/ma-progression`),
-après confirmation d'un premier rattachement numéro étudiant / email.
-Le code personnel reçu reste réutilisable jusqu'à sa révocation ou rotation.
-L'activation demande SMTP, HTTPS et `TAL_ACADEMIC_YEAR` configurés.
-Voir [CONSULTATION_PROGRESSION_ETUDIANT.md](docs/CONSULTATION_PROGRESSION_ETUDIANT.md)
-pour la sécurité, la procédure et la limite du premier rattachement.
+Pour les 19 TD du S1, les dossiers physiques suivent désormais les cahiers renommés (`S1_TD1`, `S1_TD4_A`, etc.). Avant le démarrage du nouveau service, sauvegarder les soumissions et exécuter la migration non destructive, en simulation puis avec validation explicite : [procédure de migration v2](docs/MIGRATION_PHYSIQUE_S1_V2.md). L'ancien migrateur de classes/version `migrate_storage.py` est obsolète.

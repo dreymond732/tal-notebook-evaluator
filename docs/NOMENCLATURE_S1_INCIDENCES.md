@@ -117,3 +117,7 @@ notamment pour les TD1.a/b/c du S3 et les révisions R0/R1/R2.
 
 Aucune migration ni aucun déploiement de données nominatives
 ne sont exécutés depuis GitHub.
+
+## Mise en œuvre de la deuxième étape
+
+La migration physique prévue est maintenant implémentée sur la branche de la PR de stockage S1 v2, dans `app/migrate_storage_s1.py`. Voir [MIGRATION_PHYSIQUE_S1_V2.md](MIGRATION_PHYSIQUE_S1_V2.md). L'inventaire ci-dessus conserve sa valeur d'historique de la décision prise lors du premier renommage pédagogique.

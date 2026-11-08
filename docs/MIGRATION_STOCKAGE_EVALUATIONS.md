@@ -1,4 +1,6 @@
-# Migration du stockage TAL : un dossier par évaluation
+# Migration historique du stockage TAL : un dossier par évaluation (PR #35)
+
+**ARCHIVE — Cette procédure correspond au premier regroupement des classes et des suffixes `-v2`. Ne pas réexécuter le script `migrate_storage.py` sur un déploiement qui utilise les dossiers `S1_TD*`. Pour la migration actuelle, lire [MIGRATION_PHYSIQUE_S1_V2.md](MIGRATION_PHYSIQUE_S1_V2.md).**
 
 ## Résultat attendu
 
