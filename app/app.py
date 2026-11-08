@@ -33,6 +33,8 @@ def create_app() -> Flask:
     app.register_blueprint(main_bp)
     from student_routes import student_bp
     app.register_blueprint(student_bp)
+    from teacher_routes import teacher_bp
+    app.register_blueprint(teacher_bp)
 
     return app
 
