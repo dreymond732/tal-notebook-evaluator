@@ -36,6 +36,10 @@
             <h2><a href="{{ url_for('student.individual') }}">Ma progression en TAL</a></h2>
             <p>Consulter mes TD après validation de mon code personnel envoyé par email.</p>
         </div>
+        <div class="card semester" style="margin:1.5rem 0;border-left-color:#64748b">
+            <h2><a href="{{ url_for('teacher.index') }}">Espace enseignant — suivi des étudiants</a></h2>
+            <p>Accès protégé par un code temporaire envoyé à l'adresse enseignante autorisée.</p>
+        </div>
         <h2>Dépôts par semestre</h2>
         <p>Pour les anciennes versions, vous pouvez choisir votre semestre et votre activité.</p>
         {% endif %}
