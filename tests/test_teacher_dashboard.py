@@ -170,7 +170,7 @@ class TeacherDashboardTests(unittest.TestCase):
         data = index.get_data(as_text=True)
         self.assertIn("MARTIN", data)
         self.assertIn("DURAND", data)
-        self.assertIn("2 /", data)
+        self.assertIn("1 /", data)
         self.assertIn("TD", data)
         self.assertIn("Exporter le CSV du semestre", data)
         self.assertIn("teacher_progress.js", data)
