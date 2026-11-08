@@ -101,7 +101,11 @@ class MigrationS1LayoutTests(unittest.TestCase):
         self.assertEqual((self.new / "rapport" / html.name).read_bytes(), html.read_bytes())
         for path, content in original.items():
             self.assertEqual(path.read_bytes(), content)
-        self.assertEqual(result["progression"]["essais"], 0)  # synthèse historique TD4
+        # La synthèse initiale TD4 constitue désormais un vrai TD suivi.
+        self.assertEqual(result["progression"]["essais"], 2)
+        records = self.read(self.root / "suivi" / "progression_S1.csv")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["td4-s1__essais"], "2")
         repeated = execute(self.root, apply=True, backup_confirmed=True, year="2026-2027")
         self.assertEqual(repeated["nouvelles_lignes"], 0)
         self.assertEqual(repeated["lignes_deja_importees"], 2)
