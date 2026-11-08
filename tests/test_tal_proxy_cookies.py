@@ -64,7 +64,7 @@ class TalPrefixCookieTests(unittest.TestCase):
                 response = client.get(location, headers=self.headers())
                 self.assertEqual(response.status_code, 200)
                 html = response.get_data(as_text=True)
-                self.assertIn("Espace enseignant — suivi des étudiants", html)
+                self.assertIn("Accès enseignant" if location == "/" else "Enseignant", html)
                 self.assertIn("/universite/tal/enseignant/progression", html)
 
     def test_http_not_treated_as_https_behind_proxy(self):
