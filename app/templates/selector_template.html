@@ -32,6 +32,10 @@
         <h1>TAL et programmation — dépôt de notebook</h1>
         <p>Déposez votre notebook : le TD ou le contrôle sera reconnu automatiquement.</p>
         {% include 'submit_form.html' %}
+        <div class="card semester" style="margin:1.5rem 0">
+            <h2><a href="{{ url_for('student.individual') }}">Ma progression en TAL</a></h2>
+            <p>Consulter mes TD après validation de mon code personnel envoyé par email.</p>
+        </div>
         <h2>Dépôts par semestre</h2>
         <p>Pour les anciennes versions, vous pouvez choisir votre semestre et votre activité.</p>
         {% endif %}
