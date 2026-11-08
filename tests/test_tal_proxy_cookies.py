@@ -67,6 +67,20 @@ class TalPrefixCookieTests(unittest.TestCase):
                 self.assertIn("Accès enseignant" if location == "/" else "Enseignant", html)
                 self.assertIn("/universite/tal/enseignant/progression", html)
 
+    def test_teacher_login_redirect_recovers_missing_post_prefix(self):
+        # GET initial proxifié puis POST sans X-Forwarded-Prefix : la
+        # redirection revient toujours sous le chemin public du cookie.
+        from teacher_routes import _redirect_home
+        app = create_app()
+        with app.test_request_context(
+            "/enseignant/progression/connexion", method="POST"
+        ):
+            result = _redirect_home()
+            self.assertEqual(result.status_code, 303)
+            self.assertTrue(result.headers["Location"].startswith(
+                "/universite/tal/enseignant/progression"
+            ))
+
     def test_http_not_treated_as_https_behind_proxy(self):
         app = create_app()
         client = app.test_client()
