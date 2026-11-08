@@ -2,6 +2,7 @@
 from flask import Flask
 from datetime import timedelta
 import os
+import re
 import outils
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -19,10 +20,24 @@ def create_app() -> Flask:
     # Utilise une variable d'environnement ou une clé par défaut générique
     app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'cle_secrete_bases_tal_2026')
 
-    # Cookies signés, non accessibles en JavaScript, servis uniquement sous TLS.
-    app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',
-                      SESSION_COOKIE_SECURE=True,
-                      PERMANENT_SESSION_LIFETIME=timedelta(hours=12))
+    # Un cookie dédié au correcteur TAL, indépendant de Journalia et des autres
+    # applications hébergées sur le même domaine. Le chemin est le chemin PUBLIC
+    # derrière SWAG, pas le chemin interne reçu par Flask après la réécriture.
+    cookie_name = os.getenv('TAL_SESSION_COOKIE_NAME', 'tal_corrector_session').strip()
+    cookie_path = os.getenv('TAL_SESSION_COOKIE_PATH', '/').strip()
+    if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', cookie_name):
+        raise ValueError('TAL_SESSION_COOKIE_NAME invalide')
+    if (not cookie_path.startswith('/') or not cookie_path.endswith('/')
+            or '//' in cookie_path or any(c.isspace() or c in ';\\?#' for c in cookie_path)):
+        raise ValueError('TAL_SESSION_COOKIE_PATH invalide (chemin public avec / final attendu)')
+    app.config.update(
+        SESSION_COOKIE_NAME=cookie_name,
+        SESSION_COOKIE_PATH=cookie_path,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+        SESSION_COOKIE_SECURE=True,
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=12),
+    )
 
     # Initialisation du dossier racine des soumissions
     os.makedirs(outils.BASE_DIR, exist_ok=True)
