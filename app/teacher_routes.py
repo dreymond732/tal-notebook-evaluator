@@ -49,6 +49,15 @@ def _require_teacher():
         abort(403)
 
 
+def _redirect_home():
+    """Gardez le préfixe public même si un POST perd X-Forwarded-Prefix."""
+    target = url_for("teacher.index")
+    cookie_path = current_app.config.get("SESSION_COOKIE_PATH", "/")
+    if cookie_path != "/" and not target.startswith(cookie_path):
+        target = cookie_path.rstrip("/") + target
+    return redirect(target, code=303)
+
+
 def _render(**kwargs):
     attempted = session.get("teacher_code_requested_at", 0)
     elapsed = time.time() - attempted if type(attempted) in (int, float) else teacher_access.CODE_SECONDS + 1
@@ -118,7 +127,7 @@ def request_login_code():
     except Exception:
         current_app.logger.exception("Envoi du code enseignant indisponible")
         flash("L'envoi du code est momentanément indisponible.", "error")
-    return redirect(url_for("teacher.index"), code=303)
+    return _redirect_home()
 
 
 @teacher_bp.route("/connexion", methods=["POST"])
@@ -141,7 +150,7 @@ def login():
         flash("Accès enseignant confirmé.", "info")
     else:
         flash("Code invalide, expiré ou déjà utilisé.", "error")
-    return redirect(url_for("teacher.index"), code=303)
+    return _redirect_home()
 
 
 @teacher_bp.route("/fiche", methods=["POST"])
@@ -186,4 +195,4 @@ def export(semester):
 def logout():
     _require_csrf()
     session.clear()
-    return redirect(url_for("teacher.index"), code=303)
+    return _redirect_home()
