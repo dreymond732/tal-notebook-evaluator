@@ -155,6 +155,30 @@ class ProgressionTests(unittest.TestCase):
         self.assertEqual(s1["000124"]["td4-s1__essais"], "1")
         self.assertEqual(s1["000125"]["td4-s1__essais"], "1")
 
+        # Les comptes de cahiers/rapports sont diagnostiqués séparément,
+        # jamais utilisés pour déduire des scores supplémentaires.
+        from diagnostic_progression import diagnostic
+        folder = self.root / "S1_TD4"
+        for i in range(5):
+            (folder / "nb").mkdir(exist_ok=True)
+            (folder / "nb" / f"copie{i}.ipynb").write_text("{}", encoding="utf-8")
+        for i in range(3):
+            (folder / "rapport").mkdir(exist_ok=True)
+            (folder / "rapport" / f"rapport{i}.html").write_text(
+                "<p>fictif</p>", encoding="utf-8"
+            )
+        diag = diagnostic("td4-s1", self.root, "2026-2027")
+        self.assertEqual(diag["fichiers_nb"], 5)
+        self.assertEqual(diag["fichiers_rapport"], 3)
+        self.assertEqual(diag["lignes_csv"], 5)
+        self.assertEqual(diag["essais_valides_identifies"], 5)
+        self.assertEqual(diag["etudiants_distincts_csv"], 3)
+        self.assertEqual(diag["essais_du_suivi"], 5)
+        self.assertEqual(diag["etudiants_distincts_suivi"], 3)
+        self.assertNotIn("000123", str(diag))
+        self.assertNotIn("Martin", str(diag))
+
+
     def test_correspondence_is_only_applied_after_manual_validation(self):
         self.write_notes("td1-s1-v2", "G1", [
             ("03/11/2026 09:00", "Martin", "Léa", "2,00", "000123"),
