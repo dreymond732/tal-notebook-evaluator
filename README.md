@@ -179,3 +179,7 @@ Effectuer cette migration avant de remplacer l'application en production.
 ### Migration des répertoires S1 après la nouvelle nomenclature
 
 Pour les 19 TD du S1, les dossiers physiques suivent désormais les cahiers renommés (`S1_TD1`, `S1_TD4_A`, etc.). Avant le démarrage du nouveau service, sauvegarder les soumissions et exécuter la migration non destructive, en simulation puis avec validation explicite : [procédure de migration v2](docs/MIGRATION_PHYSIQUE_S1_V2.md). L'ancien migrateur de classes/version `migrate_storage.py` est obsolète.
+
+## Espace enseignant — suivi de progression
+
+Le correcteur propose un espace enseignant distinct du portail étudiant, avec authentification par code email temporaire, sélection S1/S2/S3, liste des étudiants, fiches individuelles TD/DM/contrôles et export CSV privé. Définir `TAL_TEACHER_EMAIL` dans `.env` en réutilisant le SMTP existant. Consulter [TABLEAU_BORD_ENSEIGNANT.md](docs/TABLEAU_BORD_ENSEIGNANT.md) pour la configuration et les contrôles d'accès.
