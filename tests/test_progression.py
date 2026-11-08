@@ -31,7 +31,7 @@ class ProgressionTests(unittest.TestCase):
         registered = {entry.get("evaluator"): entry for entry in load_catalog()
                       if entry.get("evaluator") and entry["active"]}
         current = (evaluator in registered and
-                   evaluator not in {"td3-s1", "td4-s1", "td5-s1", "td6-s1", "Controletilt-s1"} and
+                   evaluator not in HISTORICAL and
                    (storage.endswith("-v" + str(registered[evaluator]["version"]))
                     or storage == evaluator and registered[evaluator]["version"] == 1))
         if current:
@@ -100,20 +100,60 @@ class ProgressionTests(unittest.TestCase):
         self.assertTrue(any(r["Type"] == "Contrôle" for r in catalog))
         self.assertTrue(any(r["Nature du score"] == "Score technique provisoire" for r in catalog))
 
-    def test_historical_versions_and_syntheses_excluded(self):
+    def test_earlier_contracts_excluded_but_initial_s1_syntheses_count(self):
+        # Les synthèses TD3 à TD6 restent de vrais travaux étudiants,
+        # même après la création des approfondissements one/bis/ter.
         self.write_notes("td1-s1", "G1", [
             ("03/11/2026 09:00", "Ancien", "Test", "5", "998"),
         ])
-        for historical in ("td3-s1-v2", "td4-s1-v2", "Controletilt-s1"):
-            self.write_notes(historical, "G1", [
-                ("03/11/2026 09:00", "Ancien", "Test", "5", "998"),
+        for evaluator in ("td3-s1", "td4-s1", "td5-s1", "td6-s1"):
+            self.write_notes(evaluator + "-v2", "G1", [
+                ("03/11/2026 09:00", "Martin", "Léa", "5", "000123"),
             ])
-        self.assertIn("td3-s1", HISTORICAL)
+        self.write_notes("Controletilt-s1", "G1", [
+            ("03/11/2026 09:00", "Ancien", "Test", "5", "998"),
+        ])
+        self.assertNotIn("td3-s1", HISTORICAL)
+        self.assertNotIn("td4-s1", HISTORICAL)
+        self.assertIn("Controletilt-s1", HISTORICAL)
         with progression_lock(self.root):
-            refresh_progression(self.root, "2026-2027")
-        self.assertEqual(self.read_export("progression_S1.csv"), [])
+            summary = refresh_progression(self.root, "2026-2027")
+        self.assertEqual(summary["essais"], 4)
+        s1 = self.read_export("progression_S1.csv")
+        self.assertEqual(len(s1), 1)
+        for evaluator in ("td3-s1", "td4-s1", "td5-s1", "td6-s1"):
+            self.assertEqual(s1[0][evaluator + "__essais"], "1")
+        self.assertFalse(any("Controletilt-s1__" in col for col in s1[0]))
         catalog = self.read_export("catalogue_evaluations.csv")
-        self.assertFalse(any(r["Évaluation"] in HISTORICAL for r in catalog))
+        self.assertTrue(any(r["Évaluation"] == "td4-s1" for r in catalog))
+        self.assertFalse(any(r["Évaluation"] == "Controletilt-s1" for r in catalog))
+
+    def test_td4_five_valid_csv_rows_not_file_counts_are_five_attempts(self):
+        # 3 personnes, 5 essais dont 3 chez un même étudiant. Deux noms
+        # de classe différents ne doivent pas scinder son suivi.
+        self.write_notes("td4-s1-v2", "G1", [
+            ("03/11/2026 09:00", "Martin", "Léa", "2,00", "000123"),
+            ("03/11/2026 10:00", "Martin", "Léa", "5,00", "000123"),
+            ("03/11/2026 11:00", "Martin", "Léa", "4,00", "000123"),
+            ("03/11/2026 09:30", "Durand", "Paul", "3,00", "000124"),
+            ("03/11/2026 10:30", "Roux", "Ana", "6,00", "000125"),
+        ], provisional=True)
+        # Un nouveau correcteur garde son propre compte d'essais.
+        self.write_notes("td4-one-s1-v2", "G2", [
+            ("03/11/2026 12:00", "Martin", "Léa", "6,00", "000123"),
+        ])
+        with progression_lock(self.root):
+            summary = refresh_progression(self.root, "2026-2027")
+        self.assertEqual(summary["essais"], 6)
+        s1 = {r["Numéro étudiant"]: r for r in self.read_export("progression_S1.csv")}
+        self.assertEqual(len(s1), 3)
+        self.assertEqual(sum(int(r["td4-s1__essais"]) for r in s1.values()), 5)
+        self.assertEqual(s1["000123"]["td4-s1__essais"], "3")
+        self.assertEqual(s1["000123"]["td4-s1__min"], "2,00")
+        self.assertEqual(s1["000123"]["td4-s1__max"], "5,00")
+        self.assertEqual(s1["000123"]["td4-one-s1__essais"], "1")
+        self.assertEqual(s1["000124"]["td4-s1__essais"], "1")
+        self.assertEqual(s1["000125"]["td4-s1__essais"], "1")
 
     def test_correspondence_is_only_applied_after_manual_validation(self):
         self.write_notes("td1-s1-v2", "G1", [
