@@ -9,8 +9,9 @@ un essai (même si le score est 0). Min/max sont les scores bruts et ne sont
 pas normalisés sur 20.
 
 Les tableaux couvrent les TD, devoirs maison (DM) et contrôles actifs
-du catalogue. Les synthèses historiques td3-s1, td4-s1, td5-s1, td6-s1
-et le contrôle historique Controletilt-s1 sont exclus. Les versions
+du catalogue. Les synthèses initiales td3-s1, td4-s1, td5-s1 et td6-s1
+sont **comptabilisées**, distinctement des approfondissements one/bis/ter.
+Seul le contrôle historique Controletilt-s1 reste exclu. Les versions
 anciennes de chaque évaluateur sont filtrées par la colonne Version du contrat,
 sans devoir séparer les dossiers physiques. Le DM S1 v1 reste inclus.
 
@@ -106,3 +107,30 @@ MIGRATION_STOCKAGE_EVALUATIONS.md. Une migration --apply est obligatoire
 avant que le nouveau suivi puisse reprendre les anciens dépôts.
 
 La nouvelle nomenclature des dossiers physiques du S1 est `S1_TD1` à `S1_TD7`, avec déclinaisons `S1_TD3_one/bis/ter` et `S1_TD4_A/B/C` à `S1_TD6_A/B/C`. Voir [MIGRATION_PHYSIQUE_S1_V2.md](MIGRATION_PHYSIQUE_S1_V2.md) avant d'activer le stockage sur le serveur.
+
+## Diagnostic d'une évaluation manquante
+
+Le nombre de fichiers dans nb/ et rapport/ **ne permet pas** de déduire
+le nombre d'étudiants et d'essais. Le consolidateur compte les lignes
+CSV conformes : date de l'année, version de contrat actuelle,
+score numérique, identité complète et numéro étudiant valide ou
+correspondance validée manuellement.
+
+La commande suivante est en lecture seule et n'affiche pas les
+identités des étudiants :
+
+    docker-compose exec -T corrector-tal python diagnostic_progression.py --evaluation td4-s1 --annee 2026-2027
+
+Elle compare le nombre de cahiers, de rapports, de lignes source,
+d'essais exploitables et de lignes retenues dans progression_S1.csv.
+Les causes de non-prise en compte (année, contrat, score, numéro) sont
+ventilées sans divulguer de noms. Une régénération manuelle peut se
+faire avec :
+
+    docker-compose exec -T corrector-tal python progression.py --annee 2026-2027
+
+Si le diagnostic indique un contrat ancien, ne pas attribuer
+automatiquement ses scores à la nouvelle version sans vérifier
+la correspondance pédagogique des barèmes. La présence de fichiers
+sources conserve la preuve du travail, indépendamment de leur
+évaluabilité automatique.

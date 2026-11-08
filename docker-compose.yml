@@ -7,6 +7,8 @@ services:
      - "127.0.0.1:2026:5001"
     environment:
         FLASK_SECRET_KEY: "${FLASK_SECRET_KEY:?Définir FLASK_SECRET_KEY avant le déploiement}"
+        TAL_SESSION_COOKIE_NAME: "${TAL_SESSION_COOKIE_NAME:-tal_corrector_session}"
+        TAL_SESSION_COOKIE_PATH: "${TAL_SESSION_COOKIE_PATH:-/}"
         TAL_EVALUATION_SESSION: "${TAL_EVALUATION_SESSION:-principale}"
         TAL_ACADEMIC_YEAR: "${TAL_ACADEMIC_YEAR:-}"
         TAL_SMTP_HOST: "${TAL_SMTP_HOST:-}"

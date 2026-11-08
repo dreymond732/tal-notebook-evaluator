@@ -24,10 +24,10 @@ from notebook_contract import CONTRACT_VERSIONS, load_catalog
 from storage_layout import GRADE_COLUMNS, storage_id
 
 SEMESTERS = ("S1", "S2", "S3")
-# Ces synthèses historiques restent actives pour les anciennes URL, pas pour le suivi.
-HISTORICAL = frozenset({
-    "td3-s1", "td4-s1", "td5-s1", "td6-s1", "Controletilt-s1"
-})
+# Les synthèses TD3–TD6 sont des travaux réellement réalisés : elles restent
+# des évaluations distinctes de leurs approfondissements one/bis/ter.
+# Seul l'ancien contrôle S1 sans journal exploitable est exclu du suivi.
+HISTORICAL = frozenset({"Controletilt-s1"})
 IDENTITY_HEADER = ("Nom", "Prénom", "Classe", "Numéro étudiant")
 ANOMALY_HEADER = ("Source", "Ligne", "Motif", "Détail")
 NUMBER_RE = re.compile(r"[A-Za-z0-9_-]{1,64}\Z")

@@ -119,6 +119,47 @@ class TeacherDashboardTests(unittest.TestCase):
         self.assertIn("Progression du S1", response.get_data(as_text=True))
         return response
 
+    def test_auto_request_replaces_first_code_button_and_avoids_automatic_resends(self):
+        first = self.client.get("/enseignant/progression").get_data(as_text=True)
+        self.assertIn('id="teacher-code-auto-send"', first)
+        self.assertIn('data-auto-send="true"', first)
+        self.assertNotIn("Envoyer mon code d'accès", first)
+        self.assertIn("Code non reçu ?", first)
+        self.assertIn("teacher_progress.js", first)
+        self.assertEqual(self.sent, [])  # C'est le script client qui poste.
+        self.ask()
+        self.assertEqual(len(self.sent), 1)
+        second = self.client.get("/enseignant/progression").get_data(as_text=True)
+        self.assertIn('data-auto-send="false"', second)
+        self.assertEqual(len(self.sent), 1)
+
+    def test_original_td4_appears_in_teacher_evaluation_details(self):
+        self._write("S1", [
+            ("000123", "MARTIN", "Léa", {
+                "td4-s1": ("2,00", "5,00", 3),
+                "td4-one-s1": ("4,00", "6,00", 1),
+            }),
+            ("000124", "DURAND", "Paul", {
+                "td4-s1": ("3,00", "3,00", 1),
+            }),
+            ("000125", "ROUX", "Ana", {
+                "td4-s1": ("6,00", "6,00", 1),
+            }),
+        ])
+        listing = cohort("S1")
+        initial = next(item for item in listing["evaluation_stats"]
+                       if item["id"] == "td4-s1")
+        extension = next(item for item in listing["evaluation_stats"]
+                         if item["id"] == "td4-one-s1")
+        self.assertEqual((initial["students"], initial["attempts"]), (3, 5))
+        self.assertEqual((extension["students"], extension["attempts"]), (1, 1))
+        self.authenticate()
+        page = self.client.get("/enseignant/progression?semestre=S1")
+        html = page.get_data(as_text=True)
+        self.assertIn("Détail des évaluations du S1", html)
+        self.assertIn("td4-s1", html)
+        self.assertIn("td4-one-s1", html)
+
     def test_public_access_and_student_session_never_expose_roster(self):
         response = self.client.get("/enseignant/progression")
         self.assertEqual(response.status_code, 200)

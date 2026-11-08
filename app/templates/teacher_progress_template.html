@@ -35,28 +35,24 @@
       <p>L'accès nécessite une adresse enseignante autorisée et un envoi SMTP sécurisé. Consultez la procédure d'administration du projet.</p>
     </section>
   {% elif not authenticated %}
-    <div class="login-grid">
-      <section class="panel">
-        <h2>1. Recevoir un code</h2>
-        <p>Un code temporaire est envoyé uniquement à l'adresse enseignante autorisée sur le serveur.</p>
-        <form method="post" action="{{ url_for('teacher.request_login_code') }}">
-          <input type="hidden" name="csrf" value="{{ csrf }}">
-          <button type="submit">Envoyer mon code d'accès</button>
-        </form>
-        <p class="muted small">Le code est valable 10 minutes et ne peut être utilisé qu'une seule fois.</p>
-      </section>
-      <section class="panel">
-        <h2>2. Accéder au suivi</h2>
-        <form method="post" action="{{ url_for('teacher.login') }}">
-          <input type="hidden" name="csrf" value="{{ csrf }}">
-          <label for="code">Code reçu par email</label>
-          <input id="code" type="text" name="code" maxlength="12" minlength="12"
-                 autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
-          <button type="submit">Consulter les progressions</button>
-        </form>
-        <p class="muted small">La session enseignante expire après 2 heures.</p>
-      </section>
-    </div>
+    <section class="panel login-panel">
+      <h2>Connexion enseignant</h2>
+      <p>Un code de connexion est envoyé automatiquement à l'adresse enseignante autorisée. Il reste valable 10 minutes et ne peut être utilisé qu'une seule fois.</p>
+      <form id="teacher-code-auto-send" method="post"
+            action="{{ url_for('teacher.request_login_code') }}"
+            data-auto-send="{{ 'true' if auto_send else 'false' }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button class="resend-link" type="submit">Code non reçu ? Renvoyer le code</button>
+      </form>
+      <form method="post" action="{{ url_for('teacher.login') }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <label for="code">Code reçu par email</label>
+        <input id="code" type="text" name="code" maxlength="12" minlength="12"
+               autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
+        <button type="submit">Accéder à ma session enseignante</button>
+      </form>
+      <p class="muted small">La session enseignante reste ouverte deux heures au maximum.</p>
+    </section>
   {% else %}
     {% if selected %}
       <nav class="tabs" aria-label="Navigation de la fiche">
@@ -113,6 +109,29 @@
         <div class="metric"><strong>{{ listing.totals['TD'] }}</strong><span>TD au catalogue</span></div>
         <div class="metric"><strong>{{ listing.totals['DM'] }}</strong><span>Devoirs maison</span></div>
         <div class="metric"><strong>{{ listing.totals['Contrôle'] }}</strong><span>Contrôles</span></div>
+      </section>
+      <section class="panel">
+        <h2>Détail des évaluations du {{ listing.semester }}</h2>
+        <p class="muted small">Nombre d'étudiants et d'essais comptabilisés dans les journaux CSV valides du semestre. Les TD initiaux et les approfondissements sont distincts.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Évaluation</th><th scope="col">Type</th>
+                  <th scope="col" class="numeric">Étudiants</th>
+                  <th scope="col" class="numeric">Essais</th></tr>
+            </thead>
+            <tbody>
+              {% for item in listing.evaluation_stats %}
+                <tr>
+                  <td><strong>{{ item.label }}</strong><span class="meta">{{ item.id }}</span></td>
+                  <td>{{ item.type }}</td>
+                  <td class="numeric">{{ item.students }}</td>
+                  <td class="numeric">{{ item.attempts }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </section>
       <section class="panel">
         <div class="panel-top">

@@ -2,10 +2,14 @@
 
 ## Accès protégé
 
-La page /enseignant/progression est accessible depuis l'accueil du correcteur.
-Elle est indépendante du portail individuel des étudiants. Un code aléatoire
-de 12 caractères est envoyé à l'adresse TAL_TEACHER_EMAIL configurée sur le
-serveur. Il est valable 10 minutes et utilisable une seule fois.
+La page /enseignant/progression est accessible par un **lien discret**
+depuis l'accueil du correcteur. Elle est indépendante du portail
+individuel des étudiants. Le navigateur déclenche automatiquement la
+demande de code lors de la première ouverture de la page (avec
+JavaScript et protection CSRF). Un lien secondaire « Code non reçu ?
+Renvoyer le code » permet une nouvelle tentative. Le code aléatoire
+de 12 caractères est envoyé exclusivement à TAL_TEACHER_EMAIL, reste
+valable 10 minutes et n'est utilisable qu'une seule fois.
 La session enseignante est limitée à deux heures.
 
 Un seul destinataire autorisé est défini en configuration : il n'existe pas
@@ -20,6 +24,18 @@ Ajouter dans le fichier .env (privé et jamais commité) :
 
     TAL_TEACHER_EMAIL=adresse-enseignant@example.fr
 
+Réglages de session recommandés pour le proxy SWAG de TAL :
+
+    TAL_SESSION_COOKIE_NAME=tal_corrector_session
+    TAL_SESSION_COOKIE_PATH=/universite/tal/
+
+Ce sont des paramètres **TAL**, distincts de ceux de Journalia
+(`JOURNALIA_SESSION_COOKIE_NAME`, `JOURNALIA_SESSION_COOKIE_PATH`).
+Le chemin du cookie doit être le préfixe **public** de TAL, avec barre
+finale, et non le chemin interne du conteneur après le `rewrite`
+Nginx. Si la racine publique change, adapter ce chemin avant de déployer.
+Le nom et le chemin ne doivent pas être partagés avec une autre application.
+
 Les variables SMTP TAL_SMTP_* existantes et TAL_ACADEMIC_YEAR=2026-2027
 sont réutilisées. FLASK_SECRET_KEY doit être définie, privée et comporter
 au moins 24 caractères (32 ou plus recommandés). Ne pas la changer sans
@@ -30,6 +46,11 @@ Après fusion de la PR, depuis la racine du projet :
 
     git pull
     docker-compose up -d --build --force-recreate corrector-tal
+
+Important : `docker-compose up -d --force-recreate` **sans** `--build`
+ne recharge pas les modules Python ni les templates intégrés à l'image.
+Dans TAL, seul `soumissions/` est monté depuis l'hôte.
+
 
 Contrôle de configuration sans divulguer les secrets :
 
@@ -49,7 +70,9 @@ communiquer publiquement les codes, les clés SMTP ou les secrets Flask.
 
 La synthèse par semestre S1, S2 ou S3 présente tous les étudiants ayant
 au moins un essai valide, avec le nombre de TD, de devoirs maison et de
-contrôles réalisés, et le nombre total de tentatives. Une recherche par
+contrôles réalisés, et le nombre total de tentatives. Un nouveau
+tableau « Détail des évaluations » affiche, pour chaque TD, DM ou
+contrôle, le nombre d'étudiants et le total d'essais reconnus. Une recherche par
 nom, prénom ou numéro fonctionne directement dans le navigateur sans
 envoyer la recherche au serveur ni l'inscrire dans une URL.
 
@@ -93,3 +116,69 @@ boîte email ; elle n'est pas une connexion SSO institutionnelle.
 Tous les tests emploient des données fictives et un SMTP simulé.
 Aucune donnée de production n'est modifiée par la PR. Une revue de
 sécurité indépendante est requise avant fusion ou déploiement.
+
+## Vérification du proxy et de l'accès enseignant
+
+Le lien est visible sur l'accueil et les pages S1/S2/S3. La route réelle
+est `/enseignant/progression/`, sous le préfixe public TAL
+`/universite/tal/` :
+
+    https://<domaine>/universite/tal/enseignant/progression/
+
+Le proxy SWAG doit retirer `/universite/tal` du chemin transmis au
+conteneur **tout en transmettant** au Flask `ProxyFix` :
+
+    X-Forwarded-Prefix: /universite/tal
+    X-Script-Name: /universite/tal
+    X-Forwarded-Proto: https
+
+Cela reprend la même logique que l'installation Journalia, mais avec
+le préfixe propre à TAL. Ne pas recopier les variables JOURNALIA_* dans TAL.
+La configuration de SWAG n'est pas contenue dans ce dépôt ; vérifier le
+fichier actif avant toute modification. Si le portail étudiant fonctionne
+déjà derrière HTTPS, les en-têtes de proxy sont probablement corrects.
+
+**Diagnostic sans divulguer de secret :**
+
+    docker-compose exec -T corrector-tal python - <<'PY'
+    from pathlib import Path
+    from app import create_app
+    import os
+    app = create_app()
+    print("Template enseignant :", "Espace enseignant" in Path("templates/selector_template.html").read_text())
+    print("Route enseignant :", any("/enseignant/progression" in str(rule) for rule in app.url_map.iter_rules()))
+    print("Cookie name :", app.config["SESSION_COOKIE_NAME"])
+    print("Cookie path :", app.config["SESSION_COOKIE_PATH"])
+    print("Email enseignant :", "CONFIGURÉ" if os.getenv("TAL_TEACHER_EMAIL") else "ABSENT")
+    PY
+
+Dans ce diagnostic, un template absent ou une route absente signifie en
+premier lieu que le conteneur utilise une ancienne image. Un accès direct
+sur `http://127.0.0.1:5001` ne prouve pas la disponibilité de la connexion :
+le portail refuse volontairement les requêtes non HTTPS.
+
+## Parcours sous le reverse proxy
+
+Après validation du code, le serveur redirige directement vers la
+liste des étudiants du semestre S1. La redirection conserve
+explicitement le chemin public du cookie pour le cas où la requête
+POST ne reçoit pas l'en-tête X-Forwarded-Prefix de SWAG.
+
+Pour éviter les collisions avec Journalia, configurer dans le .env
+du correcteur :
+
+    TAL_SESSION_COOKIE_NAME=tal_corrector_session
+    TAL_SESSION_COOKIE_PATH=/universite/tal/
+
+Dans l'application, le lien enseignant est volontairement moins
+visible que celui des étudiants. Le retrait du bouton de premier
+envoi ne supprime pas la protection : les codes sont envoyés
+uniquement à l'adresse autorisée, et la limitation de débit reste
+en vigueur. La demande automatique est limitée à une fois par
+intervalle de dix minutes et par session/onglet, sauf renvoi explicite.
+
+Les TD3, TD4, TD5 et TD6 initiaux du S1, auparavant exclus,
+sont maintenant reconnus comme des travaux distincts de leurs
+approfondissements. Le détail des essais est lu dans les journaux
+CSV canoniques, pas à partir d'un décompte des fichiers nb/rapport/.
+Pour contrôler le cas de S1_TD4, voir docs/SUIVI_PROGRESSION.md.

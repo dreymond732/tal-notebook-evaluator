@@ -98,12 +98,26 @@ def cohort(semester):
     ))
     totals = {kind: sum(item["type"] == kind for item in evaluations)
               for kind in ("TD", "DM", "Contrôle")}
+    # Complément utile à la liste nominative : participation et tentatives
+    # par activité, y compris les synthèses initiales S1 TD3..TD6.
+    evaluation_stats = []
+    for entry in evaluations:
+        observed = [
+            row for student in students for row in student["details"]
+            if row["id"] == entry["id"] and row["attempts"] > 0
+        ]
+        evaluation_stats.append({
+            **entry,
+            "students": len(observed),
+            "attempts": sum(row["attempts"] for row in observed),
+        })
     updated = (datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
                .strftime("%d/%m/%Y à %H:%M UTC") if path.is_file() else "")
     return {
         "semester": semester, "students": students,
         "evaluations": evaluations,
-        "totals": totals, "updated": updated,
+        "totals": totals, "evaluation_stats": evaluation_stats,
+        "updated": updated,
         "exists": path.is_file(),
     }
 
