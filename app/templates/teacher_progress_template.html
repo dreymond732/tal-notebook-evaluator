@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suivi enseignant — TAL</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='teacher_progress.css') }}">
+  <script src="{{ url_for('static', filename='teacher_progress.js') }}" defer></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <div>
+      <a class="back" href="{{ url_for('main.index') }}">← Retour aux correcteurs</a>
+      <h1>Suivi des étudiants</h1>
+      <p class="muted">Espace enseignant — progression des TD, devoirs et contrôles</p>
+    </div>
+    {% if authenticated %}
+      <form method="post" action="{{ url_for('teacher.logout') }}">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button class="secondary" type="submit">Se déconnecter</button>
+      </form>
+    {% endif %}
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <p class="notice {{ category }}" role="status">{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+
+  {% if not ready %}
+    <section class="panel">
+      <h2>Accès enseignant non configuré</h2>
+      <p>L'accès nécessite une adresse enseignante autorisée et un envoi SMTP sécurisé. Consultez la procédure d'administration du projet.</p>
+    </section>
+  {% elif not authenticated %}
+    <div class="login-grid">
+      <section class="panel">
+        <h2>1. Recevoir un code</h2>
+        <p>Un code temporaire est envoyé uniquement à l'adresse enseignante autorisée sur le serveur.</p>
+        <form method="post" action="{{ url_for('teacher.request_login_code') }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button type="submit">Envoyer mon code d'accès</button>
+        </form>
+        <p class="muted small">Le code est valable 10 minutes et ne peut être utilisé qu'une seule fois.</p>
+      </section>
+      <section class="panel">
+        <h2>2. Accéder au suivi</h2>
+        <form method="post" action="{{ url_for('teacher.login') }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <label for="code">Code reçu par email</label>
+          <input id="code" type="text" name="code" maxlength="12" minlength="12"
+                 autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
+          <button type="submit">Consulter les progressions</button>
+        </form>
+        <p class="muted small">La session enseignante expire après 2 heures.</p>
+      </section>
+    </div>
+  {% else %}
+    {% if selected %}
+      <nav class="tabs" aria-label="Navigation de la fiche">
+        <a href="{{ url_for('teacher.index', semestre=listing.semester) }}">← Liste du {{ listing.semester }}</a>
+        <span class="selected">{{ listing.semester }} · Fiche étudiante</span>
+      </nav>
+      <section class="panel">
+        <div class="panel-top">
+          <div>
+            <p class="eyebrow">Fiche individuelle</p>
+            <h2>{{ selected.first_name }} {{ selected.last_name }}</h2>
+            <p class="muted">Numéro étudiant : <span class="mono">{{ selected.number }}</span></p>
+          </div>
+          <div class="summary-total">
+            <strong>{{ selected.attempts }}</strong>
+            <span>essai{{ 's' if selected.attempts != 1 else '' }}</span>
+          </div>
+        </div>
+        {% for kind in ['TD', 'DM', 'Contrôle'] %}
+          {% set relevant = selected.details | selectattr('type', 'equalto', kind) | list %}
+          {% if relevant %}
+            <section class="segment">
+              <h3>{{ kind }} — {{ selected.done[kind] }} / {{ relevant | length }} activités réalisées</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th scope="col">Évaluation</th><th scope="col" class="numeric">Minimum</th><th scope="col" class="numeric">Maximum</th><th scope="col" class="numeric">Essais</th></tr>
+                  </thead>
+                  <tbody>
+                    {% for item in relevant %}
+                      <tr>
+                        <td><strong>{{ item.label }}</strong><span class="meta">{{ item.id }}</span></td>
+                        <td class="numeric">{{ item.min if item.attempts else '—' }}</td>
+                        <td class="numeric">{{ item.max if item.attempts else '—' }}</td>
+                        <td class="numeric">{{ item.attempts }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          {% endif %}
+        {% endfor %}
+      </section>
+    {% else %}
+      <nav class="tabs" aria-label="Choisir le semestre">
+        {% for semester in semesters %}
+          <a href="{{ url_for('teacher.index', semestre=semester) }}"
+             {% if semester == listing.semester %}aria-current="page"{% endif %}>{{ semester }}</a>
+        {% endfor %}
+      </nav>
+      <section class="metrics" aria-label="Statistiques de suivi">
+        <div class="metric"><strong>{{ listing.students | length }}</strong><span>Étudiants présents dans le suivi</span></div>
+        <div class="metric"><strong>{{ listing.totals['TD'] }}</strong><span>TD au catalogue</span></div>
+        <div class="metric"><strong>{{ listing.totals['DM'] }}</strong><span>Devoirs maison</span></div>
+        <div class="metric"><strong>{{ listing.totals['Contrôle'] }}</strong><span>Contrôles</span></div>
+      </section>
+      <section class="panel">
+        <div class="panel-top">
+          <div>
+            <h2>Progression du {{ listing.semester }}</h2>
+            <p class="muted small">
+              Année universitaire {{ year }}.
+              {% if listing.updated %}Dernière consolidation : {{ listing.updated }}.{% else %}Aucune consolidation disponible.{% endif %}
+            </p>
+          </div>
+          {% if listing.exists %}
+            <a class="download" href="{{ url_for('teacher.export', semester=listing.semester) }}">Exporter le CSV du semestre</a>
+          {% endif %}
+        </div>
+        {% if not listing.exists %}
+          <p class="notice">Aucun fichier de progression trouvé pour ce semestre. Exécuter le consolidateur sur le serveur.</p>
+        {% elif not listing.students %}
+          <p>Aucun dépôt étudiant identifié pour ce semestre.</p>
+        {% else %}
+          <label for="filter-students">Rechercher par nom, prénom ou numéro étudiant</label>
+          <input type="search" id="filter-students" class="search" placeholder="Filtrer les étudiants…" autocomplete="off">
+          <p id="filtered-count" class="muted small" aria-live="polite"></p>
+          <div class="table-wrap">
+            <table id="teacher-roster">
+              <thead><tr>
+                <th scope="col">Étudiant</th><th scope="col">Numéro</th>
+                <th scope="col" class="numeric">TD réalisés</th>
+                <th scope="col" class="numeric">DM</th>
+                <th scope="col" class="numeric">Contrôles</th>
+                <th scope="col" class="numeric">Essais</th><th scope="col">Progression</th>
+              </tr></thead>
+              <tbody>
+                {% for student in listing.students %}
+                  <tr data-student="{{ student.first_name }} {{ student.last_name }} {{ student.number }}">
+                    <td><strong>{{ student.last_name }} {{ student.first_name }}</strong></td>
+                    <td class="mono">{{ student.number }}</td>
+                    <td class="numeric">{{ student.done['TD'] }} / {{ listing.totals['TD'] }}</td>
+                    <td class="numeric">{{ student.done['DM'] }} / {{ listing.totals['DM'] }}</td>
+                    <td class="numeric">{{ student.done['Contrôle'] }} / {{ listing.totals['Contrôle'] }}</td>
+                    <td class="numeric">{{ student.attempts }}</td>
+                    <td>
+                      <form method="post" action="{{ url_for('teacher.detail') }}">
+                        <input type="hidden" name="csrf" value="{{ csrf }}">
+                        <input type="hidden" name="semestre" value="{{ listing.semester }}">
+                        <input type="hidden" name="numero" value="{{ student.number }}">
+                        <button type="submit" class="small-button">Voir la fiche</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      </section>
+    {% endif %}
+    <p class="muted small footnote">
+      Ces résultats proviennent des évaluateurs automatiques et peuvent être provisoires.
+      Les scores de barèmes différents ne sont pas additionnés.
+      Un étudiant sans dépôt identifié n'apparaît pas dans ce tableau.
+      La consultation nominative et les exports sont réservés à l'enseignant.
+    </p>
+  {% endif %}
+</main>
+</body>
+</html>
