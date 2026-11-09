@@ -242,8 +242,8 @@ class TeacherDashboardTests(unittest.TestCase):
             "csrf": self.csrf(), "numero": "000123", "semestre": "S1",
         })
         self.assertEqual(sheet.status_code, 200)
-        self.assertIn("2,00", sheet.get_data(as_text=True))
-        self.assertIn("6,00", sheet.get_data(as_text=True))
+        self.assertIn("3,33 / 10", sheet.get_data(as_text=True))
+        self.assertIn("10,00 / 10", sheet.get_data(as_text=True))
         self.assertIn("Devoir maison", sheet.get_data(as_text=True))
         self.assertNotIn("DURAND", sheet.get_data(as_text=True))
         sheet3 = self.client.post("/enseignant/progression/fiche", data={
