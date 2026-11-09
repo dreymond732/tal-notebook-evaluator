@@ -27,8 +27,8 @@
 <h3>Q{{ q.number }} — {{ q.label }} ({{ '%.2f'|format(q.maximum) }} point humain maximum)</h3>
 <p><strong>Consigne de relecture :</strong> {{ q.prompt }}</p>
 <div class="table-wrap"><table><thead><tr><th>Code et commentaires déposés</th><th>Sorties enregistrées</th></tr></thead>
-<tbody><tr><td><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{ q.code or 'Aucune réponse enregistrée.' }}</pre></td>
-<td><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{ q.outputs or 'Aucune sortie enregistrée.' }}</pre></td></tr></tbody></table></div>
+<tbody><tr><td><pre class="dm-evidence">{{ q.code or 'Aucune réponse enregistrée.' }}</pre></td>
+<td><pre class="dm-evidence">{{ q.outputs or 'Aucune sortie enregistrée.' }}</pre></td></tr></tbody></table></div>
 <p>Score automatique pour cette question : {{ '%.2f'|format(q.score_auto) }} point(s).</p>
 <label for="score-{{ q.number }}">Points humains (0 à {{ q.maximum }})</label>
 <input id="score-{{ q.number }}" type="number" step="0.01" min="0" max="{{ q.maximum }}"
