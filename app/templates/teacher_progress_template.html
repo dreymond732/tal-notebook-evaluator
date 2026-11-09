@@ -37,17 +37,25 @@
   {% elif not authenticated %}
     <section class="panel login-panel">
       <h2>Connexion enseignant</h2>
+      {% if reusable_code %}
+      <p>Un code personnel vous a été envoyé depuis le serveur. Vous pouvez le réutiliser jusqu'à son remplacement ou sa révocation. Aucun nouvel email n'est nécessaire pour chaque connexion.</p>
+      {% else %}
       <p>Le code temporaire est envoyé uniquement sur demande de l'enseignant depuis le serveur. Aucun envoi d'email ne peut être déclenché depuis ce site.</p>
+      {% endif %}
       <form method="post" action="{{ tal_url_for('teacher.login') }}">
         <label for="teacher-email">Adresse email enseignante autorisée</label>
         <input id="teacher-email" name="email" type="email" maxlength="254"
                autocomplete="username" required>
-        <label for="code">Code temporaire reçu par email</label>
-        <input id="code" type="text" name="code" maxlength="12" minlength="12"
-               autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
+        <label for="code">{{ 'Code personnel reçu par email' if reusable_code else 'Code temporaire reçu par email' }}</label>
+        <input id="code" type="text" name="code" maxlength="{{ code_length }}" minlength="{{ code_length }}"
+               autocomplete="{{ 'off' if reusable_code else 'one-time-code' }}" autocapitalize="characters" spellcheck="false" required>
         <button type="submit">Accéder à ma session enseignante</button>
       </form>
+      {% if reusable_code %}
+      <p class="muted small">Le code personnel n'expire pas automatiquement : conservez-le comme un mot de passe. Vous pouvez le remplacer ou le révoquer depuis le serveur. Chaque session enseignante reste ouverte deux heures au maximum.</p>
+      {% else %}
       <p class="muted small">Le code expire après 10 minutes et ne peut servir qu’une fois. La session enseignante reste ouverte deux heures au maximum.</p>
+      {% endif %}
     </section>
   {% else %}
     <nav class="tabs" aria-label="Accès correction humaine">
