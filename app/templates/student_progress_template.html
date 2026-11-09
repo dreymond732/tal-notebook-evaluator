@@ -61,7 +61,7 @@
         {% endif %}
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Activité</th><th class="numbers">Minimum / 10</th><th class="numbers">Maximum / 10</th><th class="numbers">Essais</th></tr></thead>
+            <thead><tr><th>Activité</th><th class="numbers">Minimum / 10</th><th class="numbers">Maximum / 10</th><th class="numbers">Essais</th><th>Rapport du dernier dépôt</th></tr></thead>
             <tbody>
             {% for item in semester.activities %}
               <tr>
@@ -69,6 +69,7 @@
                 <td class="numbers">{{ item.min if item.min else '—' }}</td>
                 <td class="numbers">{{ item.max if item.max else '—' }}</td>
                 <td class="numbers">{{ item.attempts }}</td>
+                <td>{% if item.report_available %}<a href="{{ url_for('student.report',evaluation=item.name) }}">Consulter</a>{% else %}—{% endif %}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -76,7 +77,27 @@
         </div>
       </section>
     {% endfor %}
-    <p class="small">Les scores des TD sont ramenés sur 10 à partir du maximum technique du correcteur, sans modifier les relevés sources. Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles et devoirs maison ne sont pas publiés sur cette page.</p>
+    {% if profile.dm %}
+      <section class="panel">
+        <h2>Devoir maison intermédiaire S1</h2>
+        <p><strong>Score automatique :</strong> {{ '%.2f'|format(profile.dm.auto_score) }} / 17,75</p>
+        {% if profile.dm.state == 'published' %}
+          <p><strong>Note finale publiée :</strong> {{ '%.2f'|format(profile.dm.final_score) }} / 20.</p>
+        {% else %}
+          <p>Relecture humaine sur 2,25 points : en attente.</p>
+          {% if profile.dm.auto_score < 8.875 %}
+            <p class="small">Vous pouvez redéposer le DM tant que la correction humaine n'a pas été validée. Connectez-vous à cet espace avant de déposer à nouveau.</p>
+          {% endif %}
+        {% endif %}
+        {% if profile.reports_enabled %}
+          <p><a href="{{ url_for('student.report',evaluation='dm-intermediaire-s1') }}">Consulter le dernier rapport du DM</a></p>
+        {% endif %}
+      </section>
+    {% endif %}
+    {% if not profile.reports_enabled %}
+      <p class="small">La consultation des rapports archivés sera ouverte après vérification administrative de l'association entre votre numéro étudiant et votre adresse email.</p>
+    {% endif %}
+    <p class="small">Les scores des TD sont ramenés sur 10 à partir du maximum technique du correcteur, sans modifier les relevés sources. Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles sommatifs restent privés ; seul le DM intermédiaire fait l'objet d'un bilan formatif visible.</p>
   {% else %}
     <div class="panel">
       <h2>Accès personnel par email</h2>
