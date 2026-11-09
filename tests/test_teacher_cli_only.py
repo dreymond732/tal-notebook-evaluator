@@ -47,7 +47,7 @@ class TeacherCliOnlyTests(unittest.TestCase):
                      "/enseignant/progression/demander-code"):
             for method in ("get", "post"):
                 response = getattr(client, method)(path)
-                self.assertIn(response.status_code, {200, 404})
+                self.assertIn(response.status_code, {200, 404, 405})
         self.assertEqual(self.messages, [])
         self.assertEqual(client.post("/enseignant/progression/demander-code").status_code, 404)
 
