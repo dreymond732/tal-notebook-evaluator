@@ -191,6 +191,76 @@ def export(semester):
     )
 
 
+
+
+@teacher_bp.route("/dm-s1", methods=["GET"])
+def dm_queue():
+    _require_teacher()
+    from dm_hybrid import queue
+    from teacher_progress import cohort
+    try:
+        students = {s["number"]: s for s in cohort("S1")["students"]}
+        rows = queue()
+        for row in rows:
+            identity = students.get(row["student_number"], {})
+            row["student_name"] = (
+                identity.get("last_name", "") + " " +
+                identity.get("first_name", "")
+            ).strip() or "Étudiant"
+    except (OSError, ValueError):
+        current_app.logger.exception("File de correction DM indisponible")
+        return "File de corrections indisponible.", 503
+    return render_template("teacher_dm_queue_template.html", csrf=_csrf(), rows=rows)
+
+
+@teacher_bp.route("/dm-s1/<receipt>", methods=["GET"])
+def dm_review(receipt):
+    _require_teacher()
+    from dm_hybrid import by_receipt, review_evidence
+    import json
+    record = by_receipt(receipt)
+    if record is None or record["state"] == "superseded":
+        abort(404)
+    try:
+        identity, questions, _ = review_evidence(record)
+        saved = json.loads(record["review_json"])
+    except (ValueError, OSError, UnicodeError):
+        current_app.logger.exception("Copie de DM indisponible pour relecture")
+        return "Copie indisponible ou altérée.", 503
+    return render_template(
+        "teacher_dm_review_template.html", csrf=_csrf(),
+        record=record, identity=identity, questions=list(questions.values()),
+        saved=saved,
+    )
+
+
+@teacher_bp.route("/dm-s1/<receipt>/enregistrer", methods=["POST"])
+def dm_save(receipt):
+    _require_teacher()
+    _require_csrf()
+    from dm_hybrid import HUMAN_WEIGHTS, save_review, StaleReview
+    try:
+        revision = int(request.form.get("revision", "-1"))
+        action = request.form.get("action", "")
+        if action not in ("draft", "publish"):
+            abort(400)
+        notes = {
+            q: {
+                "points": request.form.get(f"points_{q}", ""),
+                "appreciation": request.form.get(f"appreciation_{q}", ""),
+            }
+            for q in HUMAN_WEIGHTS
+        }
+        save_review(receipt, revision, notes, validate=(action == "publish"))
+    except StaleReview:
+        return "Cette fiche n'est plus active ou a été modifiée. Rechargez la liste.", 409
+    except (ValueError, TypeError):
+        flash("Correction incomplète ou note hors barème.", "error")
+        return redirect(tal_url_for("teacher.dm_review", receipt=receipt), code=303)
+    flash("Correction publiée." if action == "publish" else "Brouillon enregistré.", "info")
+    return redirect(tal_url_for("teacher.dm_queue"), code=303)
+
+
 @teacher_bp.route("/deconnexion", methods=["POST"])
 def logout():
     _require_csrf()
