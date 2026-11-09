@@ -12,7 +12,17 @@ import re
 from notebook_contract import resolve_notebook, validate_cell_metadata
 
 EVAL_ID = 'dm-intermediaire-s1'
-MAX_SCORE_TOTAL = 20.0
+# Version du barème, indépendante du contrat du cahier (=1) pour
+# garantir la compatibilité des fichiers précédemment distribués.
+HYBRID_RUBRIC_VERSION = 2
+HUMAN_WEIGHTS = {2: .5, 6: .5, 12: .25, 14: .5, 17: .5}
+AUTOMATIC_WEIGHTS = {
+    q: (1.0 if q <= 14 else 1.5) - HUMAN_WEIGHTS.get(q, 0.0)
+    for q in range(1, 19)
+}
+MAX_SCORE_TOTAL = sum(AUTOMATIC_WEIGHTS.values())  # 17.75
+FINAL_MAX_SCORE = 20.0
+REDEPOSIT_THRESHOLD = MAX_SCORE_TOTAL / 2  # 8.875, strictement inférieur
 HUMAN_REVIEW = (
     'Relecture humaine requise : raisonnement, explications, généralité des fonctions, '
     'tests, lisibilité et respect des notions vues jusqu’au TD5. '
@@ -337,7 +347,7 @@ def check_notebook(content_str, filename):
                 pass
     details, score = [], 0.0
     for q, expected in enumerate(EXPECTED, 1):
-        weight = 1.0 if q <= 14 else 1.5
+        weight = AUTOMATIC_WEIGHTS[q]
         points, raw, evidence = 0.0, 'Trace absente, invalide ou ambiguë.', []
         cell = index.get((f'Q{q}', 'answer'))
         try:
@@ -374,7 +384,7 @@ def check_notebook(content_str, filename):
                             'correct_answer': 'Apprécier le raisonnement ; aucun point automatique pour la présence d’un commentaire.',
                             'points': 0, 'max_points': 0, 'status': 'À relire'})
     score = round(score, 3)
-    info.update(score_brut=score, score_nature='technique_provisoire', relecture_humaine='requise', score_max=MAX_SCORE_TOTAL)
+    info.update(score_brut=score, score_nature='technique_provisoire', relecture_humaine='requise', score_max=MAX_SCORE_TOTAL, dm_rubric_version=HYBRID_RUBRIC_VERSION)
     return score, details, MAX_SCORE_TOTAL, info, None
 
 
