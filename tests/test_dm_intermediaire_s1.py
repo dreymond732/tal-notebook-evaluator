@@ -2,6 +2,7 @@
 import copy
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -71,18 +72,18 @@ class AssignmentChecks(unittest.TestCase):
                  answer(15, NORMALISER, ['livre', '', 'deux  mots !']),
                  answer(16, COMPTER, [{'livre': 2, 'récit': 1}, {}, {'Livre': 1, 'livre': 1}])]
         score, details, maximum, info, error = self.evaluate(*cells)
-        self.assertEqual((score, maximum, error), (4, 20, None))
+        self.assertEqual((score, maximum, error), (4, 17.75, None))
         self.assertEqual(info['numero_etudiant'], 'TEST2026')
         self.assertEqual(info['score_nature'], 'technique_provisoire')
         cells[0]['outputs'][0]['text'] = 'Résultat Q1 : [12, 90.0, 999, 9.0, True]\n'
         self.assertEqual(self.evaluate(*cells)[0], 3.8)
-        self.assertEqual(sum(d['max_points'] for d in details), 20)
+        self.assertEqual(sum(d['max_points'] for d in details), 17.75)
 
     def test_no_execution_and_required_ast_not_comments_or_unrelated_outputs(self):
         good = answer(12, SERIES, [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])
-        self.assertEqual(self.evaluate(good)[0], 1)
+        self.assertEqual(self.evaluate(good)[0], 0.75)
         good['source'] = "raise RuntimeError('DO_NOT_EXECUTE')\n" + good['source']
-        self.assertEqual(self.evaluate(good)[0], 1)
+        self.assertEqual(self.evaluate(good)[0], 0.75)
         bad = answer(12, '# for range while +=\nprint("Résultat Q12 :", [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])',
                      [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])
         self.assertEqual(self.evaluate(bad)[0], 0)
@@ -128,7 +129,7 @@ print("Résultat Q18 :", [bilan_notice("  LIVRE récit livre  "), bilan_notice("
             {'texte_normalise':'livre récit livre', 'nb_caracteres':17, 'nb_fragments':3, 'nb_formes':2, 'frequences':{'livre':2, 'récit':1}},
             {'texte_normalise':'', 'nb_caracteres':0, 'nb_fragments':0, 'nb_formes':0, 'frequences':{}},
             {'texte_normalise':'livre livre, livre', 'nb_caracteres':18, 'nb_fragments':3, 'nb_formes':2, 'frequences':{'livre':2, 'livre,':1}}])
-        self.assertEqual(self.evaluate(cell17, cell18)[0], 3)
+        self.assertEqual(self.evaluate(cell17, cell18)[0], 2.5)
         cell17['source'] = translation.replace('forme in table', 'forme in lexique_test').replace('return table[forme]', 'return lexique_test[forme]')
         self.assertEqual(self.evaluate(cell17)[0], 0)
 
@@ -192,10 +193,10 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
                 cell['outputs'] = [{'output_type': 'stream', 'name':'stdout',
                                     'text': f'Résultat Q{q} : {dm.EXPECTED[q-1]!r}\n'}]
         result = dm.check_notebook(json.dumps(model), 'model.ipynb')
-        self.assertEqual((result[0], result[2], result[4]), (20, 20, None), result[1])
+        self.assertEqual((result[0], result[2], result[4]), (17.75, 17.75, None), result[1])
 
     def test_student_receives_18_question_scores_but_not_private_teaching_rubric(self):
-        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
+        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory), patch.dict(os.environ, {'TAL_ACADEMIC_YEAR': '2026-2027'}):
             app = create_app()
             app.config['TESTING'] = True
             client = app.test_client()
@@ -209,7 +210,7 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
             self.assertEqual(response.status_code, 200)
             public = response.get_data(as_text=True)
             self.assertIn('Copie reçue et enregistrée', public)
-            self.assertIn('Note technique provisoire : 1.00 / 20.00', public)
+            self.assertIn('Note automatique provisoire : 1.00 / 17.75', public)
             self.assertIn('Q1 — Budget et conversion', public)
             self.assertIn('Q18 — Composition du bilan', public)
             self.assertIn('Critères vérifiés satisfaits', public)
@@ -251,12 +252,12 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
             self.assertNotIn('Critères AST', repr(item))
             self.assertNotIn('correct_answer', item)
         self.assertAlmostEqual(score, 2.3)
-        self.assertEqual(maximum, 20)
+        self.assertEqual(maximum, 17.75)
 
     def test_output_is_html_escaped_even_if_notebook_contains_markup(self):
         # L'output étudiant est traité comme une chaîne et doit être échappé.
         cell = answer(1, BUDGET, ['<script>alert(1)</script>',90,108,9,True])
-        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
+        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory), patch.dict(os.environ, {'TAL_ACADEMIC_YEAR': '2026-2027'}):
             app = create_app()
             app.config['TESTING'] = True
             payload = json.dumps(notebook(cell)).encode()

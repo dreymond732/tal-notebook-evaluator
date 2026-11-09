@@ -15,6 +15,12 @@ from routes import EVALUATORS
 def max_raw_score(evaluator):
     if evaluator not in EVALUATORS:
         raise ValueError("Évaluateur inconnu")
+    # Le journal DM historique contient des copies notées /20. Les nouveaux
+    # essais /17,75 figurent à part dans dm_hybride.sqlite3. Le CSV consolidé
+    # ne stocke pas la génération du barème : NE JAMAIS recalculer les anciens
+    # scores avec le dénominateur 17,75.
+    if evaluator == "dm-intermediaire-s1":
+        return Decimal("20")
     module_name = EVALUATORS[evaluator][1]
     module = import_module(module_name)
     try:

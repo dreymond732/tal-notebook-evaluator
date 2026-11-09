@@ -36,7 +36,18 @@
   {% endwith %}
   {% if score is not none %}
     <p class="received" role="status"><strong>Copie reçue et enregistrée.</strong> Voici le bilan des vérifications automatiques.</p>
-    <p class="score">Note technique provisoire : {{ '%.2f'|format(score) }} / {{ '%.2f'|format(max_score) }}</p>
+    <p class="score">Note automatique provisoire : {{ '%.2f'|format(score) }} / {{ '%.2f'|format(max_score) }}</p>
+    {% if final_score is defined and final_score is not none %}
+      <p class="received"><strong>Correction humaine validée :</strong> {{ '%.2f'|format(final_score) }} / 20.00 (dont {{ '%.2f'|format(human_score) }} / 2.25 après relecture).</p>
+      {% if human_questions is defined %}
+      <h2>Appréciations de l'enseignant</h2>
+      {% for q in human_questions %}
+        <p><strong>Q{{ q.number }} — {{ q.points }} / {{ '%.2f'|format(q.maximum) }}</strong> : {{ q.comment }}</p>
+      {% endfor %}
+      {% endif %}
+    {% else %}
+      <p class="muted">Correction humaine : en attente (2,25 points réservés). Une note finale sur 20 sera affichée dès sa validation par l'enseignant.</p>
+    {% endif %}
     <div class="scope">
       <p><strong>Attention :</strong> cette note porte sur des résultats enregistrés et des critères de structure automatiquement vérifiables. Le correcteur n'exécute pas votre programme et ne valide pas le raisonnement, l'autonomie ou les commentaires. Une relecture humaine reste nécessaire avant toute note définitive.</p>
       <p>Chaque réussite ci-dessous signifie uniquement que les critères techniques testés sont satisfaits. Une réussite partielle peut être améliorée en reprenant la question puis en déposant de nouveau le cahier.</p>
@@ -75,14 +86,18 @@
     </div>
     <p><a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}">Déposer une nouvelle version du devoir</a></p>
   {% else %}
-    <p class="scope">Déposez votre devoir au format <strong>.ipynb</strong>. Vous obtiendrez après son enregistrement un score technique provisoire sur 20 ainsi qu'un bilan question par question.</p>
+    <p class="scope">Déposez votre devoir au format <strong>.ipynb</strong>. Vous obtiendrez après son enregistrement un score technique provisoire sur 17,75 ainsi qu'un bilan question par question.</p>
     <form method="post" action="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}" enctype="multipart/form-data">
       <label for="dm-file">Cahier exécutable du devoir</label>
       <input type="file" id="dm-file" name="file" accept=".ipynb" required>
       <button type="submit">Déposer et obtenir mon bilan</button>
     </form>
   {% endif %}
-  <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
+  {% if request.blueprint == 'main' %}
+    <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
+  {% else %}
+    <nav aria-label="Navigation"><a href="{{ url_for('student.individual') }}">← Ma progression</a></nav>
+  {% endif %}
 </main>
 </body>
 </html>

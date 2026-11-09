@@ -196,3 +196,41 @@ def logout():
     _require_csrf()
     session.clear()
     return _redirect_home()
+
+
+
+@teacher_bp.route("/dm-s1", methods=["GET"])
+def dm_queue():
+    _require_teacher()
+    from dm_hybrid import queue
+    return render_template("teacher_dm_review_template.html", queue=queue(), attempt=None,
+                           csrf=_csrf())
+
+
+@teacher_bp.route("/dm-s1/<receipt>", methods=["GET", "POST"])
+def dm_detail(receipt):
+    _require_teacher()
+    if len(receipt) != 32 or any(ch not in "0123456789abcdef" for ch in receipt):
+        abort(404)
+    from dm_hybrid import current_by_receipt, save_review
+    attempt = current_by_receipt(receipt)
+    if attempt is None:
+        abort(404)
+    if request.method == "POST":
+        _require_csrf()
+        action = request.form.get("action")
+        if action not in ("brouillon", "valider"):
+            abort(400)
+        try:
+            # Même verrou que le dépôt : éviter qu'une validation
+            # concurrencée par un nouveau dépôt finalise une ancienne copie.
+            from progression import progression_lock
+            with progression_lock():
+                save_review(receipt, request.form, validate=(action == "valider"))
+            flash("Correction validée et publiée." if action == "valider"
+                  else "Brouillon enregistré.", "info")
+        except ValueError as exc:
+            flash(str(exc), "error")
+        return redirect(tal_url_for("teacher.dm_detail", receipt=receipt), code=303)
+    return render_template("teacher_dm_review_template.html", queue=None, attempt=attempt,
+                           csrf=_csrf())
