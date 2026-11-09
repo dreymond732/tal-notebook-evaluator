@@ -12,9 +12,10 @@ from pathlib import Path
 
 import outils
 from progression import (
-    _catalog, _academic_start, _date, _score, NUMBER_RE, IDENTITY_HEADER,
+    _catalog, _academic_start, _date, _score, _format, _key, _load_mapping,
+    NUMBER_RE, IDENTITY_HEADER,
 )
-from storage_layout import GRADE_COLUMNS
+from storage_layout import GRADE_COLUMNS, legacy_storage_id
 
 
 def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
@@ -30,6 +31,11 @@ def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
     counters = Counter()
     numbers = set()
     natures = set()
+    values_by_student = {}
+    versions = Counter()
+    map_errors = []
+    validated = _load_mapping(root / "suivi" / "correspondances_validees.csv", map_errors)
+    first_nature = None
     if journal.exists():
         with journal.open(encoding="utf-8-sig", newline="") as f:
             reader = csv.DictReader(f, delimiter=";")
@@ -40,10 +46,13 @@ def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
                 if None in row or any(value is None for value in row.values()):
                     counters["colonnes_incorrectes"] += 1
                     continue
-                if row["Version du contrat"].strip() != str(entry["version"]):
+                version = row["Version du contrat"].strip()
+                versions[version or "absente"] += 1
+                if version != str(entry["version"]):
                     counters["contrat_ancien_ou_different"] += 1
                     continue
-                if _score(row["Score"]) is None:
+                score = _score(row["Score"])
+                if score is None:
                     counters["score_invalide"] += 1
                     continue
                 date = _date(row["Date"])
@@ -67,14 +76,24 @@ def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
                     continue
                 natures.add(row["Nature du score"])
                 if not number:
+                    number = validated.get(_key(*(row[k] for k in IDENTITY_HEADER[:3]))) or ""
+                if not number:
                     counters["sans_numero"] += 1
+                    continue
+                if first_nature is None:
+                    first_nature = row["Nature du score"]
+                elif first_nature != row["Nature du score"]:
+                    counters["nature_incompatible"] += 1
                     continue
                 counters["essais_valides_identifies"] += 1
                 numbers.add(number)
+                values_by_student.setdefault(number, []).append(score)
 
     progression_file = root / "suivi" / ("progression_" + entry["semester"] + ".csv")
     counted = None
     progress_numbers = set()
+    progress_by_student = {}
+    diff_students = None
     if progression_file.exists():
         with progression_file.open(encoding="utf-8-sig", newline="") as stream:
             reader = csv.DictReader(stream, delimiter=";")
@@ -90,7 +109,22 @@ def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
                         raise ValueError("Nombre d'essais illisible dans le suivi") from exc
                     counted += value
                     if value:
-                        progress_numbers.add(record.get("Numéro étudiant", ""))
+                        number = record.get("Numéro étudiant", "")
+                        progress_numbers.add(number)
+                        if number in progress_by_student:
+                            raise ValueError("Numéro dupliqué dans le suivi")
+                        progress_by_student[number] = (
+                            record.get(evaluator + "__min", ""),
+                            record.get(evaluator + "__max", ""), value,
+                        )
+
+    if type(counted) is int:
+        expected = {number: (_format(min(scores)), _format(max(scores)), len(scores))
+                    for number, scores in values_by_student.items()}
+        diff_students = sum(expected.get(n) != progress_by_student.get(n)
+                            for n in expected.keys() | progress_by_student.keys())
+
+    legacy = root / legacy_storage_id(evaluator)
 
     def artifact_count(folder, extension):
         path = base / folder
@@ -109,6 +143,10 @@ def diagnostic(evaluator="td4-s1", root=None, academic_year="2026-2027"):
         "essais_du_suivi": counted,
         "etudiants_distincts_suivi": len(progress_numbers),
         "natures_observees": sorted(natures),
+        "versions_presentes": dict(sorted(versions.items())),
+        "ecarts_individuels": diff_students,
+        "erreurs_correspondances": len(map_errors),
+        "ancien_dossier_present": legacy != base and legacy.is_dir(),
         "lignes_non_retenues": {
             key: value for key, value in sorted(counters.items())
             if key not in {"lignes_csv", "essais_valides_identifies"} and value

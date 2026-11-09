@@ -183,3 +183,10 @@ Pour les 19 TD du S1, les dossiers physiques suivent désormais les cahiers reno
 ## Espace enseignant — suivi de progression
 
 Le correcteur propose un espace enseignant distinct du portail étudiant, avec authentification par code email temporaire, sélection S1/S2/S3, liste des étudiants, fiches individuelles TD/DM/contrôles et export CSV privé. Définir `TAL_TEACHER_EMAIL` dans `.env` en réutilisant le SMTP existant. Consulter [TABLEAU_BORD_ENSEIGNANT.md](docs/TABLEAU_BORD_ENSEIGNANT.md) pour la configuration et les contrôles d'accès.
+
+### Vérification globale du suivi S1/S2/S3
+
+L'outil `app/audit_progressions.py` contrôle les 34 TD, compare
+leurs journaux et les relevés individuels sans afficher d'identité
+étudiante ni écrire dans les archives. Voir
+[docs/AUDIT_PROGRESSIONS_TOUS_TD.md](docs/AUDIT_PROGRESSIONS_TOUS_TD.md).
