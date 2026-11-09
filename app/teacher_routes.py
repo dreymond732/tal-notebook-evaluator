@@ -42,6 +42,16 @@ def _require_csrf():
     value = request.form.get("csrf", "")
     saved = session.get("teacher_csrf", "")
     if not saved or not hmac.compare_digest(value, saved):
+        # N'enregistrer NI le jeton CSRF NI la valeur du cookie : seuls les
+        # booléens aideront à repérer un cookie absent ou obsolète sous SWAG.
+        cookie_name = current_app.config.get("SESSION_COOKIE_NAME", "")
+        current_app.logger.warning(
+            "Formulaire enseignant TAL : session CSRF non reconnue "
+            "(cookie_recu=%s, cookies_homonymes=%s, session_presente=%s, jeton_formulaire_present=%s)",
+            bool(cookie_name and request.cookies.get(cookie_name)),
+            len(request.cookies.getlist(cookie_name)) if cookie_name else 0,
+            bool(saved), bool(value),
+        )
         abort(400)
 
 
