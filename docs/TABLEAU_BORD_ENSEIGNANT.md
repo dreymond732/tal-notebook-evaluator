@@ -182,3 +182,54 @@ sont maintenant reconnus comme des travaux distincts de leurs
 approfondissements. Le détail des essais est lu dans les journaux
 CSV canoniques, pas à partir d'un décompte des fichiers nb/rapport/.
 Pour contrôler le cas de S1_TD4, voir docs/SUIVI_PROGRESSION.md.
+
+
+## Correction des compteurs et de la navigation (novembre 2026)
+
+Les TD principaux et les activités complémentaires sont maintenant séparés
+dans le tableau : S1 = **7 TD principaux et 12 approfondissements** ;
+S2 = **3 TD** (les deux autres exercices sont des contrôles) ;
+S3 = **9 TD principaux et 3 révisions**. Les numéros affichés pour chaque
+étudiant correspondent à des *activités ayant reçu au moins un dépôt valide*,
+pas au nombre de fichiers présents ni au nombre total de soumissions.
+
+Les essais sous contrat ancien, lorsqu'ils ont un score numérique, une
+identité identifiable et une date dans l'année universitaire, sont
+comptabilisés **uniquement pour la participation** et affichés dans la
+colonne « Essais anciens ». Un étudiant n'ayant que ces anciens dépôts
+apparaît désormais dans l'espace enseignant. Les notes des contrats
+antérieurs ne sont pas comparées aux min/max des contrats actuels.
+Les tableaux de progression CSV et le portail étudiant restent
+inchangés : l'export actuel du semestre concerne les *scores actuels*.
+
+### Résolution des liens S3, fiches et export sous SWAG
+
+Les liens de cet espace sont construits sous le préfixe public du cookie
+défini dans `.env`, même lorsque Nginx omet
+`X-Forwarded-Prefix` sur une requête. Pour TAL, conserver :
+
+    TAL_SESSION_COOKIE_NAME=tal_corrector_session
+    TAL_SESSION_COOKIE_PATH=/universite/tal/
+
+L'adresse publique de la synthèse est :
+
+    https://hazigo.duckdns.org/universite/tal/enseignant/progression/
+
+Après fusion de la PR, **reconstruire** l'image Docker :
+
+    git pull
+    docker-compose up -d --build --force-recreate corrector-tal
+
+Si un onglet S3, une fiche ou un export renvoie encore 403, vérifier
+dans l'inspecteur du navigateur que le chemin URL reste sous
+`/universite/tal/` et que le navigateur joint le cookie
+`tal_corrector_session` (ne jamais copier ou publier sa valeur).
+Un 403 **sans cookie valide** reste une protection normale. Aucune
+route de consultation nominative n'est accessible anonymement.
+
+L'audit des journaux sur le NAS donne la concordance des essais des
+contrats courants. Les journaux comportant des anciennes versions
+doivent être distingués des corrections de résultats :
+`audit_progressions.py --annee 2026-2027 --toutes-evaluations` ne
+mélange pas leurs scores, mais l'espace enseignant les mentionne
+désormais comme travaux réalisés.

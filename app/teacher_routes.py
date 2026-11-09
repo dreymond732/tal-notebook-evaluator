@@ -13,6 +13,7 @@ from flask import (Blueprint, abort, current_app, flash, redirect,
 import teacher_access
 from teacher_progress import cohort, csv_export, student_sheet
 from progression import SEMESTERS
+from tal_urls import tal_url_for
 
 teacher_bp = Blueprint("teacher", __name__, url_prefix="/enseignant/progression")
 
@@ -50,13 +51,8 @@ def _require_teacher():
 
 
 def _redirect_home():
-    """Gardez le préfixe public même si un POST perd X-Forwarded-Prefix."""
-    target = url_for("teacher.index")
-    cookie_path = current_app.config.get("SESSION_COOKIE_PATH", "/")
-    if cookie_path != "/" and not target.startswith(cookie_path):
-        target = cookie_path.rstrip("/") + target
-    return redirect(target, code=303)
-
+    """Canonical public redirect; preserve the cookie and proxy prefix."""
+    return redirect(tal_url_for("teacher.index"), code=303)
 
 def _render(**kwargs):
     attempted = session.get("teacher_code_requested_at", 0)

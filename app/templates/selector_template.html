@@ -25,7 +25,7 @@
 <body>
     <main class="container">
         {% if semester %}
-        <nav aria-label="Navigation"><a href="{{ url_for('main.index') }}">← Changer de semestre</a> · <a href="{{ url_for('teacher.index') }}" style="font-size:0.85rem">Enseignant</a></nav>
+        <nav aria-label="Navigation"><a href="{{ url_for('main.index') }}">← Changer de semestre</a> · <a href="{{ tal_url_for('teacher.index') }}" style="font-size:0.85rem">Enseignant</a></nav>
         <h1>Correcteurs — {{ semester }}</h1>
         <p>Choisissez le TD ou le contrôle pour déposer votre notebook.</p>
         {% else %}
@@ -37,7 +37,7 @@
             <p>Consulter mes TD après validation de mon code personnel envoyé par email.</p>
         </div>
         <p style="text-align:right;margin:0.75rem 0;color:var(--secondary);font-size:0.82rem">
-            <a href="{{ url_for('teacher.index') }}" style="color:inherit;text-decoration:underline">Accès enseignant</a>
+            <a href="{{ tal_url_for('teacher.index') }}" style="color:inherit;text-decoration:underline">Accès enseignant</a>
         </p>
         <h2>Dépôts par semestre</h2>
         <p>Pour les anciennes versions, vous pouvez choisir votre semestre et votre activité.</p>

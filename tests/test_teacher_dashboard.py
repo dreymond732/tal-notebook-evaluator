@@ -213,7 +213,7 @@ class TeacherDashboardTests(unittest.TestCase):
         self.assertIn("DURAND", data)
         self.assertIn("1 /", data)
         self.assertIn("TD", data)
-        self.assertIn("Exporter le CSV du semestre", data)
+        self.assertIn("Exporter les scores actuels (CSV)", data)
         self.assertIn("teacher_progress.js", data)
         for semester in ("S2", "S3"):
             other = self.client.get(f"/enseignant/progression?semestre={semester}")
