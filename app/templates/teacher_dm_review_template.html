@@ -25,7 +25,7 @@
 {% for q in attempt.questions %}
 <section class="segment">
 <h3>Q{{ q.number }} — {{ q.label }} ({{ '%.2f'|format(q.maximum) }} point humain maximum)</h3>
-<p><strong>Consigne de relecture :</strong> {{ q.prompt }}</p>
+<p><strong>Énoncé complet du cahier :</strong></p><pre class="dm-evidence">{{ q.prompt }}</pre>
 <div class="table-wrap"><table><thead><tr><th>Code et commentaires déposés</th><th>Sorties enregistrées</th></tr></thead>
 <tbody><tr><td><pre class="dm-evidence">{{ q.code or 'Aucune réponse enregistrée.' }}</pre></td>
 <td><pre class="dm-evidence">{{ q.outputs or 'Aucune sortie enregistrée.' }}</pre></td></tr></tbody></table></div>
