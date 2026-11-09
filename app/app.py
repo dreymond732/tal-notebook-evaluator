@@ -39,6 +39,23 @@ def create_app() -> Flask:
         PERMANENT_SESSION_LIFETIME=timedelta(hours=12),
     )
 
+    # Après passage de Path=/ à /universite/tal/, le navigateur peut
+    # conserver deux cookies du MÊME nom. L'ancien cookie racine peut
+    # masquer la nouvelle session (et faire échouer tous les POST CSRF).
+    # Éteindre explicitement l'ancien Path=/ ; ne jamais toucher au cookie
+    # générique "session", éventuellement utilisé par d'autres applis.
+    if cookie_path != '/':
+        @app.after_request
+        def expire_previous_root_cookie(response):
+            from flask import request
+            if request.path.startswith(('/enseignant/progression',
+                                        '/ma-progression')):
+                response.delete_cookie(
+                    cookie_name, path='/', secure=True,
+                    httponly=True, samesite='Lax',
+                )
+            return response
+
     # Initialisation du dossier racine des soumissions
     os.makedirs(outils.BASE_DIR, exist_ok=True)
 
