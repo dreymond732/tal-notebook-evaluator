@@ -119,6 +119,11 @@ def report(evaluator):
             and 0 <= time.time() - issued <= student_access.SESSION_SECONDS
             and student_access.session_valid(number, version)):
         abort(403)
+    # Les notes synthétiques restent consultables ; les rapports détaillés
+    # exigent une activation explicite après contrôle des comptes associés.
+    from student_reports import enabled as reports_enabled
+    if not reports_enabled():
+        abort(404)
     if evaluator == "dm-intermediaire-s1":
         from dm_hybrid import current_for_student, MAX_SCORE_TOTAL
         result = current_for_student(number)
