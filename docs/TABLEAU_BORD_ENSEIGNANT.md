@@ -233,3 +233,51 @@ doivent être distingués des corrections de résultats :
 `audit_progressions.py --annee 2026-2027 --toutes-evaluations` ne
 mélange pas leurs scores, mais l'espace enseignant les mentionne
 désormais comme travaux réalisés.
+
+
+## Correction de la session CSRF après migration du chemin du cookie
+
+Si, après un déploiement, la soumission du code enseignant **et** sa
+redemande aboutissent à une erreur HTTP 400, il ne s'agit pas d'un
+code expiré. Le formulaire a perdu sa session CSRF : le navigateur
+peut conserver deux cookies TAL du même nom, l'un avec `Path=/`,
+l'autre avec `Path=/universite/tal/`. Changer la configuration de
+chemin ne supprime pas automatiquement l'ancien cookie racine.
+
+Le correcteur expire maintenant explicitement **uniquement** le cookie
+`tal_corrector_session` de `Path=/` lorsqu'un chemin public différent
+est configuré. Il continue d'émettre le cookie actif sous
+`Path=/universite/tal/`. Cette purge ciblée n'affecte pas Journalia
+ni les autres applications ; le cookie générique `session` n'est pas
+effacé.
+
+Un formulaire CSRF invalide est toujours refusé (HTTP 400), mais la
+page explique désormais si le cookie TAL est absent ou si le jeton
+n'est pas celui de la session. Les journaux techniques n'enregistrent
+que des indicateurs booléens et le nombre de cookies homonymes, jamais
+leur valeur ni le code de connexion.
+
+Pour tester sans modifier les cookies existants, ouvrir une **fenêtre
+privée** de Firefox et accéder à l'URL publique complète :
+
+    https://hazigo.duckdns.org/universite/tal/enseignant/progression/
+
+Un ancien code enseignant est **à usage unique** et ne peut pas être
+réutilisé : la connexion exige un code nouvellement demandé et non expiré.
+
+Après fusion, reconstruire l'image Docker (les fichiers Python et HTML
+ne sont pas montés en volume) :
+
+    git pull
+    docker-compose up -d --build --force-recreate corrector-tal
+
+Si l'erreur persiste, consulter les lignes `Formulaire enseignant TAL :
+session CSRF non reconnue` dans les logs. Les indicateurs
+`cookie_recu`, `cookies_homonymes`, `session_presente` et
+`jeton_formulaire_present` permettent de différencier les causes sans
+exposer les informations secrètes :
+
+    docker-compose logs --tail=100 corrector-tal
+
+Ne jamais copier un en-tête `Cookie:`, la valeur d'un code email ou une
+clé SMTP dans les rapports de diagnostic partagés.
