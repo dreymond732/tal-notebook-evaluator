@@ -85,6 +85,13 @@
                     <tr>
                       <td class="{{ 'subactivity' if item.subactivity else '' }}">
                         <strong>{{ item.label }}</strong>
+                        {% if item.final_display %}
+                          <span class="meta">Note finale après relecture : {{ item.final_display }} / 20</span>
+                        {% elif item.id == 'dm-intermediaire-s1' and item.scale == 17.75 %}
+                          <span class="meta">Score technique actuel / 17,75 · relecture en attente</span>
+                        {% elif item.id == 'dm-intermediaire-s1' %}
+                          <span class="meta">Historique avant barème hybride (/20)</span>
+                        {% endif %}
                         {% if item.legacy_attempts %}
                           <span class="meta">Essais historiques comptés sans normaliser leur note</span>
                         {% endif %}
