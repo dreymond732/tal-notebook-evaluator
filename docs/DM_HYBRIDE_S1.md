@@ -42,6 +42,10 @@ humaines en brouillon restent conservés, mais ne sont ni proposés
 à la correction ni publiés. Une ancienne URL de correction renvoie
 404 et ne peut pas être réactivée.
 
+Le contrôle de la session personnelle est refait **sous le verrou de
+persistance** pour empêcher deux premières soumissions anonymes concurrentes
+de contourner l'obligation de connexion sur la seconde tentative.
+
 Le redépôt reste possible après un brouillon non validé, mais pas
 après la validation. L'application bloque un nouveau dépôt anonyme
 visant à remplacer la copie d'un étudiant : l'utilisateur doit se
@@ -119,8 +123,11 @@ Aucun email automatique n'est déclenché.
 
 ## Stockage et sauvegarde
 
-Base ajoutée : `soumissions/suivi/dm_hybride.sqlite3`
-(mode 0600). Elle contient le reçu, numéro, identité, score automatique,
+Base ajoutée : `soumissions/suivi/dm_hybride_AAAA-AAAA.sqlite3`
+(mode 0600), propre à chaque année universitaire (`TAL_ACADEMIC_YEAR`).
+Une valeur manquante ou invalide pour cette variable bloque le circuit DM
+plutôt que de mélanger deux promotions. La base contient le reçu, numéro,
+identité, score automatique,
 les 18 bilans filtrés, les cinq extraits de code/sorties, les brouillons
 et la date de validation. Aucun cahier n'est exécuté par ce circuit.
 Les anciennes archives restent dans `soumissions/DM_intermediaire_S1/`.
