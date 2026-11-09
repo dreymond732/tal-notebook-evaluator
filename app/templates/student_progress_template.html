@@ -69,7 +69,7 @@
                 <td class="numbers">{{ item.min if item.min else '—' }}</td>
                 <td class="numbers">{{ item.max if item.max else '—' }}</td>
                 <td class="numbers">{{ item.attempts }}</td>
-                <td>{% if item.report %}<a href="{{ url_for('student.report',evaluator=item.name) }}">Consulter</a>{% else %}—{% endif %}</td>
+                <td>{% if profile.reports_enabled and item.report %}<a href="{{ url_for('student.report',evaluator=item.name) }}">Consulter</a>{% else %}—{% endif %}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -91,10 +91,14 @@
       {% else %}
         <p>Le redépôt est fermé pour cette copie.</p>
       {% endif %}
+      {% if profile.reports_enabled %}
       <p><a href="{{ url_for('student.report',evaluator='dm-intermediaire-s1') }}">Consulter le dernier bilan du DM</a></p>
+      {% else %}
+      <p class="small">Le rapport détaillé du DM sera accessible après vérification des associations numéro étudiant–email et activation par l'enseignant.</p>
+      {% endif %}
     </section>
     {% endif %}
-    <p class="small">Les scores des TD sont ramenés sur 10 à partir du maximum technique du correcteur, sans modifier les relevés sources. Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles sommatifs et les rapports de l’enseignant ne sont pas publiés sur cette page. Le dernier bilan du DM intermédiaire est consultable après authentification.</p>
+    <p class="small">Les scores des TD sont ramenés sur 10 à partir du maximum technique du correcteur, sans modifier les relevés sources. Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles sommatifs et les rapports de l’enseignant ne sont pas publiés sur cette page. Les rapports détaillés nécessitent également une activation par l'enseignant après vérification des associations numéro étudiant–email.</p>
   {% else %}
     <div class="panel">
       <h2>Accès personnel par email</h2>
