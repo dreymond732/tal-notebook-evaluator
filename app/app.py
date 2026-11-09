@@ -50,6 +50,8 @@ def create_app() -> Flask:
     app.register_blueprint(student_bp)
     from teacher_routes import teacher_bp
     app.register_blueprint(teacher_bp)
+    from tal_urls import tal_url_for
+    app.jinja_env.globals['tal_url_for'] = tal_url_for
 
     return app
 
