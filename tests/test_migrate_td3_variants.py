@@ -19,7 +19,7 @@ def sample(number="00123", score="4,00", origin="direct:fixture"):
         "03/11/2026 10:00", "MARTIN", "Léa", "G1", score, "0,00",
         "technique_provisoire", "6", "requise", number,
         "2", origin, "",
-    ))
+    )))
 
 
 class Td3VariantsMigrationTests(unittest.TestCase):
