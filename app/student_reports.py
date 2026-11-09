@@ -15,7 +15,11 @@ import outils
 from progression import _catalog, _academic_start, _date
 from storage_layout import GRADE_COLUMNS
 
-RECEIPT = re.compile(r"direct:([0-9a-f]{32})\Z")
+# Les archives migrées conservent parfois le reçu d'origine en suffixe.
+# La provenance est lue dans le journal canonique du même étudiant.
+RECEIPT = re.compile(
+    r"(?:direct:|migration-s1-v2:[A-Za-z0-9_]+:[0-9]+:direct:)([0-9a-f]{32})\Z"
+)
 
 
 def latest_td_report(number, evaluator):
