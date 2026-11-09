@@ -129,8 +129,8 @@ def _deliver_code(address, code):
         client.send_message(message)
 
 
-def request_code(ip):
-    """Envoyer uniquement à l'adresse TAL_TEACHER_EMAIL, jamais à une saisie."""
+def issue_cli_code():
+    """Envoi demandé manuellement depuis le conteneur ; aucune route web."""
     if not configured():
         raise RuntimeError("Portail enseignant non configuré")
     code = "".join(secrets.choice(ALPHABET) for _ in range(CODE_LENGTH))
@@ -141,7 +141,7 @@ def request_code(ip):
     authorized = False
     try:
         db.execute("BEGIN IMMEDIATE")
-        by_ip = _permit(db, "send:ip:" + ip, 4, 3600, now)
+        by_ip = _permit(db, "send:admin-cli", 4, 3600, now)
         global_limit = _permit(db, "send:global", 8, 3600, now)
         authorized = by_ip and global_limit
         if authorized:
@@ -175,9 +175,10 @@ def request_code(ip):
     return True
 
 
-def consume_code(code, ip):
-    """Consommer atomiquement le défi après vérification ; un seul accès."""
-    if not configured() or not isinstance(code, str):
+def consume_code(code, ip, email):
+    """Consommer un OTP à usage unique, lié à l'email configuré."""
+    if (not configured() or not isinstance(code, str)
+            or not isinstance(email, str) or len(email) > 254):
         return False
     value = code.strip().upper()
     if len(value) != CODE_LENGTH or any(c not in ALPHABET for c in value):
@@ -191,7 +192,8 @@ def consume_code(code, ip):
             "SELECT salt,digest,expires,attempts FROM challenge WHERE id=1"
         ).fetchone()
         success = False
-        if allowed and challenge and challenge["expires"] >= now and challenge["attempts"] < 5:
+        valid_email = hmac.compare_digest(email.strip().lower(), teacher_email())
+        if allowed and valid_email and challenge and challenge["expires"] >= now and challenge["attempts"] < 5:
             db.execute("UPDATE challenge SET attempts=attempts+1 WHERE id=1")
             success = hmac.compare_digest(
                 _hash(value, challenge["salt"]), challenge["digest"]

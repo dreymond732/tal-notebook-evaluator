@@ -1,21 +1,5 @@
 "use strict";
 (() => {
-  // L'ouverture du portail suffit à déclencher une demande de code.
-  // Le formulaire reste accessible discrètement pour une demande de renvoi.
-  // Un garde côté onglet évite les boucles si le navigateur perd son cookie
-  // derrière un reverse proxy mal configuré.
-  const automatic = document.getElementById("teacher-code-auto-send");
-  if (automatic && automatic.dataset.autoSend === "true") {
-    const key = "tal_teacher_auto_code_at";
-    const now = Date.now();
-    let previous = 0;
-    try { previous = Number(sessionStorage.getItem(key) || "0"); } catch (_) {}
-    if (!previous || now - previous >= 10 * 60 * 1000) {
-      try { sessionStorage.setItem(key, String(now)); } catch (_) {}
-      automatic.submit();
-      return;
-    }
-  }
   const search = document.getElementById("filter-students");
   const roster = document.getElementById("teacher-roster");
   if (!search || !roster) return;

@@ -98,18 +98,14 @@ class TeacherDashboardTests(unittest.TestCase):
         self.assertIsNotNone(match)
         return match[1]
 
-    def ask(self, token=None):
-        return self.client.post(
-            "/enseignant/progression/demander-code",
-            data={"csrf": token if token is not None else self.csrf()},
-            follow_redirects=True,
-        )
+    def ask(self):
+        # Commande administrative, sans HTTP.
+        return teacher_access.issue_cli_code()
 
-    def login(self, code, token=None):
+    def login(self, code, email="prof@example.invalid"):
         return self.client.post(
             "/enseignant/progression/connexion",
-            data={"csrf": token if token is not None else self.csrf(), "code": code},
-            follow_redirects=True,
+            data={"email": email, "code": code}, follow_redirects=True,
         )
 
     def authenticate(self):
@@ -119,18 +115,21 @@ class TeacherDashboardTests(unittest.TestCase):
         self.assertIn("Progression du S1", response.get_data(as_text=True))
         return response
 
-    def test_auto_request_replaces_first_code_button_and_avoids_automatic_resends(self):
+    def test_public_page_and_http_cannot_send_any_email(self):
         first = self.client.get("/enseignant/progression").get_data(as_text=True)
-        self.assertIn('id="teacher-code-auto-send"', first)
-        self.assertIn('data-auto-send="true"', first)
-        self.assertNotIn("Envoyer mon code d'accès", first)
-        self.assertIn("Code non reçu ?", first)
-        self.assertIn("teacher_progress.js", first)
-        self.assertEqual(self.sent, [])  # C'est le script client qui poste.
-        self.ask()
-        self.assertEqual(len(self.sent), 1)
-        second = self.client.get("/enseignant/progression").get_data(as_text=True)
-        self.assertIn('data-auto-send="false"', second)
+        self.assertIn('name="email"', first)
+        self.assertIn('name="code"', first)
+        self.assertNotIn("teacher-code-auto-send", first)
+        self.assertNotIn("Renvoyer le code", first)
+        self.assertNotIn("/demander-code", first)
+        self.assertEqual(self.sent, [])
+        for method in ("get", "post"):
+            result = getattr(self.client, method)(
+                "/enseignant/progression/demander-code"
+            )
+            self.assertEqual(result.status_code, 404)
+        self.assertEqual(self.sent, [])
+        self.assertTrue(self.ask())
         self.assertEqual(len(self.sent), 1)
 
     def test_original_td4_appears_in_teacher_evaluation_details(self):
@@ -178,7 +177,7 @@ class TeacherDashboardTests(unittest.TestCase):
         self.assertEqual(self.client.get("/enseignant/progression/export/S1").status_code, 403)
 
     def test_email_challenge_is_private_one_use_and_not_student_code(self):
-        self.assertEqual(self.ask().status_code, 200)
+        self.assertTrue(self.ask())
         self.assertEqual(self.sent[0][0], "prof@example.invalid")
         self.assertEqual(len(self.sent[0][1]), teacher_access.CODE_LENGTH)
         db = teacher_access._db()
@@ -204,6 +203,25 @@ class TeacherDashboardTests(unittest.TestCase):
             "/enseignant/progression/deconnexion", data={"csrf": self.csrf()}
         )
         self.assertNotIn("MARTIN", self.login(self.sent[0][1]).get_data(as_text=True))
+
+    def test_correct_email_is_required_and_wrong_email_does_not_use_code(self):
+        self.assertTrue(self.ask())
+        code = self.sent[-1][1]
+        wrong = self.login(code, email="intrus@example.invalid")
+        self.assertNotIn("Progression du S1", wrong.get_data(as_text=True))
+        success = self.login(code, email="PROF@example.invalid")
+        self.assertIn("Progression du S1", success.get_data(as_text=True))
+
+    def test_no_anonymous_csrf_needed_for_otp_login(self):
+        self.assertTrue(self.ask())
+        code = self.sent[-1][1]
+        # Aucun GET préalable, aucune session anonyme ni jeton CSRF requis.
+        fresh = self.app.test_client()
+        result = fresh.post("/enseignant/progression/connexion",
+                            data={"email": "prof@example.invalid", "code": code},
+                            follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn("Progression du S1", result.get_data(as_text=True))
 
     def test_semesters_cohort_detail_and_private_download(self):
         self.authenticate()
@@ -275,12 +293,12 @@ class TeacherDashboardTests(unittest.TestCase):
         for i in range(6):
             self.ask()
         self.assertEqual(len(self.sent), 4)
-        self.assertFalse(teacher_access.consume_code("INVALID", "127.0.0.1"))
+        self.assertFalse(teacher_access.consume_code("INVALID", "127.0.0.1", "prof@example.invalid"))
 
     def test_email_failure_does_not_enable_access(self):
         with patch.object(teacher_access, "_deliver_code", side_effect=OSError("offline")):
-            response = self.ask()
-        self.assertIn("indisponible", response.get_data(as_text=True))
+            with self.assertRaisesRegex(RuntimeError, "SMTP"):
+                self.ask()
         db = teacher_access._db()
         try:
             self.assertIsNone(db.execute("SELECT id FROM challenge").fetchone())

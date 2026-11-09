@@ -2,21 +2,28 @@
 
 ## Accès protégé
 
-La page /enseignant/progression est accessible par un **lien discret**
-depuis l'accueil du correcteur. Elle est indépendante du portail
-individuel des étudiants. Le navigateur déclenche automatiquement la
-demande de code lors de la première ouverture de la page (avec
-JavaScript et protection CSRF). Un lien secondaire « Code non reçu ?
-Renvoyer le code » permet une nouvelle tentative. Le code aléatoire
-de 12 caractères est envoyé exclusivement à TAL_TEACHER_EMAIL, reste
-valable 10 minutes et n'est utilisable qu'une seule fois.
+La page /enseignant/progression est accessible par un lien discret.
+**Aucun envoi de code n'est possible depuis une page web.** L'enseignant
+déclenche personnellement un envoi depuis le terminal du NAS :
+
+    docker-compose exec -T corrector-tal python send_teacher_code.py
+
+Le code est expédié exclusivement à TAL_TEACHER_EMAIL, sans afficher le
+secret dans le terminal. Il reste valable 10 minutes, à usage unique.
+Le formulaire web demande l'adresse TAL_TEACHER_EMAIL et le code reçu.
+L'adresse ne constitue pas un deuxième secret : la possession du code
+envoyé exclusivement sur demande de l'administrateur est le contrôle
+d'authentification. La limite des essais de code reste active.
+
 La session enseignante est limitée à deux heures.
 
 Un seul destinataire autorisé est défini en configuration : il n'existe pas
 de champ permettant de choisir une autre adresse depuis le site. Les codes
 sont stockés sous forme de dérivés cryptographiques salés dans la base privée
-soumissions/suivi/acces_enseignant.sqlite3. Les tentatives et demandes sont
-limitées, les formulaires sont protégés contre le CSRF, et HTTPS est obligatoire.
+soumissions/suivi/acces_enseignant.sqlite3. Les tentatives de connexion et les demandes CLI sont
+limitées. La connexion par code CLI n'exige plus le jeton CSRF d'une
+session anonyme ; les formulaires sensibles d'une session authentifiée
+(fiche et déconnexion) restent soumis au CSRF. HTTPS est obligatoire.
 
 ## Configuration sur le serveur
 
@@ -42,6 +49,9 @@ au moins 24 caractères (32 ou plus recommandés). Ne pas la changer sans
 nécessité : cela invaliderait également les sessions étudiantes.
 
 Le fichier docker-compose.yml transmet TAL_TEACHER_EMAIL au conteneur.
+La commande CLI ci-dessus utilise les variables et SMTP déjà configurés.
+Elle doit être exécutée depuis le répertoire du projet sur le NAS,
+et ne peut pas être déclenchée par un étudiant ou un visiteur du site.
 Après fusion de la PR, depuis la racine du projet :
 
     git pull
@@ -62,8 +72,8 @@ Contrôle de configuration sans divulguer les secrets :
     print("Année :", os.getenv("TAL_ACADEMIC_YEAR") or "ABSENTE")
     PY
 
-Un résultat True confirme la présence de la configuration ; seul un test
-réel d'envoi depuis la page confirme la réception du message. Ne jamais
+Un résultat True confirme la présence de la configuration. Un envoi
+CLI réel et la réception de son message confirment le fonctionnement SMTP. Ne jamais
 communiquer publiquement les codes, les clés SMTP ou les secrets Flask.
 
 ## Fonctionnalités
@@ -170,12 +180,9 @@ du correcteur :
     TAL_SESSION_COOKIE_NAME=tal_corrector_session
     TAL_SESSION_COOKIE_PATH=/universite/tal/
 
-Dans l'application, le lien enseignant est volontairement moins
-visible que celui des étudiants. Le retrait du bouton de premier
-envoi ne supprime pas la protection : les codes sont envoyés
-uniquement à l'adresse autorisée, et la limitation de débit reste
-en vigueur. La demande automatique est limitée à une fois par
-intervalle de dix minutes et par session/onglet, sauf renvoi explicite.
+Le lien enseignant reste discret. L'envoi du code n'est
+désormais possible que depuis la commande CLI sur le NAS, avec
+limitation de débit ; le navigateur ne déclenche aucun message.
 
 Les TD3, TD4, TD5 et TD6 initiaux du S1, auparavant exclus,
 sont maintenant reconnus comme des travaux distincts de leurs
@@ -235,14 +242,35 @@ mélange pas leurs scores, mais l'espace enseignant les mentionne
 désormais comme travaux réalisés.
 
 
+## Changement du circuit enseignant : commande CLI exclusivement
+
+Les anciennes explications de demande automatique et de renvoi depuis
+le navigateur décrivent le fonctionnement antérieur, retiré pour
+protéger le quota de mails Brevo. **Ne plus utiliser le formulaire
+« Code non reçu ? » ni l'ancienne route /demander-code** : ils
+n'existent plus. L'envoi est une opération du mainteneur sur le NAS.
+
+La page de connexion demande désormais l'adresse enseignante définie
+dans .env ainsi que le code à usage unique. Le code n'est pas réutilisable,
+et un code erroné ne doit pas permettre d'entrer dans le tableau.
+
+```bash
+docker-compose exec -T corrector-tal python send_teacher_code.py
+```
+
+L'ancienne page pouvait générer un CSRF à partir d'un cookie anonyme
+dont le contenu changeait entre les requêtes sous SWAG. **La connexion
+CLI email+OTP ne dépend plus de ce CSRF** ; il reste requis pour les
+actions privées d'une session enseignante déjà validée.
+
 ## Correction de la session CSRF après migration du chemin du cookie
 
-Si, après un déploiement, la soumission du code enseignant **et** sa
-redemande aboutissent à une erreur HTTP 400, il ne s'agit pas d'un
-code expiré. Le formulaire a perdu sa session CSRF : le navigateur
-peut conserver deux cookies TAL du même nom, l'un avec `Path=/`,
-l'autre avec `Path=/universite/tal/`. Changer la configuration de
-chemin ne supprime pas automatiquement l'ancien cookie racine.
+Les anciennes versions du portail pouvaient provoquer un HTTP 400
+à la connexion ou à la redemande du code, en raison d'un jeton CSRF
+associé à une session différente. Une autre cause possible était la
+coexistence de deux cookies TAL du même nom, l'un avec `Path=/`,
+l'autre avec `Path=/universite/tal/`. Le circuit CLI actuel n'utilise
+plus de CSRF anonyme pour la connexion.
 
 Le correcteur expire maintenant explicitement **uniquement** le cookie
 `tal_corrector_session` de `Path=/` lorsqu'un chemin public différent
@@ -251,9 +279,8 @@ est configuré. Il continue d'émettre le cookie actif sous
 ni les autres applications ; le cookie générique `session` n'est pas
 effacé.
 
-Un formulaire CSRF invalide est toujours refusé (HTTP 400), mais la
-page explique désormais si le cookie TAL est absent ou si le jeton
-n'est pas celui de la session. Les journaux techniques n'enregistrent
+Les formulaires privés (fiche, déconnexion) restent soumis au CSRF ;
+une incohérence entraîne un HTTP 400 accompagné d'une explication. Les journaux techniques n'enregistrent
 que des indicateurs booléens et le nombre de cookies homonymes, jamais
 leur valeur ni le code de connexion.
 
@@ -281,3 +308,18 @@ exposer les informations secrètes :
 
 Ne jamais copier un en-tête `Cookie:`, la valeur d'un code email ou une
 clé SMTP dans les rapports de diagnostic partagés.
+
+## Alignement du proxy SWAG sur Journalia
+
+Un exemple vérifiable de configuration se trouve dans
+`deploy/swag/universite-tal.subfolder.conf`. Les deux fichiers transmis
+par le mainteneur différaient : TAL déclarait `X-Script-Name`,
+`X-Forwarded-Prefix` et `X-Forwarded-Host`, tandis que Journalia
+déclarait aussi explicitement `X-Forwarded-Proto $scheme` et
+`Host $host`. Ajouter ces deux lignes dans TAL tout en conservant
+le `rewrite` existant et le nom `corrector-tal:5001`.
+
+La modification doit être testée dans le conteneur SWAG avec
+`nginx -t` et activée par son rechargement Nginx, pas par un
+`docker-compose` du correcteur. Elle n'est **pas appliquée
+automatiquement** depuis le dépôt TAL.
