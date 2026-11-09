@@ -407,9 +407,23 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name, dm_p
 
     with progression_lock():
         if dm_payload is not None:
-            from dm_hybrid import can_redeposit
-            if eval_name != "dm-intermediaire-s1" or not can_redeposit(info.get("numero_etudiant", "")):
+            # Revérifier sous le verrou la possession de la session.
+            # Deux POST concurrents initialement anonymes ne doivent pas
+            # pouvoir écraser la copie devenue active entre-temps.
+            from dm_hybrid import can_redeposit, current_for_student
+            import student_access
+            number = info.get("numero_etudiant", "")
+            if eval_name != "dm-intermediaire-s1" or not can_redeposit(number):
                 raise ValueError("Redépôt DM non autorisé")
+            if current_for_student(number) is not None:
+                issued = session.get("student_authenticated_at", 0)
+                if not (session.get("student_number") == number
+                        and type(issued) in (int, float)
+                        and 0 <= time.time() - issued <= student_access.SESSION_SECONDS
+                        and student_access.session_valid(
+                            number, session.get("student_version")
+                        )):
+                    raise ValueError("Redépôt DM : connexion personnelle nécessaire")
         ident = storage_id(eval_name)
         classe = info.get('classe', 'SANS_CLASSE')
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
