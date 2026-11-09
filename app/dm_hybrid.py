@@ -22,12 +22,12 @@ from app_correction_DM_intermediaire_S1 import (
 QUESTIONS = (2, 6, 12, 14, 17)
 # Consignes vérifiées côté serveur, jamais déduites d'une cellule non fiable.
 REVIEW_PROMPTS = {
-    2: "Expliquer les priorités des opérations et identifier le calcul correspondant au partage égal du stock restant.",
-    6: "Expliquer pourquoi le nombre de fragments de split() ne représente pas nécessairement les mots linguistiques, avec les exemples de ponctuation et d’apostrophes du texte.",
-    12: "Expliquer la progression de while, sa condition d'arrêt et l'exclusion de l'effectif après le sixième tour.",
-    14: "Examiner les trois essais supplémentaires (liste courte, limite atteinte, liste vide), puis expliquer les trois motifs d'arrêt.",
-    17: "Présenter deux limites concrètes empêchant de considérer le traitement comme une traduction linguistique générale.",
+    int(q): text for q, text in json.loads(
+        Path(__file__).with_name("dm_hybrid_questions.json").read_text(encoding="utf-8")
+    ).items()
 }
+if set(REVIEW_PROMPTS) != set(QUESTIONS):
+    raise ValueError("Énoncés de relecture DM incomplets")
 
 
 def _db():
