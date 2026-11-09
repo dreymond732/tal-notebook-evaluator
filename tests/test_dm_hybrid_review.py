@@ -197,6 +197,39 @@ class HybridDmTests(unittest.TestCase):
         self.assertNotIn("Critères AST :",after.get_data(as_text=True))
         self.assertEqual(self.client.get("/ma-progression/rapport/controle-td1-s3").status_code,404)
 
+    def test_td_last_report_only_session_bound_sandboxed_and_controls_excluded(self):
+        from routes import process_submission
+        from student_reports import latest_td_report
+        from flask import Flask
+        from types import SimpleNamespace
+        info = {
+            "nom":"MODELE","prenom":"Test","classe":"S1",
+            "numero_etudiant":"TEST2026","contract_version":2,
+            "score_nature":"technique_provisoire","score_max":6,
+        }
+        with self.app.test_request_context("/eval/td1-s1"):
+            process_submission(SimpleNamespace(filename="fichier.ipynb"),
+                               b'{"cells":[]}',"<html>PREMIERE COPIE</html>",
+                               info,2.0,"td1-s1")
+            process_submission(SimpleNamespace(filename="fichier.ipynb"),
+                               b'{"cells":[]}',"<html>DERNIERE COPIE</html>",
+                               info,3.0,"td1-s1")
+        self.authorize_student(self.client)
+        path=latest_td_report("TEST2026","td1-s1")
+        self.assertIsNotNone(path)
+        self.assertIn("DERNIERE COPIE",path.read_text())
+        response=self.client.get("/ma-progression/rapport/td1-s1")
+        self.assertEqual(response.status_code,200)
+        self.assertIn("DERNIERE COPIE",response.get_data(as_text=True))
+        self.assertNotIn("PREMIERE COPIE",response.get_data(as_text=True))
+        self.assertIn("sandbox",response.headers["Content-Security-Policy"])
+        self.assertIn("no-store",response.headers["Cache-Control"])
+        self.assertEqual(self.client.get("/ma-progression/rapport/td2-S2").status_code,404)
+        self.assertEqual(self.client.get("/ma-progression/rapport/controle-td1-s3").status_code,404)
+        with self.client.session_transaction() as sess:
+            sess["student_number"]="OTHERSTUDENT"
+        self.assertEqual(self.client.get("/ma-progression/rapport/td1-s1").status_code,403)
+
     def test_report_feature_switch_off_even_for_authenticated_student(self):
         self.deposit()
         self.authorize_student(self.client)
