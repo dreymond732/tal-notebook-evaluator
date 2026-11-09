@@ -26,7 +26,7 @@ def s1_current_path(path):
                   lambda m: f"S1_TD{m[1]}_{m[2]}", path)
     def variant(match):
         n, label, detail = match.groups()
-        v = label if n == "3" else {"one": "A", "bis": "B", "ter": "C"}[label]
+        v = {"one": "A", "bis": "B", "ter": "C"}[label]
         return f"S1_TD{n}_{v}_{detail}"
     path = re.sub(r"TD([3-6])-(one|bis|ter)_S1_([^/]+\.ipynb)", variant, path)
     return path
@@ -39,7 +39,7 @@ def s1_legacy_path(path):
         return path
     def variant(match):
         n, label, detail = match.groups()
-        v = label if n == "3" else {"A": "one", "B": "bis", "C": "ter"}[label]
+        v = {"A": "one", "B": "bis", "C": "ter"}.get(label, label)
         return f"TD{n}-{v}_S1_{detail}"
     path = re.sub(r"S1_TD([3-6])_(one|bis|ter|A|B|C)_([^/]+\.ipynb)", variant, path)
     path = re.sub(r"S1_TD([1-7])_([^/]+\.ipynb)",
