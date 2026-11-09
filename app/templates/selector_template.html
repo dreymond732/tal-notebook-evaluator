@@ -25,7 +25,7 @@
 <body>
     <main class="container">
         {% if semester %}
-        <nav aria-label="Navigation"><a href="{{ url_for('main.index') }}">← Changer de semestre</a> · <a href="{{ tal_url_for('teacher.index') }}" style="font-size:0.85rem">Enseignant</a></nav>
+        <nav aria-label="Navigation"><a href="{{ tal_url_for('main.index') }}">← Changer de semestre</a> · <a href="{{ tal_url_for('teacher.index') }}" style="font-size:0.85rem">Enseignant</a></nav>
         <h1>Correcteurs — {{ semester }}</h1>
         <p>Choisissez le TD ou le contrôle pour déposer votre notebook.</p>
         {% else %}
@@ -33,7 +33,7 @@
         <p>Déposez votre notebook : le TD ou le contrôle sera reconnu automatiquement.</p>
         {% include 'submit_form.html' %}
         <div class="card semester" style="margin:1.5rem 0">
-            <h2><a href="{{ url_for('student.individual') }}">Ma progression en TAL</a></h2>
+            <h2><a href="{{ tal_url_for('student.individual') }}">Ma progression</a></h2>
             <p>Consulter mes TD après validation de mon code personnel envoyé par email.</p>
         </div>
         <p style="text-align:right;margin:0.75rem 0;color:var(--secondary);font-size:0.82rem">
@@ -50,7 +50,7 @@
         <div class="grid">
             {% if semester %}
             {% for id, (label, module) in evaluators.items() %}
-            <a href="{{ url_for('main.route_evaluator', eval_name=id) }}"
+            <a href="{{ tal_url_for('main.route_evaluator', eval_name=id) }}"
                class="card {{ evaluator_modes[id] }}">
                 <span class="badge {{ 'badge-td' if evaluator_modes[id] == 'td' else 'badge-ctrl' }}">
                     {{ 'TD — auto-évaluation' if evaluator_modes[id] == 'td' else 'Contrôle — dépôt' }}
@@ -61,7 +61,7 @@
             {% endfor %}
             {% else %}
             {% for level in semesters %}
-            <a href="{{ url_for('main.semester_evaluators', semester=level) }}" class="card semester">
+            <a href="{{ tal_url_for('main.semester_evaluators', semester=level) }}" class="card semester">
                 <h2>{{ level }}</h2>
                 <p>Accéder aux correcteurs du semestre {{ level[1:] }}.</p>
             </a>

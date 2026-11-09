@@ -84,10 +84,10 @@
         </tbody>
       </table>
     </div>
-    <p><a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}">Déposer une nouvelle version du devoir</a></p>
+    <p><a href="{{ tal_url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else tal_url_for('main.route_evaluator',eval_name=evaluator_name) }}">Déposer une nouvelle version du devoir</a></p>
   {% else %}
     <p class="scope">Déposez votre devoir au format <strong>.ipynb</strong>. Vous obtiendrez après son enregistrement un score technique provisoire sur 17,75 ainsi qu'un bilan question par question.</p>
-    <form method="post" action="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}" enctype="multipart/form-data">
+    <form method="post" action="{{ tal_url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else tal_url_for('main.route_evaluator',eval_name=evaluator_name) }}" enctype="multipart/form-data">
       <label for="dm-file">Cahier exécutable du devoir</label>
       <input type="file" id="dm-file" name="file" accept=".ipynb" required>
       <button type="submit">Déposer et obtenir mon bilan</button>
@@ -96,7 +96,7 @@
   {% if request.blueprint == 'main' %}
     <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
   {% else %}
-    <nav aria-label="Navigation"><a href="{{ url_for('student.individual') }}">← Ma progression</a></nav>
+    <nav aria-label="Navigation"><a href="{{ tal_url_for('student.individual') }}">← Ma progression</a></nav>
   {% endif %}
 </main>
 </body>

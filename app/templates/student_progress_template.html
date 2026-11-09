@@ -33,8 +33,8 @@
 </head>
 <body>
 <main>
-  <nav><a href="{{ url_for('main.index') }}">← Retour aux correcteurs</a></nav>
-  <h1>Ma progression en TAL</h1>
+  <nav><a href="{{ tal_url_for('main.index') }}">← Retour aux correcteurs</a></nav>
+  <h1>Ma progression</h1>
   <p class="sub">Suivi individuel des TD formatifs{% if year %} · Année universitaire {{ year }}{% endif %}</p>
   {% with messages=get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}
@@ -48,7 +48,7 @@
     <div class="panel">
       <h2>{{ profile.first_name }} {{ profile.name }}</h2>
       <p class="small">Numéro étudiant : {{ profile.number }}</p>
-      <form method="post" action="{{ url_for('student.logout') }}">
+      <form method="post" action="{{ tal_url_for('student.logout') }}">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <button class="secondary" type="submit">Se déconnecter</button>
       </form>
@@ -69,7 +69,7 @@
                 <td class="numbers">{{ item.min if item.min else '—' }}</td>
                 <td class="numbers">{{ item.max if item.max else '—' }}</td>
                 <td class="numbers">{{ item.attempts }}</td>
-                <td>{% if profile.reports_enabled and item.report %}<a href="{{ url_for('student.report',evaluator=item.name) }}">Consulter</a>{% else %}—{% endif %}</td>
+                <td>{% if profile.reports_enabled and item.report %}<a href="{{ tal_url_for('student.report',evaluator=item.name) }}">Consulter</a>{% else %}—{% endif %}</td>
               </tr>
             {% endfor %}
             </tbody>
@@ -92,7 +92,7 @@
         <p>Le redépôt est fermé pour cette copie.</p>
       {% endif %}
       {% if profile.reports_enabled %}
-      <p><a href="{{ url_for('student.report',evaluator='dm-intermediaire-s1') }}">Consulter le dernier bilan du DM</a></p>
+      <p><a href="{{ tal_url_for('student.report',evaluator='dm-intermediaire-s1') }}">Consulter le dernier bilan du DM</a></p>
       {% else %}
       <p class="small">Le rapport détaillé du DM sera accessible après vérification des associations numéro étudiant–email et activation par l'enseignant.</p>
       {% endif %}
@@ -108,7 +108,7 @@
     <div class="cols">
       <section class="panel">
         <h2>1. Recevoir mon code</h2>
-        <form method="post" action="{{ url_for('student.ask_code') }}">
+        <form method="post" action="{{ tal_url_for('student.ask_code') }}">
           <input type="hidden" name="csrf" value="{{ csrf }}">
           <label for="request-number">Numéro étudiant</label>
           <input id="request-number" name="numero" required maxlength="64" autocomplete="username">
@@ -119,7 +119,7 @@
       </section>
       <section class="panel">
         <h2>2. Consulter ma progression</h2>
-        <form method="post" action="{{ url_for('student.login') }}">
+        <form method="post" action="{{ tal_url_for('student.login') }}">
           <input type="hidden" name="csrf" value="{{ csrf }}">
           <label for="login-number">Numéro étudiant</label>
           <input id="login-number" name="numero" required maxlength="64" autocomplete="username">
