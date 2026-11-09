@@ -376,3 +376,39 @@ def check_notebook(content_str, filename):
     score = round(score, 3)
     info.update(score_brut=score, score_nature='technique_provisoire', relecture_humaine='requise', score_max=MAX_SCORE_TOTAL)
     return score, details, MAX_SCORE_TOTAL, info, None
+
+
+
+def student_feedback(details):
+    """Bilan communicable au déposant, limité aux 18 scores automatiques.
+
+    Les détails de relecture ciblée, exemples de correction, indices AST
+    et dimensions réservées à l'enseignant ne sont jamais transférés
+    vers la réponse publique. Un succès ne valide que le contrôle technique.
+    """
+    rows = []
+    for q, title in enumerate(LABELS, 1):
+        expected_check = f'Q{q} — {title}'
+        candidates = [d for d in details if d.get('check') == expected_check
+                      and d.get('max_points', 0) > 0]
+        if len(candidates) != 1:
+            raise ValueError('Bilan DM incomplet pour la question Q' + str(q))
+        item = candidates[0]
+        points = item['points']
+        max_points = item['max_points']
+        if (not isinstance(points, (int, float)) or isinstance(points, bool)
+                or not isinstance(max_points, (int, float))
+                or isinstance(max_points, bool)
+                or not math.isfinite(points) or not math.isfinite(max_points)
+                or max_points <= 0 or points < 0 or points > max_points):
+            raise ValueError('Barème invalide pour Q' + str(q))
+        status = ('reussi' if item['status'] == '✅'
+                  and math.isclose(points, max_points)
+                  else 'partiel' if points > 0 else 'a_reprendre')
+        rows.append({
+            'number': q, 'title': title,
+            'points': points, 'max_points': max_points,
+            'status': status,
+            'student_output': str(item.get('student_answer') or '')[:3000],
+        })
+    return rows
