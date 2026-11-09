@@ -70,6 +70,9 @@ def _render(**kwargs):
         ready=True,
         year=os.environ["TAL_ACADEMIC_YEAR"],
         semesters=SEMESTERS,
+        reusable_code=teacher_access.reusable_mode(),
+        code_length=(teacher_access.REUSABLE_CODE_LENGTH
+                     if teacher_access.reusable_mode() else teacher_access.CODE_LENGTH),
         csrf=_csrf(),
         **kwargs,
     )
@@ -149,7 +152,9 @@ def login():
         session["teacher_identity"] = teacher_access.session_identity()
         flash("Accès enseignant confirmé.", "info")
     else:
-        flash("Code invalide, expiré ou déjà utilisé.", "error")
+        flash("Code ou adresse email incorrects."
+              if teacher_access.reusable_mode()
+              else "Code invalide, expiré ou déjà utilisé.", "error")
     return _redirect_home()
 
 
