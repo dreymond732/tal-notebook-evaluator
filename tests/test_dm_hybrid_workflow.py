@@ -42,6 +42,7 @@ class HybridReviewTests(unittest.TestCase):
             "TAL_SMTP_FROM":"tal@example.invalid",
             "TAL_SMTP_SECURITY":"ssl",
             "TAL_SESSION_COOKIE_PATH":"/",
+            "TAL_STUDENT_REPORTS_ENABLED":"1",
         })
         env.start()
         self.addCleanup(env.stop)
@@ -202,6 +203,24 @@ class HybridReviewTests(unittest.TestCase):
                 **{f"points_{q}":"999" for q in dm_hybrid.QUESTIONS}
             },validate=True)
         self.assertIsNone(dm_hybrid.current_for_student("STUDENT_B")["validated_at"])
+
+    def test_reports_disabled_by_default_even_for_authenticated_student(self):
+        self.submit()
+        self.student_login()
+        with patch.dict(os.environ, {"TAL_STUDENT_REPORTS_ENABLED": "0"}):
+            dashboard = self.client.get("/ma-progression")
+            self.assertEqual(dashboard.status_code, 200)
+            self.assertNotIn("Consulter le dernier bilan du DM",
+                             dashboard.get_data(as_text=True))
+            self.assertEqual(
+                self.client.get("/ma-progression/rapport/dm-intermediaire-s1").status_code,
+                404,
+            )
+            self.assertEqual(
+                self.client.get("/ma-progression/rapport/td3-s1").status_code,
+                404,
+            )
+            self.assertIsNone(latest_td_report("TEST2026", "td3-s1"))
 
     def test_td_report_latest_only_and_foreign_student_forbidden(self):
         from routes import process_submission
