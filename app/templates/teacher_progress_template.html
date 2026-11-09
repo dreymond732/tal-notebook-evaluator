@@ -50,6 +50,9 @@
       <p class="muted small">Le code expire après 10 minutes et ne peut servir qu’une fois. La session enseignante reste ouverte deux heures au maximum.</p>
     </section>
   {% else %}
+    <nav class="tabs" aria-label="Accès correction humaine">
+      <a href="{{ tal_url_for('teacher.dm_queue') }}">DM S1 — Corrections humaines</a>
+    </nav>
     {% if selected %}
       <nav class="tabs" aria-label="Navigation de la fiche">
         <a href="{{ tal_url_for('teacher.index', semestre=listing.semester) }}">← Liste du {{ listing.semester }}</a>
