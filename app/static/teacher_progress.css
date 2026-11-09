@@ -5,3 +5,6 @@
 
 /* Les approfondissements A/B/C sont associés au TD qui les précède. */
 td.subactivity{padding-left:2rem;position:relative}td.subactivity::before{content:'↳';position:absolute;left:.75rem;color:#6c7c91}td.subactivity strong{font-weight:500}
+
+/* Sources et énoncés du DM : texte inerte, préservant les sauts de ligne. */
+.review-source{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;max-height:26rem;overflow-y:auto;font-family:ui-monospace,monospace;padding:.75rem;background:#f3f6f9;border:1px solid #dbe3ed;border-radius:6px}
