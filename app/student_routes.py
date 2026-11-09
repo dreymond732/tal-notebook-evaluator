@@ -7,6 +7,7 @@ from flask import (Blueprint, abort, current_app, flash, redirect,
                    render_template, request, session, url_for)
 
 import student_access
+from tal_urls import tal_url_for
 from student_progress import individual_progress, student_exists
 
 student_bp = Blueprint("student", __name__)
@@ -74,7 +75,7 @@ def ask_code():
     except Exception:
         current_app.logger.exception("Service d'envoi des codes indisponible")
         flash("L'envoi du code est momentanément indisponible.", "error")
-    return redirect(url_for("student.individual"), code=303)
+    return redirect(tal_url_for("student.individual"), code=303)
 
 
 @student_bp.route("/ma-progression/connexion", methods=["POST"])
@@ -97,14 +98,14 @@ def login():
         session["student_authenticated_at"] = int(time.time())
     else:
         flash(student_access.GENERIC_DENIED, "error")
-    return redirect(url_for("student.individual"), code=303)
+    return redirect(tal_url_for("student.individual"), code=303)
 
 
 @student_bp.route("/ma-progression/deconnexion", methods=["POST"])
 def logout():
     _verify_csrf()
     session.clear()
-    return redirect(url_for("student.individual"), code=303)
+    return redirect(tal_url_for("student.individual"), code=303)
 
 
 @student_bp.route("/ma-progression/rapport/<evaluator>", methods=["GET"])
