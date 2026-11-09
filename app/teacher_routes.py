@@ -222,7 +222,11 @@ def dm_detail(receipt):
         if action not in ("brouillon", "valider"):
             abort(400)
         try:
-            save_review(receipt, request.form, validate=(action == "valider"))
+            # Même verrou que le dépôt : éviter qu'une validation
+            # concurrencée par un nouveau dépôt finalise une ancienne copie.
+            from progression import progression_lock
+            with progression_lock():
+                save_review(receipt, request.form, validate=(action == "valider"))
             flash("Correction validée et publiée." if action == "valider"
                   else "Brouillon enregistré.", "info")
         except ValueError as exc:
