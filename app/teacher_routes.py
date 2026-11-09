@@ -70,6 +70,21 @@ def _render(**kwargs):
     )
 
 
+@teacher_bp.errorhandler(400)
+def invalid_teacher_form(error):
+    """Renvoyer un diagnostic utile sans accepter un formulaire non signé.
+
+    Aucun code OTP ni relevé privé n'est lu lorsque le CSRF est invalide.
+    """
+    name = current_app.config.get("SESSION_COOKIE_NAME", "")
+    cookie_present = bool(name and request.cookies.get(name))
+    return render_template(
+        "teacher_session_error_template.html",
+        return_url=tal_url_for("teacher.index"),
+        cookie_present=cookie_present,
+    ), 400
+
+
 @teacher_bp.after_request
 def protect_private_data(response):
     response.headers["Cache-Control"] = "private, no-store, max-age=0"
