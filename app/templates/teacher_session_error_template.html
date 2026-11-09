@@ -4,16 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Session de connexion TAL non reconnue</title>
-  <style>
-    body {font: 1rem/1.6 system-ui, sans-serif; color: #26364b; background: #f4f7fa; margin: 0}
-    main {max-width: 650px; padding: 2rem; margin: 5vh auto; background: #fff; border-radius: 12px}
-    h1 {font-size: 1.5rem; line-height: 1.25}
-    a {color: #005a9c}
-    .small {font-size: .9rem; color: #52637a}
-  </style>
+  <link rel="stylesheet" href="{{ tal_url_for('static', filename='teacher_progress.css') }}">
 </head>
 <body>
-<main>
+<main class="page"><section class="panel">
   <h1>Le formulaire de connexion a perdu sa session</h1>
   <p>Pour votre sécurité, la demande a été refusée. Aucun code de connexion
      n'a été utilisé et aucune donnée étudiante n'a été affichée.</p>
@@ -29,6 +23,6 @@
   <p><a href="{{ return_url }}">Recharger l'espace enseignant et obtenir un nouveau code</a></p>
   <p class="small">Un code enseignant déjà utilisé ne peut pas être réutilisé :
      les codes sont valables dix minutes et utilisables une seule fois.</p>
-</main>
+</section></main>
 </body>
 </html>
