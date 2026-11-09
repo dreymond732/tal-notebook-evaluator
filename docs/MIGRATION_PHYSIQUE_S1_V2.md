@@ -8,7 +8,10 @@ aucun changement de dossier S2, S3, de devoir maison ou de contrôle.
 
 - TD1_S1 à TD7_S1 deviennent S1_TD1 à S1_TD7.
 - TD3_one_S1, TD3_bis_S1, TD3_ter_S1 deviennent
-  S1_TD3_one, S1_TD3_bis, S1_TD3_ter.
+  S1_TD3_A, S1_TD3_B, S1_TD3_C dans la version actuelle.
+  **Attention** : des déploiements antérieurs ont déjà archivé des données
+  sous S1_TD3_one, S1_TD3_bis, S1_TD3_ter ; voir ci-dessous la
+  migration complémentaire obligatoire si ces dossiers existent.
 - TD4–TD6_one/bis/ter_S1 deviennent S1_TD4–TD6_A/B/C.
 
 Exemple :
@@ -91,3 +94,53 @@ Tests sur données fictives :
     python -m unittest discover -s tests -v
 
 La PR ne réalise aucune migration sur le volume de production.
+
+## Harmonisation complémentaire TD3 A/B/C (novembre 2026)
+
+Cette étape couvre les anciennes destinations **S1_TD3_one**, **S1_TD3_bis**
+et **S1_TD3_ter** créées par la première migration S1. Les correcteurs
+utilisent maintenant comme dossiers canoniques :
+
+- `S1_TD3_A` : listes, correcteur interne `td3-one-s1` ;
+- `S1_TD3_B` : tuples, correcteur interne `td3-bis-s1` ;
+- `S1_TD3_C` : dictionnaires et ensembles, correcteur interne `td3-ter-s1`.
+
+**Ne jamais renommer manuellement les dossiers ou les CSV** : les noms
+internes des journaux, les provenances et les noms de cahiers ont des
+contraintes d'intégrité. Les identifiants techniques des correcteurs
+restent stables pour permettre le dépôt des anciens cahiers distribués.
+
+La commande `migrate_td3_variants.py` copie les fichiers `nb/`, `rapport/`
+et fusionne les lignes du journal canonique sans supprimer les sources.
+Elle vérifie les empreintes SHA-256, refuse les conflits et peut être
+réexécutée sans compter deux fois la même soumission.
+
+1. Effectuer une sauvegarde restaurable du volume `soumissions/`.
+2. Depuis le répertoire du projet, après fusion de la PR :
+
+```bash
+git pull
+docker-compose build corrector-tal
+docker-compose stop corrector-tal
+# Simulation, sans modifier les archives :
+docker-compose run --rm --no-deps corrector-tal python migrate_td3_variants.py --annee 2026-2027
+```
+
+3. Après lecture du bilan et vérification de la sauvegarde :
+
+```bash
+docker-compose run --rm --no-deps corrector-tal python migrate_td3_variants.py --apply --backup-confirmed --annee 2026-2027
+docker-compose up -d corrector-tal
+docker-compose exec -T corrector-tal python audit_progressions.py --annee 2026-2027
+```
+
+Si aucun dossier intermédiaire `S1_TD3_one/bis/ter` n'existe,
+la simulation annonce zéro ligne et zéro archive à copier.
+Les scores ne sont jamais modifiés. Les fichiers de progression sont
+recalculés à la fin de l'application de la migration.
+
+Les **trois cahiers sources** du dépôt sont également renommés en
+`S1_TD3_A_listes.ipynb`, `S1_TD3_B_tuples.ipynb` et
+`S1_TD3_C_dictionnaires_ensembles.ipynb`. Il faut actualiser les
+copies diffusées aux étudiants, sans imposer de nouvelle version de
+contrat aux cahiers déjà distribués.

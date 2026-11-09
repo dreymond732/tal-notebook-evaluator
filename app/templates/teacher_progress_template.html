@@ -67,32 +67,39 @@
             <span>essai{{ 's' if selected.attempts != 1 else '' }}</span>
           </div>
         </div>
-        {% for kind in ['TD', 'Approfondissement', 'Révision', 'DM', 'Contrôle'] %}
-          {% set relevant = selected.details | selectattr('type', 'equalto', kind) | list %}
-          {% if relevant %}
-            <section class="segment">
-              <h3>{{ kind }} — {{ selected.done[kind] }} / {{ relevant | length }} activités réalisées</h3>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th scope="col">Évaluation</th><th scope="col" class="numeric">Minimum</th><th scope="col" class="numeric">Maximum</th><th scope="col" class="numeric">Essais actuels</th><th scope="col" class="numeric">Essais anciens</th></tr>
-                  </thead>
-                  <tbody>
-                    {% for item in relevant %}
-                      <tr>
-                        <td><strong>{{ item.label }}</strong><span class="meta">{{ item.id }}</span></td>
-                        <td class="numeric">{{ item.min if item.attempts else '—' }}</td>
-                        <td class="numeric">{{ item.max if item.attempts else '—' }}</td>
-                        <td class="numeric">{{ item.attempts }}</td>
-                        <td class="numeric">{{ item.legacy_attempts }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          {% endif %}
+        {% for section in selected.display_sections %}
+          <section class="segment">
+            <h3>{{ section.title }} — {{ section.count_label }}</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th scope="col">Évaluation</th>
+                      <th scope="col" class="numeric">Minimum ramené</th>
+                      <th scope="col" class="numeric">Maximum ramené</th>
+                      <th scope="col" class="numeric">Essais actuels</th>
+                      <th scope="col" class="numeric">Essais anciens</th></tr>
+                </thead>
+                <tbody>
+                  {% for item in section['items'] %}
+                    <tr>
+                      <td class="{{ 'subactivity' if item.subactivity else '' }}">
+                        <strong>{{ item.label }}</strong>
+                        {% if item.legacy_attempts %}
+                          <span class="meta">Essais historiques comptés sans normaliser leur note</span>
+                        {% endif %}
+                      </td>
+                      <td class="numeric">{{ item.min_display ~ ' / ' ~ item.scale if item.attempts else '—' }}</td>
+                      <td class="numeric">{{ item.max_display ~ ' / ' ~ item.scale if item.attempts else '—' }}</td>
+                      <td class="numeric">{{ item.attempts }}</td>
+                      <td class="numeric">{{ item.legacy_attempts }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
         {% endfor %}
+        <p class="muted small">Les scores affichés sont ramenés sur 10 pour les TD et révisions, sur 20 pour les devoirs et contrôles, à partir du maximum technique du correcteur. Ils ne constituent pas des notes universitaires définitives. Les anciens contrats sont comptés comme activités réalisées, sans conversion de leurs scores.</p>
       </section>
     {% else %}
       <nav class="tabs" aria-label="Choisir le semestre">

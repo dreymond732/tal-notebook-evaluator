@@ -360,7 +360,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD3_one_listes.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_A_listes.ipynb",
       "tutor_session": "TD3_ONE_S1"
     },
     {
@@ -370,7 +370,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD3_bis_tuples.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_B_tuples.ipynb",
       "tutor_session": "TD3_BIS_S1"
     },
     {
@@ -380,7 +380,7 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD3_ter_dictionnaires_ensembles.ipynb",
+      "notebook": "Notebooks TD/S1/S1_TD3_C_dictionnaires_ensembles.ipynb",
       "tutor_session": "TD3_TER_S1"
     },
     {

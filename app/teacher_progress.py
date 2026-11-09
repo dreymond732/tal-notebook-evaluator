@@ -18,6 +18,7 @@ from progression import (SEMESTERS, _catalog, _academic_start, _date, _key,
                          _load_mapping, _score, NUMBER_RE)
 from routes import EVALUATORS
 from storage_layout import GRADE_COLUMNS
+from teacher_scores import scaled_score
 
 CSV_HEADER = ("Numéro étudiant", "Nom", "Prénom")
 CATEGORIES = ("TD", "Approfondissement", "Révision", "DM", "Contrôle")
@@ -44,6 +45,7 @@ def semester_entries(semester):
             "id": item["evaluator"],
             "label": EVALUATORS[item["evaluator"]][0],
             "type": _type_for(item),
+            "scale": 10 if item["kind"] == "TD" else 20,
             "semester": semester,
         }
         for item in _catalog() if item["semester"] == semester
@@ -176,6 +178,8 @@ def cohort(semester):
                 **item,
                 "attempts": count, "legacy_attempts": older,
                 "min": minimum, "max": maximum,
+                "min_display": scaled_score(minimum, slug, item["scale"]) if count else "",
+                "max_display": scaled_score(maximum, slug, item["scale"]) if count else "",
             })
         students.append({
             "number": number, "last_name": last_name, "first_name": first_name,
@@ -213,6 +217,48 @@ def cohort(semester):
     }
 
 
+def _sheet_sections(student, semester):
+    """Ordre pédagogique dans la fiche, indépendant de l'ordre des colonnes CSV.
+
+    Les variantes A/B/C du S1 restent rattachées à leur TD principal.
+    Les identifiants de contrat (one/bis/ter) ne sont jamais renommés.
+    """
+    grouped = {"TD": [], "Révision": [], "DM": [], "Contrôle": []}
+    activities = {item["id"]: item for item in student["details"]}
+    if semester == "S1":
+        for n in range(1, 8):
+            parent = f"td{n}-s1"
+            if parent in activities:
+                grouped["TD"].append(dict(activities[parent], subactivity=False))
+            if n in (3, 4, 5, 6):
+                for suffix in ("one", "bis", "ter"):
+                    name = f"td{n}-{suffix}-s1"
+                    if name in activities:
+                        grouped["TD"].append(dict(activities[name], subactivity=True))
+    else:
+        for item in student["details"]:
+            if item["type"] == "TD":
+                grouped["TD"].append(dict(item, subactivity=False))
+            elif item["type"] == "Révision":
+                grouped["Révision"].append(dict(item, subactivity=False))
+    for item in student["details"]:
+        if item["type"] in ("DM", "Contrôle"):
+            grouped[item["type"]].append(dict(item, subactivity=False))
+    sections = []
+    for title, entries in grouped.items():
+        if not entries:
+            continue
+        if title == "TD":
+            count = student["done"]["TD"]
+            denominator = sum(item["type"] == "TD" for item in student["details"])
+            note = f"{count} / {denominator} TD principaux effectués"
+        else:
+            count = student["done"][title]
+            note = f"{count} / {len(entries)} activité(s) effectuée(s)"
+        sections.append({"title": title, "count_label": note, "items": entries})
+    return sections
+
+
 def student_sheet(semester, number):
     if not isinstance(number, str) or not number or len(number) > 64:
         return None
@@ -221,6 +267,8 @@ def student_sheet(semester, number):
         (student for student in listing["students"]
          if student["number"] == number), None
     )
+    if found:
+        found["display_sections"] = _sheet_sections(found, semester)
     return (listing, found) if found else None
 
 

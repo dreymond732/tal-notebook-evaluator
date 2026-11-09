@@ -33,7 +33,7 @@ def storage_id(evaluator):
     match = re.fullmatch(r"td([3-6])-(one|bis|ter)-s1", evaluator)
     if match:
         number, part = match.groups()
-        suffix = part if number == "3" else {"one": "A", "bis": "B", "ter": "C"}[part]
+        suffix = {"one": "A", "bis": "B", "ter": "C"}[part]
         return f"S1_TD{number}_{suffix}"
     return legacy
 

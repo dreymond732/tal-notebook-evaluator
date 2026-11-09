@@ -130,3 +130,15 @@ TAL existantes : les étudiants devront se reconnecter, mais leurs comptes,
 codes personnels et progrès stockés dans `soumissions/suivi/` ne sont
 pas effacés. Le proxy doit toujours transmettre `X-Forwarded-Proto` et
 `X-Forwarded-Prefix`; `ProxyFix` est déjà installé côté Flask.
+
+## Présentation des TD sur 10 et ordre des approfondissements
+
+Le portail individuel publie uniquement les TD formatifs, jamais les
+contrôles ni les devoirs maison. Les min/max sont ramenés sur 10 à
+partir du maximum brut propre à chaque correcteur, sans altérer le CSV.
+Les approfondissements du S1 sont affichés sous les TD3–TD6, avec
+les libellés pédagogiques A/B/C ; les identifiants internes de
+contrat restent inchangés. Le nombre de TD principaux en S1 est 7,
+les 12 approfondissements étant comptés à part. S3 distingue 9 TD
+principaux et 3 révisions. Recharger la page après un nouveau dépôt
+pour visualiser la synthèse recalculée automatiquement.

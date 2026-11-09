@@ -120,8 +120,11 @@ def _files(source, target):
     return planned
 
 
-def _entry_plan(root, evaluator):
-    old_name = legacy_storage_id(evaluator)
+def _entry_plan(root, evaluator, source_name=None):
+    # source_name sert uniquement à la seconde étape de migration
+    # S1_TD3_one/bis/ter -> S1_TD3_A/B/C. Le comportement initial
+    # depuis TD3_one_S1 reste inchangé.
+    old_name = source_name if source_name is not None else legacy_storage_id(evaluator)
     new_name = storage_id(evaluator)
     if old_name == new_name:
         raise ValueError("Migration non applicable à " + evaluator)

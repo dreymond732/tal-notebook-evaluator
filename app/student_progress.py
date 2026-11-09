@@ -4,10 +4,23 @@ Une route publique ne lit jamais les cahiers, rapports ni résultats des
 contrôles. Seules les évaluations formatives (mode td) sont affichables.
 """
 import csv
+import re
 from pathlib import Path
 
 import outils
 from progression import _catalog, SEMESTERS
+from routes import EVALUATORS
+from teacher_scores import scaled_score
+
+
+
+def _order_activity(activity, semester):
+    """Ordre TD S1 et A/B/C, sans changer les identifiants internes."""
+    if semester == "S1":
+        found = re.fullmatch(r"td([1-7])(?:-(one|bis|ter))?-s1", activity["name"])
+        if found:
+            return (int(found[1]), {"one": 1, "bis": 2, "ter": 3}.get(found[2], 0))
+    return (100, 0)
 
 
 def _rows(path):
@@ -54,17 +67,34 @@ def individual_progress(number):
                 count = max(0, int(attempts))
             except (ValueError, TypeError):
                 count = 0
+            minimum = matching.get(slug + "__min", "") if matching and count else ""
+            maximum = matching.get(slug + "__max", "") if matching and count else ""
+            is_extra = bool(
+                sem == "S1" and re.fullmatch(r"td[3-6]-(one|bis|ter)-s1", slug)
+            )
+            is_revision = sem == "S3" and slug in {
+                "td-r0-s3", "td-r1-s3", "td-r2-s3"
+            }
             activities.append({
                 "name": slug,
+                "label": EVALUATORS[slug][0],
+                "subactivity": is_extra,
+                "is_complement": is_extra or is_revision,
                 "attempts": count,
-                "min": matching.get(slug + "__min", "") if matching and count else "",
-                "max": matching.get(slug + "__max", "") if matching and count else "",
+                "min": scaled_score(minimum, slug, 10) if count else "",
+                "max": scaled_score(maximum, slug, 10) if count else "",
             })
+        if sem == "S1":
+            activities.sort(key=lambda item: _order_activity(item, sem))
+        main_activities = [a for a in activities if not a["is_complement"]]
+        complements = [a for a in activities if a["is_complement"]]
         semesters.append({
             "name": sem,
             "activities": activities,
-            "completed": sum(activity["attempts"] > 0 for activity in activities),
-            "total": len(activities),
+            "completed": sum(a["attempts"] > 0 for a in main_activities),
+            "total": len(main_activities),
+            "extra_completed": sum(a["attempts"] > 0 for a in complements),
+            "extra_total": len(complements),
         })
     if not name and not first_name:
         return None

@@ -2,3 +2,6 @@
 
 /* Accès enseignant : une seule action principale, demande OTP automatique. */
 .login-panel{max-width:630px}.login-panel form+form{margin-top:1.25rem}.resend-link{display:inline;padding:0;border:0;background:transparent;color:#245578;font-weight:500;text-decoration:underline;font-size:.85rem;margin:.2rem 0 0;cursor:pointer}.resend-link:hover{background:transparent;color:#07375f}.login-panel input[type=text]{margin-bottom:.75rem}
+
+/* Les approfondissements A/B/C sont associés au TD qui les précède. */
+td.subactivity{padding-left:2rem;position:relative}td.subactivity::before{content:'↳';position:absolute;left:.75rem;color:#6c7c91}td.subactivity strong{font-weight:500}

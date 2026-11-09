@@ -65,7 +65,7 @@ class MigrationS1LayoutTests(unittest.TestCase):
             self.assertEqual(legacy_storage_id(f"td{number}-s1"), f"TD{number}_S1")
         for number in range(3, 7):
             for part in ("one", "bis", "ter"):
-                suffix = part if number == 3 else {"one": "A", "bis": "B", "ter": "C"}[part]
+                suffix = {"one": "A", "bis": "B", "ter": "C"}[part]
                 self.assertEqual(storage_id(f"td{number}-{part}-s1"),
                                  f"S1_TD{number}_{suffix}")
                 self.assertEqual(legacy_storage_id(f"td{number}-{part}-s1"),

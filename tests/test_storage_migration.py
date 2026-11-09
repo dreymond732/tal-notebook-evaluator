@@ -57,7 +57,7 @@ class StorageMigrationTests(unittest.TestCase):
         self.assertEqual(legacy_storage_id("td2-s1"), "TD2_S1")
         self.assertEqual(storage_id("td2-s1"), "S1_TD2")
         self.assertEqual(legacy_storage_id("td3-one-s1"), "TD3_one_S1")
-        self.assertEqual(storage_id("td3-one-s1"), "S1_TD3_one")
+        self.assertEqual(storage_id("td3-one-s1"), "S1_TD3_A")
         self.assertEqual(storage_id("td2-S2"), "TD2_S2")
         self.assertEqual(storage_id("td1b-s3"), "TD1B_S3")
         self.assertEqual(storage_id("controle-td1-s3"), "Controle_TD1_S3")

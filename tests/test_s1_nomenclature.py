@@ -48,10 +48,12 @@ class S1NomenclatureTests(unittest.TestCase):
                     f"S1_TD{number}_{suffix}_"), path)
                 self.assertEqual(EVALUATORS[identifier][1],
                                  f"app_correction_TD{number}_{former}_S1")
-        # TD3 non inclus dans la portée de changement A/B/C.
-        for part in ("one", "bis", "ter"):
-            self.assertIn(f"S1_TD3_{part}_",
+        # TD3 rejoint désormais la même nomenclature A/B/C que TD4 à TD6.
+        for part, suffix in (("one", "A"), ("bis", "B"), ("ter", "C")):
+            self.assertIn(f"S1_TD3_{suffix}_",
                           catalog[f"td3-{part}-s1"]["notebook"])
+            self.assertEqual(storage_id(f"td3-{part}-s1"),
+                             f"S1_TD3_{suffix}")
 
     def test_physical_storage_uses_s1_first_and_keeps_legacy_mapping(self):
         self.assertEqual(storage_id("td4-s1"), "S1_TD4")
