@@ -450,7 +450,7 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
                     current_app.logger.exception("Nettoyage d'un dépôt incomplet : %s", eval_name)
             if isinstance(exc, dm_hybrid.SubmissionClosed) if is_dm else False:
                 raise
-            raise RuntimeError("Échec de sauvegarde de la copie") from exc
+            raise RuntimeError("Erreur lors de la sauvegarde : " + str(exc)) from exc
         finally:
             if conn is not None:
                 conn.close()
