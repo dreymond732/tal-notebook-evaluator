@@ -69,6 +69,29 @@ L'enregistrement et le redépôt sont sérialisés avec
 `progression_lock`. Une session enseignante valide et le CSRF
 sont obligatoires.
 
+## Activation administrative des rapports individuels
+
+Le portail « Ma progression » reste utilisable pour les indicateurs
+synthétiques et les résultats du DM sans accès aux archives détaillées.
+L'accès à `/ma-progression/rapport/<evaluation>` est **désactivé par défaut**
+(HTTP 404), même lorsqu'une session étudiant est authentifiée. Les
+liens sont également masqués dans l'interface.
+
+Le rattachement initial d'un numéro étudiant à une adresse email repose
+sur le premier demandeur ayant confirmé son email ; il ne certifie pas
+l'identité institutionnelle. Avant d'activer les rapports, contrôler
+administrativement la concordance des associations existantes et prévoir
+une procédure de rectification. Après cette vérification, ajouter au
+fichier d'environnement du service :
+
+```env
+TAL_STUDENT_REPORTS_ENABLED=1
+```
+
+Puis recréer le conteneur. Ne pas activer ce paramètre tant que les
+associations déjà enregistrées n'ont pas été vérifiées. Une valeur
+absente ou différente de `1` maintient le verrou fermé.
+
 ## Consultation personnelle : derniers rapports seulement
 
 La route authentifiée
