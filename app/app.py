@@ -47,13 +47,18 @@ def create_app() -> Flask:
     if cookie_path != '/':
         @app.after_request
         def expire_previous_root_cookie(response):
-            from flask import request
+            from flask import request, session
             if request.path.startswith(('/enseignant/progression',
                                         '/ma-progression')):
                 response.delete_cookie(
                     cookie_name, path='/', secure=True,
                     httponly=True, samesite='Lax',
                 )
+                # Une session ANONYME d'avant la migration peut déjà contenir
+                # un CSRF sans être « modified ». Sans ceci, Flask effacerait
+                # l'ancien cookie sans écrire sa nouvelle copie au bon chemin.
+                if session:
+                    session.modified = True
             return response
 
     # Initialisation du dossier racine des soumissions
