@@ -51,7 +51,15 @@ class TalPrefixCookieTests(unittest.TestCase):
         cookies = response.headers.getlist("Set-Cookie")
         self.assertTrue(cookies)
         self.assertTrue(any(re.match(r"tal_corrector_session=", cookie) for cookie in cookies))
-        self.assertTrue(all("Path=/universite/tal/" in cookie for cookie in cookies))
+        scoped = [cookie for cookie in cookies
+                  if "Path=/universite/tal/" in cookie]
+        expired = [cookie for cookie in cookies
+                   if "Path=/" in cookie and "Path=/universite/tal/" not in cookie]
+        self.assertEqual(len(scoped), 1)
+        self.assertTrue(scoped[0].startswith("tal_corrector_session="))
+        self.assertEqual(len(expired), 1)
+        self.assertTrue(expired[0].startswith("tal_corrector_session=;"))
+        self.assertIn("Expires=Thu, 01 Jan 1970", expired[0])
         self.assertTrue(all("Secure" in cookie and "HttpOnly" in cookie
                             and "SameSite=Lax" in cookie for cookie in cookies))
         self.assertFalse(any(cookie.startswith("session=") for cookie in cookies))
