@@ -282,7 +282,12 @@ def semester_evaluators(semester):
 def route_evaluator(eval_module, display_name, eval_name):
     is_td = EVALUATOR_MODES[eval_name] == 'td'
     allowed_ext = '.ipynb'
-    template = 'corrector_template.html' if is_td else 'controle_receipt_template.html'
+    # Exception strictement réservée au DM intermédiaire S1 : correction
+    # formative immédiatement visible. Les contrôles restent privés.
+    student_dm = eval_name == 'dm-intermediaire-s1'
+    template = ('corrector_template.html' if is_td else
+                'dm_s1_student_report_template.html' if student_dm else
+                'controle_receipt_template.html')
 
     if request.method == 'POST':
         file = request.files.get('file')
@@ -332,7 +337,19 @@ def route_evaluator(eval_module, display_name, eval_name):
                     if is_td:
                         params.pop('get_flashed_messages')
                         return render_template(report_template, **params)
-                    # Ne transmettre aucun résultat au template public, même caché.
+                    if student_dm:
+                        # Le rapport détaillé enseignant a déjà été sauvegardé.
+                        # Seuls les 18 bilans techniques des questions sont
+                        # publiés au déposant, jamais les critères AST ou les
+                        # indications de relecture humaine.
+                        feedback = eval_module.student_feedback(details)
+                        return render_template(
+                            template, display_name=display_name,
+                            evaluator_name=eval_name, filename=file.filename,
+                            score=score, max_score=max_s,
+                            student_feedback=feedback,
+                        )
+                    # Ne transmettre aucun résultat des contrôles au public.
                     return render_template(template, display_name=display_name,
                                            evaluator_name=eval_name, received=True,
                                            allowed_extension=allowed_ext)
