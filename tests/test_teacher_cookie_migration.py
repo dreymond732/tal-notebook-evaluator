@@ -78,6 +78,22 @@ class TeacherCookieMigrationTests(unittest.TestCase):
         self.assertIn("SameSite=Lax", scoped[0])
         self.assertNotIn("JOURNALIA", str(cookies).upper())
 
+    def test_old_anonymous_session_with_existing_csrf_is_reissued_at_new_path(self):
+        # Un visiteur peut avoir une ancienne session anonyme avec un CSRF
+        # déjà créé. Si on retire Path=/ sans la réémettre sous /universite/tal/,
+        # le POST suivant perd encore sa session.
+        client = self.app.test_client(use_cookies=False)
+        old_cookie = self.signed_cookie("unchanged-old-csrf")
+        response = client.get(
+            "/enseignant/progression/", headers=self.headers(old_cookie)
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("unchanged-old-csrf", response.get_data(as_text=True))
+        scoped = [cookie for cookie in response.headers.getlist("Set-Cookie")
+                  if "Path=/universite/tal/" in cookie]
+        self.assertEqual(len(scoped), 1)
+        self.assertIn("tal_corrector_session=", scoped[0])
+
     def test_csrf_without_cookie_is_rejected_with_helpful_explanation(self):
         client = self.app.test_client(use_cookies=False)
         page = client.get("/enseignant/progression/", headers=self.headers())
