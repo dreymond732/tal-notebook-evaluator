@@ -165,6 +165,21 @@ class HybridReviewTests(unittest.TestCase):
         unauth_report=self.app.test_client().get("/ma-progression/rapport/dm-intermediaire-s1")
         self.assertEqual(unauth_report.status_code,403)
 
+    def test_reviewer_questions_are_complete_official_source_prompts(self):
+        source = json.loads(
+            (ROOT / "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb")
+            .read_text(encoding="utf-8")
+        )
+        for q in dm_hybrid.QUESTIONS:
+            with self.subTest(question=q):
+                index = next(i for i, cell in enumerate(source["cells"])
+                             if cell.get("metadata", {}).get("tal", {}).get("question")
+                             == "Q" + str(q) and cell["metadata"]["tal"].get("role") == "answer")
+                before = source["cells"][index - 1]
+                expected = "".join(before["source"])
+                self.assertEqual(dm_hybrid.REVIEW_PROMPTS[q], expected)
+                self.assertIn("Question " + str(q), expected)
+
     def test_threshold_and_form_limits(self):
         self.assertAlmostEqual(dm.MAX_SCORE_TOTAL,17.75)
         self.assertAlmostEqual(sum(dm.HUMAN_WEIGHTS.values()),2.25)
