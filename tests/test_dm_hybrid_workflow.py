@@ -205,6 +205,20 @@ class HybridReviewTests(unittest.TestCase):
         self.assertIsNotNone(latest)
         self.assertIn("SECOND REPORT",latest.read_text())
         self.assertIsNone(latest_td_report("ANOTHER","td3-s1"))
+        # Le dernier essai peut être préservé par la migration de stockage S1.
+        # Son reçu original demeure la preuve d'appartenance de son rapport.
+        import csv
+        journal = self.root / "S1_TD3" / "notes_S1_TD3.csv"
+        with journal.open(encoding="utf-8", newline="") as stream:
+            rows = list(csv.DictReader(stream, delimiter=";"))
+            fields = list(rows[0])
+        second_receipt = rows[-1]["Origine"].split(":")[-1]
+        rows[-1]["Origine"] = "migration-s1-v2:TD3_S1:2:direct:" + second_receipt
+        with journal.open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(stream, delimiter=";", fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
+        self.assertEqual(latest_td_report("TEST2026","td3-s1"), latest)
         self.assertIsNone(latest_td_report("TEST2026","controle-td1-s3"))
         self.assertEqual(self.app.test_client().get("/ma-progression/rapport/td3-s1").status_code,403)
         self.student_login()
