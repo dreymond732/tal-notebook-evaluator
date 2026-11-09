@@ -25,7 +25,7 @@ assert round(sum(HUMAN_WEIGHTS.values()), 3) == MAX_HUMAN_TOTAL
 HUMAN_REVIEW = (
     'Relecture humaine requise : raisonnement, explications, généralité des fonctions, '
     'tests, lisibilité et respect des notions vues jusqu’au TD5. '
-    'Le score automatique sur 17,75 n'est pas la note finale sur 20. '
+    "Le score automatique sur 17,75 n'est pas la note finale sur 20. "
     'Le serveur lit le code et les sorties enregistrées sans les exécuter ; '
     'il ne certifie ni leur authenticité ni leur fraîcheur. '
     'Une solution valable non reconnue par les vérifications statiques doit être réexaminée.'
