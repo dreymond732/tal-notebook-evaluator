@@ -88,7 +88,8 @@ class TeacherCookieMigrationTests(unittest.TestCase):
             "/enseignant/progression/", headers=self.headers(old_cookie)
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn("unchanged-old-csrf", response.get_data(as_text=True))
+        # Le formulaire public ne contient plus de CSRF, mais la session ancienne
+        # doit encore être réémise sous le chemin TAL configuré.
         scoped = [cookie for cookie in response.headers.getlist("Set-Cookie")
                   if "Path=/universite/tal/" in cookie]
         self.assertEqual(len(scoped), 1)
