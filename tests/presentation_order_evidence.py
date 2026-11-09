@@ -56,6 +56,29 @@ def parent_raw(path):
     return json.loads(SNAPSHOT.read_text())['subjects'][original]
 
 
+def undo_td3_presentation_labels(notebook, path):
+    """Reconstitute the frozen baseline, allowing only approved label changes.
+
+    This is a TEST-ONLY transformation. It does not change student notebooks
+    or their contracts, rubrics, answers, or tutor instructions.
+    """
+    if not re.search(r"/S1_TD3_[ABC]_", path):
+        return notebook
+    mapping = (
+        ("TD3-A", "TD3-one"), ("TD3-B", "TD3-bis"), ("TD3-C", "TD3-ter"),
+        ("TD3_A", "TD3_one"), ("TD3_B", "TD3_bis"), ("TD3_C", "TD3_ter"),
+    )
+    for cell in notebook["cells"][1:]:
+        if cell.get("cell_type") != "markdown":
+            continue
+        source = cell["source"]
+        text = "".join(source) if isinstance(source, list) else source
+        for new, original in mapping:
+            text = text.replace(new, original)
+        cell["source"] = text.splitlines(keepends=True) if isinstance(source, list) else text
+    return notebook
+
+
 def before_title_move(notebook, path):
     """Undo only the exact H1 relocation, with all current prose preserved."""
     previous = json.loads(parent_raw(path))
@@ -86,4 +109,4 @@ def before_title_move(notebook, path):
         raise AssertionError(f'Introduction whitespace changed: {path}')
     restored = leading + match[2] + '\n' + text[len(leading):]
     intro['source'] = restored.splitlines(keepends=True) if isinstance(intro['source'], list) else restored
-    return result
+    return undo_td3_presentation_labels(result, path)
