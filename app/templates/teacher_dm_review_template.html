@@ -23,7 +23,7 @@
       {% set note = saved.get(q.number|string, {}) %}
       <section class="panel">
         <h2>Q{{ q.number }} — Relecture ({{ '%.2f'|format(q.human_max) }} point{{ 's' if q.human_max != 1 else '' }})</h2>
-        <p>{{ q.prompt }}</p>
+        <pre class="review-source">{{ q.prompt }}</pre>
         <p><strong>Score automatique :</strong> {{ '%.2f'|format(q.auto_points) }} / {{ '%.2f'|format(q.auto_max) }}</p>
         <h3>Code et commentaires de l'étudiant</h3>
         <pre class="review-source">{{ q.code if q.code else 'Aucun code renseigné.' }}</pre>
