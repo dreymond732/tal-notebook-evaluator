@@ -108,8 +108,11 @@ def _extract_evidence(notebook):
                 and cell.get("metadata", {}).get("tal", {}).get("question") == "Q" + str(q)
                 and cell.get("metadata", {}).get("tal", {}).get("role") == "answer"
             ]
-        if len(matches) != 1:
-            raise ValueError("Cellule de réponse absente ou ambiguë pour Q" + str(q))
+        if len(matches) > 1:
+            raise ValueError("Cellule de réponse ambiguë pour Q" + str(q))
+        if not matches:
+            evidence[str(q)] = {"code": "", "outputs": ""}
+            continue
         cell = matches[0]
         source = cell.get("source", "")
         if isinstance(source, list):
