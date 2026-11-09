@@ -1,7 +1,8 @@
 # Fichier: app/routes.py
 import os
 import json
-from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort
+import time
+from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort, session
 from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
@@ -334,9 +335,20 @@ def route_evaluator(eval_module, display_name, eval_name):
                     # copie enregistrée n'a pas été reçue.
                     student_dm_feedback = eval_module.student_feedback(details) if student_dm else None
                     if student_dm:
-                        from dm_hybrid import can_redeposit, _extract_evidence
-                        if not can_redeposit(info.get("numero_etudiant", "")):
+                        from dm_hybrid import can_redeposit, current_for_student, _extract_evidence
+                        import student_access
+                        student_number = info.get("numero_etudiant", "")
+                        if not can_redeposit(student_number):
                             raise ValueError("Redépôt DM non autorisé")
+                        if current_for_student(student_number) is not None:
+                            issued = session.get("student_authenticated_at", 0)
+                            if not (session.get("student_number") == student_number
+                                    and type(issued) in (int, float)
+                                    and 0 <= time.time() - issued <= student_access.SESSION_SECONDS
+                                    and student_access.session_valid(
+                                        student_number, session.get("student_version")
+                                    )):
+                                raise ValueError("Redépôt DM : connexion personnelle nécessaire")
                         _extract_evidence(notebook)
                     # Construire le rapport sans consommer les messages de la
                     # réponse publique avant de savoir si la sauvegarde réussit.
@@ -374,6 +386,8 @@ def route_evaluator(eval_module, display_name, eval_name):
                     flash(f"Erreur: {e}", 'error')
                 elif student_dm and isinstance(e, ValueError) and "Redépôt DM non autorisé" in str(e):
                     flash("Redépôt fermé : seuil atteint ou correction déjà validée.", "error")
+                elif student_dm and isinstance(e, ValueError) and "connexion personnelle nécessaire" in str(e):
+                    flash("Connectez-vous à « Ma progression » avec votre compte étudiant avant de remplacer un DM déjà déposé.", "error")
                 else:
                     current_app.logger.exception("Échec du dépôt de contrôle : %s", eval_name)
                     flash("Le dépôt n'a pas pu être confirmé. Contactez l'enseignant.", 'error')
