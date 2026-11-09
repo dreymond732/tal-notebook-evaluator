@@ -41,7 +41,7 @@ class HybridReviewTests(unittest.TestCase):
             "TAL_SMTP_HOST":"smtp.example.invalid",
             "TAL_SMTP_FROM":"tal@example.invalid",
             "TAL_SMTP_SECURITY":"ssl",
-            "TAL_SESSION_COOKIE_PATH":"/universite/tal/",
+            "TAL_SESSION_COOKIE_PATH":"/",
         })
         env.start()
         self.addCleanup(env.stop)
@@ -92,7 +92,7 @@ class HybridReviewTests(unittest.TestCase):
         self.assertEqual(before["score"],1)
         self.assertEqual(len(dm_hybrid.queue()),1)
         denied = self.submit()
-        self.assertIn("connexion personnelle nécessaire", denied.get_data(as_text=True).lower())
+        self.assertIn("connectez-vous à", denied.get_data(as_text=True).lower())
         self.assertEqual(dm_hybrid.current_for_student("TEST2026")["receipt"], before["receipt"])
         self.student_login()
         again = self.submit()
