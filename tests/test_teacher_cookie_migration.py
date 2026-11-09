@@ -94,58 +94,41 @@ class TeacherCookieMigrationTests(unittest.TestCase):
         self.assertEqual(len(scoped), 1)
         self.assertIn("tal_corrector_session=", scoped[0])
 
-    def test_csrf_without_cookie_is_rejected_with_helpful_explanation(self):
+    def test_legacy_public_send_endpoint_is_deleted(self):
         client = self.app.test_client(use_cookies=False)
-        page = client.get("/enseignant/progression/", headers=self.headers())
-        token = re.search(r'name="csrf" value="([^"]+)"',
-                          page.get_data(as_text=True)).group(1)
-        with patch.object(teacher_access, "request_code") as sender:
-            error = client.post(
-                "/enseignant/progression/demander-code",
-                headers=self.headers(),
-                data={"csrf": token},
-            )
-        self.assertEqual(error.status_code, 400)
-        self.assertIn("n'a pas été reçu", error.get_data(as_text=True))
-        self.assertIn("/universite/tal/enseignant/progression/", error.get_data(as_text=True))
-        self.assertIn("no-store", error.headers["Cache-Control"])
+        with patch.object(teacher_access, "issue_cli_code") as sender:
+            self.assertEqual(
+                client.post("/enseignant/progression/demander-code",
+                            headers=self.headers()).status_code, 404)
+            self.assertEqual(
+                client.get("/enseignant/progression/demander-code",
+                           headers=self.headers()).status_code, 404)
         sender.assert_not_called()
 
-    def test_valid_cookie_and_csrf_keep_request_and_login_working(self):
+    def test_otp_login_does_not_require_anonymous_csrf_cookie(self):
         client = self.app.test_client(use_cookies=False)
-        cookie = self.signed_cookie("csrf-123")
-        with patch.object(teacher_access, "request_code", return_value=True) as sender:
-            request = client.post(
-                "/enseignant/progression/demander-code",
-                headers=self.headers(cookie),
-                data={"csrf": "csrf-123"},
-            )
-        self.assertEqual(request.status_code, 303)
-        self.assertEqual(request.headers["Location"],
-                         "/universite/tal/enseignant/progression/")
-        sender.assert_called_once()
-        with patch.object(teacher_access, "consume_code", return_value=False) as verify:
-            failed = client.post(
+        with patch.object(teacher_access, "consume_code", return_value=True) as verifier:
+            result = client.post(
                 "/enseignant/progression/connexion",
-                headers=self.headers(cookie),
-                data={"csrf": "csrf-123", "code": "FAKE-CODE"},
+                headers=self.headers(),
+                data={"email": "prof@example.invalid", "code": "ABCDEFGHJKLM"},
             )
-        self.assertEqual(failed.status_code, 303)
-        verify.assert_called_once()
-        self.assertEqual(failed.headers["Location"],
+        self.assertEqual(result.status_code, 303)
+        self.assertEqual(result.headers["Location"],
                          "/universite/tal/enseignant/progression/")
+        verifier.assert_called_once_with(
+            "ABCDEFGHJKLM", "127.0.0.1", "prof@example.invalid"
+        )
 
-    def test_wrong_csrf_does_not_consume_single_use_teacher_code(self):
+    def test_teacher_private_form_csrf_still_required(self):
         client = self.app.test_client(use_cookies=False)
-        with patch.object(teacher_access, "consume_code") as verify:
-            failure = client.post(
-                "/enseignant/progression/connexion",
-                headers=self.headers(self.signed_cookie("correct-csrf")),
-                data={"csrf": "wrong-csrf", "code": "EXAMPLECODE"},
-            )
-        self.assertEqual(failure.status_code, 400)
-        self.assertIn("jeton", failure.get_data(as_text=True))
-        verify.assert_not_called()
+        response = client.post(
+            "/enseignant/progression/deconnexion",
+            headers=self.headers(),
+            data={"csrf": "wrong"},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("session", response.get_data(as_text=True).lower())
 
     def test_no_root_expiry_when_cookie_uses_root_path(self):
         with patch.dict(os.environ, {"TAL_SESSION_COOKIE_PATH": "/"}):
