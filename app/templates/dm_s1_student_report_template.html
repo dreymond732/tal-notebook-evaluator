@@ -36,7 +36,18 @@
   {% endwith %}
   {% if score is not none %}
     <p class="received" role="status"><strong>Copie reçue et enregistrée.</strong> Voici le bilan des vérifications automatiques.</p>
-    <p class="score">Note technique provisoire : {{ '%.2f'|format(score) }} / {{ '%.2f'|format(max_score) }}</p>
+    <p class="score">Note automatique provisoire : {{ '%.2f'|format(score) }} / {{ '%.2f'|format(max_score) }}</p>
+    {% if final_score is defined and final_score is not none %}
+      <p class="received"><strong>Correction humaine validée :</strong> {{ '%.2f'|format(final_score) }} / 20.00 (dont {{ '%.2f'|format(human_score) }} / 2.25 après relecture).</p>
+      {% if human_questions is defined %}
+      <h2>Appréciations de l'enseignant</h2>
+      {% for q in human_questions %}
+        <p><strong>Q{{ q.number }} — {{ q.points }} / {{ '%.2f'|format(q.maximum) }}</strong> : {{ q.comment }}</p>
+      {% endfor %}
+      {% endif %}
+    {% else %}
+      <p class="muted">Correction humaine : en attente (2,25 points réservés). Une note finale sur 20 sera affichée dès sa validation par l'enseignant.</p>
+    {% endif %}
     <div class="scope">
       <p><strong>Attention :</strong> cette note porte sur des résultats enregistrés et des critères de structure automatiquement vérifiables. Le correcteur n'exécute pas votre programme et ne valide pas le raisonnement, l'autonomie ou les commentaires. Une relecture humaine reste nécessaire avant toute note définitive.</p>
       <p>Chaque réussite ci-dessous signifie uniquement que les critères techniques testés sont satisfaits. Une réussite partielle peut être améliorée en reprenant la question puis en déposant de nouveau le cahier.</p>
