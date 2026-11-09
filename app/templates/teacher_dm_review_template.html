@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DM S1 — Relecture enseignante</title>
+<link rel="stylesheet" href="{{ tal_url_for('static',filename='teacher_progress.css') }}"></head>
+<body><main class="page">
+<header class="masthead"><div><h1>DM S1 — Corrections humaines</h1><p class="muted">Cinq questions, 2,25 points après 17,75 points automatiques. Seule la dernière copie est active.</p></div></header>
+<nav class="tabs"><a href="{{ tal_url_for('teacher.index') }}">← Suivi enseignant</a>
+{% if attempt %}<a href="{{ tal_url_for('teacher.dm_queue') }}">← File des corrections</a>{% endif %}</nav>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category,message in messages %}<p class="notice {{ category }}" role="status">{{ message }}</p>{% endfor %}
+{% endwith %}
+{% if attempt %}
+<section class="panel">
+<div class="panel-top"><div><h2>{{ attempt.first_name }} {{ attempt.name }}</h2>
+<p class="muted">Numéro étudiant : {{ attempt.number }} — dépôt du {{ attempt.created_at[:19] }}</p>
+<p class="muted">Copie {{ attempt.filename }}</p></div>
+<div class="summary-total"><strong>{{ '%.2f'|format(attempt.score) }} / 17,75</strong><span>Automatique</span></div></div>
+{% if attempt.validated_at %}
+  <p class="notice">Correction validée et publiée. Note finale {{ '%.2f'|format(attempt.final_score) }} / 20. Cette fiche n'est plus modifiable.</p>
+{% else %}
+  <p class="muted">Enregistrer le brouillon ou valider les cinq notes et appréciations. Toute nouvelle copie autorisée remplace cette fiche active.</p>
+{% endif %}
+<form method="post" action="{{ tal_url_for('teacher.dm_detail',receipt=attempt.receipt) }}">
+<input type="hidden" name="csrf" value="{{ csrf }}">
+{% for q in attempt.questions %}
+<section class="segment">
+<h3>Q{{ q.number }} — {{ q.label }} ({{ '%.2f'|format(q.maximum) }} point humain maximum)</h3>
+<p><strong>Consigne de relecture :</strong> {{ q.prompt }}</p>
+<div class="table-wrap"><table><thead><tr><th>Code et commentaires déposés</th><th>Sorties enregistrées</th></tr></thead>
+<tbody><tr><td><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{ q.code or 'Aucune réponse enregistrée.' }}</pre></td>
+<td><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{ q.outputs or 'Aucune sortie enregistrée.' }}</pre></td></tr></tbody></table></div>
+<p>Score automatique pour cette question : {{ '%.2f'|format(q.score_auto) }} point(s).</p>
+<label for="score-{{ q.number }}">Points humains (0 à {{ q.maximum }})</label>
+<input id="score-{{ q.number }}" type="number" step="0.01" min="0" max="{{ q.maximum }}"
+ name="points_{{ q.number }}" value="{{ q.points if q.points is not none else '' }}" {% if attempt.validated_at %}disabled{% endif %}>
+<label for="comment-{{ q.number }}">Appréciation</label>
+<textarea id="comment-{{ q.number }}" name="comment_{{ q.number }}" rows="3" maxlength="4000" {% if attempt.validated_at %}disabled{% endif %}>{{ q.comment }}</textarea>
+</section>
+{% endfor %}
+{% if not attempt.validated_at %}
+<div class="panel-top">
+<button type="submit" name="action" value="brouillon">Enregistrer le brouillon</button>
+<button type="submit" name="action" value="valider">Valider et publier la note finale</button>
+</div>
+{% endif %}
+</form>
+</section>
+{% else %}
+<section class="panel"><h2>Copies actives</h2>
+<p>Une fiche par étudiant, dernière tentative exclusivement. Les copies remplacées restent archivées et ne figurent pas dans cette file.</p>
+<div class="table-wrap"><table><thead><tr><th>Étudiant</th><th>Dernier dépôt</th><th>Auto / 17,75</th><th>État</th><th>Relecture</th></tr></thead>
+<tbody>{% for item in queue %}
+<tr><td>{{ item.name }} {{ item.first_name }} — {{ item.number }}</td>
+<td>{{ item.created_at[:19] }}</td><td>{{ '%.2f'|format(item.score) }}</td>
+<td>{{ item.status }}</td>
+<td><a href="{{ tal_url_for('teacher.dm_detail',receipt=item.receipt) }}">Ouvrir</a></td></tr>
+{% else %}<tr><td colspan="5">Aucun dépôt DM au nouveau barème.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endif %}
+</main></body></html>
