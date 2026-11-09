@@ -320,6 +320,27 @@ si `/config/nginx/proxy.conf` les définit déjà. Le modèle officiel
 SWAG définit ces trois en-têtes. Les déclarer deux fois dans un
 même bloc peut transmettre des champs HTTP doublés et produire
 `Invalid HTTP Header: 'HOST'` côté Gunicorn.
+
+**Pourquoi Journalia peut fonctionner malgré les mêmes doublons :**
+Gunicorn a commencé à rejeter explicitement les champs `Host`
+dupliqués dans sa version 26.1.0 (18 août 2026), tandis que des
+versions antérieures les acceptaient. Le serveur de Journalia peut
+donc employer une autre version ou une autre implémentation HTTP ;
+ceci reste à vérifier, et ne constitue pas une preuve sur le
+déploiement réel de Journalia. TAL installe actuellement Gunicorn
+sans version fixe et une reconstruction de l'image peut donc
+changer son comportement. Référence de publication :
+https://gunicorn.org/news/
+
+Vérifier la version du correcteur après déploiement :
+
+```bash
+docker-compose exec -T corrector-tal gunicorn --version
+```
+
+Ne pas désactiver la vérification des en-têtes de Gunicorn, et ne
+pas revenir à une ancienne version pour contourner le problème :
+la correction doit se faire dans Nginx, en évitant les doublons.
 Conserver le `rewrite` existant, `corrector-tal:5001`,
 `X-Forwarded-Prefix` et `X-Script-Name`.
 
