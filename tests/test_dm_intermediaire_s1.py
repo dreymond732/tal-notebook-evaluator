@@ -214,7 +214,7 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
             self.assertIn('Q18 — Composition du bilan', public)
             self.assertIn('Critères vérifiés satisfaits', public)
             self.assertIn('À reprendre', public)
-            self.assertEqual(public.count('class="points">'), 18)
+            self.assertEqual(public.count('<td class="points">'), 18)
             self.assertNotIn('Critères AST :', public)
             self.assertNotIn('Q14 — Relecture ciblée', public)
             self.assertNotIn('Généralité des fonctions', public)
@@ -254,9 +254,8 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
         self.assertEqual(maximum, 20)
 
     def test_output_is_html_escaped_even_if_notebook_contains_markup(self):
-        source = BUDGET + '\n# commentaire <script>alert(1)</script>\n'
-        # La trace est affichée par Jinja sans filtre safe.
-        cell = answer(1, source, [12,90,108,9,True])
+        # L'output étudiant est traité comme une chaîne et doit être échappé.
+        cell = answer(1, BUDGET, ['<script>alert(1)</script>',90,108,9,True])
         with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
             app = create_app()
             app.config['TESTING'] = True
@@ -269,6 +268,8 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
             self.assertIn('Q1 — Budget et conversion', html)
             self.assertNotIn('Critères AST :', html)
             self.assertNotIn('Généralité des fonctions', html)
+            self.assertNotIn('<script>alert(1)</script>', html)
+            self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;', html)
 
 
 if __name__ == '__main__':
