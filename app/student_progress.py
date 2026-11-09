@@ -11,6 +11,8 @@ import outils
 from progression import _catalog, SEMESTERS
 from routes import EVALUATORS
 from teacher_scores import scaled_score
+from student_reports import latest_td_report
+from dm_hybrid import current_for_student
 
 
 
@@ -81,6 +83,7 @@ def individual_progress(number):
                 "subactivity": is_extra,
                 "is_complement": is_extra or is_revision,
                 "attempts": count,
+                "report": bool(count and latest_td_report(number, slug)),
                 "min": scaled_score(minimum, slug, 10) if count else "",
                 "max": scaled_score(maximum, slug, 10) if count else "",
             })
@@ -98,5 +101,6 @@ def individual_progress(number):
         })
     if not name and not first_name:
         return None
+    dm = current_for_student(number)
     return {"number": number, "name": name, "first_name": first_name,
-            "semesters": semesters}
+            "semesters": semesters, "dm": dm}
