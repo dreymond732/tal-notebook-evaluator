@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Suivi enseignant — TAL</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='teacher_progress.css') }}">
-  <script src="{{ url_for('static', filename='teacher_progress.js') }}" defer></script>
+  <link rel="stylesheet" href="{{ tal_url_for('static', filename='teacher_progress.css') }}">
+  <script src="{{ tal_url_for('static', filename='teacher_progress.js') }}" defer></script>
 </head>
 <body>
 <main class="page">
   <header class="masthead">
     <div>
-      <a class="back" href="{{ url_for('main.index') }}">← Retour aux correcteurs</a>
+      <a class="back" href="{{ tal_url_for('main.index') }}">← Retour aux correcteurs</a>
       <h1>Suivi des étudiants</h1>
       <p class="muted">Espace enseignant — progression des TD, devoirs et contrôles</p>
     </div>
     {% if authenticated %}
-      <form method="post" action="{{ url_for('teacher.logout') }}">
+      <form method="post" action="{{ tal_url_for('teacher.logout') }}">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <button class="secondary" type="submit">Se déconnecter</button>
       </form>
@@ -39,12 +39,12 @@
       <h2>Connexion enseignant</h2>
       <p>Un code de connexion est envoyé automatiquement à l'adresse enseignante autorisée. Il reste valable 10 minutes et ne peut être utilisé qu'une seule fois.</p>
       <form id="teacher-code-auto-send" method="post"
-            action="{{ url_for('teacher.request_login_code') }}"
+            action="{{ tal_url_for('teacher.request_login_code') }}"
             data-auto-send="{{ 'true' if auto_send else 'false' }}">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <button class="resend-link" type="submit">Code non reçu ? Renvoyer le code</button>
       </form>
-      <form method="post" action="{{ url_for('teacher.login') }}">
+      <form method="post" action="{{ tal_url_for('teacher.login') }}">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <label for="code">Code reçu par email</label>
         <input id="code" type="text" name="code" maxlength="12" minlength="12"
@@ -56,7 +56,7 @@
   {% else %}
     {% if selected %}
       <nav class="tabs" aria-label="Navigation de la fiche">
-        <a href="{{ url_for('teacher.index', semestre=listing.semester) }}">← Liste du {{ listing.semester }}</a>
+        <a href="{{ tal_url_for('teacher.index', semestre=listing.semester) }}">← Liste du {{ listing.semester }}</a>
         <span class="selected">{{ listing.semester }} · Fiche étudiante</span>
       </nav>
       <section class="panel">
@@ -100,7 +100,7 @@
     {% else %}
       <nav class="tabs" aria-label="Choisir le semestre">
         {% for semester in semesters %}
-          <a href="{{ url_for('teacher.index', semestre=semester) }}"
+          <a href="{{ tal_url_for('teacher.index', semestre=semester) }}"
              {% if semester == listing.semester %}aria-current="page"{% endif %}>{{ semester }}</a>
         {% endfor %}
       </nav>
@@ -143,7 +143,7 @@
             </p>
           </div>
           {% if listing.exists %}
-            <a class="download" href="{{ url_for('teacher.export', semester=listing.semester) }}">Exporter le CSV du semestre</a>
+            <a class="download" href="{{ tal_url_for('teacher.export', semester=listing.semester) }}">Exporter le CSV du semestre</a>
           {% endif %}
         </div>
         {% if not listing.exists %}
@@ -173,7 +173,7 @@
                     <td class="numeric">{{ student.done['Contrôle'] }} / {{ listing.totals['Contrôle'] }}</td>
                     <td class="numeric">{{ student.attempts }}</td>
                     <td>
-                      <form method="post" action="{{ url_for('teacher.detail') }}">
+                      <form method="post" action="{{ tal_url_for('teacher.detail') }}">
                         <input type="hidden" name="csrf" value="{{ csrf }}">
                         <input type="hidden" name="semestre" value="{{ listing.semester }}">
                         <input type="hidden" name="numero" value="{{ student.number }}">
