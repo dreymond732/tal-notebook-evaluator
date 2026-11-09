@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sqlite3
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
@@ -30,11 +31,21 @@ if set(REVIEW_PROMPTS) != set(QUESTIONS):
     raise ValueError("Énoncés de relecture DM incomplets")
 
 
+def _academic_year():
+    year = os.environ.get("TAL_ACADEMIC_YEAR", "").strip()
+    match = re.fullmatch(r"(\d{4})-(\d{4})", year)
+    if not match or int(match[2]) != int(match[1]) + 1:
+        raise ValueError("TAL_ACADEMIC_YEAR doit être au format AAAA-AAAA.")
+    return year
+
+
 def _db():
     root = Path(outils.BASE_DIR) / "suivi"
     root.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(root, 0o700)
-    path = root / "dm_hybride.sqlite3"
+    # Une base par année pour éviter qu'un DM d'une promotion antérieure
+    # bloque les dépôts et ne figure dans la file courante.
+    path = root / ("dm_hybride_" + _academic_year() + ".sqlite3")
     conn = sqlite3.connect(path, timeout=10, isolation_level=None)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA busy_timeout = 10000")
