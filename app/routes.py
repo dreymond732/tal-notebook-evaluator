@@ -333,11 +333,19 @@ def route_evaluator(eval_module, display_name, eval_name):
                     # afin qu'une erreur de rendu ne fasse jamais croire qu'une
                     # copie enregistrée n'a pas été reçue.
                     student_dm_feedback = eval_module.student_feedback(details) if student_dm else None
+                    if student_dm:
+                        from dm_hybrid import can_redeposit, _extract_evidence
+                        if not can_redeposit(info.get("numero_etudiant", "")):
+                            raise ValueError("Redépôt DM non autorisé")
+                        _extract_evidence(notebook)
                     # Construire le rapport sans consommer les messages de la
                     # réponse publique avant de savoir si la sauvegarde réussit.
                     params['get_flashed_messages'] = lambda **kwargs: []
                     html = render_template(report_template, **params)
-                    process_submission(file, content_bytes, html, info, score, eval_name)
+                    process_submission(
+                        file, content_bytes, html, info, score, eval_name,
+                        dm_payload=(student_dm_feedback, notebook) if student_dm else None,
+                    )
                     if is_td:
                         params.pop('get_flashed_messages')
                         return render_template(report_template, **params)
@@ -364,6 +372,8 @@ def route_evaluator(eval_module, display_name, eval_name):
             except Exception as e:
                 if is_td:
                     flash(f"Erreur: {e}", 'error')
+                elif student_dm and isinstance(e, ValueError) and "Redépôt DM non autorisé" in str(e):
+                    flash("Redépôt fermé : seuil atteint ou correction déjà validée.", "error")
                 else:
                     current_app.logger.exception("Échec du dépôt de contrôle : %s", eval_name)
                     flash("Le dépôt n'a pas pu être confirmé. Contactez l'enseignant.", 'error')
@@ -377,11 +387,15 @@ def render_eval_template(template, display_name, eval_name, ext, is_td):
                            allowed_extension=ext, is_td=is_td, score=None, student_info={}, details=[])
 
 
-def process_submission(file, nb_bytes, html_report, info, score, eval_name):
+def process_submission(file, nb_bytes, html_report, info, score, eval_name, dm_payload=None):
     """Journal et fichiers regroupés par évaluation, sans répertoire de classe."""
     from progression import progression_lock, refresh_progression
 
     with progression_lock():
+        if dm_payload is not None:
+            from dm_hybrid import can_redeposit
+            if eval_name != "dm-intermediaire-s1" or not can_redeposit(info.get("numero_etudiant", "")):
+                raise ValueError("Redépôt DM non autorisé")
         ident = storage_id(eval_name)
         classe = info.get('classe', 'SANS_CLASSE')
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
@@ -405,6 +419,9 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
                 created.append(rep_path)
                 stream.write(html_report)
             outils.log_grade_to_csv(ident, dict(info, submission_id=receipt), score)
+            if dm_payload is not None:
+                from dm_hybrid import record_submission
+                record_submission(receipt, info, file.filename, score, *dm_payload)
         except (OSError, ValueError) as exc:
             for path in created:
                 try:
