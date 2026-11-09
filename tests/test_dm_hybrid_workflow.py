@@ -181,6 +181,33 @@ class HybridReviewTests(unittest.TestCase):
                 self.assertEqual(dm_hybrid.REVIEW_PROMPTS[q], expected)
                 self.assertIn("Question " + str(q), expected)
 
+    def test_dm_isolated_between_academic_years(self):
+        self.submit()
+        current = dm_hybrid.current_for_student("TEST2026")
+        self.assertIsNotNone(current)
+        with patch.dict(os.environ, {"TAL_ACADEMIC_YEAR": "2027-2028"}):
+            self.assertIsNone(dm_hybrid.current_for_student("TEST2026"))
+            self.assertTrue(dm_hybrid.can_redeposit("TEST2026"))
+            self.assertEqual(dm_hybrid.queue(), [])
+        self.assertEqual(dm_hybrid.current_for_student("TEST2026")["receipt"],
+                         current["receipt"])
+
+    def test_late_anonymous_redeposit_is_rejected_under_lock(self):
+        self.submit()
+        previous = dm_hybrid.current_for_student("TEST2026")["receipt"]
+        from routes import process_submission
+        from types import SimpleNamespace
+        with self.app.test_request_context("/submit", method="POST"):
+            with self.assertRaisesRegex(ValueError, "connexion personnelle nécessaire"):
+                process_submission(
+                    SimpleNamespace(filename="copie.ipynb"),
+                    self.payload, "<p>rapport de test</p>",
+                    {"numero_etudiant": "TEST2026"}, 1.0,
+                    "dm-intermediaire-s1", dm_payload=([], {}),
+                )
+        self.assertEqual(dm_hybrid.current_for_student("TEST2026")["receipt"],
+                         previous)
+
     def test_threshold_and_form_limits(self):
         self.assertAlmostEqual(dm.MAX_SCORE_TOTAL,17.75)
         self.assertAlmostEqual(sum(dm.HUMAN_WEIGHTS.values()),2.25)
