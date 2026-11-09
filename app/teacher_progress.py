@@ -83,13 +83,12 @@ def _older_versions(semester, evaluations):
                 if None in row or any(v is None for v in row.values()):
                     continue
                 version = (row["Version du contrat"] or "").strip()
-                if not version.isdecimal() or version == str(entry["version"]):
+                if not version.isdecimal() or int(version) >= int(entry["version"]):
                     continue
                 date = _date(row["Date"])
-                if date is None or year is not None and not (
-                    datetime(year, 9, 1) <= date.replace(tzinfo=None)
-                    < datetime(year + 1, 9, 1)
-                ):
+                if date is None or (year is not None and not (
+                    datetime(year, 9, 1) <= date < datetime(year + 1, 9, 1)
+                )):
                     continue
                 if _score(row["Score"]) is None:
                     continue
