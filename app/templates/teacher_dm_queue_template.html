@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DM S1 — Corrections humaines</title>
+  <link rel="stylesheet" href="{{ tal_url_for('static', filename='teacher_progress.css') }}">
+</head>
+<body>
+<main class="page">
+  <nav class="tabs"><a href="{{ tal_url_for('teacher.index') }}">← Tableau enseignant</a></nav>
+  <h1>DM intermédiaire S1 — Corrections humaines</h1>
+  <p class="muted">Une fiche active par étudiant. Seul le dernier dépôt est proposé à la correction. Le score automatique est sur 17,75 et la relecture humaine sur 2,25 points.</p>
+  {% with messages=get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<p class="notice {{ category }}" role="status">{{ message }}</p>{% endfor %}
+  {% endwith %}
+  <section class="panel">
+    {% if rows %}
+    <div class="table-wrap">
+      <table><thead><tr><th>Étudiant</th><th>Dépôt</th><th>Auto / 17,75</th><th>État</th><th>Note finale / 20</th><th>Correction</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.student_name }}<span class="meta">{{ row.student_number }}</span></td>
+          <td>{{ row.received_at }}</td>
+          <td>{{ '%.2f'|format(row.auto_score) }}</td>
+          <td>{{ {'pending':'À corriger','draft':'Brouillon','published':'Publiée'}[row.state] }}</td>
+          <td>{{ '%.2f'|format(row.final_score) if row.final_score is not none else '—' }}</td>
+          <td><a href="{{ tal_url_for('teacher.dm_review',receipt=row.submission_id) }}">{{ 'Consulter' if row.state=='published' else 'Corriger' }}</a></td>
+        </tr>
+      {% endfor %}
+      </tbody></table>
+    </div>
+    {% else %}
+      <p>Aucune copie active indexée. Les nouveaux dépôts alimentent automatiquement cette file. Les archives anciennes ne sont pas effacées.</p>
+    {% endif %}
+  </section>
+</main>
+</body></html>
