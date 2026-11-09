@@ -11,6 +11,8 @@ import outils
 from progression import _catalog, SEMESTERS
 from routes import EVALUATORS
 from teacher_scores import scaled_score
+from student_reports import enabled as reports_enabled, latest_td_report
+from dm_hybrid import active_for
 
 
 
@@ -83,6 +85,7 @@ def individual_progress(number):
                 "attempts": count,
                 "min": scaled_score(minimum, slug, 10) if count else "",
                 "max": scaled_score(maximum, slug, 10) if count else "",
+                "report_available": bool(latest_td_report(number, slug)) if count else False,
             })
         if sem == "S1":
             activities.sort(key=lambda item: _order_activity(item, sem))
@@ -98,5 +101,9 @@ def individual_progress(number):
         })
     if not name and not first_name:
         return None
+    # Le DM est distinct des contrôles sommatifs : une seule copie active,
+    # score automatique /17,75 puis note finale /20 publiée après validation.
+    dm = active_for(number)
     return {"number": number, "name": name, "first_name": first_name,
-            "semesters": semesters}
+            "semesters": semesters, "dm": dm,
+            "reports_enabled": reports_enabled()}
