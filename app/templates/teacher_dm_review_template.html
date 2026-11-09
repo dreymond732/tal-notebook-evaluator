@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Relecture DM S1 — {{ identity.prenom }} {{ identity.nom }}</title>
+  <link rel="stylesheet" href="{{ tal_url_for('static',filename='teacher_progress.css') }}">
+</head>
+<body>
+<main class="page">
+  <nav class="tabs"><a href="{{ tal_url_for('teacher.dm_queue') }}">← File de corrections</a></nav>
+  <h1>DM S1 — Relecture humaine</h1>
+  <p><strong>{{ identity.prenom }} {{ identity.nom }}</strong> · {{ identity.numero_etudiant }}</p>
+  <p class="muted">Dernier dépôt : {{ record.received_at }}. Version de barème {{ record.auto_version }}.</p>
+  <section class="metrics"><div class="metric"><strong>{{ '%.2f'|format(record.auto_score) }} / 17,75</strong><span>Score automatique</span></div>
+    <div class="metric"><strong>{{ '%.2f'|format(record.final_score) if record.final_score is not none else '—' }}</strong><span>Note finale sur 20</span></div></section>
+  {% with messages=get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}<p class="notice {{ category }}">{{ message }}</p>{% endfor %}
+  {% endwith %}
+  <form method="post" action="{{ tal_url_for('teacher.dm_save',receipt=record.submission_id) }}">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <input type="hidden" name="revision" value="{{ record.revision }}">
+    {% for q in questions %}
+      {% set note = saved.get(q.number|string, {}) %}
+      <section class="panel">
+        <h2>Q{{ q.number }} — Relecture ({{ '%.2f'|format(q.human_max) }} point{{ 's' if q.human_max != 1 else '' }})</h2>
+        <p>{{ q.prompt }}</p>
+        <p><strong>Score automatique :</strong> {{ '%.2f'|format(q.auto_points) }} / {{ '%.2f'|format(q.auto_max) }}</p>
+        <h3>Code et commentaires de l'étudiant</h3>
+        <pre class="review-source">{{ q.code if q.code else 'Aucun code renseigné.' }}</pre>
+        <h3>Sorties enregistrées</h3>
+        <pre class="review-source">{{ q.output if q.output else 'Aucune sortie enregistrée.' }}</pre>
+        <label for="points-{{ q.number }}">Points de relecture / {{ q.human_max }}</label>
+        <input id="points-{{ q.number }}" name="points_{{ q.number }}" type="number" min="0" max="{{ q.human_max }}" step="0.001" value="{{ note.points if note.points is not none }}" {% if record.state=='published' %}disabled{% endif %}>
+        <label for="app-{{ q.number }}">Appréciation</label>
+        <textarea id="app-{{ q.number }}" name="appreciation_{{ q.number }}" rows="3" maxlength="2500" {% if record.state=='published' %}disabled{% endif %}>{{ note.appreciation or '' }}</textarea>
+      </section>
+    {% endfor %}
+    {% if record.state!='published' %}
+    <section class="panel">
+      <p class="muted">La publication exige une note et une appréciation pour les cinq questions. Elle est immédiate et bloque les redépôts du DM.</p>
+      <button type="submit" name="action" value="draft" class="secondary">Enregistrer le brouillon</button>
+      <button type="submit" name="action" value="publish">Valider et publier la note sur 20</button>
+    </section>
+    {% else %}
+      <p class="notice">Cette fiche est publiée et ne peut plus être modifiée depuis le formulaire.</p>
+    {% endif %}
+  </form>
+</main>
+</body></html>
