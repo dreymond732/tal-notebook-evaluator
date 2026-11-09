@@ -12,11 +12,20 @@ import re
 from notebook_contract import resolve_notebook, validate_cell_metadata
 
 EVAL_ID = 'dm-intermediaire-s1'
-MAX_SCORE_TOTAL = 20.0
+# Barème hybride v2 : 17,75 techniques + 2,25 humains, sans bonus.
+# Le contrat pédagogique du cahier et ses identifiants restent en version 1.
+GRADING_VERSION = 2
+HUMAN_WEIGHTS = {2: 0.50, 6: 0.50, 12: 0.25, 14: 0.50, 17: 0.50}
+AUTO_WEIGHTS = {q: (1.0 if q <= 14 else 1.5) - HUMAN_WEIGHTS.get(q, 0.0)
+                for q in range(1, 19)}
+MAX_SCORE_TOTAL = 17.75
+MAX_HUMAN_TOTAL = 2.25
+assert round(sum(AUTO_WEIGHTS.values()), 3) == MAX_SCORE_TOTAL
+assert round(sum(HUMAN_WEIGHTS.values()), 3) == MAX_HUMAN_TOTAL
 HUMAN_REVIEW = (
     'Relecture humaine requise : raisonnement, explications, généralité des fonctions, '
     'tests, lisibilité et respect des notions vues jusqu’au TD5. '
-    'Le score technique sur 20 ne constitue pas une note globale. '
+    'Le score automatique sur 17,75 n'est pas la note finale sur 20. '
     'Le serveur lit le code et les sorties enregistrées sans les exécuter ; '
     'il ne certifie ni leur authenticité ni leur fraîcheur. '
     'Une solution valable non reconnue par les vérifications statiques doit être réexaminée.'
@@ -337,7 +346,7 @@ def check_notebook(content_str, filename):
                 pass
     details, score = [], 0.0
     for q, expected in enumerate(EXPECTED, 1):
-        weight = 1.0 if q <= 14 else 1.5
+        weight = AUTO_WEIGHTS[q]
         points, raw, evidence = 0.0, 'Trace absente, invalide ou ambiguë.', []
         cell = index.get((f'Q{q}', 'answer'))
         try:
