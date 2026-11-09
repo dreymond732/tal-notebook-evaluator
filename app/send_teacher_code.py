@@ -8,9 +8,10 @@ import sys
 import teacher_access
 
 
-def main():
-    if "--revoke" in sys.argv[1:]:
-        if len(sys.argv) != 2:
+def main(args=None):
+    args = [] if args is None else list(args)
+    if "--revoke" in args:
+        if args != ["--revoke"]:
             print("Usage : python send_teacher_code.py --revoke", file=sys.stderr)
             return 2
         try:
@@ -20,7 +21,7 @@ def main():
             return 1
         print("Code personnel révoqué." if was_active else "Aucun code personnel actif.")
         return 0
-    if len(sys.argv) > 1:
+    if args:
         print("Usage : python send_teacher_code.py [--revoke]", file=sys.stderr)
         return 2
     try:
@@ -43,4 +44,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))
