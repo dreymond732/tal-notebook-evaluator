@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ display_name }} — Bilan par question</title>
+  <style>
+    :root{color-scheme:light;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#223246;background:#f4f7fa;line-height:1.5}
+    *{box-sizing:border-box}body{margin:0;padding:1.4rem}
+    main{max-width:1100px;margin:auto;padding:1.5rem 1.7rem;background:#fff;border:1px solid #d6dfe8;border-radius:12px}
+    h1{font-size:1.7rem;margin:0 0 .4rem}h2{font-size:1.13rem}
+    .muted{color:#53677c}.scope{background:#f0f5fa;border-left:4px solid #236294;padding:1rem;border-radius:4px}
+    .score{font-weight:750;font-size:1.5rem;margin:1.3rem 0}
+    .received{background:#e9f6ed;border:1px solid #b6dac0;padding:.8rem 1rem;border-radius:6px}
+    .table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%}
+    caption{text-align:left;font-weight:700;margin:1rem 0 .6rem}
+    th,td{text-align:left;vertical-align:top;padding:.75rem;border-bottom:1px solid #e4e9ef}
+    th{background:#f2f5f9}.points{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+    .state{font-weight:650;white-space:nowrap}.ok{color:#176638}.partial{color:#755003}.fail{color:#9f2e2a}
+    .trace{white-space:pre-wrap;overflow-wrap:anywhere;max-width:400px;margin:0;font-family:ui-monospace,monospace;font-size:.84rem}
+    .empty{color:#607286;font-style:italic}a{color:#075a96}
+    button{background:#075a96;color:#fff;border:0;border-radius:6px;padding:.75rem 1rem;font:inherit;font-weight:650;cursor:pointer}
+    input[type=file]{max-width:100%;margin:.5rem 0 1rem}
+    :focus-visible{outline:3px solid #f4ab42;outline-offset:3px}
+    @media(max-width:650px){body{padding:.5rem}main{padding:1rem}th,td{padding:.5rem;font-size:.9rem}.trace{max-width:220px}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>{{ display_name }}</h1>
+  <p class="muted">Devoir maison intermédiaire S1 — évaluation technique formative</p>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <p role="alert">{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+  {% if score is not none %}
+    <p class="received" role="status"><strong>Copie reçue et enregistrée.</strong> Voici le bilan des vérifications automatiques.</p>
+    <p class="score">Note technique provisoire : {{ '%.2f'|format(score) }} / {{ '%.2f'|format(max_score) }}</p>
+    <div class="scope">
+      <p><strong>Attention :</strong> cette note porte sur des résultats enregistrés et des critères de structure automatiquement vérifiables. Le correcteur n'exécute pas votre programme et ne valide pas le raisonnement, l'autonomie ou les commentaires. Une relecture humaine reste nécessaire avant toute note définitive.</p>
+      <p>Chaque réussite ci-dessous signifie uniquement que les critères techniques testés sont satisfaits. Une réussite partielle peut être améliorée en reprenant la question puis en déposant de nouveau le cahier.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption>Résultats des 18 questions</caption>
+        <thead><tr>
+          <th scope="col">Question</th>
+          <th scope="col">Votre sortie retrouvée</th>
+          <th scope="col">Bilan technique</th>
+          <th scope="col" class="points">Points obtenus</th>
+        </tr></thead>
+        <tbody>
+        {% for item in student_feedback %}
+          <tr>
+            <td><strong>Q{{ item.number }} — {{ item.title }}</strong></td>
+            <td>{% if item.student_output and item.student_output != 'Trace absente, invalide ou ambiguë.' %}
+              <pre class="trace">{{ item.student_output }}</pre>
+              {% else %}<span class="empty">Aucune trace exploitable retrouvée.</span>{% endif %}
+            </td>
+            <td>
+              {% if item.status == 'reussi' %}
+                <span class="state ok"><span aria-hidden="true">✓ </span>Critères vérifiés satisfaits</span>
+              {% elif item.status == 'partiel' %}
+                <span class="state partial">◐ Réussite partielle</span>
+              {% else %}
+                <span class="state fail">À reprendre</span>
+              {% endif %}
+            </td>
+            <td class="points">{{ '%.2f'|format(item.points) }} / {{ '%.2f'|format(item.max_points) }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p><a href="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}">Déposer une nouvelle version du devoir</a></p>
+  {% else %}
+    <p class="scope">Déposez votre devoir au format <strong>.ipynb</strong>. Vous obtiendrez après son enregistrement un score technique provisoire sur 20 ainsi qu'un bilan question par question.</p>
+    <form method="post" action="{{ url_for('main.submit_notebook') if request.endpoint == 'main.submit_notebook' else url_for('main.route_evaluator',eval_name=evaluator_name) }}" enctype="multipart/form-data">
+      <label for="dm-file">Cahier exécutable du devoir</label>
+      <input type="file" id="dm-file" name="file" accept=".ipynb" required>
+      <button type="submit">Déposer et obtenir mon bilan</button>
+    </form>
+  {% endif %}
+  <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
+</main>
+</body>
+</html>

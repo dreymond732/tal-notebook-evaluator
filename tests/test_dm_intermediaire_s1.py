@@ -194,24 +194,82 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
         result = dm.check_notebook(json.dumps(model), 'model.ipynb')
         self.assertEqual((result[0], result[2], result[4]), (20, 20, None), result[1])
 
-    def test_public_receipt_and_private_specific_rubric_and_student_number(self):
+    def test_student_receives_18_question_scores_but_not_private_teaching_rubric(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
             app = create_app()
             app.config['TESTING'] = True
+            client = app.test_client()
+            opening = client.get('/eval/dm-intermediaire-s1')
+            self.assertEqual(opening.status_code, 200)
+            self.assertIn('Déposer et obtenir mon bilan', opening.get_data(as_text=True))
             payload = json.dumps(notebook(answer(1, BUDGET, [12,90,108,9,True]))).encode()
-            response = app.test_client().post('/submit', data={'file': (io.BytesIO(payload), 'renommee.ipynb')}, content_type='multipart/form-data')
+            response = client.post('/submit', data={
+                'file': (io.BytesIO(payload), 'renommee.ipynb'),
+            }, content_type='multipart/form-data')
+            self.assertEqual(response.status_code, 200)
             public = response.get_data(as_text=True)
             self.assertIn('Copie reçue et enregistrée', public)
-            self.assertNotIn('Score technique', public)
-            self.assertNotIn('Budget et conversion', public)
+            self.assertIn('Note technique provisoire : 1.00 / 20.00', public)
+            self.assertIn('Q1 — Budget et conversion', public)
+            self.assertIn('Q18 — Composition du bilan', public)
+            self.assertIn('Critères vérifiés satisfaits', public)
+            self.assertIn('À reprendre', public)
+            self.assertEqual(public.count('<td class="points">'), 18)
+            self.assertNotIn('Critères AST :', public)
+            self.assertNotIn('Q14 — Relecture ciblée', public)
+            self.assertNotIn('Généralité des fonctions', public)
+            self.assertNotIn('Sorties de référence et indices AST', public)
             report = next(Path(directory).rglob('*.html')).read_text()
             self.assertIn('Généralité des fonctions', report)
             self.assertIn('TEST2026', report)
+            self.assertIn('Q14 — Relecture ciblée', report)
             self.assertNotIn('Qualité linguistique et retour aux passages', report)
             csv = next((Path(directory) / 'DM_intermediaire_S1').rglob('*.csv')).read_text()
             self.assertIn('Numéro étudiant', csv)
             self.assertIn('TEST2026', csv)
             self.assertIn('technique_provisoire', csv)
+
+    def test_student_public_feedback_is_whitelisted_and_shows_partial_credit(self):
+        cells = [
+            answer(1, BUDGET, [12,90,999,9,True]),
+            answer(15, NORMALISER, ['livre','','deux  mots !']),
+        ]
+        score, details, maximum, _, error = self.evaluate(*cells)
+        self.assertIsNone(error)
+        public = dm.student_feedback(details)
+        self.assertEqual(len(public), 18)
+        self.assertEqual([p['number'] for p in public], list(range(1, 19)))
+        self.assertEqual(public[0]['status'], 'partiel')
+        self.assertEqual(public[0]['points'], 0.8)
+        self.assertEqual(public[14]['status'], 'reussi')
+        self.assertEqual(public[14]['points'], 1.5)
+        self.assertEqual(public[1]['status'], 'a_reprendre')
+        for item in public:
+            self.assertEqual(set(item), {
+                'number','title','points','max_points','status','student_output'
+            })
+            self.assertNotIn('Critères AST', repr(item))
+            self.assertNotIn('correct_answer', item)
+        self.assertAlmostEqual(score, 2.3)
+        self.assertEqual(maximum, 20)
+
+    def test_output_is_html_escaped_even_if_notebook_contains_markup(self):
+        # L'output étudiant est traité comme une chaîne et doit être échappé.
+        cell = answer(1, BUDGET, ['<script>alert(1)</script>',90,108,9,True])
+        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
+            app = create_app()
+            app.config['TESTING'] = True
+            payload = json.dumps(notebook(cell)).encode()
+            response = app.test_client().post('/eval/dm-intermediaire-s1',
+                data={'file':(io.BytesIO(payload),'test.ipynb')},
+                content_type='multipart/form-data')
+            self.assertEqual(response.status_code,200)
+            html = response.get_data(as_text=True)
+            self.assertIn('Q1 — Budget et conversion', html)
+            self.assertNotIn('Critères AST :', html)
+            self.assertNotIn('Généralité des fonctions', html)
+            self.assertNotIn('<script>alert(1)</script>', html)
+            self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;', html)
 
 
 if __name__ == '__main__':
