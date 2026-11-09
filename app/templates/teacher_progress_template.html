@@ -71,7 +71,7 @@
             <span>essai{{ 's' if selected.attempts != 1 else '' }}</span>
           </div>
         </div>
-        {% for kind in ['TD', 'DM', 'Contrôle'] %}
+        {% for kind in ['TD', 'Approfondissement', 'Révision', 'DM', 'Contrôle'] %}
           {% set relevant = selected.details | selectattr('type', 'equalto', kind) | list %}
           {% if relevant %}
             <section class="segment">
@@ -79,7 +79,7 @@
               <div class="table-wrap">
                 <table>
                   <thead>
-                    <tr><th scope="col">Évaluation</th><th scope="col" class="numeric">Minimum</th><th scope="col" class="numeric">Maximum</th><th scope="col" class="numeric">Essais</th></tr>
+                    <tr><th scope="col">Évaluation</th><th scope="col" class="numeric">Minimum</th><th scope="col" class="numeric">Maximum</th><th scope="col" class="numeric">Essais actuels</th><th scope="col" class="numeric">Essais anciens</th></tr>
                   </thead>
                   <tbody>
                     {% for item in relevant %}
@@ -88,6 +88,7 @@
                         <td class="numeric">{{ item.min if item.attempts else '—' }}</td>
                         <td class="numeric">{{ item.max if item.attempts else '—' }}</td>
                         <td class="numeric">{{ item.attempts }}</td>
+                        <td class="numeric">{{ item.legacy_attempts }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
@@ -106,19 +107,24 @@
       </nav>
       <section class="metrics" aria-label="Statistiques de suivi">
         <div class="metric"><strong>{{ listing.students | length }}</strong><span>Étudiants présents dans le suivi</span></div>
-        <div class="metric"><strong>{{ listing.totals['TD'] }}</strong><span>TD au catalogue</span></div>
+        <div class="metric"><strong>{{ listing.totals['TD'] }}</strong><span>TD principaux au catalogue</span></div>
+        {% if listing.totals['Approfondissement'] %}<div class="metric"><strong>{{ listing.totals['Approfondissement'] }}</strong><span>Approfondissements</span></div>{% endif %}
+        {% if listing.totals['Révision'] %}<div class="metric"><strong>{{ listing.totals['Révision'] }}</strong><span>Révisions</span></div>{% endif %}
         <div class="metric"><strong>{{ listing.totals['DM'] }}</strong><span>Devoirs maison</span></div>
         <div class="metric"><strong>{{ listing.totals['Contrôle'] }}</strong><span>Contrôles</span></div>
       </section>
+      {% if listing.historical_students %}
+        <p class="notice">Les travaux de {{ listing.historical_students }} étudiant(s) comportent des essais d'anciens contrats. Ces dépôts comptent pour la participation, mais les scores des anciennes versions ne sont pas intégrés aux minima et maxima actuels.</p>
+      {% endif %}
       <section class="panel">
         <h2>Détail des évaluations du {{ listing.semester }}</h2>
-        <p class="muted small">Nombre d'étudiants et d'essais comptabilisés dans les journaux CSV valides du semestre. Les TD initiaux et les approfondissements sont distincts.</p>
+        <p class="muted small">Étudiants ayant déposé et nombre d'essais reconnus : les contrats antérieurs restent comptés comme travaux effectués, sans mélange avec les notes des contrats actuels.</p>
         <div class="table-wrap">
           <table>
             <thead>
               <tr><th scope="col">Évaluation</th><th scope="col">Type</th>
                   <th scope="col" class="numeric">Étudiants</th>
-                  <th scope="col" class="numeric">Essais</th></tr>
+                  <th scope="col" class="numeric">Essais actuels</th><th scope="col" class="numeric">Essais anciens</th></tr>
             </thead>
             <tbody>
               {% for item in listing.evaluation_stats %}
@@ -127,6 +133,7 @@
                   <td>{{ item.type }}</td>
                   <td class="numeric">{{ item.students }}</td>
                   <td class="numeric">{{ item.attempts }}</td>
+                  <td class="numeric">{{ item.legacy_attempts }}</td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -143,7 +150,7 @@
             </p>
           </div>
           {% if listing.exists %}
-            <a class="download" href="{{ tal_url_for('teacher.export', semester=listing.semester) }}">Exporter le CSV du semestre</a>
+            <a class="download" href="{{ tal_url_for('teacher.export', semester=listing.semester) }}">Exporter les scores actuels (CSV)</a>
           {% endif %}
         </div>
         {% if not listing.exists %}
@@ -158,7 +165,8 @@
             <table id="teacher-roster">
               <thead><tr>
                 <th scope="col">Étudiant</th><th scope="col">Numéro</th>
-                <th scope="col" class="numeric">TD réalisés</th>
+                <th scope="col" class="numeric">TD principaux effectués</th>
+                {% if listing.totals['Approfondissement'] or listing.totals['Révision'] %}<th scope="col" class="numeric">Compléments effectués</th>{% endif %}
                 <th scope="col" class="numeric">DM</th>
                 <th scope="col" class="numeric">Contrôles</th>
                 <th scope="col" class="numeric">Essais</th><th scope="col">Progression</th>
@@ -168,10 +176,13 @@
                   <tr data-student="{{ student.first_name }} {{ student.last_name }} {{ student.number }}">
                     <td><strong>{{ student.last_name }} {{ student.first_name }}</strong></td>
                     <td class="mono">{{ student.number }}</td>
-                    <td class="numeric">{{ student.done['TD'] }} / {{ listing.totals['TD'] }}</td>
+                    <td class="numeric">{{ student.done['TD'] }} / {{ listing.totals['TD'] }}{% if student.older_only['TD'] %}<span class="meta">dont {{ student.older_only['TD'] }} ancien(s)</span>{% endif %}</td>
+                    {% if listing.totals['Approfondissement'] or listing.totals['Révision'] %}
+                      <td class="numeric">{{ student.done['Approfondissement'] + student.done['Révision'] }} / {{ listing.totals['Approfondissement'] + listing.totals['Révision'] }}</td>
+                    {% endif %}
                     <td class="numeric">{{ student.done['DM'] }} / {{ listing.totals['DM'] }}</td>
                     <td class="numeric">{{ student.done['Contrôle'] }} / {{ listing.totals['Contrôle'] }}</td>
-                    <td class="numeric">{{ student.attempts }}</td>
+                    <td class="numeric">{{ student.attempts }}{% if student.legacy_attempts %}<span class="meta">dont {{ student.legacy_attempts }} anciens</span>{% endif %}</td>
                     <td>
                       <form method="post" action="{{ tal_url_for('teacher.detail') }}">
                         <input type="hidden" name="csrf" value="{{ csrf }}">
@@ -191,7 +202,7 @@
     <p class="muted small footnote">
       Ces résultats proviennent des évaluateurs automatiques et peuvent être provisoires.
       Les scores de barèmes différents ne sont pas additionnés.
-      Un étudiant sans dépôt identifié n'apparaît pas dans ce tableau.
+      Les anciens contrats sont distingués des scores actuels dans le tableau ; le CSV brut exporté ne contient que les résultats du contrat actuel. Un étudiant sans dépôt identifié n'apparaît pas.
       La consultation nominative et les exports sont réservés à l'enseignant.
     </p>
   {% endif %}
