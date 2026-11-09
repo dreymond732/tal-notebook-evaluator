@@ -24,6 +24,9 @@
     th,td { text-align:left; padding:.65rem; border-bottom:1px solid #e3e8ee; }
     th { background:#f1f5f9; }
     .numbers { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .subactivity { padding-left:2rem; position:relative; }
+    .subactivity::before { content:'↳'; color:#6c7c91; position:absolute; left:.7rem; }
+    .subactivity strong { font-weight:500; }
     a { color:#075794; }
     :focus-visible { outline:3px solid #f09627; outline-offset:3px; }
   </style>
@@ -52,14 +55,17 @@
     </div>
     {% for semester in profile.semesters %}
       <section class="panel">
-        <h2>{{ semester.name }} — {{ semester.completed }} TD réalisés sur {{ semester.total }}</h2>
+        <h2>{{ semester.name }} — {{ semester.completed }} TD principaux réalisés sur {{ semester.total }}</h2>
+        {% if semester.extra_total %}
+          <p class="small">{{ semester.extra_completed }} activité(s) complémentaire(s) réalisée(s) sur {{ semester.extra_total }}.</p>
+        {% endif %}
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Activité</th><th class="numbers">Minimum</th><th class="numbers">Maximum</th><th class="numbers">Essais</th></tr></thead>
+            <thead><tr><th>Activité</th><th class="numbers">Minimum / 10</th><th class="numbers">Maximum / 10</th><th class="numbers">Essais</th></tr></thead>
             <tbody>
             {% for item in semester.activities %}
               <tr>
-                <td>{{ item.name }}</td>
+                <td class="{{ 'subactivity' if item.subactivity else '' }}"><strong>{{ item.label }}</strong></td>
                 <td class="numbers">{{ item.min if item.min else '—' }}</td>
                 <td class="numbers">{{ item.max if item.max else '—' }}</td>
                 <td class="numbers">{{ item.attempts }}</td>
@@ -70,7 +76,7 @@
         </div>
       </section>
     {% endfor %}
-    <p class="small">Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles et devoirs maison ne sont pas publiés sur cette page.</p>
+    <p class="small">Les scores des TD sont ramenés sur 10 à partir du maximum technique du correcteur, sans modifier les relevés sources. Les résultats présentés sont des indicateurs techniques d'autoévaluation, pas des notes universitaires définitives. Les contrôles et devoirs maison ne sont pas publiés sur cette page.</p>
   {% else %}
     <div class="panel">
       <h2>Accès personnel par email</h2>
