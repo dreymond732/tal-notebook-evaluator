@@ -29,15 +29,18 @@ NUMBER_RE = re.compile(r"[A-Za-z0-9_-]{1,64}\Z")
 POINT_RE = re.compile(r"(?:0|[0-9]{1,2})(?:[.,][0-9]{1,3})?\Z")
 SUBMIT_CUTOFF = 10 * MAX_SCORE_TOTAL / 20  # strictement inférieur : 8,875
 
-# Textes basés sur les consignes de Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb.
-HUMAN_QUESTIONS = {
-    2: "Expliquez l'ordre des opérations dans chaque expression et justifiez celle qui partage équitablement le stock restant.",
-    6: "Expliquez les limites du découpage sur les espaces pour compter des mots linguistiques, en considérant la virgule, l'apostrophe et le point d'exclamation.",
-    12: "Expliquez la progression et l'arrêt de la boucle while et pourquoi le septième effectif n'appartient pas aux six tours demandés.",
-    14: "Examinez les trois essais complémentaires : liste courte, limite de deux essais et liste vide ; expliquez les trois motifs d'arrêt.",
-    17: "Donnez deux limites concrètes du traitement proposé pour traduire des phrases et reliez-les au programme ou à un autre exemple.",
-}
+# Énoncés figés depuis le cahier de référence ; jamais depuis une cellule
+# « consigne » envoyée par l'étudiant.
+from functools import lru_cache
 
+
+@lru_cache(maxsize=1)
+def _trusted_prompts():
+    file = Path(__file__).with_name("dm_s1_review_prompts.json")
+    data = json.loads(file.read_text(encoding="utf-8"))
+    if set(data) != {str(q) for q in HUMAN_WEIGHTS}:
+        raise ValueError("Référentiel des questions DM incomplet")
+    return data
 
 class SubmissionClosed(ValueError):
     """Dépôt supplémentaire interdit selon le seuil ou la validation."""
@@ -247,7 +250,7 @@ def review_evidence(record):
             elif isinstance(output,dict) and output.get("output_type")=="error":
                 traces.append("Erreur Python enregistrée : " + str(output.get("ename","")))
         observed[q] = {
-            "number": q, "prompt": HUMAN_QUESTIONS[q],
+            "number": q, "prompt": _trusted_prompts()[str(q)],
             "code": source[:18000], "output": "\n".join(traces)[:18000],
             "auto_points": next(d["points"] for d in details if d["check"].startswith(f"Q{q} —")
                                 and d["max_points"] > 0),
