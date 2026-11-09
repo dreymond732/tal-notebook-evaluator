@@ -5,3 +5,6 @@
 
 /* Les approfondissements A/B/C sont associés au TD qui les précède. */
 td.subactivity{padding-left:2rem;position:relative}td.subactivity::before{content:'↳';position:absolute;left:.75rem;color:#6c7c91}td.subactivity strong{font-weight:500}
+
+/* Relecture humaine du DM : saisie et preuves sans styles inline. */
+.dm-evidence{white-space:pre-wrap;overflow-wrap:anywhere;max-width:510px;font-family:ui-monospace,monospace;font-size:.84rem}input[type=number],textarea{display:block;width:100%;max-width:850px;font:inherit;padding:.7rem;border:1px solid #9eafc3;border-radius:7px;margin:.35rem 0 1rem}textarea{min-height:6rem}input:disabled,textarea:disabled{background:#edf0f4;color:#465770}
