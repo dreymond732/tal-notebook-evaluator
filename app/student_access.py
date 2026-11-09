@@ -230,6 +230,19 @@ def authenticate(number, email, code, ip):
         conn.close()
 
 
+def account_exists(number):
+    """Contrôle interne : un devoir lié à un compte existant exige sa session."""
+    if not isinstance(number, str) or not NUMBER_RE.fullmatch(number):
+        return False
+    conn = _db()
+    try:
+        return conn.execute(
+            "SELECT 1 FROM accounts WHERE number=?", (number,)
+        ).fetchone() is not None
+    finally:
+        conn.close()
+
+
 def session_valid(number, version):
     if not isinstance(number, str) or type(version) is not int:
         return False
