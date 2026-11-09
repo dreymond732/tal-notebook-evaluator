@@ -93,7 +93,11 @@
       <button type="submit">Déposer et obtenir mon bilan</button>
     </form>
   {% endif %}
-  <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
+  {% if request.blueprint == 'main' %}
+    <nav aria-label="Navigation">{% include 'semester_navigation.html' %}</nav>
+  {% else %}
+    <nav aria-label="Navigation"><a href="{{ url_for('student.individual') }}">← Ma progression</a></nav>
+  {% endif %}
 </main>
 </body>
 </html>
