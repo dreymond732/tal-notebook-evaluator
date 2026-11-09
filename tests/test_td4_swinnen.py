@@ -13,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'app'))
 from notebook_contract import load_catalog, validate_cell_metadata
 from routes import EVALUATORS
-from presentation_order_evidence import s1_current_path
+from presentation_order_evidence import s1_current_path, undo_td3_presentation_labels
 
 IDS=('td4-one-s1','td4-bis-s1','td4-ter-s1')
 
@@ -57,6 +57,7 @@ class TD4ExpansionTests(unittest.TestCase):
                         self.fail('Titre S1 inattendu : ' + path)
                     first[0] = '# ' + old_label + marker + old_line.split(marker, 2)[2]
                     nb['metadata']['tal_tutor']['session']['notebook'] = path
+                    nb = undo_td3_presentation_labels(nb, s1_current_path(path))
                     canonical = (json.dumps(nb, ensure_ascii=False, indent=2 if old_label == 'TD4 S1' else 1) + '\n').encode('utf-8')
                     self.assertEqual(hashlib.sha256(canonical).hexdigest(), expected)
                 else:
