@@ -180,12 +180,9 @@ du correcteur :
     TAL_SESSION_COOKIE_NAME=tal_corrector_session
     TAL_SESSION_COOKIE_PATH=/universite/tal/
 
-Dans l'application, le lien enseignant est volontairement moins
-visible que celui des étudiants. Le retrait du bouton de premier
-envoi ne supprime pas la protection : les codes sont envoyés
-uniquement à l'adresse autorisée, et la limitation de débit reste
-en vigueur. La demande automatique est limitée à une fois par
-intervalle de dix minutes et par session/onglet, sauf renvoi explicite.
+Le lien enseignant reste discret. L'envoi du code n'est
+désormais possible que depuis la commande CLI sur le NAS, avec
+limitation de débit ; le navigateur ne déclenche aucun message.
 
 Les TD3, TD4, TD5 et TD6 initiaux du S1, auparavant exclus,
 sont maintenant reconnus comme des travaux distincts de leurs
@@ -268,12 +265,12 @@ actions privées d'une session enseignante déjà validée.
 
 ## Correction de la session CSRF après migration du chemin du cookie
 
-Si, après un déploiement, la soumission du code enseignant **et** sa
-redemande aboutissent à une erreur HTTP 400, il ne s'agit pas d'un
-code expiré. Le formulaire a perdu sa session CSRF : le navigateur
-peut conserver deux cookies TAL du même nom, l'un avec `Path=/`,
-l'autre avec `Path=/universite/tal/`. Changer la configuration de
-chemin ne supprime pas automatiquement l'ancien cookie racine.
+Les anciennes versions du portail pouvaient provoquer un HTTP 400
+à la connexion ou à la redemande du code, en raison d'un jeton CSRF
+associé à une session différente. Une autre cause possible était la
+coexistence de deux cookies TAL du même nom, l'un avec `Path=/`,
+l'autre avec `Path=/universite/tal/`. Le circuit CLI actuel n'utilise
+plus de CSRF anonyme pour la connexion.
 
 Le correcteur expire maintenant explicitement **uniquement** le cookie
 `tal_corrector_session` de `Path=/` lorsqu'un chemin public différent
@@ -282,9 +279,8 @@ est configuré. Il continue d'émettre le cookie actif sous
 ni les autres applications ; le cookie générique `session` n'est pas
 effacé.
 
-Un formulaire CSRF invalide est toujours refusé (HTTP 400), mais la
-page explique désormais si le cookie TAL est absent ou si le jeton
-n'est pas celui de la session. Les journaux techniques n'enregistrent
+Les formulaires privés (fiche, déconnexion) restent soumis au CSRF ;
+une incohérence entraîne un HTTP 400 accompagné d'une explication. Les journaux techniques n'enregistrent
 que des indicateurs booléens et le nombre de cookies homonymes, jamais
 leur valeur ni le code de connexion.
 
