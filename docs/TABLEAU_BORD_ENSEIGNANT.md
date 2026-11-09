@@ -323,3 +323,37 @@ La modification doit être testée dans le conteneur SWAG avec
 `nginx -t` et activée par son rechargement Nginx, pas par un
 `docker-compose` du correcteur. Elle n'est **pas appliquée
 automatiquement** depuis le dépôt TAL.
+
+## Présentation des fiches et barèmes (novembre 2026)
+
+Les intitulés des TD3, TD4, TD5 et TD6 initiaux ne comportent plus
+la mention « Synthèse historique ». Le devoir du S1 est libellé
+« Devoir maison intermédiaire S1 ».
+
+Dans chaque fiche individuelle S1, les approfondissements A/B/C sont
+**affichés immédiatement sous le TD principal** auquel ils se rapportent.
+Il n'y a plus de section indépendante « Approfondissement ». Les
+identifiants techniques `td3-one-s1`, `td3-bis-s1`, `td3-ter-s1`
+restent inchangés pour la compatibilité des dépôts et journaux,
+mais les noms pédagogiques et nouveaux dossiers sont bien
+`S1_TD3_A/B/C` (voir `MIGRATION_PHYSIQUE_S1_V2.md`).
+
+**Conversion d'affichage uniquement** : les min/max des TD, variantes
+et révisions sont ramenés sur 10 ; les devoirs maison et les contrôles
+sont présentés sur 20. Chaque dénominateur provient du `MAX_SCORE_TOTAL`
+du correcteur Python correspondant, pas du nombre de fichiers ni du
+barème d'un autre TD. La conversion conserve deux décimales, avec
+arrondi conventionnel. Si un score contient un bonus au-dessus du
+maximum théorique, il n'est pas plafonné arbitrairement. Les CSV
+`progression_S1/S2/S3.csv` et les journaux gardent leurs scores bruts.
+Les anciens contrats continuent d'être comptabilisés pour la
+participation sans conversion ni mélange de leurs notes.
+
+**Actualisation** : après une soumission correctement enregistrée,
+`process_submission()` appelle `refresh_progression()` qui régénère
+les exports du volume privé. La fiche enseignant relit ces CSV et les
+journaux historiques **à chaque nouvelle consultation**, sans cache
+applicatif des scores. Il faut rouvrir la fiche ou actualiser le
+navigateur pour voir un dépôt récent. Une erreur de consolidation
+n'annule pas le dépôt et peut retarder sa visibilité ; consulter les
+journaux applicatifs dans ce cas.
