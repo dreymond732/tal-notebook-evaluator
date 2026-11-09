@@ -80,7 +80,7 @@
                       <th scope="col" class="numeric">Essais anciens</th></tr>
                 </thead>
                 <tbody>
-                  {% for item in section.items %}
+                  {% for item in section['items'] %}
                     <tr>
                       <td class="{{ 'subactivity' if item.subactivity else '' }}">
                         <strong>{{ item.label }}</strong>
