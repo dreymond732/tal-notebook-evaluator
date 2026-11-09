@@ -1,7 +1,7 @@
 # Fichier: app/routes.py
 import os
 import json
-from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort
+from flask import Blueprint, request, render_template, flash, redirect, url_for, current_app, abort, session
 from werkzeug.utils import secure_filename
 from importlib import import_module
 from functools import wraps
@@ -362,6 +362,10 @@ def route_evaluator(eval_module, display_name, eval_name):
                 flash(str(e), 'error')
                 return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
             except Exception as e:
+                from dm_hybrid import SubmissionClosed
+                if student_dm and isinstance(e, SubmissionClosed):
+                    flash(str(e), 'error')
+                    return render_eval_template(template, display_name, eval_name, allowed_ext, is_td)
                 if is_td:
                     flash(f"Erreur: {e}", 'error')
                 else:
@@ -382,6 +386,33 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
     from progression import progression_lock, refresh_progression
 
     with progression_lock():
+        is_dm = eval_name == 'dm-intermediaire-s1'
+        conn = None
+        if is_dm:
+            import dm_hybrid
+            import student_access
+            number = info.get("numero_etudiant","")
+            # Une nouvelle tentative d'un étudiant déjà présent doit
+            # provenir d'une session individuelle authentifiée, pas d'un
+            # numéro copié depuis un cahier d'autrui.
+            prior = dm_hybrid.active_for(number)
+            historic = dm_hybrid._legacy_score(number) if prior is None else None
+            if prior or historic:
+                allowed = (session.get("student_number") == number
+                           and type(session.get("student_authenticated_at")) in (int,float)
+                           and 0 <= __import__("time").time()-session["student_authenticated_at"] <= student_access.SESSION_SECONDS
+                           and student_access.session_valid(number,session.get("student_version")))
+                if not allowed:
+                    raise dm_hybrid.SubmissionClosed(
+                        "Pour redéposer le devoir, connectez-vous d'abord à « Ma progression ».")
+            conn = dm_hybrid._db()
+            try:
+                conn.execute("BEGIN IMMEDIATE")
+                dm_hybrid.assert_redrop_allowed(conn, number)
+            except Exception:
+                conn.rollback()
+                conn.close()
+                raise
         ident = storage_id(eval_name)
         classe = info.get('classe', 'SANS_CLASSE')
         s_nom = secure_filename(info.get('nom', 'NON_RENSEIGNE')).upper()
@@ -404,14 +435,25 @@ def process_submission(file, nb_bytes, html_report, info, score, eval_name):
             with open(rep_path, 'x', encoding='utf-8') as stream:
                 created.append(rep_path)
                 stream.write(html_report)
+            if is_dm:
+                dm_hybrid.register(conn, number, receipt, score, nb_bytes)
             outils.log_grade_to_csv(ident, dict(info, submission_id=receipt), score)
-        except (OSError, ValueError) as exc:
+            if conn is not None:
+                conn.commit()
+        except Exception as exc:
+            if conn is not None:
+                conn.rollback()
             for path in created:
                 try:
                     os.unlink(path)
                 except OSError:
                     current_app.logger.exception("Nettoyage d'un dépôt incomplet : %s", eval_name)
-            raise RuntimeError(f"Erreur lors de la sauvegarde : {exc}") from exc
+            if isinstance(exc, dm_hybrid.SubmissionClosed) if is_dm else False:
+                raise
+            raise RuntimeError("Échec de sauvegarde de la copie") from exc
+        finally:
+            if conn is not None:
+                conn.close()
         try:
             refresh_progression()
         except Exception:
