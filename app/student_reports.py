@@ -7,6 +7,7 @@ Les rapports de contrôles et rapports enseignants DM ne sont jamais exposés.
 from __future__ import annotations
 
 import csv
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -22,7 +23,14 @@ RECEIPT = re.compile(
 )
 
 
+def enabled():
+    """Ouverture explicite après vérification du rattachement numéro-email."""
+    return os.getenv("TAL_STUDENT_REPORTS_ENABLED", "0") == "1"
+
+
 def latest_td_report(number, evaluator):
+    if not enabled():
+        return None
     entry = next((x for x in _catalog() if x["evaluator"] == evaluator
                   and x["kind"] == "TD"), None)
     if entry is None or not number:
