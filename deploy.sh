@@ -10,8 +10,30 @@ fi
 python3 app/prepare_student_notebooks.py check
 python3 app/prepare_student_notebooks.py render --env-file "$ENV_FILE"
 python3 app/prepare_student_notebooks.py verify --env-file "$ENV_FILE"
-docker compose --env-file "$ENV_FILE" up -d --build
-docker compose --env-file "$ENV_FILE" exec -T corrector-tal python -c '
+# Certaines installations NAS ne disposent pas du plugin "docker compose"
+# (V2) et utilisent encore la commande autonome "docker-compose" (V1).
+# Vérifier la commande effective plutôt que supposer la présence du plugin.
+if docker compose version >/dev/null 2>&1; then
+  COMPOSE=(docker compose)
+elif command -v docker-compose >/dev/null 2>&1 && docker-compose version >/dev/null 2>&1; then
+  COMPOSE=(docker-compose)
+else
+  echo "Docker Compose indisponible : installer docker compose (V2) ou docker-compose (V1)." >&2
+  exit 1
+fi
+
+# Les anciennes versions de docker-compose ne reconnaissent pas --env-file.
+# Avec .env à la racine du projet, Compose lit déjà ce fichier automatiquement.
+COMPOSE_ARGS=()
+if "${COMPOSE[@]}" --help 2>&1 | grep -q -- '--env-file'; then
+  COMPOSE_ARGS=(--env-file "$ENV_FILE")
+elif [[ "$ENV_FILE" != "./.env" && "$ENV_FILE" != ".env" ]]; then
+  echo "Ce Docker Compose ne prend pas en charge --env-file ; utiliser ./.env ou mettre à jour Compose." >&2
+  exit 1
+fi
+echo "Déploiement avec : ${COMPOSE[*]}"
+"${COMPOSE[@]}" "${COMPOSE_ARGS[@]}" up -d --build
+"${COMPOSE[@]}" "${COMPOSE_ARGS[@]}" exec -T corrector-tal python -c '
 import json, time, urllib.request
 for attempt in range(15):
     try:
