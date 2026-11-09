@@ -65,13 +65,8 @@ def _redirect_home():
     return redirect(tal_url_for("teacher.index"), code=303)
 
 def _render(**kwargs):
-    attempted = session.get("teacher_code_requested_at", 0)
-    elapsed = time.time() - attempted if type(attempted) in (int, float) else teacher_access.CODE_SECONDS + 1
-    auto_send = (not kwargs.get("authenticated", False)
-                 and elapsed >= teacher_access.CODE_SECONDS)
     return render_template(
         "teacher_progress_template.html",
-        auto_send=auto_send,
         ready=True,
         year=os.environ["TAL_ACADEMIC_YEAR"],
         semesters=SEMESTERS,
@@ -131,34 +126,18 @@ def index():
     return _render(authenticated=True, listing=listing, selected=None)
 
 
-@teacher_bp.route("/demander-code", methods=["POST"])
-def request_login_code():
-    if not _enabled():
-        abort(503)
-    _require_csrf()
-    # Une demande par ouverture de page au maximum. Les tentatives et l'IP
-    # restent aussi limitées dans teacher_access.
-    session["teacher_code_requested_at"] = int(time.time())
-    try:
-        teacher_access.request_code(request.remote_addr or "unknown")
-        flash(
-            "Si l'envoi est autorisé, un code temporaire a été envoyé "
-            "à l'adresse enseignante configurée.", "info",
-        )
-    except Exception:
-        current_app.logger.exception("Envoi du code enseignant indisponible")
-        flash("L'envoi du code est momentanément indisponible.", "error")
-    return _redirect_home()
-
-
 @teacher_bp.route("/connexion", methods=["POST"])
 def login():
     if not _enabled():
         abort(503)
-    _require_csrf()
+    # Le code aléatoire, envoyé UNIQUEMENT par la CLI, est le secret
+    # d'authentification : ne pas exiger le CSRF d'une session anonyme
+    # qui peut avoir changé derrière SWAG. Les routes privées gardent
+    # l'authentification et le CSRF sur les opérations POST.
     try:
         accepted = teacher_access.consume_code(
             request.form.get("code", ""), request.remote_addr or "unknown",
+            request.form.get("email", ""),
         )
     except Exception:
         current_app.logger.exception("Vérification du code enseignant indisponible")
