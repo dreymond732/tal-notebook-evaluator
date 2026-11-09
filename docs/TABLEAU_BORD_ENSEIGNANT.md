@@ -311,13 +311,45 @@ clé SMTP dans les rapports de diagnostic partagés.
 
 ## Alignement du proxy SWAG sur Journalia
 
-Un exemple vérifiable de configuration se trouve dans
-`deploy/swag/universite-tal.subfolder.conf`. Les deux fichiers transmis
-par le mainteneur différaient : TAL déclarait `X-Script-Name`,
-`X-Forwarded-Prefix` et `X-Forwarded-Host`, tandis que Journalia
-déclarait aussi explicitement `X-Forwarded-Proto $scheme` et
-`Host $host`. Ajouter ces deux lignes dans TAL tout en conservant
-le `rewrite` existant et le nom `corrector-tal:5001`.
+Un exemple de configuration corrigée figure dans
+`deploy/swag/universite-tal.subfolder.conf`. Contrairement à une
+recommandation précédente, **ne pas ajouter** les lignes
+`proxy_set_header Host $host`, `proxy_set_header X-Forwarded-Host $host`
+et `proxy_set_header X-Forwarded-Proto $scheme` dans le bloc TAL
+si `/config/nginx/proxy.conf` les définit déjà. Le modèle officiel
+SWAG définit ces trois en-têtes. Les déclarer deux fois dans un
+même bloc peut transmettre des champs HTTP doublés et produire
+`Invalid HTTP Header: 'HOST'` côté Gunicorn.
+
+**Pourquoi Journalia peut fonctionner malgré les mêmes doublons :**
+Gunicorn a commencé à rejeter explicitement les champs `Host`
+dupliqués dans sa version 26.1.0 (18 août 2026), tandis que des
+versions antérieures les acceptaient. Le serveur de Journalia peut
+donc employer une autre version ou une autre implémentation HTTP ;
+ceci reste à vérifier, et ne constitue pas une preuve sur le
+déploiement réel de Journalia. TAL installe actuellement Gunicorn
+sans version fixe et une reconstruction de l'image peut donc
+changer son comportement. Référence de publication :
+https://gunicorn.org/news/
+
+Vérifier la version du correcteur après déploiement :
+
+```bash
+docker-compose exec -T corrector-tal gunicorn --version
+```
+
+Ne pas désactiver la vérification des en-têtes de Gunicorn, et ne
+pas revenir à une ancienne version pour contourner le problème :
+la correction doit se faire dans Nginx, en évitant les doublons.
+Conserver le `rewrite` existant, `corrector-tal:5001`,
+`X-Forwarded-Prefix` et `X-Script-Name`.
+
+Pour vérifier le fichier effectivement installé :
+```bash
+docker exec swag sh -c "grep -nE 'proxy_set_header (Host|X-Forwarded-Host|X-Forwarded-Proto) ' /config/nginx/proxy.conf"
+```
+Puis contrôler avec `docker exec swag nginx -t` et recharger par
+`docker exec swag nginx -s reload` **seulement si le test est réussi**.
 
 La modification doit être testée dans le conteneur SWAG avec
 `nginx -t` et activée par son rechargement Nginx, pas par un
