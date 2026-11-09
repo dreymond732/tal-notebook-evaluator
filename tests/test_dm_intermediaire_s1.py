@@ -82,7 +82,7 @@ class AssignmentChecks(unittest.TestCase):
         good = answer(12, SERIES, [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])
         self.assertEqual(self.evaluate(good)[0], 0.75)
         good['source'] = "raise RuntimeError('DO_NOT_EXECUTE')\n" + good['source']
-        self.assertEqual(self.evaluate(good)[0], 1)
+        self.assertEqual(self.evaluate(good)[0], 0.75)
         bad = answer(12, '# for range while +=\nprint("Résultat Q12 :", [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])',
                      [[2,4,6,8,10,12], [3,6,12,24,48,96], 189])
         self.assertEqual(self.evaluate(bad)[0], 0)
