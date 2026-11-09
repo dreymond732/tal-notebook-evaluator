@@ -105,3 +105,53 @@ def logout():
     _verify_csrf()
     session.clear()
     return redirect(url_for("student.individual"), code=303)
+
+
+@student_bp.route("/ma-progression/rapport/<evaluator>", methods=["GET"])
+def report(evaluator):
+    """Uniquement le dernier rapport TD, ou le bilan DM actif de la session."""
+    if not _ready():
+        abort(503)
+    number = session.get("student_number")
+    version = session.get("student_version")
+    issued = session.get("student_authenticated_at", 0)
+    if not (number and type(issued) in (int, float)
+            and 0 <= time.time() - issued <= student_access.SESSION_SECONDS
+            and student_access.session_valid(number, version)):
+        abort(403)
+    if evaluator == "dm-intermediaire-s1":
+        from dm_hybrid import current_for_student, MAX_SCORE_TOTAL
+        result = current_for_student(number)
+        if result is None:
+            abort(404)
+        response = current_app.make_response(render_template(
+            "dm_s1_student_report_template.html",
+            score=result["score"], max_score=MAX_SCORE_TOTAL,
+            display_name="Devoir maison intermédiaire S1",
+            evaluator_name=evaluator,
+            filename=result["filename"],
+            student_feedback=result["feedback"],
+            final_score=result["final_score"],
+            human_score=result["human_score"] if result["validated_at"] else None,
+            human_questions=result["questions"] if result["validated_at"] else None,
+        ))
+    else:
+        from student_reports import latest_td_report
+        from pathlib import Path
+        path = latest_td_report(number, evaluator)
+        if path is None:
+            abort(404)
+        # Rapports issus de Jinja, éventuellement riches en références.
+        # Les scripts sont désactivés dans la consultation rétrospective.
+        response = current_app.make_response(path.read_bytes())
+        response.mimetype = "text/html"
+        response.headers["Content-Security-Policy"] = (
+            "sandbox; default-src 'none'; style-src 'unsafe-inline'; "
+            "img-src data:; base-uri 'none'; form-action 'none'"
+        )
+    response.headers["Cache-Control"] = "private, no-store, max-age=0"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    return response
+
+
