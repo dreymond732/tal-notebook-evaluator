@@ -18,6 +18,7 @@ services:
         TAL_SMTP_USER: "${TAL_SMTP_USER:-}"
         TAL_SMTP_PASSWORD: "${TAL_SMTP_PASSWORD:-}"
         TAL_TEACHER_EMAIL: "${TAL_TEACHER_EMAIL:-}"
+        TAL_STUDENT_REPORTS_ENABLED: "${TAL_STUDENT_REPORTS_ENABLED:-0}"
     volumes:
       # Ajout de ce volume pour la persistance des données
       - ./soumissions:/app/soumissions
