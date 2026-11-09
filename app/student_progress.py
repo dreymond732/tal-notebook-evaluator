@@ -11,7 +11,7 @@ import outils
 from progression import _catalog, SEMESTERS
 from routes import EVALUATORS
 from teacher_scores import scaled_score
-from student_reports import latest_td_report
+from student_reports import enabled as reports_enabled, latest_td_report
 from dm_hybrid import current_for_student
 
 
@@ -103,4 +103,5 @@ def individual_progress(number):
         return None
     dm = current_for_student(number)
     return {"number": number, "name": name, "first_name": first_name,
-            "semesters": semesters, "dm": dm}
+            "semesters": semesters, "dm": dm,
+            "reports_enabled": reports_enabled()}
