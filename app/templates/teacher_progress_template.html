@@ -37,21 +37,17 @@
   {% elif not authenticated %}
     <section class="panel login-panel">
       <h2>Connexion enseignant</h2>
-      <p>Un code de connexion est envoyé automatiquement à l'adresse enseignante autorisée. Il reste valable 10 minutes et ne peut être utilisé qu'une seule fois.</p>
-      <form id="teacher-code-auto-send" method="post"
-            action="{{ tal_url_for('teacher.request_login_code') }}"
-            data-auto-send="{{ 'true' if auto_send else 'false' }}">
-        <input type="hidden" name="csrf" value="{{ csrf }}">
-        <button class="resend-link" type="submit">Code non reçu ? Renvoyer le code</button>
-      </form>
+      <p>Le code temporaire est envoyé uniquement sur demande de l'enseignant depuis le serveur. Aucun envoi d'email ne peut être déclenché depuis ce site.</p>
       <form method="post" action="{{ tal_url_for('teacher.login') }}">
-        <input type="hidden" name="csrf" value="{{ csrf }}">
-        <label for="code">Code reçu par email</label>
+        <label for="teacher-email">Adresse email enseignante autorisée</label>
+        <input id="teacher-email" name="email" type="email" maxlength="254"
+               autocomplete="username" required>
+        <label for="code">Code temporaire reçu par email</label>
         <input id="code" type="text" name="code" maxlength="12" minlength="12"
                autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" required>
         <button type="submit">Accéder à ma session enseignante</button>
       </form>
-      <p class="muted small">La session enseignante reste ouverte deux heures au maximum.</p>
+      <p class="muted small">Le code expire après 10 minutes et ne peut servir qu’une fois. La session enseignante reste ouverte deux heures au maximum.</p>
     </section>
   {% else %}
     {% if selected %}
