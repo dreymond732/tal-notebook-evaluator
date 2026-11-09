@@ -191,6 +191,98 @@ class DistributionTests(unittest.TestCase):
 
 
 class DeployCommandTests(unittest.TestCase):
+    def test_deploy_uses_legacy_docker_compose_when_plugin_is_missing(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            env_file = root / "deployment.env"
+            env_file.write_text("TAL_PUBLIC_URL=https://example.test/universite/tal\n")
+            log = root / "commands.log"
+
+            python = root / "python3"
+            python.write_text(
+                '#!/bin/bash\n'
+                'printf "%s\\n" "python3 $*" >> "$COMMAND_LOG"\n'
+            )
+            python.chmod(0o755)
+
+            docker = root / "docker"
+            docker.write_text(
+                '#!/bin/bash\n'
+                'printf "%s\\n" "docker $*" >> "$COMMAND_LOG"\n'
+                'if [[ "$1" == "compose" && "$2" == "version" ]]; then exit 1; fi\n'
+                'exit 99\n'
+            )
+            docker.chmod(0o755)
+
+            legacy = root / "docker-compose"
+            legacy.write_text(
+                '#!/bin/bash\n'
+                'printf "%s\\n" "docker-compose $*" >> "$COMMAND_LOG"\n'
+                'if [[ "$1" == "--help" ]]; then echo "--env-file"; fi\n'
+            )
+            legacy.chmod(0o755)
+
+            env = dict(os.environ, PATH=str(root) + os.pathsep + os.environ["PATH"],
+                       COMMAND_LOG=str(log))
+            subprocess.run(["bash", str(prep.ROOT / "deploy.sh"), str(env_file)],
+                           env=env, check=True)
+            calls = log.read_text()
+            self.assertIn("docker compose version", calls)
+            self.assertIn("docker-compose version", calls)
+            self.assertIn(f"docker-compose --env-file {env_file} up -d --build", calls)
+            self.assertIn(f"docker-compose --env-file {env_file} exec -T corrector-tal", calls)
+            self.assertNotIn("docker compose --env-file", calls)
+
+    def test_old_compose_without_env_file_uses_project_dotenv_or_fails_safely(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            log = root / "commands.log"
+
+            python = root / "python3"
+            python.write_text(
+                '#!/bin/bash\n'
+                'printf "%s\\n" "python3 $*" >> "$COMMAND_LOG"\n'
+            )
+            python.chmod(0o755)
+
+            docker = root / "docker"
+            docker.write_text('#!/bin/bash\nexit 1\n')
+            docker.chmod(0o755)
+
+            legacy = root / "docker-compose"
+            legacy.write_text(
+                '#!/bin/bash\n'
+                'printf "%s\\n" "docker-compose $*" >> "$COMMAND_LOG"\n'
+                'if [[ "$1" == "--help" ]]; then echo "Usage: docker-compose"; fi\n'
+            )
+            legacy.chmod(0o755)
+
+            # Le script se place à la racine du projet. La suite d'appels
+            # Python et Docker est simulée sans toucher à la machine hôte.
+            env = dict(os.environ, PATH=str(root) + os.pathsep + os.environ["PATH"],
+                       COMMAND_LOG=str(log))
+            own_env = prep.ROOT / ".env"
+            # Ne jamais créer/écraser le .env réel pendant les tests.
+            with tempfile.TemporaryDirectory() as checkout:
+                location = Path(checkout)
+                (location / "deploy.sh").write_bytes((prep.ROOT / "deploy.sh").read_bytes())
+                (location / "app").mkdir()
+                (location / ".env").write_text("TAL_PUBLIC_URL=https://example.test/universite/tal\n")
+                good = subprocess.run(["bash", str(location / "deploy.sh")], env=env,
+                                      capture_output=True, text=True)
+                self.assertEqual(good.returncode, 0, good.stderr)
+                calls = log.read_text()
+                self.assertIn("docker-compose up -d --build", calls)
+                self.assertNotIn("docker-compose --env-file", calls)
+                log.write_text("")
+                custom = location / "deployment.env"
+                custom.write_text("TAL_PUBLIC_URL=https://example.test/universite/tal\n")
+                bad = subprocess.run(["bash", str(location / "deploy.sh"), str(custom)],
+                                     env=env, capture_output=True, text=True)
+                self.assertNotEqual(bad.returncode, 0)
+                self.assertIn("ne prend pas en charge --env-file", bad.stderr)
+                self.assertNotIn("docker-compose up -d --build", log.read_text())
+
     def test_checks_and_generation_precede_docker_and_failure_stops_deployment(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -200,6 +292,7 @@ class DeployCommandTests(unittest.TestCase):
             for name in ("python3", "docker"):
                 command = root / name
                 command.write_text('#!/bin/bash\nprintf "%s\\n" "' + name + ' $*" >> "$COMMAND_LOG"\n'
+                                   'if [[ "$1" == "compose" && "$2" == "--help" ]]; then echo "--env-file"; fi\n'
                                    'if [[ "${FAIL_RENDER:-}" == "yes" && "$*" == *" render "* ]]; then exit 17; fi\n')
                 command.chmod(0o755)
             environment = dict(os.environ, PATH=str(root) + os.pathsep + os.environ["PATH"], COMMAND_LOG=str(log))
