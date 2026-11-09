@@ -26,7 +26,8 @@ REDEPOSIT_THRESHOLD = MAX_SCORE_TOTAL / 2  # 8.875, strictement inférieur
 HUMAN_REVIEW = (
     'Relecture humaine requise : raisonnement, explications, généralité des fonctions, '
     'tests, lisibilité et respect des notions vues jusqu’au TD5. '
-    'Le score technique sur 20 ne constitue pas une note globale. '
+    'Le score automatique sur 17,75 est provisoire ; les 2,25 points de relecture ' 
+    'humaine complètent la note finale sur 20 après validation enseignante. '
     'Le serveur lit le code et les sorties enregistrées sans les exécuter ; '
     'il ne certifie ni leur authenticité ni leur fraîcheur. '
     'Une solution valable non reconnue par les vérifications statiques doit être réexaminée.'
