@@ -63,6 +63,11 @@ print("Résultat Q12 :", [numeros_pairs, diffusion, total_contacts])
 
 
 class AssignmentChecks(unittest.TestCase):
+    def setUp(self):
+        env = patch.dict(__import__("os").environ, {"TAL_ACADEMIC_YEAR": "2026-2027"})
+        env.start()
+        self.addCleanup(env.stop)
+
     def evaluate(self, *cells):
         return dm.check_notebook(json.dumps(notebook(*cells)), 'renommee.ipynb')
 
