@@ -2,6 +2,7 @@
 import copy
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -195,7 +196,7 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
         self.assertEqual((result[0], result[2], result[4]), (17.75, 17.75, None), result[1])
 
     def test_student_receives_18_question_scores_but_not_private_teaching_rubric(self):
-        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
+        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory), patch.dict(os.environ, {'TAL_ACADEMIC_YEAR': '2026-2027'}):
             app = create_app()
             app.config['TESTING'] = True
             client = app.test_client()
@@ -256,7 +257,7 @@ print("Résultat Q10 :", [len(themes_a), len(a), a & b, a - b])'''
     def test_output_is_html_escaped_even_if_notebook_contains_markup(self):
         # L'output étudiant est traité comme une chaîne et doit être échappé.
         cell = answer(1, BUDGET, ['<script>alert(1)</script>',90,108,9,True])
-        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory):
+        with tempfile.TemporaryDirectory() as directory, patch.object(outils, 'BASE_DIR', directory), patch.dict(os.environ, {'TAL_ACADEMIC_YEAR': '2026-2027'}):
             app = create_app()
             app.config['TESTING'] = True
             payload = json.dumps(notebook(cell)).encode()
