@@ -19,6 +19,7 @@ from progression import (SEMESTERS, _catalog, _academic_start, _date, _key,
 from routes import EVALUATORS
 from storage_layout import GRADE_COLUMNS
 from teacher_scores import scaled_score
+from dm_hybrid import active_for as active_dm_for
 
 CSV_HEADER = ("Numéro étudiant", "Nom", "Prénom")
 CATEGORIES = ("TD", "Approfondissement", "Révision", "DM", "Contrôle")
@@ -151,6 +152,7 @@ def cohort(semester):
         else:
             last_name, first_name = old_identity[1]
         details = []
+        dm_active = active_dm_for(number) if semester == "S1" else None
         done = dict.fromkeys(CATEGORIES, 0)
         from_old_only = dict.fromkeys(CATEGORIES, 0)
         attempts_total = 0
@@ -174,12 +176,32 @@ def cohort(semester):
                 done[item["type"]] += 1
             if older and count == 0:
                 from_old_only[item["type"]] += 1
+            if slug == "dm-intermediaire-s1":
+                # Ne jamais normaliser les anciennes notes /20 avec le
+                # nouveau MAX_SCORE_TOTAL=17,75 : ce serait une fausse note.
+                # Les dépôts hybrides sont identifiés séparément en SQLite.
+                if dm_active is not None:
+                    shown = f"{dm_active['auto_score']:.2f}".replace(".", ",")
+                    score_min, score_max = shown, shown
+                    scale = 17.75
+                    final_note = (
+                        f"{dm_active['final_score']:.2f}".replace(".", ",")
+                        if dm_active["state"] == "published" else ""
+                    )
+                else:
+                    score_min, score_max = minimum, maximum
+                    scale, final_note = 20, ""
+            else:
+                score_min = scaled_score(minimum, slug, item["scale"]) if count else ""
+                score_max = scaled_score(maximum, slug, item["scale"]) if count else ""
+                scale, final_note = item["scale"], ""
             details.append({
                 **item,
+                "scale": scale,
                 "attempts": count, "legacy_attempts": older,
                 "min": minimum, "max": maximum,
-                "min_display": scaled_score(minimum, slug, item["scale"]) if count else "",
-                "max_display": scaled_score(maximum, slug, item["scale"]) if count else "",
+                "min_display": score_min, "max_display": score_max,
+                "final_display": final_note,
             })
         students.append({
             "number": number, "last_name": last_name, "first_name": first_name,
