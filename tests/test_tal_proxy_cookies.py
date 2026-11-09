@@ -101,15 +101,22 @@ class TalPrefixCookieTests(unittest.TestCase):
         self.assertIn('action="/universite/tal/ma-progression/demander-code"', content)
         self.assertIn('action="/universite/tal/ma-progression/connexion"', content)
         self.assertIn('href="/universite/tal/"', content)
-        import re
-        csrf = re.search(r'name="csrf" value="([^"]+)"', content).group(1)
-        # POST reçu sans X-Forwarded-Prefix : réponse redirigée vers le
-        # chemin extérieur canonique, et non /ma-progression à la racine.
-        response = client.post("/ma-progression/demander-code", headers=headers,
-                               data={"csrf": csrf, "numero": "inconnu",
-                                     "email": "test@example.invalid"})
-        self.assertEqual(response.status_code, 303)
-        self.assertEqual(response.headers["Location"], "/universite/tal/ma-progression")
+        # La simulation GET utilise l'URL interne, sans le préfixe SWAG :
+        # un client HTTP de test ne réémettrait pas le cookie scellé sur
+        # Path=/universite/tal/. Tester séparément la redirection applicative
+        # à l'intérieur du contexte proxifié plutôt que simuler un POST
+        # navigateur vers le mauvais chemin extérieur.
+        from flask import session
+        from student_routes import logout
+        with app.test_request_context(
+            "/ma-progression/deconnexion", method="POST",
+            headers=headers, data={"csrf": "test-csrf"}
+        ):
+            session["student_csrf"] = "test-csrf"
+            response = logout()
+            self.assertEqual(response.status_code, 303)
+            self.assertEqual(response.headers["Location"],
+                             "/universite/tal/ma-progression")
 
     def test_student_link_does_not_duplicate_proxy_prefix(self):
         app = create_app()
