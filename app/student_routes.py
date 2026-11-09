@@ -4,7 +4,7 @@ import os
 import secrets
 import time
 from flask import (Blueprint, abort, current_app, flash, redirect,
-                   render_template, request, session, url_for)
+                   render_template, request, session, url_for, send_file)
 
 import student_access
 from student_progress import individual_progress, student_exists
@@ -98,6 +98,59 @@ def login():
     else:
         flash(student_access.GENERIC_DENIED, "error")
     return redirect(url_for("student.individual"), code=303)
+
+
+
+
+def _verified_number():
+    number = session.get("student_number")
+    version = session.get("student_version")
+    issued = session.get("student_authenticated_at", 0)
+    if (not _ready() or not number or type(issued) not in (int,float)
+            or not 0 <= time.time()-issued <= student_access.SESSION_SECONDS
+            or not student_access.session_valid(number, version)):
+        abort(403)
+    return number
+
+
+@student_bp.route("/ma-progression/rapport/<evaluation>", methods=["GET"])
+def report(evaluation):
+    """Dernier rapport lié à la session, jamais un chemin de fichier public."""
+    number = _verified_number()
+    from student_reports import enabled, latest_td_report
+    if not enabled():
+        abort(404)
+    if evaluation == "dm-intermediaire-s1":
+        import json
+        from dm_hybrid import active_for, review_evidence
+        record = active_for(number)
+        if record is None:
+            abort(404)
+        try:
+            _, _, feedback = review_evidence(record)
+        except (OSError,UnicodeError,ValueError):
+            current_app.logger.exception("Rapport DM individuel indisponible")
+            return "Rapport temporairement indisponible.", 503
+        review = json.loads(record["review_json"]) if record["state"]=="published" else None
+        return render_template(
+            "dm_s1_student_report_template.html",
+            display_name="Devoir maison intermédiaire S1",
+            evaluator_name=evaluation, score=record["auto_score"],
+            max_score=17.75, student_feedback=feedback, review=review,
+            final_score=record["final_score"] if review is not None else None,
+        )
+    path = latest_td_report(number, evaluation)
+    if path is None:
+        abort(404)
+    response = send_file(path, mimetype="text/html; charset=utf-8")
+    # Les rapports HTML archivés peuvent contenir du JS historique.
+    # Interdire tout script et navigation, sans casser la mise en page CSS.
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'none'; style-src 'unsafe-inline'; "
+        "sandbox; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+    )
+    response.headers["X-Frame-Options"] = "DENY"
+    return response
 
 
 @student_bp.route("/ma-progression/deconnexion", methods=["POST"])
