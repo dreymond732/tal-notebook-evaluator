@@ -77,6 +77,48 @@ class TalPrefixCookieTests(unittest.TestCase):
                 self.assertIn("Accès enseignant" if location == "/" else "Enseignant", html)
                 self.assertIn("/universite/tal/enseignant/progression", html)
 
+    def test_student_home_link_and_forms_keep_prefix_without_forwarded_prefix(self):
+        # Certains upstreams SWAG transmettent le protocole, mais pas le
+        # préfixe public ; le cookie configuré fait autorité.
+        app = create_app()
+        client = app.test_client()
+        headers = {
+            "X-Forwarded-Proto": "https",
+            "X-Forwarded-Host": "exemple.invalid",
+        }
+        home = client.get("/", headers=headers)
+        self.assertEqual(home.status_code, 200)
+        html = home.get_data(as_text=True)
+        self.assertIn('href="/universite/tal/ma-progression"', html)
+        self.assertIn('>Ma progression</a>', html)
+        self.assertNotIn('Ma progression en TAL', html)
+        self.assertIn('action="/universite/tal/submit"', html)
+        self.assertIn('href="/universite/tal/semestre/S1"', html)
+
+        page = client.get("/ma-progression", headers=headers)
+        self.assertEqual(page.status_code, 200)
+        content = page.get_data(as_text=True)
+        self.assertIn('action="/universite/tal/ma-progression/demander-code"', content)
+        self.assertIn('action="/universite/tal/ma-progression/connexion"', content)
+        self.assertIn('href="/universite/tal/"', content)
+        import re
+        csrf = re.search(r'name="csrf" value="([^"]+)"', content).group(1)
+        # POST reçu sans X-Forwarded-Prefix : réponse redirigée vers le
+        # chemin extérieur canonique, et non /ma-progression à la racine.
+        response = client.post("/ma-progression/demander-code", headers=headers,
+                               data={"csrf": csrf, "numero": "inconnu",
+                                     "email": "test@example.invalid"})
+        self.assertEqual(response.status_code, 303)
+        self.assertEqual(response.headers["Location"], "/universite/tal/ma-progression")
+
+    def test_student_link_does_not_duplicate_proxy_prefix(self):
+        app = create_app()
+        client = app.test_client()
+        headers = self.headers()
+        home = client.get("/", headers=headers)
+        self.assertIn('href="/universite/tal/ma-progression"', home.get_data(as_text=True))
+        self.assertNotIn('/universite/tal/universite/tal/', home.get_data(as_text=True))
+
     def test_teacher_login_redirect_recovers_missing_post_prefix(self):
         # GET initial proxifié puis POST sans X-Forwarded-Prefix : la
         # redirection revient toujours sous le chemin public du cookie.
