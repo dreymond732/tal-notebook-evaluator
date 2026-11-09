@@ -6,14 +6,30 @@
 `EVALUATOR_MODES`. Un identifiant absent ou un mode invalide bloque l'accès
 avec un message d'indisponibilité. Le nom de l'URL ne détermine plus le mode.
 
-Pour un TD, le retour formatif existant est conservé. Pour un contrôle,
-la page publique affiche seulement le formulaire ou, après sauvegarde réussie,
-« Copie reçue et enregistrée ». Aucun score, statut de question, réponse,
-solution ou détail du correcteur n'est transmis au template public.
-Les exceptions et erreurs renvoyées par le correcteur donnent un message
-générique ; leur diagnostic reste dans les journaux serveur.
+Pour un TD, le retour formatif existant est conservé. Pour les **contrôles
+sommatifs**, la page publique affiche seulement le formulaire ou, après
+sauvegarde réussie, « Copie reçue et enregistrée ». Aucun score, statut de
+question, réponse, solution ou détail du correcteur n'est transmis au template
+public de ces contrôles. Les exceptions et erreurs renvoyées par les correcteurs
+sommatifs donnent un message générique ; leur diagnostic reste dans les
+journaux serveur.
+
+**Exception pédagogique explicite : `dm-intermediaire-s1`.** Ce devoir
+intermédiaire est configuré historiquement en mode `controle`, mais son
+dépôt est à visée formative. Après enregistrement, la réponse est un
+**bilan technique provisoire sur 20** indiquant pour chacune des 18 questions
+le score acquis, le maximum et un état « critères vérifiés satisfaits »,
+« réussite partielle » ou « à reprendre », avec la trace retrouvée.
+Le succès ne certifie ni la qualité du raisonnement ni l'exécution du
+programme : il s'agit de vérifications statiques sur les sorties enregistrées.
+Aucune solution complète, critère AST interne, dimension de relecture ciblée
+ou note définitive n'est communiquée. Le rapport privé enseignant demeure
+complet et distinct du bilan rendu à l'étudiant.
 Les erreurs administratives de dépôt (fichier absent ou extension incorrecte)
 restent explicites.
+
+Le bilan du DM n'est rendu qu'en réponse au dépôt de la copie courante.
+Aucune URL publique de consultation rétrospective des rapports n'est créée.
 
 La copie, le CSV et le rapport HTML détaillé historique sont conservés dans
 `soumissions/<évaluation>/<classe>/`. Le rapport comporte le score et le détail
