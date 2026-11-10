@@ -84,70 +84,98 @@
 </section>
 
 <section class="section" id="contrats">
-  <div class="eyebrow">04 · Conventions évolutives</div>
-  <h2>Deux contrats communs, à éprouver avant de les figer</h2>
+
+  <div class="eyebrow">04 · Contrats évolutifs</div>
+  <h2>Deux engagements communs pour des mesures reproductibles</h2>
   <div class="grid">
-    <div class="panel"><h3>Contrat A · Mesurer sans confondre</h3><p><strong>Un seul moteur</strong> de mesure ; des paramètres explicites&nbsp;: type d’unité (phrase, fenêtre, paragraphe), frontières traversables ou non, k à gauche/droite, normalisation, expressions et agrégation.</p><p>Les modes ne représentent pas automatiquement la même grandeur&nbsp;: une phrase commune, une paire d’occurrences et un pivot couvert par une fenêtre ont des dénominateurs différents.</p><div class="semi student"><h3>✓ Étudiants</h3><p>Documenter et tester les modes de comptage ; proposer les paramètres à comparer ; signaler les cas où deux mesures ne sont pas comparables.</p></div><div class="semi teacher"><h3>✎ Enseignant</h3><p>Valider le vocabulaire méthodologique, arbitrer les comparaisons retenues et fixer les conventions pour les analyses collectives.</p></div></div>
-    <div class="panel"><h3>Contrat B · Chaque nombre doit avoir sa preuve</h3><p>Tout résultat doit rester relié à cinq éléments&nbsp;: <strong>provenance</strong> (corpus, empreinte), <strong>prétraitement</strong> (outil et version), <strong>protocole</strong> (unités, paramètres), <strong>mesure</strong> (valeur et dénominateur) et <strong>preuves</strong> (positions/extraits). Une comparaison avec Gemini constitue un sixième niveau séparé.</p><div class="semi student"><h3>✓ Étudiants</h3><p>Établir les traces, contrôler des extraits, vérifier le type et l’unité des résultats et conserver les contre-exemples.</p></div><div class="semi teacher"><h3>✎ Enseignant</h3><p>Fixer les critères d’acceptation du contrat et examiner les modifications de schéma soumises par PR.</p></div></div>
+    <div class="panel"><h3>Contrat A · Chaque valeur a une définition calculable</h3>
+      <p>Le moteur commun doit accepter des conventions explicites&nbsp;: <strong>version du corpus, tokenisation, inclusion/exclusion de la ponctuation, formes/lemmes, casse, segmentation, regroupements</strong> et dénominateurs. La cooccurrence introduira ensuite phrase, fenêtre glissante, limites franchies ou non et agrégation.</p>
+      <p>Une valeur de <em>tokens</em>, de <em>types</em> ou de <em>phrases</em> dépend de ces choix ; plusieurs protocoles peuvent être plausibles sans être équivalents.</p>
+      <p><span class="tag green">Étudiants</span> Tester plusieurs cas, identifier les dépendances, proposer les variantes pertinentes.</p>
+      <p><span class="tag">Enseignant</span> Arbitrer les conventions collectives et conserver les alternatives documentées.</p>
+    </div>
+    <div class="panel"><h3>Contrat B · Chaque affirmation est reliée à une preuve</h3>
+      <p>Chaque ligne d'audit conserve la <strong>source (§ et formulation originale)</strong>, le <strong>corpus SHA-256</strong>, le prétraitement et sa version, le protocole, la mesure observée, la précision des arrondis, les passages/positions, le contrôle sur échantillon et le <strong>statut d'interprétation</strong>.</p>
+      <p><strong>États distingués&nbsp;:</strong> reproduit selon protocole, écart numérique, convention non identifiée, annotation à discuter, inférence non étayée ou non évaluable.</p>
+      <p><span class="tag green">Étudiants</span> Renseigner les preuves, les désaccords et les cas non concluants.</p>
+      <p><span class="tag">Enseignant</span> Valider la qualité des traces, pas l'obtention du chiffre attendu.</p>
+    </div>
   </div>
-  <div class="semi caution"><h3>⚑ Un piège réel du corpus</h3><p>Le fichier Faguet est constitué de lignes typographiques dont beaucoup se terminent au milieu d’une phrase&nbsp;: le corpus figé compte 8&nbsp;456 fins de ligne CRLF. Le remplacement contrôlé de certains retours à la ligne, l’analyse des abréviations et la segmentation spaCy doivent être étudiés <strong>sans perdre l’ancrage dans le texte original</strong>. Les statistiques exploratoires obtenues par d’autres segmentations ne deviennent pas automatiquement des valeurs de référence. La segmentation spaCy peut être issue d’un analyseur syntaxique ou de règles <a class="ref" href="#r9">[R9]</a>.</p></div>
+  <div class="semi caution"><h3>⚑ Les retours à la ligne ne sont pas forcément des frontières de phrase</h3>
+    <p>Le corpus Faguet des TD S3 compte <strong>8&nbsp;456 fins de ligne CRLF</strong>, souvent typographiques. La segmentation en phrases de ce fichier ne se déduit pas de leur nombre. Toute recomposition éventuelle doit préserver le lien avec les positions originales, et l'effet du choix de segmentation doit être testé <a class="ref" href="#r9">[R9]</a>.</p>
+  </div>
 </section>
 
 <section class="section" id="architecture">
+
   <div class="eyebrow">05 · Organisation technique</div>
-  <h2>Un dépôt Git, une bibliothèque, quatre notebooks</h2>
-  <p>Le dépôt partagé est <a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener"><strong>dreymond732/PT-LLMvsPy</strong></a>. La <a href="https://github.com/dreymond732/PT-LLMvsPy/pull/1" target="_blank" rel="noopener">PR #1</a> propose une première bibliothèque avec tests et gabarits de cahiers&nbsp;; elle est <strong>en brouillon</strong>. C’est un socle à examiner et corriger, pas une solution considérée comme définitive.</p>
-  <div class="flow" aria-label="Chaîne d'analyse et de validation">
-    <div><strong>01 · Ressources figées</strong><span>Corpus Faguet, empreintes, métriques globales complémentaires et transcription G1–G6.</span></div>
-    <div><strong>02 · Bibliothèque partagée</strong><span>Fonctions paramétrables, données normalisées, tests unitaires.</span></div>
-    <div><strong>03 · Quatre notebooks</strong><span>Expérimenter, calculer, documenter et confronter les résultats.</span></div>
-    <div><strong>04 · Revue / PR</strong><span>Comparer les traces, corriger les fonctions, valider un jalon.</span></div>
+  <h2>Une bibliothèque Git partagée et quatre cahiers d'enquête</h2>
+  <p>Le développement se fait dans <a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener"><strong>dreymond732/PT-LLMvsPy</strong></a>. La <a href="https://github.com/dreymond732/PT-LLMvsPy/pull/1" target="_blank" rel="noopener">PR #1</a> propose un premier socle de fonctions, tests et notebook 01&nbsp;: il peut être corrigé, et n'est pas considéré comme une réponse prédéterminée à Gemini.</p>
+  <div class="flow" aria-label="Chaîne de reproductibilité">
+    <div><strong>01 · Sources figées</strong><span>Faguet, rapport Gemini intégral, seconde transcription G1–G6 et empreintes.</span></div>
+    <div><strong>02 · Bibliothèque commune</strong><span>Fonctions typées, protocoles explicites et tests sur microcorpus.</span></div>
+    <div><strong>03 · Quatre notebooks</strong><span>Échantillon choisi, contrôle manuel, application intégrale et analyse des écarts.</span></div>
+    <div><strong>04 · Revue / PR</strong><span>Preuves, corrections justifiées, arbitrage et passage à la question suivante.</span></div>
   </div>
-  <div class="table-wrap"><table><thead><tr><th>Élément</th><th>Contenu et fonction</th><th>Contrat de collaboration</th></tr></thead><tbody>
-    <tr><td><code>src/tal_toolkit/</code></td><td><code>io_corpus</code>, <code>linguistic</code>, <code>textometry</code>, <code>audit_llm</code>.</td><td>Une implémentation partagée de chaque fonction. Types, entrées/sorties, exemples et cas limites documentés.</td></tr>
-    <tr><td><code>tests/</code></td><td>Microcorpus, tests de régression, vérification des positions, cas limites.</td><td>Une anomalie reproductible donne lieu à un test, puis à une correction documentée.</td></tr>
-    <tr><td><code>notebooks/</code></td><td>Quatre notebooks d’analyse successifs.</td><td>Ils <strong>appellent</strong> la bibliothèque&nbsp;: pas de copie divergente des mêmes algorithmes.</td></tr>
-    <tr><td>GitHub Issues</td><td>Question méthodologique, anomalie, amélioration ou question non résolue.</td><td>Chaque sujet possède un responsable, des preuves et un statut.</td></tr>
-    <tr><td>Branches + pull requests</td><td>Modifications de fonctions, tests, schéma, documentation ou notebook.</td><td>Revue par un autre membre, contrôle automatique, décision explicite avant fusion.</td></tr>
-    <tr><td>Rapport de synthèse</td><td>Résultats, limites, protocoles retenus, questions encore ouvertes.</td><td>Versionné et reproductible à partir d’un commit identifié.</td></tr>
+  <div class="table-wrap"><table><thead><tr><th>Élément</th><th>Fonction</th><th>Contrat</th></tr></thead><tbody>
+    <tr><td><code>app/static/</code> sur le dépôt des TD</td><td><a href="PT_LLMvsPy_Analyse_Gemini_integrale.md">Réponse Gemini complète</a>, notice de provenance et présent cadrage HTML.</td><td>Conservation exacte du matériau primaire, sans corrections silencieuses.</td></tr>
+    <tr><td><code>Notebooks TD/S3/ressources/</code></td><td>Corpus Faguet figé, empreintes et transcription G1–G6.</td><td>Comparer uniquement des fichiers identifiés, distinguer les deux productions Gemini.</td></tr>
+    <tr><td><code>src/tal_toolkit/</code></td><td><code>io_corpus</code>, <code>linguistic</code>, <code>metriques_globales</code>, <code>textometry</code>, <code>audit_llm</code>.</td><td>Un code commun réutilisable ; pas quatre fonctions concurrentes pour une même mesure.</td></tr>
+    <tr><td><code>tests/</code></td><td>Microcorpus, cas limites, comparaison manuel/programme et tests de régression.</td><td>Toute correction d'une erreur reproductible ajoute une preuve testable.</td></tr>
+    <tr><td><code>notebooks/</code></td><td>Quatre étapes d'analyse et de discussion méthodologique.</td><td>Appeler les fonctions de la bibliothèque, pas recopier des résultats.</td></tr>
+    <tr><td>Issues, branches et PR</td><td>Discuter les choix, tracer les changements, relire les contributions.</td><td>Issue ou question → test → changement → revue → décision de fusion.</td></tr>
+    <tr><td>Rapport de synthèse</td><td>Résultats, écarts, zones non concluantes, hypothèses et limites.</td><td>Reproductible à partir des versions et paramètres archivés.</td></tr>
   </tbody></table></div>
-  <div class="semi learning"><h3>◆ Pourquoi travailler ainsi&nbsp;?</h3><p>Le versionnement, le suivi des transformations et la séparation entre données, code et résultats font partie des pratiques recommandées pour une recherche computationnelle reproductible <a class="ref" href="#r4">[R4]</a> <a class="ref" href="#r5">[R5]</a>.</p></div>
-  <div class="semi trace"><h3>▣ Trace minimale d’une contribution</h3><p><code>Issue → branche → exemple reproductible → test → correction → PR documentée → revue → fusion</code></p><p>Une PR indique le problème, les conventions affectées, les tests passés ou échoués et ce qui reste incertain. Un contrôle « vert » ne remplace pas l’examen des hypothèses de la mesure.</p></div>
+  <div class="semi learning"><h3>◆ Pourquoi cette architecture&nbsp;?</h3><p>Les données originales et le code sont séparés des résultats. La documentation, les contrôles automatisés, la traçabilité des choix et les versions de dépendances rendent les calculs réexécutables et les écarts discutables <a class="ref" href="#r4">[R4]</a> <a class="ref" href="#r5">[R5]</a>.</p></div>
+  <div class="semi trace"><h3>▣ Trace minimale d'une contribution</h3><p>Question ou anomalie → extrait original → résultat attendu selon une convention → résultat observé → test → correction éventuelle → PR → décision en revue.</p></div>
 </section>
 
 <section class="section" id="notebook1">
+
   <div class="eyebrow">06 · Première réalisation obligatoire</div>
-  <h2>Notebook 1 — Audit initial des nombres et des affirmations</h2>
-  <p class="intro">Le premier notebook n’a pas pour rôle de refaire les TD. Il doit <strong>éprouver la bibliothèque existante sur un échantillon choisi par les étudiants</strong>, détecter et documenter ses défauts éventuels, puis appliquer les fonctions contrôlées à l’ensemble du texte Faguet. La revue suivante fera la liaison avec les analyses approfondies du notebook 2.</p>
-  <div class="semi context"><h3>◉ Périmètre documentaire à auditer</h3>
-    <p><strong>A — Métriques globales (texte complémentaire)</strong>&nbsp;: la section « 1. Cadre Méthodologique et Métriques Globales du Corpus » transmise par l’enseignant annonce des effectifs précis et des ratios. Les étudiants vérifieront leur <strong>cohérence interne</strong>, puis testeront les fonctions sur un extrait de leur choix, avant de mesurer l’intégralité de Faguet.</p>
-    <p><strong>B — Cooccurrences G1–G6 (autre transcription)</strong>&nbsp;: les intervalles du troisième prompt, sans protocole explicite, constituent une <strong>question distincte pour le notebook 3</strong> (phrase, fenêtre, agrégation). Ils ne servent pas de valeurs de référence pour les fonctions du notebook 1.</p>
+  <h2>Notebook 1 — Reproduire les métriques globales (§ 1)</h2>
+  <p class="intro">On commence par les <strong>indicateurs chiffrés de la section 1 du rapport Gemini intégral</strong>. Le notebook utilise la bibliothèque commune, mais aucun chiffre de Faguet ne doit devenir une « bonne réponse » intégrée à un test. La démonstration passe d'abord par un <strong>échantillon personnel</strong>, contrôlé à la main, puis seulement par le corpus entier.</p>
+  <div class="semi context"><h3>◉ Six indicateurs, huit valeurs affichées</h3>
+    <p>Document à confronter&nbsp;: <a href="PT_LLMvsPy_Analyse_Gemini_integrale.md">rapport intégral de Gemini, section 1</a>. Il décrit un traitement « intégral » du livre sans fournir son programme, ses conventions ni l'empreinte du fichier effectivement traité. Les quatre effectifs de base et les ratios dérivés ne constituent pas huit observations indépendantes.</p>
   </div>
-  <div class="table-wrap"><table><thead><tr><th>Indicateur annoncé par Gemini</th><th>Valeur</th><th>Définition à expliciter</th></tr></thead><tbody>
-    <tr><td>Volume total</td><td><strong>79&nbsp;540 tokens</strong></td><td>Quels tokens sont inclus&nbsp;?</td></tr>
-    <tr><td>Vocabulaire distinct</td><td><strong>8&nbsp;633 types</strong></td><td>Formes exactes, minuscules ou lemmes&nbsp;?</td></tr>
-    <tr><td>TTR</td><td><strong>0,1085</strong> (10,85&nbsp;%)</td><td>Types / tokens&nbsp;; dépend de la longueur du texte.</td></tr>
-    <tr><td>Hapax legomena</td><td><strong>4&nbsp;609</strong> (53,39&nbsp;% des types)</td><td>Types présents une fois&nbsp;; dénominateur&nbsp;: types.</td></tr>
-    <tr><td>Phrases</td><td><strong>3&nbsp;829</strong></td><td>Définition et segmentation non documentées.</td></tr>
-    <tr><td>Longueur moyenne des phrases</td><td><strong>20,77 mots</strong></td><td>Tokens retenus / phrases comptées.</td></tr>
+  <div class="table-wrap"><table><thead><tr><th>Indicateur</th><th>Valeur annoncée</th><th>Question de reproductibilité</th></tr></thead><tbody>
+    <tr><td><strong>Tokens</strong></td><td>79&nbsp;540</td><td>Quels tokens sont retenus&nbsp;? Ponctuation, nombres, mots composés&nbsp;?</td></tr>
+    <tr><td><strong>Types</strong></td><td>8&nbsp;633</td><td>Formes exactes, minuscules ou lemmes&nbsp;?</td></tr>
+    <tr><td><strong>TTR</strong></td><td>0,1085 (10,85&nbsp;%)</td><td>Ratio types/tokens&nbsp;; contrôle arithmétique et sensibilité à la longueur du corpus.</td></tr>
+    <tr><td><strong>Hapax</strong></td><td>4&nbsp;609 (53,39&nbsp;% des types)</td><td>Combien de formes de fréquence exactement 1&nbsp;? Quel dénominateur&nbsp;?</td></tr>
+    <tr><td><strong>Phrases</strong></td><td>3&nbsp;829</td><td>Comment sont délimitées les phrases, titres et abréviations&nbsp;?</td></tr>
+    <tr><td><strong>Moyenne</strong></td><td>20,77 mots/phrase</td><td>Quels tokens et quelles phrases entrent dans la moyenne&nbsp;?</td></tr>
   </tbody></table></div>
-  <p class="table-explain">Ces nombres proviennent du texte complémentaire fourni par l’enseignant et sont conservés séparément dans <code>data/annonces_globales_gemini.json</code> du dépôt PT-LLMvsPy. Les quatre effectifs et les ratios dérivés ne sont pas autant de mesures indépendantes. Une concordance numérique obtenue par un protocole reconstruit ne prouve pas que Gemini utilisait ce protocole.</p>
-  <h3 class="margin-top">Parcours de travail du notebook 1</h3>
+  <h3 class="margin-top">Parcours obligatoire de vérification</h3>
   <ol class="step-list">
-    <li><h3>Inventorier sans interpréter</h3><p>Identifier <strong>toutes</strong> les assertions chiffrées, comparatives ou de fréquence présentes dans le périmètre. Pour chacune&nbsp;: recopier la formulation d’origine, sa réponse, son emplacement, son type et les paramètres connus ou absents. Distinguer les quatre effectifs de base des ratios dérivés (TTR, part d’hapax, longueur moyenne), puis relever les conclusions de nature stylistique qui ne découlent pas automatiquement des nombres.</p><p><span class="tag green">Étudiants</span> Constituer un tableau d’assertions et vérifier que les huit valeurs numériques affichées dans les six indicateurs sont toutes présentes.</p></li>
-    <li><h3>Choisir et figer un échantillon de contrôle</h3><p>Les étudiants sélectionnent dans le corpus <strong>un ou plusieurs extraits motivés</strong> comportant des cas positifs, négatifs et difficiles&nbsp;: répétitions, pluriels, expressions, citations, ruptures de ligne, ponctuation. Indiquer les bornes dans le fichier original et la raison du choix <em>avant</em> de calculer les résultats.</p><p><span class="tag green">Étudiants</span> Proposer l’échantillon et son protocole. <span class="tag">Trace</span> Localisation, empreinte et critères de sélection.</p></li>
-    <li><h3>Établir une référence manuelle contrôlable</h3><p>Pour chaque fonction utilisée, écrire les sorties attendues sur des cas suffisamment petits pour être vérifiés à la main&nbsp;: positions d’occurrences, effectifs, mots inclus/exclus, règles de regroupement, phrases ou fenêtres. Une seconde lecture d’une partie des cas est souhaitable lorsque l’annotation est discutable <a class="ref" href="#r8">[R8]</a>.</p><p><span class="tag green">Étudiants</span> Documenter les jugements, y compris les désaccords.</p></li>
-    <li><h3>Appeler et éprouver les fonctions de la bibliothèque</h3><p>Tester chacune des fonctions <strong>nécessaires aux affirmations auditées</strong> sur l’échantillon, avec ses paramètres affichés. Comparer systématiquement <em>attendu / observé</em>&nbsp;: réussites, erreurs, écarts de segmentation, résultats non définis et comportement aux bornes. Les fonctions sans rapport avec la question ne sont pas exécutées pour la forme.</p><p><span class="tag green">Étudiants</span> Produire une matrice « fonction × cas × résultat ».</p></li>
-    <li><h3>Qualifier les écarts, puis corriger si nécessaire</h3><p>Classer les anomalies&nbsp;: <strong>bug</strong> (contrat non respecté), <strong>protocole incomplet</strong>, <strong>cas ambigu</strong>, <strong>limite connue</strong> ou <strong>désaccord d’annotation</strong>. Pour un bug&nbsp;: ouvrir une issue, ajouter un test de régression et proposer une PR corrective. Ne pas modifier une fonction uniquement pour faire coïncider un nombre avec Gemini.</p><p><span class="tag green">Étudiants</span> Proposer les corrections. <span class="tag">Revue</span> Un pair relit ; l’enseignant arbitre les conventions controversées.</p></li>
-    <li><h3>Appliquer au texte complet, avec les mêmes règles</h3><p>Une fois l’échantillon vérifié, relancer l’analyse sur <strong>l’intégralité du corpus figé</strong>. Conserver versions, SHA-256, paramètres, comptages, dénominateurs et extraits de preuve. Répertorier les données que l’on ne peut pas encore produire de façon fiable.</p><p><span class="tag green">Étudiants</span> Générer les résultats du texte complet plutôt que recopier des valeurs attendues.</p></li>
-    <li><h3>Confronter sans conclure prématurément</h3><p>Pour le tableau de métriques globales&nbsp;: comparer les résultats produits sous un protocole documenté (tokens, types, hapax, phrases, ratios) aux nombres annoncés, en conservant les valeurs brutes, les arrondis et les écarts. Garder la mention <strong>« protocole Gemini inconnu »</strong> et distinguer accord arithmétique, mesure reproductible et interprétation stylistique. G1–G6 seront traités ultérieurement.</p><p><span class="tag green">Étudiants</span> Séparer constat, hypothèse et limite.</p></li>
-    <li><h3>Préparer la revue et transmettre au notebook 2</h3><p>Rédiger une synthèse courte des fonctions fiables, des corrections proposées, des affirmations vérifiées ou encore ouvertes et des décisions méthodologiques demandées. La revue doit décider ce que l’on peut reprendre tel quel au notebook suivant.</p><p><span class="tag green">Étudiants</span> Présenter des preuves. <span class="tag">Enseignant</span> Valider le passage au jalon suivant et ouvrir les questions à approfondir.</p></li>
+    <li><h3>Décrire les affirmations et leurs dépendances</h3><p>Distinguer quatre effectifs, leurs rapports dérivés et les jugements qualitatifs («&nbsp;homogénéité stylistique&nbsp;», «&nbsp;figeabilité thématique&nbsp;», «&nbsp;rythme équilibré&nbsp;»). Recalculer les ratios à partir des seuls nombres de Gemini pour tester la cohérence interne&nbsp;: cela ne valide pas les comptes.</p><p><span class="tag green">Étudiants</span> Tableau «&nbsp;annonce / formule / unité / statut&nbsp;».</p></li>
+    <li><h3>Choisir un échantillon avant toute mesure</h3><p>Sélectionner et justifier un passage de Faguet contenant des répétitions, des majuscules, de la ponctuation et, si possible, un retour typographique. Conserver ses bornes exactes dans le corpus figé.</p><p><span class="tag green">Étudiants</span> Extrait identifié et justification explicite.</p></li>
+    <li><h3>Établir la référence manuelle</h3><p>Prédire, selon une convention écrite, le nombre de tokens, types, hapax et phrases. Documenter les décisions sur l'apostrophe, le tiret, la casse, les abréviations et les limites de phrase.</p><p><span class="tag green">Étudiants</span> Table de fréquences et valeurs attendues avant l'exécution.</p></li>
+    <li><h3>Éprouver les fonctions communes</h3><p>Appeler chaque fonction utile sur l'extrait, inspecter les tokens, les positions et les sorties. Pour chaque cas&nbsp;: attendu, observé, réussite, désaccord, cas non défini ou défaut de contrat. Un contrôle manuel peut lui-même être corrigé s'il était erroné.</p><p><span class="tag green">Étudiants</span> Tableau de tests documenté et exemples de preuve.</p></li>
+    <li><h3>Corriger les défauts démontrés</h3><p>Qualifier bug, convention discutable, erreur de l'oracle ou limite connue. Ajouter un test de régression avant toute correction de code et soumettre une PR si une modification est nécessaire. Ne pas forcer les fonctions à produire les chiffres Gemini.</p><p><span class="tag green">Étudiants</span> Issue, test et PR éventuelle. <span class="tag">Enseignant</span> Arbitrage des conventions.</p></li>
+    <li><h3>Calculer le corpus intégral après validation</h3><p>Réaliser les mesures sous le protocole éprouvé et conserver SHA-256 du texte, version de spaCy, modèle de segmentation, comptages et dénominateurs. Comparer séparément la sensibilité à la casse, aux tokens retenus et aux retours de ligne.</p><p><span class="tag green">Étudiants</span> Résultats réexécutables et variantes identifiées.</p></li>
+    <li><h3>Confronter et discuter les conclusions</h3><p>Présenter les écarts avec les chiffres Gemini sans inventer son protocole. Dire quelles propositions sont soutenues par les mesures et lesquelles exigent des analyses complémentaires. Les conclusions stylistiques ne sont pas établies par le seul TTR <a class="ref" href="#r10">[R10]</a>.</p><p><span class="tag green">Étudiants</span> Tableau de confrontation et contre-exemples éventuels.</p></li>
+    <li><h3>Préparer la revue et la question suivante</h3><p>Présenter ce qui a résisté aux tests, les anomalies et décisions demandées. La revue choisit les sous-problèmes du notebook 2&nbsp;: regroupements lexicaux, classements, formes/lemmes et/ou marqueurs énonciatifs.</p><p><span class="tag">Enseignant</span> Valider le périmètre de la suite ; ne pas fournir une solution préfabriquée.</p></li>
   </ol>
   <div class="grid">
-    <div class="semi student"><h3>✓ Ce que l’étudiant remet après le notebook 1</h3><ul><li>Un notebook exécutable, documenté et fondé sur la bibliothèque.</li><li>Un échantillon choisi et justifié, ses résultats manuels et automatiques.</li><li>Le relevé des erreurs, réussites, ambiguïtés et corrections éventuelles.</li><li>Les résultats calculés sur Faguet entier, leurs unités et leurs preuves.</li><li>Une confrontation prudente aux métriques globales transmises par l’enseignant (et non aux intervalles G1–G6).</li><li>Les issues/PR éventuelles et une liste de questions pour la revue.</li></ul></div>
-    <div class="semi teacher"><h3>✎ Ce que prépare l’enseignant</h3><ul><li>Garantir l’accès au corpus figé, à la transcription et aux TD de référence.</li><li>Fournir et maintenir le dépôt commun et le cadre d’analyse.</li><li>Vérifier que les échantillons sont documentés et que les tests disent bien ce qu’ils vérifient.</li><li>Arbitrer les contrats et accepter ou refuser les changements après revue.</li><li>Formuler la prochaine question de travail à partir des résultats, sans fournir de solution prémâchée.</li></ul></div>
+    <div class="semi student"><h3>✓ Livrables des étudiants</h3><ul>
+      <li>Le notebook 01 exécuté avec un échantillon choisi et documenté.</li>
+      <li>Un oracle manuel, les sorties de chaque fonction et le journal des erreurs/réussites.</li>
+      <li>Les tests de régression et les PR correctives éventuelles.</li>
+      <li>Les métriques sur le texte complet, leurs paramètres, l'empreinte et les écarts.</li>
+      <li>Une note critique distinguant mesure, méthode inconnue et interprétation.</li>
+    </ul></div>
+    <div class="semi teacher"><h3>✎ Décisions de l'enseignant</h3><ul>
+      <li>Vérifier l'accès aux sources figées et à la bibliothèque commune.</li>
+      <li>Accepter ou discuter la représentativité des échantillons.</li>
+      <li>Arbitrer les conventions non tranchées, sans masquer les variantes.</li>
+      <li>Examiner tests, preuves et PR, puis définir la liaison vers N2.</li>
+    </ul></div>
   </div>
-  <div class="semi trace"><h3>▣ Tableau de preuve à conserver dans le notebook</h3><p><code>assertion_id · extrait_source · fonction · échantillon · paramètres · attendu · observé · statut · issue/PR · résultat_corpus_complet · limite</code></p><p>Un succès signifie «&nbsp;résultat conforme au protocole testé&nbsp;», pas «&nbsp;affirmation de Gemini définitivement vraie&nbsp;».</p></div>
+  <div class="semi trace"><h3>▣ Contrat de preuve d'une ligne d'audit</h3>
+    <p><code>source_section · valeur_Gemini · unité · fichier_SHA256 · protocole · extrait_échantillon · attendu_manuel · observé · statut · traces_positions · version_code · limite</code></p>
+    <p>Un test vert atteste un comportement convenu sur un cas donné, non l'exactitude historique de l'opération effectuée par Gemini.</p>
+  </div>
 </section>
 
 <section class="section" id="parcours">
