@@ -179,37 +179,69 @@
 </section>
 
 <section class="section" id="parcours">
+
   <div class="eyebrow">07 · Parcours des quatre notebooks</div>
-  <h2>Quatre étapes d’analyse, pas quatre versions du logiciel</h2>
+  <h2>Quatre enquêtes complémentaires, un seul moteur logiciel</h2>
+  <p class="intro">Les six parties du rapport Gemini ne sont pas six devoirs séparés. Les quatre notebooks organisent leur vérification en regroupant les objets liés, mais chaque frontière pourra être révisée lors des revues hebdomadaires.</p>
   <div class="grid">
-    <div class="panel"><div class="one-line"><span class="num">N1</span><h3>Audit initial et vérification</h3></div><p><strong>Entrée&nbsp;:</strong> bibliothèque initiale, texte Faguet, transcription Gemini. <strong>Travail&nbsp;:</strong> choix d’échantillons, tests de fonctions, correction des bugs, application intégrale et confrontation des affirmations. <strong>Sortie&nbsp;:</strong> premier tableau d’audit et liste des questions non résolues.</p><span class="tag green">Premier jalon obligatoire</span></div>
-    <div class="panel"><div class="one-line"><span class="num">N2</span><h3>Fréquences, expressions et preuves</h3></div><p><strong>Entrée&nbsp;:</strong> anomalies et décisions issues de N1. <strong>Travail&nbsp;:</strong> analyser les effets de la segmentation, des variantes de formes, de la lemmatisation et des expressions, consolider concordances et classements. <strong>Sortie&nbsp;:</strong> conventions lexicales argumentées et preuves stabilisées.</p><span class="tag">Question ajustée après revue N1</span></div>
-    <div class="panel"><div class="one-line"><span class="num">N3</span><h3>Cooccurrences et sensibilité des protocoles</h3></div><p><strong>Entrée&nbsp;:</strong> représentation textuelle et preuves stabilisées. <strong>Travail&nbsp;:</strong> comparer phrase, fenêtres en tokens et éventuellement paragraphe&nbsp;; distinguer union, paires et pivots couverts&nbsp;; examiner G1–G6 sans surajustement. <strong>Sortie&nbsp;:</strong> tableaux de sensibilité, exemples et limites <a class="ref" href="#r1">[R1]</a> <a class="ref" href="#r2">[R2]</a>.</p><span class="tag">Protocole décidé collectivement</span></div>
-    <div class="panel"><div class="one-line"><span class="num">N4</span><h3>Audit final, interprétation et restitution</h3></div><p><strong>Entrée&nbsp;:</strong> analyses validées et journaux de décisions. <strong>Travail&nbsp;:</strong> distinguer identité textuelle, compatibilité numérique, interprétation et ignorance de la méthode interne du LLM&nbsp;; assembler une synthèse traçable. <strong>Sortie&nbsp;:</strong> rapport reproductible, limites, pistes de recherche et bilan de la bibliothèque <a class="ref" href="#r6">[R6]</a>.</p><span class="tag">Dossier final avant stage</span></div>
+    <div class="panel">
+      <div class="one-line"><span class="num">N1</span><h3>Métriques globales (§ 1)</h3></div>
+      <p><strong>À examiner&nbsp;:</strong> 79&nbsp;540 tokens, 8&nbsp;633 types, 4&nbsp;609 hapax, 3&nbsp;829 phrases, TTR, proportions et moyenne ; commentaires sur la richesse lexicale et le style.</p>
+      <p><strong>Travail&nbsp;:</strong> choix d'un extrait, référence manuelle, tests des fonctions, corrections éventuelles, application à Faguet entier.</p>
+      <p><strong>Sortie&nbsp;:</strong> protocole testé, écarts numériques, limites d'interprétation et question de la revue suivante.</p>
+      <span class="tag">Premier jalon obligatoire</span>
+    </div>
+    <div class="panel">
+      <div class="one-line"><span class="num">N2</span><h3>Cartographie et énonciation (§ 2 et § 3)</h3></div>
+      <p><strong>À examiner&nbsp;:</strong> cinq pôles annoncés (1&nbsp;917, 690, 300, 268 et 255 occurrences), leurs regroupements de formes ; groupes pronominaux (727, 498, 390, 322) et marqueurs d'obligation, possibilité, évaluation.</p>
+      <p><strong>Travail&nbsp;:</strong> définir les dictionnaires/variantes, contrôler lemmatiseur et règles, rechercher les occurrences originales, distinguer classements et inférences discursives.</p>
+      <p><strong>Sortie&nbsp;:</strong> tableaux lexical et énonciatif, conventions et cas ambigus.</p>
+      <span class="tag">Cadrage ajusté après revue N1</span>
+    </div>
+    <div class="panel">
+      <div class="one-line"><span class="num">N3</span><h3>Cooccurrences et séquences (§ 4)</h3></div>
+      <p><strong>À examiner&nbsp;:</strong> 208 phrases annoncées pour femme(s)/homme(s), autres associations présentées avec des effectifs, groupes de bigrammes et trigrammes (ex. «&nbsp;union libre&nbsp;», «&nbsp;divorce consentement mutuel&nbsp;»).</p>
+      <p><strong>Travail&nbsp;:</strong> tester phrase, fenêtre en tokens et éventuellement paragraphe, en distinguant présence par contexte, paires et pivots couverts. Explorer séparément les intervalles G1–G6 issus de l'autre transcription.</p>
+      <p><strong>Sortie&nbsp;:</strong> mesures par protocole et positions de preuve ; analyse de sensibilité <a class="ref" href="#r1">[R1]</a> <a class="ref" href="#r2">[R2]</a>.</p>
+      <span class="tag">Protocoles définis collectivement</span>
+    </div>
+    <div class="panel">
+      <div class="one-line"><span class="num">N4</span><h3>Noms propres et synthèse (§ 5 et § 6)</h3></div>
+      <p><strong>À examiner&nbsp;:</strong> Théodore Joran (83), Charles Turgeon (35), Ellen Key (28) et autres mentions ; regroupements patronymiques et noms composés ; trois conclusions finales sur l'ouvrage.</p>
+      <p><strong>Travail&nbsp;:</strong> rechercher et désambiguïser les références, vérifier la présence des formes et confronter chaque inférence à des passages du texte et aux limites des comptes.</p>
+      <p><strong>Sortie&nbsp;:</strong> dossier de reproductibilité et de non-conclusions justifiées, restitution finale de la bibliothèque et de ses tests.</p>
+      <span class="tag">Rapport final avant stage</span>
+    </div>
   </div>
-  <div class="semi caution"><h3>⚑ Les étapes 2 à 4 sont révisables</h3><p>Les sous-problèmes précis seront fixés à partir de la revue précédente. Le projet ne doit pas devenir un enchaînement de cahiers fermés dont les réponses seraient connues d’avance. La grille de cooccurrences n’est qu’une hypothèse de travail à opérationnaliser.</p></div>
+  <div class="semi learning"><h3>◆ Distinguer la vérification d'un nombre et celle d'une thèse</h3>
+    <p>«&nbsp;208 phrases distinctes&nbsp;» peut être soumis à un comptage sous une règle annoncée. En revanche, les expressions «&nbsp;déséquilibre majeur&nbsp;», «&nbsp;style oratoire personnalisé&nbsp;» ou «&nbsp;méthode comparative&nbsp;» demandent une argumentation supplémentaire. On ne transforme pas automatiquement des concordances en preuves des intentions de l'auteur.</p>
+  </div>
+  <div class="semi caution"><h3>⚑ Les étapes N2 à N4 restent révisables</h3>
+    <p>La priorité des sous-problèmes, les regroupements et les méthodes seront décidés à partir des résultats de la revue précédente. Les tests doivent mettre à l'épreuve les fonctions, pas apprendre à celles-ci les chiffres attendus de Gemini.</p>
+  </div>
 </section>
 
 <section class="section" id="calendrier">
+
   <div class="eyebrow">08 · Calendrier prévisionnel</div>
-  <h2>Des jalons hebdomadaires jusqu’au départ en stage</h2>
-  <p>Le calendrier ci-dessous est un <strong>scénario de travail</strong> construit à partir de la semaine du <strong>16 novembre 2026</strong>. Il ne constitue pas un calendrier administratif&nbsp;: <strong>la date de début des stages, l’emploi du temps et les interruptions pédagogiques restent à confirmer</strong>. Les semaines du 21 et du 28 décembre sont mises en réserve, sans réunion prévue dans cette proposition.</p>
-  <div class="table-wrap"><table class="timeline"><thead><tr><th>Revue</th><th>Semaine du</th><th>Travail prioritaire et livrable</th><th>Décision de liaison en revue</th></tr></thead><tbody>
-  <tr><td>R0 · Lancement</td><td>16/11/2026</td><td>Constitution des groupes, prise en main du dépôt, lecture critique des affirmations Gemini, répartition des responsabilités.</td><td>Valider les données de départ et les questions ouvertes.</td></tr>
-  <tr><td>R1 · N1</td><td>23/11/2026</td><td>Inventaire des métriques globales et choix argumenté des échantillons étudiants.</td><td>Vérifier le périmètre et la stratégie de tests.</td></tr>
-  <tr><td>R2 · N1</td><td>30/11/2026</td><td>Tests sur échantillons, références manuelles, journal des réussites, erreurs et limites.</td><td>Prioriser bugs et questions méthodologiques.</td></tr>
-  <tr><td>R3 · N1</td><td>07/12/2026</td><td>PR correctives et exécution du corpus complet ; résultats, preuves et divergences.</td><td>Décider quelles fonctions sont suffisamment fiables.</td></tr>
-  <tr><td>R4 · Transition N2</td><td>14/12/2026</td><td>Premier rapport de confrontation, bilan de N1, formulation des problèmes à approfondir.</td><td><strong>Jalon 1&nbsp;:</strong> acter les questions du notebook 2.</td></tr>
-  <tr class="pause"><td>Réserve</td><td>21 et 28/12/2026</td><td>Pas de revue programmée dans cette hypothèse ; vérifier le calendrier réel de l’établissement.</td><td>Aucune échéance obligatoire proposée ici.</td></tr>
-  <tr><td>R5 · N2</td><td>04/01/2027</td><td>Segmentation, formes/lemmes, normalisation et comparaison des fréquences.</td><td>Discuter des conventions et des désaccords observés.</td></tr>
-  <tr><td>R6 · N2 → N3</td><td>11/01/2027</td><td>Stabilisation des preuves et des contrats textuels ; synthèse lexicale.</td><td><strong>Jalon 2&nbsp;:</strong> acter les paramètres à tester en cooccurrence.</td></tr>
-  <tr><td>R7 · N3</td><td>18/01/2027</td><td>Concevoir les microcorpus pour les fenêtres et la présence par phrase ; ajouter les tests.</td><td>Valider les définitions des différentes unités comptées.</td></tr>
-  <tr><td>R8 · N3</td><td>25/01/2027</td><td>Comparer les protocoles sur Faguet entier et les six intervalles G1–G6 ; produire des exemples.</td><td>Expliquer les convergences et divergences.</td></tr>
-  <tr><td>R9 · N3 → N4</td><td>01/02/2027</td><td>Analyse de sensibilité et mise en forme des tableaux de preuve.</td><td><strong>Jalon 3&nbsp;:</strong> définir le périmètre exact de l’audit final.</td></tr>
-  <tr><td>R10 · N4</td><td>08/02/2027</td><td>Qualité des citations, synthèse des preuves, interprétations et incertitudes.</td><td>Passer le rapport au crible des contre-exemples.</td></tr>
-  <tr class="last"><td>R11 · Livraison</td><td>15/02/2027</td><td>Rapport final, notebooks exécutables, bibliothèque testée, présentation du bilan collectif.</td><td><strong>Jalon 4&nbsp;:</strong> transmission avant stage si la date le permet.</td></tr>
+  <h2>Revue hebdomadaire et jalons jusqu'au stage</h2>
+  <p>Scénario proposé à partir de la semaine du <strong>16 novembre 2026</strong>. Les dates de stage, la répartition réelle des séances et les interruptions pédagogiques restent à confirmer. Les semaines du 21 et du 28 décembre ne comportent pas de revue dans cette hypothèse.</p>
+  <div class="table-wrap"><table><thead><tr><th>Revue</th><th>Semaine du</th><th>Travail prioritaire et preuve attendue</th><th>Décision pour la suite</th></tr></thead><tbody>
+    <tr><td><strong>R0 · Lancement</strong></td><td>16/11/2026</td><td>Lire les six sections du rapport Gemini, distinguer mesures, catégories et interprétations ; répartir les rôles Git.</td><td>Valider sources, périmètre N1 et questions ouvertes.</td></tr>
+    <tr><td>R1 · N1</td><td>23/11/2026</td><td>Inventorier les métriques §1, choisir et justifier les échantillons ; annoncer le protocole de comptage.</td><td>Approuver les échantillons et la stratégie de contrôle.</td></tr>
+    <tr><td>R2 · N1</td><td>30/11/2026</td><td>Références manuelles, tests sur échantillons, tableau attendu/observé, erreurs et limites.</td><td>Prioriser bugs, conventions et cas indécidables.</td></tr>
+    <tr><td>R3 · N1</td><td>07/12/2026</td><td>PR correctives, mesures du corpus intégral et sensibilité aux réglages.</td><td>Valider la qualité de preuve avant confrontation.</td></tr>
+    <tr><td><strong>R4 · Passage N2</strong></td><td>14/12/2026</td><td>Confronter les métriques globales au §1 Gemini, distinguer accords, écarts et interprétations.</td><td><strong>Jalon 1</strong>&nbsp;: préciser les questions N2.</td></tr>
+    <tr><td>Réserve</td><td>21 et 28/12/2026</td><td>Pas de revue proposée dans cette hypothèse.</td><td>À confirmer avec le calendrier réel.</td></tr>
+    <tr><td>R5 · N2</td><td>04/01/2027</td><td>Tester les catégories lexicales du §2 et les groupes pronominaux/modalisateurs du §3 sur échantillons.</td><td>Décider des règles de regroupement et de segmentation.</td></tr>
+    <tr><td><strong>R6 · Passage N3</strong></td><td>11/01/2027</td><td>Résultats N2 sur corpus entier ; formes, lemmes, catégories et preuves.</td><td><strong>Jalon 2</strong>&nbsp;: choisir les protocoles de cooccurrence.</td></tr>
+    <tr><td>R7 · N3</td><td>18/01/2027</td><td>Microcorpus pour cooccurrences «&nbsp;phrastiques&nbsp;», fenêtres et séquences du §4.</td><td>Valider les unités et règles d'agrégation.</td></tr>
+    <tr><td>R8 · N3</td><td>25/01/2027</td><td>Confronter le §4 du rapport au corpus ; explorer G1–G6 <em>séparément</em> et sans surajustement.</td><td>Qualifer accords numériques, écarts et lacunes de méthode.</td></tr>
+    <tr><td><strong>R9 · Passage N4</strong></td><td>01/02/2027</td><td>Rapport de sensibilité, tableaux de preuve et corrections finales des fonctions lexicales.</td><td><strong>Jalon 3</strong>&nbsp;: préciser l'audit des noms propres et des interprétations.</td></tr>
+    <tr><td>R10 · N4</td><td>08/02/2027</td><td>Vérification des mentions propres (§5) et discussion des conclusions (§6) avec extraits originaux.</td><td>Relire les limites, objections et contre-exemples.</td></tr>
+    <tr><td><strong>R11 · Livraison</strong></td><td>15/02/2027</td><td>Rapport reproductible, cahiers, tests, issues résolues/non résolues et présentation collective.</td><td><strong>Jalon 4</strong>&nbsp;: transmission avant stage, si possible.</td></tr>
   </tbody></table></div>
-  <div class="semi teacher"><h3>✎ Arbitrage calendaire réservé à l’enseignant</h3><p>Confirmer le début de stage et les semaines réellement disponibles. Si le stage commence <strong>avant</strong> le 15 février 2027, prioriser N1 et les preuves, puis compresser ou reporter les analyses exploratoires. S’il commence <strong>après</strong>, utiliser les semaines restantes pour reproduire les résultats indépendamment, traiter les issues et renforcer le rapport. Le jalon final doit se situer <strong>au plus tard durant la dernière semaine de présence avant stage</strong>.</p></div>
+  <div class="semi teacher"><h3>✎ Calendrier à confirmer</h3><p>L'enseignant vérifie la date réelle du départ en stage et la disponibilité des groupes. Si cette date est antérieure au 15 février 2027, les jalons seront compressés ou reportés&nbsp;: les éléments déjà testés et les limites documentées doivent rester exploitables, même si toutes les sections ne sont pas couvertes.</p></div>
 </section>
 
 <section class="section" id="revue">
