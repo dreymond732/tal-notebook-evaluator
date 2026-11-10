@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "objet": "Document primaire pour une étude de reproductibilité des analyses textométriques produites par Gemini",
+  "fichier": "PT_LLMvsPy_Analyse_Gemini_integrale.md",
+  "source": "Document intégral transmis par l'enseignant le 10 novembre 2026",
+  "outil_attribue": "Gemini (attribution de l'enseignant, non vérifiable à partir du fichier seul)",
+  "produit_google_workspace": "possible ; la provenance exacte du rapport intégral n'est pas documentée dans le fichier",
+  "date_generation": null,
+  "version_modele": null,
+  "prompt_initial": null,
+  "procedure_analytique": null,
+  "preuve_identite_corpus_utilise_par_gemini": null,
+  "sha256_fichier_source": "a6e30b6bb9e907ccd71be22bc253e2d377896564fb524a5f7949de2b4df999fa",
+  "corpus_cible": "Le Féminisme — Émile Faguet (édition nettoyée conservée dans les ressources du S3)",
+  "statut": "Données déclaratives non vérifiées, ne pas assimiler les chiffres à des observations validées",
+  "diffusion": "Publication proposée par l'enseignant à des fins pédagogiques et de recherche ; vérifier les habilitations institutionnelles si compte Workspace administré",
+  "sections": [
+    "1. Cadre méthodologique et métriques globales",
+    "2. Cartographie quantitative des champs lexicaux",
+    "3. Dispositif énonciatif et dynamique argumentative",
+    "4. Analyse relationnelle, collocations et réseaux lexicaux",
+    "5. Réseau onomastique et références intertextuelles",
+    "6. Synthèse lexicologique et portée discursive"
+  ],
+  "fichier_original": "PT_LLMvsPy_Analyse_Gemini_source_originale.md",
+  "fichier_mis_en_forme": "PT_LLMvsPy_Analyse_Gemini_integrale.md",
+  "sha256_fichier_mis_en_forme": "08530fc691202f34481fed69cae73ac33a4f982adb84e4f0233e86b839e3605d",
+  "transformation": "Restauration de cinq tableaux CSV en tableaux Markdown (29 lignes de données), sans correction du contenu ; copie originale conservée séparément."
+}
