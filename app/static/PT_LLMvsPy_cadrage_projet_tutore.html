@@ -23,45 +23,58 @@
 <nav aria-label="Navigation dans le document"><div class="wrap"><a href="#enjeu">Enjeu</a><a href="#questions">Problèmes</a><a href="#contrats">Contrats</a><a href="#architecture">Architecture</a><a href="#notebook1">Notebook 1</a><a href="#parcours">Parcours</a><a href="#calendrier">Calendrier</a><a href="#revue">Revue hebdomadaire</a><a href="#roles">Rôles</a><a href="#references">Références</a></div></nav>
 <main>
 <section class="section" id="enjeu">
-  <div class="eyebrow">01 · Point de départ</div>
-  <h2>Pourquoi ce projet&nbsp;?</h2>
-  <div class="semi context"><h3>◉ Situation de départ</h3><p>Une conversation menée avec <strong>Gemini dans Google Workspace, le 18 septembre 2026</strong>, propose une lecture lexicométrique du livre <em>Le féminisme</em> d’Émile Faguet, puis des rapprochements lexicaux et six fourchettes de cooccurrences. Le texte source et la transcription sont figés dans les ressources des TD du S3. Il est possible de vérifier des passages et de produire des comptages, mais les méthodes exactes ayant conduit Gemini à ces affirmations ne sont pas documentées.</p></div>
-  <div class="grid">
-    <div class="panel"><h3>Le point de départ scientifique</h3><p>Un LLM peut produire un discours analytique convaincant sans donner les opérations qui justifient ses chiffres. L’enjeu n’est pas d’opposer « bonne IA » et « bon Python », mais de comparer des énoncés à des <strong>procédures observables, explicites et reproductibles</strong>. Cette vigilance s’inscrit dans les recherches sur la factualité et la vérifiabilité des productions générées <a class="ref" href="#r6">[R6]</a> <a class="ref" href="#r7">[R7]</a>.</p></div>
-    <div class="panel"><h3>Le point de départ technique</h3><p>Les TD0 à TD7 ont introduit Python, les traitements de texte, spaCy, les concordances, les fréquences, les cooccurrences et l’audit des citations. Le projet transforme ces acquis en un <strong>paquet Python commun</strong>, utilisé par quatre notebooks d’analyse, révisé au fil des preuves et des erreurs.</p></div>
+
+  <div class="eyebrow">01 · Point de départ et matériau d'étude</div>
+  <h2>Reproduire une analyse annoncée par un LLM</h2>
+  <div class="semi context"><h3>◉ Le matériau primaire</h3>
+    <p>Le projet étudie le rapport complet <strong>« Analyse Lexicométrique, Quantitative et Relationnelle de <em>Le Féminisme</em> d'Émile Faguet »</strong>, attribué à <strong>Gemini</strong> et transmis par l'enseignant. Ses <strong>six sections</strong> annoncent des fréquences, catégories lexicales, comptages pronominaux, cooccurrences, séquences et noms propres, suivis de conclusions sur le discours de l'auteur.</p>
+    <p>Ce rapport est une <strong>production à vérifier</strong>, pas une référence méthodologique ni une publication scientifique validée. Son prompt initial, la version de Gemini, le fichier exact analysé et les opérations internes ne sont pas documentés dans le fichier reçu.</p>
+    <p><a class="ref" href="PT_LLMvsPy_Analyse_Gemini_integrale.md">Lire le rapport intégral (Markdown)</a> · <a class="ref" href="PT_LLMvsPy_Analyse_Gemini_provenance.json">Notice de provenance et empreinte SHA-256 (JSON)</a>.</p>
   </div>
-  <div class="semi caution"><h3>⚑ Deux ensembles Gemini distincts</h3><p>Le <strong>notebook 1</strong> étudie en priorité le document complémentaire transmis par l’enseignant, intitulé « 1. Cadre Méthodologique et Métriques Globales du Corpus ». Il y figure <strong>79&nbsp;540 tokens, 8&nbsp;633 types, 4&nbsp;609 hapax, 3&nbsp;829 phrases</strong> ainsi que les ratios et moyennes dérivés. Ce texte <strong>n’est pas</strong> la première réponse conservée dans <code>gemini_transcription.txt</code> pour les TD S3. Les <strong>six intervalles G1–G6</strong> de cooccurrence sont présents dans cette autre transcription et seront examinés au <strong>notebook 3</strong>. Aucun protocole interne de Gemini n’est connu ; une cohérence arithmétique des ratios ne prouve pas un comptage réel.</p></div>
+  <div class="grid grid-2">
+    <div class="panel"><h3>Le problème scientifique</h3><p>Le rapport présente des résultats précis et des interprétations convaincantes, sans fournir les programmes, définitions ni traces permettant de les reproduire. Il s'agit d'évaluer la <strong>reproductibilité des mesures</strong>, de caractériser les écarts et de circonscrire les interprétations qui dépassent les données.</p><p>Les résultats négatifs ou indéterminés sont des observations à conserver. Ils ne se transforment pas en preuves d'une procédure interne de Gemini <a class="ref" href="#r6">[R6]</a>.</p></div>
+    <div class="panel"><h3>Le point de départ technique</h3><p>Les TD0 à TD7 ont introduit Python, spaCy, fréquences, concordances, cooccurrences et contrôle des citations. Le projet capitalise sur ces acquis pour développer <strong>une seule bibliothèque commune</strong>, testée sur des échantillons puis appliquée au corpus intégral.</p><p>Quatre notebooks organisent la recherche ; la revue hebdomadaire décide des vérifications suivantes.</p></div>
+  </div>
+  <div class="semi caution"><h3>⚑ Ne pas confondre deux productions Gemini</h3>
+    <p><strong>Source principale :</strong> le rapport intégral ci-dessus, avec six sections et des tableaux chiffrés. <strong>Source complémentaire :</strong> la transcription d'une conversation progressive du 18 septembre 2026 conservée dans les TD S3, contenant notamment les six intervalles de cooccurrences <strong>G1–G6</strong>. Il n'est pas établi que ces deux documents proviennent du même traitement du texte ni du même modèle. Ils seront confrontés <em>séparément</em>, avec leur propre provenance.</p>
+  </div>
 </section>
 
 <section class="section" id="questions">
+
   <div class="eyebrow">02 · Problématique de recherche</div>
-  <h2>Un problème central, plusieurs sous-problèmes ouverts</h2>
-  <blockquote>Dans quelle mesure peut-on vérifier, reproduire et interpréter les affirmations textométriques d’un LLM lorsque ses opérations de comptage, de sélection et de rapprochement ne sont pas explicitées&nbsp;?</blockquote>
+  <h2>Reproductibilité, sensibilité des méthodes et limites de l'inférence</h2>
+  <blockquote>Dans quelle mesure les effectifs et relations lexicales présentés par Gemini peuvent-ils être reproduits sur un corpus identifié, et quelles définitions, transformations et preuves sont nécessaires pour interpréter les convergences ou les écarts&nbsp;?</blockquote>
   <div class="grid grid-3">
-    <div class="panel"><div class="scope"><span class="num">P1</span><div><h3>Exactitude des résultats</h3><p>Les fréquences, extraits et intervalles annoncés résistent-ils à un retour systématique au corpus&nbsp;? Peut-on caractériser les désaccords&nbsp;?</p></div></div></div>
-    <div class="panel"><div class="scope"><span class="num">P2</span><div><h3>Effet des méthodes</h3><p>Dans quelle mesure segmentation, normalisation, définition d’une fenêtre et agrégation modifient-elles les résultats&nbsp;? <a class="ref" href="#r1">[R1]</a> <a class="ref" href="#r2">[R2]</a></p></div></div></div>
-    <div class="panel"><div class="scope"><span class="num">P3</span><div><h3>Preuve et interprétation</h3><p>Qu’est-ce qui relève d’une identité textuelle, d’une proximité lexicale, d’une association thématique ou d’une interprétation de l’auteur&nbsp;?</p></div></div></div>
+    <div class="panel"><div class="scope"><span class="num">P1</span><div><h3>Reproduire les chiffres</h3><p>Peut-on recalculer les effectifs et indicateurs annoncés en explicitant les unités, les filtres et les dénominateurs&nbsp;?</p></div></div></div>
+    <div class="panel"><div class="scope"><span class="num">P2</span><div><h3>Comparer les protocoles</h3><p>Quel rôle jouent tokenisation, casse, lemmatisation, regroupements lexicaux, segmentation et fenêtre de cooccurrence&nbsp;?</p></div></div></div>
+    <div class="panel"><div class="scope"><span class="num">P3</span><div><h3>Qualifier les conclusions</h3><p>Quelles affirmations sont des mesures vérifiables, des descriptions dépendant d'un codage ou des interprétations qui demandent un retour au texte&nbsp;?</p></div></div></div>
   </div>
-  <div class="semi learning"><h3>◆ Notions à comprendre</h3><p><strong>Fréquence absolue et relative</strong>, token, forme, lemme, expression contiguë, unité de comptage, contexte, concordance/KWIC, cooccurrence, marge, dénominateur, score d’association, provenance, reproductibilité, biais de sélection, validation et incertitude. Un chiffre sans unité ni procédure n’est pas encore un résultat comparable <a class="ref" href="#r3">[R3]</a> <a class="ref" href="#r4">[R4]</a>.</p></div>
-  <h3 class="margin-top">Questions secondaires à ouvrir <em>au fil du projet</em></h3>
-  <div class="table-wrap"><table><thead><tr><th>Sous-problème</th><th>Question à tester</th><th>Décision attendue</th></tr></thead><tbody>
-  <tr><td>Identifier les mots</td><td>Que comptons-nous&nbsp;: caractères, tokens, formes, lemmes, expressions, variantes&nbsp;?</td><td>Définir les conventions et leurs conséquences.</td></tr>
-  <tr><td>Retrouver les preuves</td><td>Une citation est-elle présente à l’identique, après normalisation ou seulement proche&nbsp;?</td><td>Établir des statuts distincts et conserver des bornes vérifiables.</td></tr>
-  <tr><td>Segmenter le texte</td><td>Comment traiter les retours à la ligne éditoriaux, abréviations et ponctuation&nbsp;?</td><td>Tester les frontières de phrases, conserver les positions originales.</td></tr>
-  <tr><td>Définir la cooccurrence</td><td>Phrase, fenêtre glissante de ±k tokens, paragraphe, relation syntaxique&nbsp;?</td><td>Comparer les protocoles plutôt qu’en imposer un sans justification.</td></tr>
-  <tr><td>Agréger</td><td>Une phrase peut-elle compter une fois ou plusieurs fois lorsqu’un groupe de termes apparaît&nbsp;?</td><td>Ne pas confondre «&nbsp;union&nbsp;», «&nbsp;somme de paires&nbsp;» et «&nbsp;positions de pivots couvertes&nbsp;».</td></tr>
-  <tr><td>Confronter Gemini</td><td>Quel protocole aboutit à des valeurs proches de G1–G6, et avec quelle stabilité&nbsp;?</td><td>Produire une comparaison exploratoire, jamais une preuve de méthode interne.</td></tr>
-  <tr><td>Reproduire et partager</td><td>Un autre groupe peut-il refaire le calcul et localiser chaque occurrence&nbsp;?</td><td>Stabiliser l’API, les tests, les jeux de données et la documentation.</td></tr>
-  </tbody></table></div>
-  <div class="semi caution"><h3>⚑ Un accord numérique n’est pas une identification de méthode</h3><p>Retrouver une valeur dans l’intervalle annoncé par Gemini ne démontre pas que Gemini a utilisé cette procédure. Les choix de fenêtres et les règles d’agrégation sont à documenter avant de regarder leurs correspondances avec les intervalles, pour éviter un ajustement opportuniste.</p></div>
+  <div class="semi learning"><h3>◆ Trois types d'énoncés à distinguer</h3>
+    <p><strong>Mesure numérique</strong> (ex. « 8&nbsp;633 types ») : calcul et bornes de comparaison définissables. <strong>Catégorie construite</strong> (ex. « morale » ou « monde professionnel ») : dépend d'un dictionnaire, de l'annotation et de règles d'agrégation. <strong>Interprétation</strong> (ex. « style oratoire équilibré » ou « enjeux avant tout civils ») : ne découle pas logiquement d'un seul effectif et appelle des preuves qualitatives ou un statut « non concluable ».</p>
+  </div>
+  <h3>Les quatre chantiers de travail, dérivés des six sections du rapport</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Chantier</th><th>Sections de Gemini</th><th>Nature du problème</th><th>Ce que les étudiants pourront établir</th></tr></thead>
+    <tbody>
+      <tr><td><strong>N1 · Mesures globales</strong></td><td>§ 1</td><td>Tokens, types, hapax, TTR, phrases, longueur moyenne.</td><td>Un recalcul indépendant et ses conventions ; discussion critique des conclusions stylistiques.</td></tr>
+      <tr><td><strong>N2 · Catégories et énonciation</strong></td><td>§ 2 et § 3</td><td>Formes, lemmes, pôles thématiques, pronoms, marqueurs de modalité.</td><td>Des comptes contrôlés et la sensibilité au regroupement/à l'annotation.</td></tr>
+      <tr><td><strong>N3 · Relations lexicales</strong></td><td>§ 4</td><td>Cooccurrences « phrastiques », bigrammes, trigrammes, groupes et fenêtres.</td><td>Des protocoles comparables, des extraits de preuve et des écarts documentés.</td></tr>
+      <tr><td><strong>N4 · Références et synthèse</strong></td><td>§ 5 et § 6</td><td>Noms propres, variantes de mention, inférences intertextuelles et interprétations.</td><td>Une vérification des mentions et un jugement argumenté sur les limites de la synthèse.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="semi caution"><h3>⚑ Vérifier ou ne pas conclure</h3>
+    <p>Les six sections ne correspondent pas toutes à des « faits » de même nature. Une fréquence peut être recalculée sous un protocole déclaré&nbsp;; une interprétation rhétorique ou sociologique ne doit pas être étiquetée vraie/fausse du seul fait d'un compte concordant. Le statut <strong>« non vérifiable à ce stade »</strong> est un résultat légitime.</p>
+  </div>
 </section>
 
 <section class="section" id="semiotique">
-  <div class="eyebrow">03 · Mode d’emploi du document</div>
-  <h2>Une sémiotique de lecture inspirée de Journalia</h2>
-  <p class="intro">Les codes reprennent la légende du dépôt <a href="https://github.com/dreymond732/journalia" target="_blank" rel="noopener">Journalia</a>&nbsp;: bleu pour la situation, violet pour l’apprentissage, vert pour la tâche, orange pour la vigilance, fond sombre pour la trace. Un code supplémentaire turquoise précise ici les interventions de l’enseignant. Couleurs, intitulés et symboles sont toujours associés pour rester lisibles à l’impression.</p>
-  <div class="role-strip" aria-label="Légende des types de contenu">
-    <div class="legend context">◉ Bleu — problème / données</div>
+
+  <div class="eyebrow">03 · Mode d'emploi du document</div>
+  <h2>Codes de lecture et responsabilités</h2>
+  <p class="intro">Les couleurs, libellés et symboles permettent de distinguer ce qui est fourni, ce qu'il faut apprendre, le travail à réaliser, les décisions de l'enseignant, les limites méthodologiques et les preuves attendues. La couleur n'est jamais le seul indicateur.</p>
+  <div class="legend-grid">
+    <div class="legend context">◉ Bleu — situation / données</div>
     <div class="legend learning">◆ Violet — notions à comprendre</div>
     <div class="legend student">✓ Vert — travail étudiant</div>
     <div class="legend teacher">✎ Turquoise — travail enseignant</div>
