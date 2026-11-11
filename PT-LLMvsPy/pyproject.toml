@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tal-toolkit"
+version = "0.3.0"
+description = "Outils reproductibles de textométrie et d'audit de productions LLM (S3)"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Collectif PT-LLMvsPy"}]
+license = {text = "MIT"}
+dependencies = []
+
+[project.optional-dependencies]
+nlp = ["spacy>=3.8,<4"]
+test = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

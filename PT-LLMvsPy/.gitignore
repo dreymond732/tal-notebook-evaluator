@@ -1,0 +1,19 @@
+# Corpus local et sorties calculées : ne pas les versionner par inadvertance
+ressources_locales/
+resultats_epuration_faguet/
+resultats_notebook*.json
+
+# Jupyter / Python
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Distribution/états locaux non versionnés
+distribution_colab/
+td01_faguet_local/
+*.whl
