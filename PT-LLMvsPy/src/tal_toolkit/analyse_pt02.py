@@ -244,8 +244,12 @@ def analyser_lexique_pt02(
         "schema": "analyse-lexicale-pt02-v1",
         "source_nettoyee_sha256": sha256(texte.encode("utf-8")).hexdigest(),
         "longueur_caracteres": len(texte),
-        "logiciel": {"spacy": __import__("spacy").__version__,
-                     "pipeline": list(nlp.pipe_names)},
+        "logiciel": {
+            "spacy": __import__("spacy").__version__,
+            "modele": nlp.meta.get("name", nlp.lang),
+            "version_modele": nlp.meta.get("version", "inconnue"),
+            "pipeline": list(nlp.pipe_names),
+        },
         "conventions": {
             "mots": "token.is_alpha",
             "formes": "token.text.lower()",
