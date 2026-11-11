@@ -90,7 +90,7 @@
 <main>
 
 <section class="section" id="objectif">
-  <div class="eyebrow">Le projet en une question</div>
+  <div class="eyebrow">Le projet en une question « évolutive »… Pour le moment :</div>
   <h2>Une mesure lexicale dépend d’abord du texte qu’on lui donne</h2>
   <p class="intro essential">Peut-on reproduire et expliquer les résultats annoncés par des modèles de langage sur <em>Le Féminisme</em>, avec un traitement Python explicite et des preuves retrouvables dans le texte ?</p>
   <p>Le nettoyage du corpus, la définition d’un token ou d’une phrase et la délimitation du contexte d’une cooccurrence peuvent modifier les comptes. Il faut donc <strong>préparer une source commune avant d’en interpréter les chiffres</strong>.</p>
@@ -101,15 +101,16 @@
     <div class="legend warning">⚑ Point à vérifier</div>
     <div class="legend trace">▣ Résultat à conserver</div>
   </div>
-  <p class="subtle">Les exercices des TD0 à TD7 du cours ont apporté les outils Python et TAL nécessaires. Le projet tutoré les mobilise maintenant dans une chaîne commune.</p>
+  <p class="subtle"><a href="https://hazigo.duckdns.org/universite/tal/static/Organisation_progression_S3.html" target="_blank" rel="noopener">Les exercices des TD0 à TD7 du cours</a> ont apporté les outils Python et TAL nécessaires. Le projet tutoré les mobilise maintenant dans une chaîne commune.</p>
 </section>
 
 <section class="section" id="acquis">
   <div class="eyebrow">Ce qui a déjà été réalisé</div>
   <h2>Plusieurs réponses, des ordres de grandeur proches, des conventions différentes</h2>
-  <p>Un prompt d’analyse lexicométrique a été testé sur plusieurs LLM. Des essais de mesures du lexique ont aussi été réalisés en Python/Colab. Les tableaux préparatoires rapprochent des volumes d’environ 74 000 à 80 000 mots ou tokens, mais les comptes de types et de phrases divergent. <strong>Ces valeurs ne sont comparables qu’après examen des définitions utilisées.</strong></p>
+  <p>Un prompt d’analyse lexicométrique a été testé sur plusieurs LLM. Des essais de mesures du lexique ont aussi été réalisés en Python/Colab. Les tableaux préparatoires rapprochent des volumes d’environ 74 000 à 80 000 mots ou tokens, mais les comptes de types et de phrases divergent. <strong>Ces valeurs seraient comparables si l’on pouvait examiner les définitions utilisées.</strong></p>
   <div class="table-wrap">
     <table class="comparison-table">
+      <caption style="caption-side:top;text-align:left;padding:.8rem 1rem;background:#eef4ff;color:#244269;font-size:.9rem;line-height:1.5"><strong>Tableau 1.</strong> Valeurs transcrites du document préparatoire <em>projet tutoré.docx</em>, sans harmonisation des définitions. Un autre essai Python dans Colab (<em>Projet 1.ipynb</em>) utilise un texte de longueur différente : ses comptes ne doivent pas être directement comparés à ceux de ce tableau.</caption>
       <thead><tr><th>Outil (travail préparatoire)</th><th>Mots / tokens rapportés</th><th>Types rapportés</th><th>Phrases rapportées</th></tr></thead>
       <tbody>
         <tr><td>Gemini Notebook</td><td>79 540</td><td>8 633</td><td>3 829</td></tr>
@@ -120,7 +121,7 @@
       </tbody>
     </table>
   </div>
-  <p class="note-source">Valeurs transcrites du document préparatoire <em>projet tutoré.docx</em>, sans harmonisation des définitions. Un autre essai Python (<em>Projet 1.ipynb</em>) utilise un texte de longueur différente : ses comptes ne doivent pas être additionnés à ce tableau.</p>
+  
   <div class="semi method">
     <h3>◆ Ce qu’apportent les relances avec Gemini</h3>
     <p>Une transcription de septembre 2026 contient notamment six intervalles de cooccurrences (G1–G6). Un rapport distinct, transmis le 10 novembre 2026, propose des métriques globales. Les relances sur la méthode ont produit un tableau d’indicateurs déclarés « non calculés » et une liste d’opérations proposées. Ces documents fournissent des <strong>hypothèses et questions à examiner</strong>, pas encore une chaîne de calcul documentée de bout en bout.</p>
@@ -217,11 +218,17 @@
   <h2>Corpus, travaux préparatoires et références</h2>
   <p>Les sources du projet comprennent le texte Faguet des ressources du cours, les échanges Gemini et les documents préparatoires <em>projet tutoré.docx</em>, <em>Projet 1.ipynb</em> et <em>projet_tutoré.ipynb</em>.</p>
   <ol class="reference-list">
-    <li><span class="idx">[1]</span> Evert, S. (2009). « Corpora and collocations », dans <em>Corpus Linguistics: An International Handbook</em>, vol. 2, p. 1212–1248. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">Édition publiée</a> · <a href="https://stephanie-evert.de/PUB/Evert2007HSK_extended_manuscript.pdf" target="_blank" rel="noopener">Manuscrit étendu en accès libre (PDF)</a>.</li>
-    <li><span class="idx">[2]</span> Church, K. W. et Hanks, P. (1990). « Word association norms, mutual information, and lexicography ». <em>Computational Linguistics</em>, 16(1), 22–29. <a href="https://aclanthology.org/J90-1003/" target="_blank" rel="noopener">Accès libre</a>.</li>
-    <li><span class="idx">[3]</span> Manning, C. D., Raghavan, P. et Schütze, H. (2008). <em>Introduction to Information Retrieval</em>, chap. 2. Cambridge University Press. <a href="https://nlp.stanford.edu/IR-book/html/htmledition/irbook.html" target="_blank" rel="noopener">Texte en ligne</a>.</li>
-    <li><span class="idx">[4]</span> Bird, S., Klein, E. et Loper, E. (2009). <em>Natural Language Processing with Python</em>, chap. 3. O’Reilly Media. <a href="https://www.nltk.org/book/ch03.html" target="_blank" rel="noopener">Texte en ligne</a>.</li>
-    <li><span class="idx">[5]</span> Sandve, G. K., Nekrutenko, A., Taylor, J. et Hovig, E. (2013). « Ten simple rules for reproducible computational research ». <em>PLOS Computational Biology</em>, 9(10), e1003285. <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">Accès libre</a>.</li>
+    <li><span class="idx">[1]</span> Evert, S. (2009). « Corpora and collocations ». Dans A. Lüdeling et M. Kytö (dir.), <em>Corpus Linguistics: An International Handbook</em>, vol. 2, p. 1212–1248. De Gruyter Mouton. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">DOI</a> · <a href="https://stephanie-evert.de/PUB/Evert2007HSK_extended_manuscript.pdf" target="_blank" rel="noopener">Manuscrit étendu ouvert (PDF)</a>.</li>
+    <li><span class="idx">[2]</span> Gablasova, D., Brezina, V. et McEnery, T. (2017). « Collocations in corpus-based language learning research: Identifying, comparing, and interpreting the evidence ». <em>Language Learning</em>, 67(S1), 155–179. <a href="https://doi.org/10.1111/lang.12225" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[3]</span> Church, K. W. et Hanks, P. (1990). « Word association norms, mutual information, and lexicography ». <em>Computational Linguistics</em>, 16(1), 22–29. <a href="https://aclanthology.org/J90-1003/" target="_blank" rel="noopener">ACL Anthology</a>.</li>
+    <li><span class="idx">[4]</span> Sandve, G. K., Nekrutenko, A., Taylor, J. et Hovig, E. (2013). « Ten simple rules for reproducible computational research ». <em>PLOS Computational Biology</em>, 9(10), e1003285. <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[5]</span> Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L. et Teal, T. K. (2017). « Good enough practices in scientific computing ». <em>PLOS Computational Biology</em>, 13(6), e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[6]</span> Gao, T., Yen, H., Yu, J. et Chen, D. (2023). « Enabling large language models to generate text with citations ». <em>EMNLP 2023</em>, 6465–6488. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.398" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[7]</span> Farquhar, S., Kossen, J., Kuhn, L. et Gal, Y. (2024). « Detecting hallucinations in large language models using semantic entropy ». <em>Nature</em>, 630, 625–630. <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[8]</span> Artstein, R. et Poesio, M. (2008). « Inter-coder agreement for computational linguistics ». <em>Computational Linguistics</em>, 34(4), 555–596. <a href="https://doi.org/10.1162/coli.07-034-R2" target="_blank" rel="noopener">DOI</a>.</li>
+    <li><span class="idx">[9]</span> spaCy. <em>Sentencizer</em>, documentation de l’API. <a href="https://spacy.io/api/sentencizer/" target="_blank" rel="noopener">Documentation</a>.</li>
+    <li><span class="idx">[10]</span> Manning, C. D., Raghavan, P. et Schütze, H. (2008). <em>Introduction to Information Retrieval</em>. Cambridge University Press, chapitre 2. <a href="https://doi.org/10.1017/CBO9780511809071" target="_blank" rel="noopener">DOI</a> · <a href="https://nlp.stanford.edu/IR-book/html/htmledition/irbook.html" target="_blank" rel="noopener">Texte en ligne</a>.</li>
+    <li><span class="idx">[11]</span> Bird, S., Klein, E. et Loper, E. (2009). <em>Natural Language Processing with Python</em>. O’Reilly Media, chapitre 3. <a href="https://www.nltk.org/book/ch03.html" target="_blank" rel="noopener">Texte en ligne</a>.</li>
   </ol>
 </section>
 </main>
