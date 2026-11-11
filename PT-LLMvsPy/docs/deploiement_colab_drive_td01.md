@@ -1,121 +1,113 @@
-# Mise en service — Notebook d'analyse du corpus Faguet
+# Projet Faguet — lancer le premier notebook dans Google Colab
 
-## Finalité
+## 1. Où se trouve la bibliothèque ?
 
-Le notebook n'est pas un TD : il constitue le support de travail d'un projet
-d'analyse textuelle. Son objectif est d'étudier la **dépendance des traitements
-lexicaux au nettoyage préalable**.
+Les fichiers de travail sont réunis dans le sous-dossier
+[`PT-LLMvsPy/`](https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy)
+du dépôt GitHub **public** `dreymond732/tal-notebook-evaluator`.
 
-L'enchaînement retenu est :
+La branche de préparation est
+[`feat/pt-llmvspy-colab-integrated`](https://github.com/dreymond732/tal-notebook-evaluator/tree/feat/pt-llmvspy-colab-integrated/PT-LLMvsPy).
+Aucun jeton GitHub ni copie de wheel n'est nécessaire.
 
-1. Découvrir les fonctions de prétraitement sur des exemples courts.
-2. Appliquer le traitement complet et **sauvegarder le texte nettoyé**. Dans
-   Colab, un téléchargement permet de l'ouvrir avec Bloc-notes ou un éditeur.
-3. Inspecter réellement le document, rechercher d'éventuelles anomalies et
-   mesurer les occurrences d'un motif caractéristique.
-4. Décider de conserver le traitement ou de réviser les fonctions. En cas de
-   poursuite, calculer les mêmes métriques sur le texte original et sur le
-   texte nettoyé, puis déposer les résultats.
+Le dépôt privé `dreymond732/PT-LLMvsPy` reste conservé comme origine historique ;
+les fichiers distribués aux étudiants proviennent désormais du dépôt public.
 
-La présence d'un contre-exemple n'est pas obligatoire. En revanche, l'inspection
-doit être décrite et la décision motivée. On évite les cas artificiels.
+## 2. Ouvrir le notebook
 
-## Révision de la bibliothèque et du notebook
+1. Ouvrir [`notebooks/01_corpus_protocole.ipynb`](../notebooks/01_corpus_protocole.ipynb).
+2. Télécharger le fichier ou l'ouvrir dans Colab depuis GitHub.
+3. Dans Colab, **Fichier → Enregistrer une copie dans Drive**.
+4. Exécuter les cellules dans l'ordre.
 
-La cellule initiale expose trois paramètres :
-
-- `REVISION_GIT` : commit Git contenant les fonctions à tester ;
-- `VERSION_NOTEBOOK` : version de la copie de travail, initialement `2.0.0` ;
-- `MODE_REVISION` : `reference` ou `exploration`.
-
-Pour tester une nouvelle correction de prétraitement :
-
-1. Conserver les fichiers et le journal d'inspection de la version précédente.
-2. Copier le notebook, incrémenter `VERSION_NOTEBOOK`, puis renseigner le commit
-   correspondant à la nouvelle bibliothèque dans `REVISION_GIT`.
-3. Choisir `MODE_REVISION="exploration"`. La source Faguet et les conventions
-   de mesure restent identiques, mais le résultat épuré peut être différent.
-4. Examiner et compter de nouveau les cas. Si le traitement est acceptable,
-   choisir `DECISION_SUITE="conserver"` pour poursuivre.
-
-En mode `reference`, l'empreinte de la sortie est comparée à celle du texte
-épuré de référence. En mode `exploration`, l'archive est identifiée comme une
-**sortie expérimentale** ; elle ne reçoit pas le statut du résultat de référence.
-
-## Recherche d'une anomalie
-
-- Choisir une **ancre** caractéristique dans le texte original.
-- `localiser_dans_original()` retourne la position et la fenêtre autour de
-  l'ancre. La sélection de l'occurrence est explicite si l'ancre se répète.
-- `fonctions_ayant_modifie_zone()` rejoue les opérations sur le corpus
-  entier afin d'indiquer celles qui sont intervenues dans cette fenêtre.
-- `compter_motif()` calcule la fréquence d'une chaîne littérale ou d'une
-  expression régulière dans les versions originale et épurée.
-
-Le comptage est celui du motif défini ; il ne doit pas être interprété
-automatiquement comme le nombre de toutes les erreurs de même nature.
-
-Le journal d'inspection enregistre la zone, l'ancre, la fonction suspectée,
-le motif, les effectifs et l'argumentaire. Si une révision est demandée, le
-notebook conserve le journal et peut le télécharger avant de s'arrêter.
-
-## Contenu des archives
-
-Les dépôts produits par le nouveau notebook commencent par `FAGUET_` ;
-les archives plus anciennes commençant par `TD01_` restent reconnues par le
-collecteur enseignant.
-
-Chaque archive de travail contient :
-
-- `inspection.json` — méthode de lecture, anomalies, estimations, décision ;
-- `protocole.json` — paramètres, versions, empreintes, mode de révision ;
-- `comparaison_metriques.csv` — sept indicateurs et leurs différences ;
-- `rapport.md` — interprétation personnelle ;
-- `faguet_epure.txt`, `manifeste.json`, `offsets.json.gz` — texte et
-  traçabilité ;
-- `livrable.json` — horodatage, identifiant et empreintes.
-
-Les soumissions anciennes conservent leur schéma initial et leurs
-`tests_personnels.json`.
-
-## GitHub et Google Drive
-
-La bibliothèque est maintenue dans
-https://github.com/dreymond732/PT-LLMvsPy. L'installation depuis Colab
-repose sur une révision Git identifiée. Le dépôt est **privé** : les comptes
-collaborateurs peuvent le lire, mais l'ouverture d'un notebook dans le
-navigateur n'authentifie pas automatiquement `pip` dans Colab. Cette
-authentification reste à tester et à simplifier avant diffusion.
-
-Les résultats sont envoyés par l'API Google Drive au dossier :
-
-https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO
-
-Le notebook vérifie la permission d'ajouter un fichier et son SHA-256 après
-transfert. Le simple partage d'un lien ne garantit pas la permission d'écriture.
-Une copie locale est conservée en cas d'échec.
-
-Le Drive commun en écriture ne fournit pas de confidentialité individuelle ;
-ne pas y placer de données personnelles sensibles. Prévoir une sauvegarde
-enseignante.
-
-## Contrôles
+À la première exécution, le notebook appelle `pip` depuis le même dépôt public,
+en indiquant le sous-dossier Python :
 
 ```bash
-python -m pip install -e ".[test,nlp]"
+python -m pip install 'git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy'
+```
+
+**Version des fonctions.** `REVISION_GIT` peut désigner une branche, un tag ou
+un commit. Le notebook résout automatiquement cette référence en un SHA Git
+précis avant l'installation ; il charge les documents de référence à cette
+même révision et consigne le SHA dans le dossier de résultats. Cette résolution
+évite de mélanger les fichiers si une branche évolue pendant la séance.
+
+Avant la fusion de la branche de migration, utiliser temporairement
+`REVISION_GIT = "feat/pt-llmvspy-colab-integrated"`. Après fusion, conserver
+`REVISION_GIT = "main"`.
+
+## 3. Première étape scientifique : nettoyer, examiner, décider
+
+Le travail comporte quatre moments :
+
+1. Découverte des fonctions et de leurs effets sur des exemples courts.
+2. Traitement complet du texte Faguet. Le fichier nettoyé est produit dans
+   l'espace Colab et proposé au téléchargement pour examen dans un éditeur.
+3. Recherche d'erreurs éventuelles : ancre retrouvée dans le corpus original,
+   fenêtre autour de cette ancre, fonctions ayant modifié la zone, estimation
+   des occurrences d'un motif représentatif. La liste d'anomalies peut être
+   vide si la méthode d'inspection est décrite.
+4. Décision motivée de conserver ou de réviser le nettoyage, puis comparaison
+   des sept mesures lexicales sur l'original et le texte préparé.
+
+En cas de révision, conserver les fichiers et le journal, créer une nouvelle
+copie du notebook, incrémenter `VERSION_NOTEBOOK`, renseigner la nouvelle
+`REVISION_GIT` et choisir `MODE_REVISION="exploration"`.
+
+Le **mode référence** vérifie l'empreinte attendue du texte nettoyé. Une sortie
+d'**exploration** garde son statut propre tant qu'elle n'a pas été revue.
+
+## 4. Corpus et documents de référence
+
+- Le corpus Faguet initial est téléchargé depuis le dépôt public de cours au
+  commit `b92e92b6c216014283056c83aa545881a447b3a5` et vérifié par
+  SHA-256 : `c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`.
+- Les mesures rapportées par Gemini sont dans
+  `PT-LLMvsPy/data/annonces_globales_gemini.json`, récupéré à la **même
+  révision Git** que le code.
+- La version épurée du protocole de référence fait 446 289 caractères,
+  empreinte `0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`.
+  Cette valeur vérifie une version précise du résultat ; elle ne prouve pas
+  que toute transformation textuelle serait sans défaut.
+
+## 5. Dépôt individuel sur Drive
+
+À la fin de l'analyse, une archive `FAGUET_<identifiant>_v<version>_...zip`
+réunit : le journal `inspection.json`, les paramètres et versions, les sept
+mesures comparatives, le texte épuré, ses empreintes et le rapport critique.
+
+Le bouton du notebook dépose cette archive dans le
+[dossier partagé](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO)
+après connexion Google et confirmation. Il vérifie ensuite l'intégrité du
+fichier distant. Un téléchargement local est prévu si le dépôt échoue.
+
+Il faut avoir le droit **d'ajouter des fichiers** au dossier Drive. Les droits
+Drive sont indépendants des droits GitHub.
+
+## 6. Les autres notebooks
+
+Les notebooks 02 à 04 sont importés, mais leur définition et leur usage sont
+encore en cours de révision. Tous devront repartir du **corpus nettoyé retenu
+et documenté par le notebook 01**, et non retélécharger silencieusement le
+texte brut.
+
+## 7. Contrôles de développement
+
+Depuis la racine du clone public :
+
+```bash
+cd PT-LLMvsPy
+python -m pip install -e '.[test,nlp]'
 python -m pytest -q
 python scripts/verifier_corpus_td01.py
 ```
 
-Les tests automatisés contrôlent les fonctions et les archives sur microcorpus,
-puis le script de vérification traite le fichier Faguet original entier.
-La recette Colab → Drive réel, ainsi que la disponibilité d'une révision privée
-depuis Colab, nécessitent un essai avec un compte réellement autorisé.
+La CI dédiée du dépôt public effectue les mêmes tests et vérifie en plus
+l'installation de `tal-toolkit` depuis GitHub avec le fragment
+`#subdirectory=PT-LLMvsPy`.
 
-## Références
+La chaîne Git a été vérifiée automatiquement. Le dépôt **réel** dans le
+Drive partagé nécessite toujours un essai avec un compte Google autorisé.
 
-- Manning, C. D., Raghavan, P., & Schütze, H. (2008). *Introduction to
-  Information Retrieval*. Cambridge University Press, chap. 2.
-  https://doi.org/10.1017/CBO9780511809071
-- Bird, S., Klein, E., & Loper, E. (2009). *Natural Language Processing with
-  Python*. O'Reilly Media, chap. 3. https://www.nltk.org/book/ch03.html
+Pour la provenance de l'import : [MIGRATION.md](../MIGRATION.md).
