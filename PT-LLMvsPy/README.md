@@ -16,24 +16,24 @@ python -m pip install 'git+https://github.com/dreymond732/tal-notebook-evaluator
 
 La cellule de démarrage résout la référence sélectionnée (`main` ou une branche de test) vers un **SHA Git immuable** et utilise ce SHA à la fois pour la bibliothèque et le document Gemini. Le SHA effectivement utilisé est conservé dans le manifeste de résultats.
 
-En cas d'essai sur la branche de migration, renseigner temporairement `REVISION_GIT = "feat/pt-llmvspy-colab-integrated"`. Après sa fusion, la référence `main` fonctionne par défaut.
+La révision `main` fonctionne par défaut ; elle est résolue en commit au démarrage. Les changements de fonctions se testent dans une copie du notebook avec une nouvelle révision.
 
 ## Première étape : préparer la source
 
 1. Découvrir les fonctions sur des exemples courts.
 2. Nettoyer le **texte Faguet intégral** et télécharger une première version lisible.
 3. Examiner le fichier dans Bloc-notes ou un autre éditeur, puis relever les éventuelles anomalies dans le texte original et estimer leur fréquence avec un motif défini.
-4. Choisir de **conserver ou réviser**, puis calculer les sept métriques lexicales de base sur l'original et le texte préparé.
+4. Calculer les sept métriques lexicales de base sur l'original et le texte préparé. Les observations et les éventuelles corrections n'interrompent pas les calculs.
 
-Les sorties sont conservées avec la version du notebook, la révision Git des fonctions, les paramètres spaCy, les empreintes du texte et le journal d'inspection.
+**Les résultats sont enregistrés dans `/content/analyse_faguet_v2_0_0/`** pour la version 2.0.0. Le dossier contient le texte nettoyé, les mesures CSV/JSON, les notes éventuelles et les métadonnées de provenance. L'archive ZIP est identifiée par une date et un nombre aléatoire, sans identifiant étudiant.
 
 Le corpus source provient du fichier du cours à la révision Git `b92e92b6c216014283056c83aa545881a447b3a5`, SHA-256 **`c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`**. Le profil de référence produit **446 289 caractères**, SHA-256 **`0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`**.
 
-Le traitement de référence n'est pas présenté comme exempt d'erreurs : les modifications proposées doivent être examinées dans une nouvelle version. L'examen des contre-exemples précède la décision collective sur le corpus à utiliser ensuite.
+Le traitement de référence n'est pas présenté comme exempt d'erreurs : les modifications proposées doivent être examinées dans une nouvelle version. Les contre-exemples éventuels seront discutés lors de la revue collective du corpus à utiliser ensuite.
 
 ## Dépôt des résultats
 
-Le notebook envoie une archive de travail individuelle vers le [dossier Google Drive partagé](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO) après une autorisation Google explicite. Les fichiers sont contrôlés et l'archive locale reste disponible si le dépôt échoue.
+Le notebook monte votre Drive avec `drive.mount()`. Il reste à repérer le [dossier Google Drive partagé](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO), puis à renseigner son chemin dans `DOSSIER_DEPOT_DRIVE`. L'archive est copiée avec vérification SHA-256 et reste disponible dans `/content` si le dépôt échoue.
 
 L'accès au dossier exige un droit de contribution Google Drive ; il ne découle pas de l'accès au dépôt GitHub.
 
