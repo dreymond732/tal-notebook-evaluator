@@ -1,0 +1,39 @@
+name: PT-LLMvsPy — tests du projet
+
+on:
+  pull_request:
+    paths:
+      - 'PT-LLMvsPy/**'
+      - '.github/workflows/pt-llmvspy.yml'
+  push:
+    branches:
+      - main
+      - feat/pt-llmvspy-colab-integrated
+    paths:
+      - 'PT-LLMvsPy/**'
+      - '.github/workflows/pt-llmvspy.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  analyse-corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Installer les dépendances du sous-projet
+        run: python -m pip install -e './PT-LLMvsPy[test,nlp]'
+      - name: Vérifier les fonctions et notebooks
+        run: python -m pytest -q PT-LLMvsPy/tests
+      - name: Vérifier le véritable corpus Faguet
+        run: python PT-LLMvsPy/scripts/verifier_corpus_td01.py
+      - name: Tester l'installation Git depuis le dépôt public
+        env:
+          REVISION_TEST: ${{ github.head_ref || github.ref_name }}
+        run: |
+          python -m pip uninstall -y tal-toolkit
+          python -m pip install --no-deps --force-reinstall "git+https://github.com/dreymond732/tal-notebook-evaluator.git@${REVISION_TEST}#subdirectory=PT-LLMvsPy"
+          python -c "import tal_toolkit; assert tal_toolkit.__version__ == '0.3.0'; print('Installation Colab par Git : OK')"
