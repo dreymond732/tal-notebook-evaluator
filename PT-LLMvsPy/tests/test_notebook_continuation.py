@@ -66,7 +66,7 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
         METRIQUES_TD01=METRIQUES_TD01,
         spacy=spacy, charger_corpus=charger_corpus,
         comparer_corpus_td01=comparer_corpus_td01,
-        json=json, Path=Path, display=lambda x: None,
+        json=json, hashlib=hashlib, Path=Path, display=lambda x: None,
         NUMERO_SESSION="123456789",
         DATE_SESSION="20261111T124200Z",
         VERSION_NOTEBOOK="2.0.0",
