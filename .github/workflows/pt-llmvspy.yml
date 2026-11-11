@@ -25,11 +25,14 @@ jobs:
         with:
           python-version: '3.11'
       - name: Installer les dépendances du sous-projet
-        run: python -m pip install -e './PT-LLMvsPy[test,nlp]'
+        working-directory: PT-LLMvsPy
+        run: python -m pip install -e '.[test,nlp]'
       - name: Vérifier les fonctions et notebooks
-        run: python -m pytest -q PT-LLMvsPy/tests
+        working-directory: PT-LLMvsPy
+        run: python -m pytest -q
       - name: Vérifier le véritable corpus Faguet
-        run: python PT-LLMvsPy/scripts/verifier_corpus_td01.py
+        working-directory: PT-LLMvsPy
+        run: python scripts/verifier_corpus_td01.py
       - name: Tester l'installation Git depuis le dépôt public
         env:
           REVISION_TEST: ${{ github.head_ref || github.ref_name }}
