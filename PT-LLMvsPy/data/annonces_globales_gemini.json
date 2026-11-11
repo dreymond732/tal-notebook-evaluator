@@ -1,0 +1,73 @@
+{
+  "version": "gemini_metrics_globales_v1",
+  "origine": "Texte transmis par l'enseignant dans la conversation du 10 novembre 2026 ; distinct de gemini_transcription.txt des TD S3.",
+  "titre": "1. Cadre Méthodologique et Métriques Globales du Corpus",
+  "description": "Gemini déclare une analyse informatique intégrale de « Le Féminisme » d'Émile Faguet, avec environ 80 000 mots et plus de 3 800 phrases.",
+  "statut_source": "Transcription fournie par l'enseignant, modèle exact, prompt intégral, traitement et versions non documentés.",
+  "avertissement": "Les ratios calculés à partir des effectifs sont dépendants ; un accord numérique ne valide pas le protocole ni les inférences stylistiques.",
+  "annonces": [
+    {
+      "cle": "tokens",
+      "valeur": 79540,
+      "decimales": 0,
+      "unite": "tokens (sens exact inconnu)",
+      "libelle": "Volume total (Tokens)"
+    },
+    {
+      "cle": "types",
+      "valeur": 8633,
+      "decimales": 0,
+      "unite": "types (forme et normalisation inconnues)",
+      "libelle": "Vocabulaire unique (Types)"
+    },
+    {
+      "cle": "ttr",
+      "valeur": 0.1085,
+      "decimales": 4,
+      "unite": "ratio types / tokens",
+      "libelle": "TTR"
+    },
+    {
+      "cle": "ttr_pourcent",
+      "valeur": 10.85,
+      "decimales": 2,
+      "unite": "% tokens",
+      "libelle": "TTR (%)"
+    },
+    {
+      "cle": "hapax",
+      "valeur": 4609,
+      "decimales": 0,
+      "unite": "types de fréquence 1",
+      "libelle": "Hapax legomena"
+    },
+    {
+      "cle": "hapax_types_pourcent",
+      "valeur": 53.39,
+      "decimales": 2,
+      "unite": "% des types",
+      "libelle": "Part d'hapax"
+    },
+    {
+      "cle": "phrases",
+      "valeur": 3829,
+      "decimales": 0,
+      "unite": "phrases (segmentation inconnue)",
+      "libelle": "Nombre de phrases"
+    },
+    {
+      "cle": "mots_par_phrase",
+      "valeur": 20.77,
+      "decimales": 2,
+      "unite": "tokens retenus / phrases",
+      "libelle": "Longueur moyenne des phrases"
+    }
+  ],
+  "conclusions_a_examiner": [
+    "« homogénéité stylistique marquée »",
+    "« indice de concentration lexicale élevée sur un thème cible »",
+    "« faible ratio TTR atteste d'une très forte figeabilité thématique »",
+    "« proportion d'hapax indique une grande variété de termes descriptifs »",
+    "« rythme oratoire et démonstratif équilibré »"
+  ]
+}
