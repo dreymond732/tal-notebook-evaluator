@@ -33,6 +33,9 @@ jobs:
       - name: Vérifier le véritable corpus Faguet
         working-directory: PT-LLMvsPy
         run: python scripts/verifier_corpus_td01.py
+      - name: Tester le notebook 02 sur le corpus Faguet intégral
+        working-directory: PT-LLMvsPy
+        run: python scripts/verifier_notebook02.py
       - name: Tester l'installation Git depuis le dépôt public
         env:
           REVISION_TEST: ${{ github.head_ref || github.ref_name }}
