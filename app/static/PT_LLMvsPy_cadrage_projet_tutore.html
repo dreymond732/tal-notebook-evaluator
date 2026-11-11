@@ -82,7 +82,7 @@
   <a href="#acquis">Travaux préparatoires</a>
   <a href="#premiere-etape">Étape 1</a>
   <a href="#piege">Corpus</a>
-  <a href="#contrat">Contrat B</a>
+  <a href="#contrat">Méthode</a>
   <a href="#architecture">4 notebooks</a>
   <a href="#revues">Revues</a>
   <a href="#sources">Références</a>
@@ -155,9 +155,10 @@
   <p>Dans le fichier de référence, une même phrase peut s’étendre sur plusieurs lignes typographiques. Les notes et les séparateurs ont aussi une présentation propre. Si un programme traite chaque saut de ligne comme une fin de phrase, il crée artificiellement des unités de mesure.</p>
   <div class="stat-grid">
     <div class="stat"><div class="n">8 456</div><div class="desc">retours CRLF dans le fichier initial</div></div>
-    <div class="stat"><div class="n">6 479</div><div class="desc">recompositions de lignes dans le prétraitement actuel</div></div>
-    <div class="stat"><div class="n">20 + 4 + 3</div><div class="desc">séparateurs, appels de notes et blocs de notes repérés</div></div>
+    <div class="stat"><div class="n">6 479</div><div class="desc">raccordements de lignes typographiques effectués par le prétraitement — <strong>pas</strong> le nombre de lignes restantes</div></div>
+    <div class="stat"><div class="n" style="font-size:1.06rem;line-height:1.65">20 séparateurs<br>4 appels de notes<br>3 blocs de notes</div><div class="desc">éléments éditoriaux repérés dans la source</div></div>
   </div>
+  <p>Les <strong>6 479 raccordements</strong> indiquent combien de coupures typographiques ont été réunies : ils ne correspondent ni au nombre initial de lignes ni au nombre de lignes du fichier nettoyé. Ce dernier dépend aussi du traitement des paragraphes et des éléments supprimés ; il doit être compté sur le fichier produit.</p>
   <p>Un bloc de note contient même des crochets internes : une suppression naïve arrêtée au premier crochet fermant peut conserver un fragment de note par erreur. Le traitement doit être vérifié sur le corpus réel, pas seulement sur des phrases d’exemple.</p>
   <div class="grid">
     <div class="panel compact">
@@ -173,15 +174,30 @@
 </section>
 
 <section class="section" id="contrat">
-  <div class="eyebrow">Règle commune aux quatre étapes</div>
-  <h2>Contrat B — Chaque mesure doit pouvoir être retrouvée</h2>
-  <p>Le contrat B est retenu pour le projet : une valeur isolée ne suffit pas. Chaque calcul ou rapprochement lexical doit conserver les informations nécessaires à sa reproduction et à son interprétation.</p>
-  <div class="grid grid-3">
-    <div class="panel"><h3>Source</h3><p>Texte utilisé, version Git et empreinte ; opérations de prétraitement appliquées.</p></div>
-    <div class="panel"><h3>Mesure</h3><p>Définition des unités (tokens, phrases, fenêtres), méthode, paramètres et valeur calculée.</p></div>
-    <div class="panel"><h3>Preuve</h3><p>Passages retrouvables, indices dans le texte original et limites de l’interprétation.</p></div>
+  <div class="eyebrow">Deux règles méthodologiques pour les quatre étapes</div>
+  <h2>Définir ce que l’on mesure, puis en conserver les preuves</h2>
+  <p>Ces deux règles sont complémentaires : la première précise <strong>ce qui est compté</strong> ; la seconde rend le résultat <strong>reproductible et vérifiable</strong>. Elles s’appliquent à toutes les étapes du projet, même si les méthodes évoluent.</p>
+  <div class="grid">
+    <div class="panel">
+      <h3>1 · Définir les unités et les règles de comptage</h3>
+      <p>Une mesure doit préciser ce qu’elle compte : <strong>forme ou lemme</strong>, mot ou expression contiguë, <strong>phrase, paragraphe ou fenêtre de ± k tokens</strong>, franchissement éventuel des frontières et règle d’agrégation.</p>
+      <p>Pour le premier calcul de cooccurrences, nous retiendrons le <strong>nombre de phrases contenant les deux termes</strong> : chaque phrase est comptée <strong>une seule fois</strong> pour une paire (<code>union</code>). D’autres modes, comme le nombre de paires d’occurrences (<code>somme_paires</code>), pourront ensuite être comparés. Ils ne mesurent pas la même chose.</p>
+    </div>
+    <div class="panel">
+      <h3>2 · Garder la trace de chaque résultat</h3>
+      <p>Pour pouvoir retrouver et discuter une valeur, conserver :</p>
+      <ol>
+        <li>la <strong>source</strong> et sa version ;</li>
+        <li>la <strong>préparation</strong> du texte (nettoyage et éventuelles anomalies) ;</li>
+        <li>le <strong>protocole</strong> (unités, paramètres et règles de décompte) ;</li>
+        <li>la <strong>mesure</strong> calculée ;</li>
+        <li>les <strong>preuves</strong> : positions, extraits ou concordances retrouvables.</li>
+      </ol>
+    </div>
   </div>
-  <div class="semi method"><h3>◆ Exemple</h3><p>« 203 cooccurrences » est insuffisant sans indiquer <em>quels mots</em>, <em>quelle unité</em>, <em>quelle règle de décompte</em> et <em>quels passages</em> permettent de vérifier les résultats. Les scores d’association et les citations feront l’objet des étapes suivantes.</p></div>
+  <div class="semi method"><h3>◆ Exemple : interpréter une cooccurrence</h3>
+    <p>Écrire « 203 cooccurrences » ne suffit pas : il faut préciser les termes recherchés, l’unité retenue (phrase ou autre), la règle de comptage et les passages correspondants. Une valeur annoncée par un LLM reste distincte d’une valeur calculée, même lorsqu’elles sont proches.</p>
+  </div>
 </section>
 
 <section class="section" id="architecture">
