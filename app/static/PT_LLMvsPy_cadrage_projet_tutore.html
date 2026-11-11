@@ -70,8 +70,9 @@
       <span>Première échéance : restitution du notebook 01</span>
     </div>
     <div class="actions">
-      <a href="#premiere-etape">Commencer la première étape</a>
-      <a href="https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy" target="_blank" rel="noopener">Bibliothèque Python</a>
+      <a href="#premiere-etape">Première étape</a>
+      <a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Colab</a>
+      <a href="https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy" target="_blank" rel="noopener">Code et notebooks sur GitHub</a>
       <button type="button" onclick="window.print()">Imprimer / PDF</button>
     </div>
   </div>
@@ -131,8 +132,9 @@
     <div class="eyebrow">Étape 1 · À commencer maintenant</div>
     <h2>Préparer, lire et valider le corpus de référence</h2>
     <p class="intro">Le premier objectif n’est pas de retrouver un nombre annoncé par un LLM : il est de disposer d’un <strong>texte nettoyé dont les choix de préparation peuvent être examinés et discutés</strong>.</p>
-    <p><a class="cta" href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Télécharger le notebook 01 sur GitHub</a></p>
-    <p>Ouvrez le fichier <code>01_corpus_protocole.ipynb</code> dans <strong>Google Colab</strong> (Fichier → Importer un notebook), puis enregistrez une copie dans votre Drive. Le dépôt GitHub est partagé avec les membres du projet.</p>
+    <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Google Colab</a></p>
+    <p>Le notebook est disponible dans le <strong>dossier public PT-LLMvsPy</strong> du dépôt du cours. Dans Colab, choisissez <strong>Fichier → Enregistrer une copie dans Drive</strong>, puis exécutez les cellules dans l'ordre. La bibliothèque Python et les documents de référence sont chargés depuis ce même dépôt.</p>
+    <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">télécharger le fichier <code>01_corpus_protocole.ipynb</code> sur GitHub</a> puis l'importer dans Colab.</p>
     <ol class="step-list">
       <li><h3>Exécuter le nettoyage</h3><p>Charger la version de référence de Faguet et les fonctions Python, lancer le traitement complet, puis sauvegarder le fichier texte obtenu.</p></li>
       <li><h3>Lire le document nettoyé</h3><p>Ouvrir le fichier dans Bloc-notes ou un éditeur de texte. Vérifier les paragraphes, les titres, la ponctuation, les notes et les passages qui paraissent anormaux.</p></li>
@@ -141,7 +143,7 @@
     </ol>
     <div class="semi trace">
       <h3>▣ Rendu de la première étape — de R0 à R1</h3>
-      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> La revue retient le corpus commun ou demande une correction avant les étapes suivantes.</p>
+      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Déposez votre archive dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. La revue retient le corpus commun ou demande une correction avant les étapes suivantes.</p>
     </div>
   </div>
 </section>
@@ -185,7 +187,7 @@
   <div class="eyebrow">Architecture du projet</div>
   <h2>Une bibliothèque commune, quatre notebooks enchaînés</h2>
   <div class="flow" aria-label="Circulation des données du projet">
-    <div><strong>GitHub</strong><span>Fonctions Python, source et documents de référence.</span></div>
+    <div><strong>GitHub public</strong><span>Sous-dossier PT-LLMvsPy : fonctions Python, notebooks et documents de référence.</span></div>
     <div><strong>Notebook 01</strong><span>Nettoyage, inspection et version du corpus retenue.</span></div>
     <div><strong>Notebooks 02 à 04</strong><span>Mesures et audit sur le même texte préparé.</span></div>
     <div><strong>Drive partagé</strong><span>Résultats, rapports et traces des versions.</span></div>
