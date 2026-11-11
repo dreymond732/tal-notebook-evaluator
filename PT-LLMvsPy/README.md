@@ -39,7 +39,9 @@ L'accès au dossier exige un droit de contribution Google Drive ; il ne découle
 
 ## Les autres notebooks
 
-Les notebooks [02 — mesures lexicales](notebooks/02_mesures_lexicales.ipynb), [03 — relations lexicales](notebooks/03_relations_lexicales.ipynb) et [04 — audit LLM](notebooks/04_audit_llm.ipynb) sont importés avec l'historique du projet, **mais leur définition et leur chargement des données restent à reprendre**. Ils devront tous travailler sur le **corpus épuré validé** à l'issue du notebook 01.
+Le [notebook 02 — audit du nettoyage et mesures lexicales](notebooks/02_mesures_lexicales.ipynb) reprend directement **`/content/analyse_faguet_v2_0_0/faguet_nettoye.txt`** et ses métadonnées. Il teste la réapplication des opérations OP01–OP12 puis calcule les métriques globales, le STTR, cinq champs lexicaux, des marqueurs énonciatifs, des locutions et des mentions orthographiques. Les lemmes exigent un modèle annotant. Les résultats et preuves sont enregistrés dans **`/content/analyse_faguet_n2_v1_0_0/`**.
+
+Les notebooks [03 — relations lexicales](notebooks/03_relations_lexicales.ipynb) et [04 — audit LLM](notebooks/04_audit_llm.ipynb) restent à reprendre ; ils devront utiliser le **même texte nettoyé** et la même provenance. Les cooccurrences détaillées par phrase ou fenêtres ±5/±10 relèvent du notebook 03.
 
 ## Développement et vérification
 
