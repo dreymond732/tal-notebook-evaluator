@@ -1,113 +1,71 @@
-# Projet Faguet — lancer le premier notebook dans Google Colab
+# Projet Faguet — utiliser le notebook 01 dans Colab
 
-## 1. Où se trouve la bibliothèque ?
+## Ouverture et versions
 
-Les fichiers de travail sont réunis dans le sous-dossier
-[`PT-LLMvsPy/`](https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy)
-du dépôt GitHub **public** `dreymond732/tal-notebook-evaluator`.
+Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_corpus_protocole.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
-La branche de préparation est
-[`feat/pt-llmvspy-colab-integrated`](https://github.com/dreymond732/tal-notebook-evaluator/tree/feat/pt-llmvspy-colab-integrated/PT-LLMvsPy).
-Aucun jeton GitHub ni copie de wheel n'est nécessaire.
+Ouvrir le notebook dans Colab, puis enregistrer une copie dans votre Drive. La bibliothèque est installée depuis GitHub à la révision `REVISION_GIT`, résolue en SHA de commit au début de la session. `VERSION_NOTEBOOK` reste modifiable pour comparer les versions.
 
-Le dépôt privé `dreymond732/PT-LLMvsPy` reste conservé comme origine historique ;
-les fichiers distribués aux étudiants proviennent désormais du dépôt public.
+## Le répertoire de travail
 
-## 2. Ouvrir le notebook
+La version `2.0.0` produit directement tous ses fichiers dans :
 
-1. Ouvrir [`notebooks/01_corpus_protocole.ipynb`](../notebooks/01_corpus_protocole.ipynb).
-2. Télécharger le fichier ou l'ouvrir dans Colab depuis GitHub.
-3. Dans Colab, **Fichier → Enregistrer une copie dans Drive**.
-4. Exécuter les cellules dans l'ordre.
-
-À la première exécution, le notebook appelle `pip` depuis le même dépôt public,
-en indiquant le sous-dossier Python :
-
-```bash
-python -m pip install 'git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy'
+```text
+/content/analyse_faguet_v2_0_0/
+    faguet_source.txt
+    faguet_nettoye.txt
+    observations_nettoyage.txt
+    comparaison_metriques.csv
+    comparaison_metriques.json
+    commentaires_analyse.txt
+    metadonnees_analyse.json
+    FAGUET_v2_0_0_<dateUTC>_<numeroAleatoire>.zip
 ```
 
-**Version des fonctions.** `REVISION_GIT` peut désigner une branche, un tag ou
-un commit. Le notebook résout automatiquement cette référence en un SHA Git
-précis avant l'installation ; il charge les documents de référence à cette
-même révision et consigne le SHA dans le dossier de résultats. Cette résolution
-évite de mélanger les fichiers si une branche évolue pendant la séance.
+Le nom de l'archive intègre automatiquement la date UTC et un **nombre aléatoire de neuf chiffres** généré à l'exécution. Il n'y a pas de champ « identifiant étudiant » et aucune décision de validation imposée.
 
-Avant la fusion de la branche de migration, utiliser temporairement
-`REVISION_GIT = "feat/pt-llmvspy-colab-integrated"`. Après fusion, conserver
-`REVISION_GIT = "main"`.
+Un nouveau numéro `VERSION_NOTEBOOK` produit un autre dossier `analyse_faguet_v...`.
 
-## 3. Première étape scientifique : nettoyer, examiner, décider
+## Travail scientifique
 
-Le travail comporte quatre moments :
+1. Charger Faguet et les fonctions communes, puis observer les six exemples.
+2. Exécuter le nettoyage complet et télécharger la version épurée pour l'ouvrir dans un éditeur.
+3. Rechercher éventuellement des anomalies : ancre dans le corpus initial, fenêtre autour d'elle, fonction impliquée, motif à compter. Les observations peuvent être consignées librement dans `NOTES_INSPECTION`, mais ne bloquent pas le calcul.
+4. Calculer automatiquement les sept indicateurs sur le texte original et le texte nettoyé : tokens, types, hapax, TTR, part d'hapax, nombre de phrases et longueur moyenne. Les valeurs, les paramètres, la version de la bibliothèque et le SHA des textes sont enregistrés.
+5. Ajouter si nécessaire un commentaire libre et préparer l'archive ZIP.
 
-1. Découverte des fonctions et de leurs effets sur des exemples courts.
-2. Traitement complet du texte Faguet. Le fichier nettoyé est produit dans
-   l'espace Colab et proposé au téléchargement pour examen dans un éditeur.
-3. Recherche d'erreurs éventuelles : ancre retrouvée dans le corpus original,
-   fenêtre autour de cette ancre, fonctions ayant modifié la zone, estimation
-   des occurrences d'un motif représentatif. La liste d'anomalies peut être
-   vide si la méthode d'inspection est décrite.
-4. Décision motivée de conserver ou de réviser le nettoyage, puis comparaison
-   des sept mesures lexicales sur l'original et le texte préparé.
+Une anomalie peut justifier une nouvelle révision des fonctions ; **elle n'empêche pas l'enregistrement des mesures de la version courante**.
 
-En cas de révision, conserver les fichiers et le journal, créer une nouvelle
-copie du notebook, incrémenter `VERSION_NOTEBOOK`, renseigner la nouvelle
-`REVISION_GIT` et choisir `MODE_REVISION="exploration"`.
+## Retrouver le Drive partagé
 
-Le **mode référence** vérifie l'empreinte attendue du texte nettoyé. Une sortie
-d'**exploration** garde son statut propre tant qu'elle n'a pas été revue.
+Ouvrir [le dossier partagé du projet](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO) avec son compte Google. Si le dossier figure uniquement dans « Partagés avec moi », ajouter un **raccourci dans Mon Drive**.
 
-## 4. Corpus et documents de référence
+La cellule de fin de notebook monte le Drive :
 
-- Le corpus Faguet initial est téléchargé depuis le dépôt public de cours au
-  commit `b92e92b6c216014283056c83aa545881a447b3a5` et vérifié par
-  SHA-256 : `c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`.
-- Les mesures rapportées par Gemini sont dans
-  `PT-LLMvsPy/data/annonces_globales_gemini.json`, récupéré à la **même
-  révision Git** que le code.
-- La version épurée du protocole de référence fait 446 289 caractères,
-  empreinte `0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`.
-  Cette valeur vérifie une version précise du résultat ; elle ne prouve pas
-  que toute transformation textuelle serait sans défaut.
+```python
+from google.colab import drive
+drive.mount("/content/drive")
+```
 
-## 5. Dépôt individuel sur Drive
+Après avoir identifié le chemin du dossier partagé sous `/content/drive/MyDrive/`, le renseigner dans `DOSSIER_DEPOT_DRIVE`. La cellule de dépôt copie l'archive et vérifie son SHA-256. Elle ne crée pas de dossier de destination et refuse d'écraser un fichier de même nom.
 
-À la fin de l'analyse, une archive `FAGUET_<identifiant>_v<version>_...zip`
-réunit : le journal `inspection.json`, les paramètres et versions, les sept
-mesures comparatives, le texte épuré, ses empreintes et le rapport critique.
+La copie locale reste disponible dans `/content/analyse_faguet_v2_0_0/` si le partage n'est pas accessible.
 
-Le bouton du notebook dépose cette archive dans le
-[dossier partagé](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO)
-après connexion Google et confirmation. Il vérifie ensuite l'intégrité du
-fichier distant. Un téléchargement local est prévu si le dépôt échoue.
+**Attention :** Colab conserve ses fichiers locaux seulement pendant la durée de vie de son environnement. Il faut récupérer le texte et les résultats avant fermeture de la session. Une copie sur Drive suppose un dossier accessible en écriture.
 
-Il faut avoir le droit **d'ajouter des fichiers** au dossier Drive. Les droits
-Drive sont indépendants des droits GitHub.
+## Contrôles et reproductibilité
 
-## 6. Les autres notebooks
+Le corpus initial est téléchargé depuis le commit public `b92e92b6c216014283056c83aa545881a447b3a5`. SHA-256 attendu : `c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`.
 
-Les notebooks 02 à 04 sont importés, mais leur définition et leur usage sont
-encore en cours de révision. Tous devront repartir du **corpus nettoyé retenu
-et documenté par le notebook 01**, et non retélécharger silencieusement le
-texte brut.
+Les mesures Gemini proviennent du dossier `PT-LLMvsPy/data/` à la même révision Git que le code. Les règles de nettoyage et de calcul sont enregistrées dans `metadonnees_analyse.json`. L'empreinte du texte épuré permet de voir si deux exécutions ont produit la même sortie.
 
-## 7. Contrôles de développement
+La suite des notebooks 02 à 04 reste à adapter pour charger le corpus retenu après la première revue.
 
-Depuis la racine du clone public :
+Tests sur une copie du dépôt public :
 
 ```bash
 cd PT-LLMvsPy
-python -m pip install -e '.[test,nlp]'
+python -m pip install -e ".[test,nlp]"
 python -m pytest -q
 python scripts/verifier_corpus_td01.py
 ```
-
-La CI dédiée du dépôt public effectue les mêmes tests et vérifie en plus
-l'installation de `tal-toolkit` depuis GitHub avec le fragment
-`#subdirectory=PT-LLMvsPy`.
-
-La chaîne Git a été vérifiée automatiquement. Le dépôt **réel** dans le
-Drive partagé nécessite toujours un essai avec un compte Google autorisé.
-
-Pour la provenance de l'import : [MIGRATION.md](../MIGRATION.md).
