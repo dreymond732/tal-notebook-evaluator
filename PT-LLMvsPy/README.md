@@ -46,9 +46,10 @@ Les notebooks [02 — mesures lexicales](notebooks/02_mesures_lexicales.ipynb), 
 Dans une copie locale du dépôt public :
 
 ```bash
-python -m pip install -e "./PT-LLMvsPy[test,nlp]"
-python -m pytest -q PT-LLMvsPy/tests
-python PT-LLMvsPy/scripts/verifier_corpus_td01.py
+cd PT-LLMvsPy
+python -m pip install -e ".[test,nlp]"
+python -m pytest -q
+python scripts/verifier_corpus_td01.py
 ```
 
 GitHub Actions vérifie aussi l'**installation Git du sous-dossier** depuis le dépôt public, pour reproduire le parcours d'import de Colab.
