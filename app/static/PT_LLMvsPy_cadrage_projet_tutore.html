@@ -1,316 +1,265 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+<!doctype html>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>PT-LLMvsPy — Cadrage du projet tuteuré</title>
+<meta name="description" content="Cadrage du projet tuteuré de master 2 : audit lexicométrique du Féminisme d'Émile Faguet, comparaison LLM et Python, provenance et prétraitement.">
+<title>PT-LLMvsPy — Cadrage du projet tuteuré · Master 2</title>
 <style>
 :root{--ink:#182743;--muted:#53647b;--blue:#2757b8;--violet:#7b2cbf;--green:#147d44;--orange:#a85a00;--teacher:#0f7890;--line:#dce3ed;--pale:#f5f7fb;--paper:#fff;--dark:#101c32;--shadow:0 12px 34px rgba(20,35,70,.06)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f7f9fd;color:var(--ink);font:16px/1.62 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}a{color:var(--blue);text-underline-offset:3px}a:focus-visible,button:focus-visible{outline:3px solid #e0a118;outline-offset:3px}h1,h2,h3,h4{line-height:1.22;letter-spacing:-.02em}h1{font-size:clamp(2.25rem,5vw,4rem);margin:.65rem 0 1rem;max-width:950px}h2{font-size:clamp(1.42rem,2.5vw,1.95rem);margin:0 0 1rem}h3{font-size:1.13rem;margin:0 0 .65rem}h4{font-size:1rem;margin:.3rem 0}p{margin:.6rem 0 1rem}small{font-size:.82rem}ul,ol{padding-left:1.4rem}li{margin:.35rem 0}strong{font-weight:750}code,.code{font: .93em/1.5 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;background:#eaf0f6;border-radius:4px;padding:.05em .26em}table{border-collapse:collapse;width:100%;margin:.85rem 0 1.1rem;min-width:640px}th,td{vertical-align:top;border-bottom:1px solid var(--line);padding:.76rem .8rem;text-align:left}th{color:#2f4566;background:#edf2f9;font-size:.87rem}td{font-size:.94rem}tbody tr:nth-child(even){background:#f9fbff}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin:1rem 0}.table-wrap table{margin:0}.table-wrap tr:last-child td{border-bottom:none}blockquote{margin:1.3rem 0;padding:1rem 1.2rem;border-left:5px solid var(--violet);background:#f7f0fd;border-radius:0 10px 10px 0;font-size:1.09rem}header{padding:4.1rem max(5vw,25px) 3.8rem;color:#fff;background:radial-gradient(circle at 92% 4%,rgba(85,153,236,.23),transparent 34%),linear-gradient(132deg,#10203b 0%,#1d3b76 72%,#2258ac 130%)}.wrap{max-width:1150px;margin:0 auto}.kicker{text-transform:uppercase;font-size:.79rem;font-weight:800;letter-spacing:.16em;color:#b9cff4}.lead{font-size:clamp(1.07rem,1.9vw,1.31rem);max-width:890px;opacity:.94}.hero-meta{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:2rem}.hero-meta span{display:inline-flex;align-items:center;border:1px solid #6883b1;padding:.34rem .7rem;border-radius:50px;color:#e7f0ff;font-size:.82rem;font-weight:650}.hero-meta span:first-child{background:#fff;color:#213c69;border-color:#fff}.actions{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1.35rem}.actions a,.actions button{font:inherit;font-size:.88rem;font-weight:700;text-decoration:none;padding:.58rem .9rem;border-radius:8px;cursor:pointer}.actions a{color:#142a4d;background:#fff}.actions button{color:#fff;border:1px solid #7795c4;background:transparent}nav{position:sticky;top:0;z-index:10;background:#fffdfef5;backdrop-filter:blur(12px);box-shadow:0 2px 12px rgba(20,38,70,.08);border-bottom:1px solid var(--line)}nav .wrap{display:flex;align-items:center;gap:1.1rem;white-space:nowrap;overflow:auto;padding:.8rem 1rem}nav a{font-size:.85rem;text-decoration:none;color:#385479;font-weight:700}nav a:hover{color:var(--blue)}main{max-width:1150px;margin:0 auto;padding:1.4rem 1.25rem 5rem}.section{margin:2.25rem 0 3.1rem;scroll-margin-top:5rem}.eyebrow{font-weight:800;color:var(--blue);letter-spacing:.11em;text-transform:uppercase;font-size:.76rem;margin-bottom:.45rem}.intro{font-size:1.02rem;color:var(--muted);max-width:970px}.panel{border:1px solid var(--line);background:#fff;border-radius:16px;padding:1.25rem 1.4rem;box-shadow:var(--shadow)}.panel + .panel{margin-top:1rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.scope{display:flex;gap:.85rem;align-items:flex-start}.num{display:grid;place-items:center;background:#e9eef9;color:#20488e;border-radius:10px;font-weight:900;font-size:1.12rem;min-width:2.7rem;height:2.7rem}.role-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:1rem 0}.role-strip .legend{border:1px solid var(--line);border-left-width:5px;border-radius:9px;padding:.7rem .9rem;background:white;font-size:.87rem;font-weight:700}.legend.context{border-left-color:#2563eb;background:#eff6ff;color:#1d4ed8}.legend.learning{border-left-color:var(--violet);background:#faf5ff;color:#682092}.legend.student{border-left-color:var(--green);background:#effaf3;color:#136338}.legend.caution{border-left-color:#d68a1b;background:#fff7e9;color:#8b5109}.legend.teacher{border-left-color:var(--teacher);background:#e8f8fb;color:#146579}.legend.trace{border-left-color:#12223b;background:#172640;color:#edf5ff}.semi{border:1px solid var(--line);border-left:5px solid var(--blue);background:#eff6ff;border-radius:11px;padding:.95rem 1.08rem;margin:1rem 0}.semi p:last-child{margin-bottom:0}.semi h3{margin:0 0 .35rem;font-size:.99rem}.semi.context{border-left-color:#2563eb;background:#eff6ff}.semi.learning{border-left-color:var(--violet);background:#fbf5ff}.semi.student{border-left-color:var(--green);background:#f0faf3}.semi.caution{border-left-color:#db8b1b;background:#fff9ed}.semi.teacher{border-left-color:var(--teacher);background:#edfaff}.semi.trace{border-left-color:#14243e;background:#17243c;color:#fff}.semi.trace code{background:#33415c;color:#fff}.margin-top{margin-top:1.4rem}.muted{color:var(--muted)}.tag{display:inline-block;padding:.13rem .52rem;margin:.17rem;border-radius:40px;background:#eef3f9;color:#36516f;border:1px solid #d9e2ee;font-weight:750;font-size:.76rem}.tag.dark{background:#21354f;color:#fff;border-color:#21354f}.tag.green{background:#e9f8ed;color:#106337;border-color:#bcdcc7}.tag.gold{background:#fff4df;color:#855100;border-color:#efcf8e}.ref{font-size:.78em;font-weight:850;text-decoration:none;vertical-align:super;padding-left:.15rem}.step-list{counter-reset:steps;list-style:none;margin:1rem 0;padding:0}.step-list li{position:relative;margin:0 0 .85rem 0;padding:1.1rem 1.2rem 1rem 4.4rem;border:1px solid var(--line);border-radius:13px;background:#fff}.step-list li:before{counter-increment:steps;content:counter(steps,decimal-leading-zero);position:absolute;top:1.06rem;left:1rem;font-weight:850;font-size:1.09rem;color:var(--blue);background:#eaf1ff;padding:.25rem .36rem;border-radius:7px}.step-list h3{margin:0 0 .3rem}.step-list p{margin:.3rem 0 .65rem}.step-list p:last-child{margin-bottom:0}.deliver{border:1px solid #bddac7;background:#f4fbf6;border-radius:12px;padding:1rem 1.15rem}.reference-list{list-style:none;padding:0;counter-reset:ref}.reference-list li{margin:0 0 .65rem;padding:1rem 1.15rem;border:1px solid var(--line);border-radius:9px;background:#fff;overflow-wrap:anywhere}.reference-list .idx{display:inline-block;font-size:.79rem;font-weight:900;min-width:2.1rem;color:var(--violet)}.reference-list a{font-size:.86rem}.reference-list .why{font-size:.84rem;color:var(--muted);margin:.35rem 0 0 2.1rem}.timeline td:first-child{font-weight:800;white-space:nowrap;color:#244b8e}.timeline td:nth-child(2){white-space:nowrap}.timeline .pause td{background:#f6f1e6;color:#8a5b17}.timeline .last td{background:#e9f6f2}.roles-table td:first-child{font-weight:750}.decision{border:1px solid #b6cfec;border-left:5px solid #336ec2;background:#f2f7ff;border-radius:12px;padding:1rem 1.15rem}.one-line{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:1.5rem 0}.flow>div{border:1px solid var(--line);background:#fff;border-radius:10px;padding:1rem;min-height:113px}.flow strong{display:block;font-size:.85rem;color:var(--blue)}.flow span{display:block;font-size:.86rem;color:var(--muted);margin-top:.35rem}.qa{display:grid;grid-template-columns:220px 1fr;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}.qa:last-child{border-bottom:0}.qa dt{font-weight:800}.qa dd{margin:0}.iconmark{font-size:1.2rem;vertical-align:middle}.subtle{font-size:.84rem;color:var(--muted)}footer{border-top:1px solid var(--line);padding:2rem 1.25rem;background:#eef2f8;color:#50647d;text-align:center}footer p{max-width:890px;margin:.3rem auto}.footnote{font-size:.82rem;color:var(--muted)}.split{display:grid;grid-template-columns:minmax(0,3fr) minmax(240px,2fr);gap:1rem}.table-explain{font-size:.87rem;color:var(--muted)}.statline{font-size:.91rem;color:var(--muted)}.checklist{padding-left:0;list-style:none}.checklist li{position:relative;padding-left:1.65rem}.checklist li:before{content:'□';position:absolute;left:0;top:0;color:#168249;font-size:1.11rem}.rule{border:0;height:1px;background:var(--line);margin:2rem 0}@media(max-width:800px){.grid,.grid-3,.split{grid-template-columns:1fr}.role-strip{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}.qa{grid-template-columns:1fr;gap:.18rem}.timeline td:nth-child(2){white-space:normal}}@media(max-width:520px){header{padding:2.5rem 1.2rem}nav .wrap{gap:.72rem}.role-strip,.flow{grid-template-columns:1fr}.panel{padding:1rem}.step-list li{padding-left:3.75rem}}@media print{html{scroll-behavior:auto}body{background:#fff;font:10.2pt/1.4 Georgia,serif}header{background:#fff!important;color:#1b2944;padding:1rem 0}header .kicker,.lead{color:#233b64}.hero-meta span{color:#34465c;border-color:#999}.actions,nav{display:none}main{max-width:100%;padding:0}section{break-before:auto;margin:1.4rem 0}.panel,.semi,.step-list li,.reference-list li{box-shadow:none;break-inside:avoid}.grid,.grid-3,.flow{gap:.45rem}a{color:inherit;text-decoration:underline}a:after{content:""}th,td{padding:.3rem}.table-wrap{overflow:visible;border:0}table{min-width:0;font-size:9pt}h2{font-size:16pt}h3{font-size:11pt}footer{background:#fff}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-</style>
-</head>
-<body>
-<header>
-  <div class="wrap">
-    <div class="kicker">Projet tuteuré · TAL &amp; Python · Année universitaire 2026–2027</div>
-    <h1>LLM vs Python&nbsp;: mettre les affirmations d’une IA à l’épreuve du texte</h1>
-    <p class="lead">Construire collectivement une bibliothèque d’analyse textuelle, contrôler les résultats produits par un LLM et documenter ce que nos mesures permettent — ou non — d’affirmer.</p>
-    <div class="hero-meta"><span>Document de cadrage · v0.1</span><span>10 novembre 2026</span><span>Proposition pour discussion</span><span>Horizon&nbsp;: avant le départ en stage, date à confirmer</span></div>
-    <div class="actions"><a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener">Voir le dépôt GitHub ↗</a><a href="https://github.com/dreymond732/PT-LLMvsPy/pull/1" target="_blank" rel="noopener">Voir la PR d’amorçage ↗</a><button type="button" onclick="window.print()">Imprimer / enregistrer en PDF</button></div>
-  </div>
-</header>
-<nav aria-label="Navigation dans le document"><div class="wrap"><a href="#enjeu">Enjeu</a><a href="#questions">Problèmes</a><a href="#contrats">Contrats</a><a href="#architecture">Architecture</a><a href="#notebook1">Notebook 1</a><a href="#parcours">Parcours</a><a href="#calendrier">Calendrier</a><a href="#revue">Revue hebdomadaire</a><a href="#roles">Rôles</a><a href="#references">Références</a></div></nav>
-<main>
-<section class="section" id="enjeu">
 
-  <div class="eyebrow">01 · Point de départ et matériau d'étude</div>
-  <h2>Reproduire une analyse annoncée par un LLM</h2>
-  <div class="semi context"><h3>◉ Le matériau primaire</h3>
-    <p>Le projet étudie le rapport complet <strong>« Analyse Lexicométrique, Quantitative et Relationnelle de <em>Le Féminisme</em> d'Émile Faguet »</strong>, attribué à <strong>Gemini</strong> et transmis par l'enseignant. Ses <strong>six sections</strong> annoncent des fréquences, catégories lexicales, comptages pronominaux, cooccurrences, séquences et noms propres, suivis de conclusions sur le discours de l'auteur.</p>
-    <p>Ce rapport est une <strong>production à vérifier</strong>, pas une référence méthodologique ni une publication scientifique validée. Son prompt initial, la version de Gemini, le fichier exact analysé et les opérations internes ne sont pas documentés dans le fichier reçu.</p>
-    <p><a class="ref" href="PT_LLMvsPy_Analyse_Gemini_integrale.md">Lire le rapport intégral avec tableaux mis en forme (Markdown)</a> · <a class="ref" href="PT_LLMvsPy_Analyse_Gemini_source_originale.md">Consulter la copie source non modifiée</a> · <a class="ref" href="PT_LLMvsPy_Analyse_Gemini_provenance.json">Notice de provenance et empreintes SHA-256 (JSON)</a>.</p>
+
+:root{--ink:#172640;--blue:#2859af;--violet:#6837ad;--green:#20704a;--teacher:#08788c}
+.hero-meta span:first-child{background:#f3f7ff}
+.row-gap{display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}
+.note-source{font-size:.87rem;color:var(--muted)}
+.note-source a{overflow-wrap:anywhere}
+.fact{font-variant-numeric:tabular-nums;font-weight:750}
+.compact p{margin:.35rem 0 .65rem}
+.compact ul{margin:.45rem 0}
+.semi h3{font-size:1.05rem}
+.semi.method{border-left-color:var(--violet);background:#f7f2fd}
+.semi.action{border-left-color:var(--green);background:#f2faf4}
+.semi.review{border-left-color:var(--teacher);background:#effbfc}
+.semi.warning{border-left-color:#c88520;background:#fff8e8}
+.legend.method{border-left-color:var(--violet);background:#f7f2fd;color:#64349d}
+.legend.action{border-left-color:var(--green);background:#f0faf3;color:#136338}
+.legend.warning{border-left-color:#c88520;background:#fff8e8;color:#885109}
+.legend.review{border-left-color:var(--teacher);background:#effbfc;color:#136879}
+.bibliography{font-size:.94rem}
+.status{display:inline-block;background:#e9f0fc;color:#24477c;border:1px solid #cfdbef;padding:.18rem .58rem;border-radius:1rem;font-size:.79rem;font-weight:700}
+.status.pending{background:#fff6e7;color:#885510;border-color:#ead7ab}
+.stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin:1rem 0}
+.stat{border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;background:#fff}
+.stat .n{font-size:1.5rem;color:#183e7e;font-weight:850;line-height:1.25}
+.stat .desc{font-size:.85rem;color:var(--muted)}
+.card-title{color:#214777;font-weight:800}
+.cta{display:inline-block;background:#2256a2;color:#fff!important;border-radius:8px;padding:.65rem 1rem;font-weight:750;text-decoration:none}
+.cta:hover{background:#193d7a}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+@media(max-width:760px){.stat-grid,.two-col{grid-template-columns:minmax(0,1fr)}.role-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col>*,.grid>*,.flow>*{min-width:0}code{overflow-wrap:anywhere;word-break:break-word}}
+@media print{.cta{border:1px solid #244b8e;color:#244b8e!important;background:transparent}}
+</style>
+</head><body>
+<header>
+<div class="wrap">
+  <div class="kicker">Projet tutoré · Master 2 · TAL et Python · 2026–2027</div>
+  <h1>LLM vs Python : éprouver des mesures lexicales sur un corpus commun</h1>
+  <p class="lead">Du premier prompt à une chaîne d'analyse reproductible : préparer le texte, expliciter les unités comptées, retrouver les preuves et confronter les résultats.</p>
+  <div class="hero-meta">
+    <span>Document de cadrage · version 0.2</span><span>11 novembre 2026</span>
+    <span>Travail préparatoire déjà réalisé</span><span>Jalons hebdomadaires à confirmer</span>
   </div>
-  <div class="grid grid-2">
-    <div class="panel"><h3>Le problème scientifique</h3><p>Le rapport présente des résultats précis et des interprétations convaincantes, sans fournir les programmes, définitions ni traces permettant de les reproduire. Il s'agit d'évaluer la <strong>reproductibilité des mesures</strong>, de caractériser les écarts et de circonscrire les interprétations qui dépassent les données.</p><p>Les résultats négatifs ou indéterminés sont des observations à conserver. Ils ne se transforment pas en preuves d'une procédure interne de Gemini <a class="ref" href="#r6">[R6]</a>.</p></div>
-    <div class="panel"><h3>Le point de départ technique</h3><p>Les TD0 à TD7 ont introduit Python, spaCy, fréquences, concordances, cooccurrences et contrôle des citations. Le projet capitalise sur ces acquis pour développer <strong>une seule bibliothèque commune</strong>, testée sur des échantillons puis appliquée au corpus intégral.</p><p>Quatre notebooks organisent la recherche ; la revue hebdomadaire décide des vérifications suivantes.</p></div>
+  <div class="actions">
+    <a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener">Bibliothèque du projet ↗</a>
+    <a href="https://github.com/dreymond732/PT-LLMvsPy/blob/docs/td01-simplification-pedagogique/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Notebook 01 · version de travail ↗</a>
+    <button onclick="window.print()" type="button">Imprimer / PDF</button>
   </div>
-  <div class="semi caution"><h3>⚑ Ne pas confondre deux productions Gemini</h3>
-    <p><strong>Source principale :</strong> le rapport intégral ci-dessus, avec six sections et des tableaux chiffrés. <strong>Source complémentaire :</strong> la transcription d'une conversation progressive du 18 septembre 2026 conservée dans les TD S3, contenant notamment les six intervalles de cooccurrences <strong>G1–G6</strong>. Il n'est pas établi que ces deux documents proviennent du même traitement du texte ni du même modèle. Ils seront confrontés <em>séparément</em>, avec leur propre provenance.</p>
-  </div>
+</div>
+</header>
+<nav aria-label="Sommaire"><div class="wrap">
+  <a href="#depart">Départ</a><a href="#question">Question</a><a href="#semiotique">Codes</a>
+  <a href="#contrats">Contrats</a><a href="#piege">Prétraitement</a><a href="#architecture">Architecture</a>
+  <a href="#premiere-etape">Étape 1</a><a href="#quatre-etapes">4 notebooks</a>
+  <a href="#revues">Revues</a><a href="#organisation">Organisation</a><a href="#references">Sources</a>
+</div></nav>
+<main>
+<section class="section" id="depart">
+<div class="eyebrow">01 · Cadre de départ : travaux déjà réalisés</div>
+<h2>Une enquête commencée avant la mise en place de la bibliothèque</h2>
+<div class="semi context"><h3>◉ Les échanges avec Gemini</h3>
+<p>Une première conversation avec Gemini, datée du <strong>18 septembre 2026</strong> dans les ressources S3, propose une lecture lexicale, des rapprochements de termes et, dans une réponse ultérieure, <strong>six intervalles de cooccurrences (G1–G6)</strong>. Les premières formulations thématiques n'offrent pas toutes des effectifs. Les unités de compte, la segmentation et le protocole ayant produit les intervalles ne sont pas explicités.</p>
+<p>Un autre rapport transmis par l'enseignant le <strong>10 novembre 2026</strong> annonce <strong>79 540 tokens, 8 633 types, 4 609 hapax et 3 829 phrases</strong> ; les ratios dérivés apparaissent également. Ce rapport est <strong>distinct</strong> de la transcription initiale contenant G1–G6. Les relances méthodologiques effectuées par étapes ont notamment produit un tableau de <strong>sept indicateurs « non calculés »</strong> et une liste de <strong>douze opérations proposées</strong>, sans preuve d'exécution de ces opérations.</p>
+<p class="note-source">Documents de référence : <code>gemini_transcription.txt</code>, <code>annonces_globales_gemini.json</code>, rapport Gemini de métriques et tableaux méthodologiques transmis pour le projet.</p>
+</div>
+<div class="panel">
+<h3>Le travail préparatoire des étudiants de master 2</h3>
+<p>Un prompt demandant une analyse lexicométrique quantitative des occurrences et des relations lexicales a été essayé avec plusieurs LLM. Un tableau comparatif rassemble notamment Gemini Notebook, ChatGPT, Kimi AI, Claude et DeepAI. <strong>Les réponses chiffrées disponibles sont du même ordre de grandeur</strong> pour les comptes globaux, sans être identiques ; certains outils privilégient des listes thématiques ou ne donnent pas les indicateurs demandés. Des essais Python / Colab sur le lexique ont ensuite produit des mesures comparables pour certains indicateurs, mais aussi des désaccords importants sur les types et les hapax.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Production préparatoire</th><th>Tokens ou mots rapportés</th><th>Types</th><th>Phrases</th><th>Statut de comparaison</th></tr></thead>
+<tbody>
+<tr><td>Gemini Notebook (tableau collectif)</td><td class="fact">79 540</td><td>8 633</td><td>3 829</td><td>Valeurs annoncées ; découpage non reconstitué</td></tr>
+<tr><td>ChatGPT (tableau collectif)</td><td>74 964 ; autres essais : 74 922 et 75 834</td><td>8 481</td><td>3 614 ; autre essai : 3 843</td><td>Variations entre réponses rapportées</td></tr>
+<tr><td>Kimi AI (tableau collectif)</td><td>74 920</td><td>Non renseigné</td><td>3 610</td><td>Précise aussi 971 blocs non vides</td></tr>
+<tr><td>Claude (tableau collectif)</td><td>73 602 mots séparés / 81 066 occurrences</td><td>8 517</td><td>3 339</td><td>Deux notions de volume distinctes</td></tr>
+<tr><td>Google Colab (tableau collectif)</td><td>74 964</td><td>10 171</td><td>3 769</td><td>Calcul Python avec conventions propres</td></tr>
+</tbody></table></div>
+<p class="subtle">Les valeurs sont reproduites telles qu'elles figurent dans <em>projet tutoré.docx</em> ; « x » et « ? » ont été exclus du tableau faute de valeur exploitable. Elles ne sont pas assimilées à des résultats calculés sur un corpus et un protocole nécessairement identiques.</p>
+<p>Un autre notebook préparatoire (<code>Projet 1.ipynb</code>) rapporte, pour <strong>sa propre version du texte</strong>, 75 030 mots avec <code>split()</code>, 3 987 segments avec une expression régulière, 10 325 types après une normalisation simple et 5 996 hapax. Il mentionne également des valeurs Gemini différentes, dont 81 493 mots. Ce fichier rapporte <strong>448 111 caractères</strong> en Python, contre <strong>456 257</strong> pour le fichier de référence du projet : il serait donc incorrect de fusionner ces comptes avant d'aligner précisément les sources et les traitements.</p>
+</div>
+<div class="semi warning"><h3>⚑ Conclusion de départ — limitée aux observations</h3>
+<p>Le travail préparatoire confirme un <strong>problème de comparabilité et de stabilité apparente</strong>. Il ne permet pas d'en attribuer la cause à un LLM particulier ni de déterminer quelle part provient du texte d'entrée, des règles de tokenisation, du traitement éditorial ou d'une estimation non exécutée. Le projet cherchera précisément à distinguer ces hypothèses.</p></div>
 </section>
 
-<section class="section" id="questions">
-
-  <div class="eyebrow">02 · Problématique de recherche</div>
-  <h2>Reproductibilité, sensibilité des méthodes et limites de l'inférence</h2>
-  <blockquote>Dans quelle mesure les effectifs et relations lexicales présentés par Gemini peuvent-ils être reproduits sur un corpus identifié, et quelles définitions, transformations et preuves sont nécessaires pour interpréter les convergences ou les écarts&nbsp;?</blockquote>
-  <div class="grid grid-3">
-    <div class="panel"><div class="scope"><span class="num">P1</span><div><h3>Reproduire les chiffres</h3><p>Peut-on recalculer les effectifs et indicateurs annoncés en explicitant les unités, les filtres et les dénominateurs&nbsp;?</p></div></div></div>
-    <div class="panel"><div class="scope"><span class="num">P2</span><div><h3>Comparer les protocoles</h3><p>Quel rôle jouent tokenisation, casse, lemmatisation, regroupements lexicaux, segmentation et fenêtre de cooccurrence&nbsp;?</p></div></div></div>
-    <div class="panel"><div class="scope"><span class="num">P3</span><div><h3>Qualifier les conclusions</h3><p>Quelles affirmations sont des mesures vérifiables, des descriptions dépendant d'un codage ou des interprétations qui demandent un retour au texte&nbsp;?</p></div></div></div>
-  </div>
-  <div class="semi learning"><h3>◆ Trois types d'énoncés à distinguer</h3>
-    <p><strong>Mesure numérique</strong> (ex. « 8&nbsp;633 types ») : calcul et bornes de comparaison définissables. <strong>Catégorie construite</strong> (ex. « morale » ou « monde professionnel ») : dépend d'un dictionnaire, de l'annotation et de règles d'agrégation. <strong>Interprétation</strong> (ex. « style oratoire équilibré » ou « enjeux avant tout civils ») : ne découle pas logiquement d'un seul effectif et appelle des preuves qualitatives ou un statut « non concluable ».</p>
-  </div>
-  <h3>Les quatre chantiers de travail, dérivés des six sections du rapport</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>Chantier</th><th>Sections de Gemini</th><th>Nature du problème</th><th>Ce que les étudiants pourront établir</th></tr></thead>
-    <tbody>
-      <tr><td><strong>N1 · Mesures globales</strong></td><td>§ 1</td><td>Tokens, types, hapax, TTR, phrases, longueur moyenne.</td><td>Un recalcul indépendant et ses conventions ; discussion critique des conclusions stylistiques.</td></tr>
-      <tr><td><strong>N2 · Catégories et énonciation</strong></td><td>§ 2 et § 3</td><td>Formes, lemmes, pôles thématiques, pronoms, marqueurs de modalité.</td><td>Des comptes contrôlés et la sensibilité au regroupement/à l'annotation.</td></tr>
-      <tr><td><strong>N3 · Relations lexicales</strong></td><td>§ 4</td><td>Cooccurrences « phrastiques », bigrammes, trigrammes, groupes et fenêtres.</td><td>Des protocoles comparables, des extraits de preuve et des écarts documentés.</td></tr>
-      <tr><td><strong>N4 · Références et synthèse</strong></td><td>§ 5 et § 6</td><td>Noms propres, variantes de mention, inférences intertextuelles et interprétations.</td><td>Une vérification des mentions et un jugement argumenté sur les limites de la synthèse.</td></tr>
-    </tbody>
-  </table></div>
-  <div class="semi caution"><h3>⚑ Vérifier ou ne pas conclure</h3>
-    <p>Les six sections ne correspondent pas toutes à des « faits » de même nature. Une fréquence peut être recalculée sous un protocole déclaré&nbsp;; une interprétation rhétorique ou sociologique ne doit pas être étiquetée vraie/fausse du seul fait d'un compte concordant. Le statut <strong>« non vérifiable à ce stade »</strong> est un résultat légitime.</p>
-  </div>
+<section class="section" id="question">
+<div class="eyebrow">02 · Questionnement scientifique</div>
+<h2>Que mesurons-nous exactement lorsque nous interrogeons un texte ?</h2>
+<blockquote>Dans quelle mesure la préparation d'une source textuelle, le choix des unités de comptage et le protocole de rapprochement lexical conditionnent-ils les mesures et leur confrontation aux affirmations des LLM ?</blockquote>
+<div class="grid grid-3">
+<div class="panel"><h3>P1 — Source et préparation</h3><p>Repérer les éléments éditoriaux, conserver les passages originaux et construire une version nettoyée contrôlable.</p></div>
+<div class="panel"><h3>P2 — Mesure et unités</h3><p>Choisir explicitement tokens, types, formes, phrases, expressions, fenêtres et règles d'agrégation.</p></div>
+<div class="panel"><h3>P3 — Preuve et interprétation</h3><p>Vérifier la localisation des résultats ; séparer concordance, cooccurrence, score d'association et affirmation interprétative.</p></div>
+</div>
+<div class="semi method"><h3>◆ Distinctions à maîtriser</h3><p><strong>Texte original / texte épuré</strong> ; <strong>token / type / lemme</strong> ; <strong>fréquence / cooccurrence</strong> ; <strong>présence dans une phrase / nombre de paires</strong> ; <strong>mesure / preuve / interprétation</strong>. Les mots fréquents et les « mots significatifs » ne sont pas la même population si un filtre lexical a été appliqué. <a href="#ref-Manning">[R10]</a> <a href="#ref-Bird">[R11]</a></p></div>
 </section>
 
 <section class="section" id="semiotique">
-
-  <div class="eyebrow">03 · Mode d'emploi du document</div>
-  <h2>Codes de lecture et responsabilités</h2>
-  <p class="intro">Les couleurs, libellés et symboles permettent de distinguer ce qui est fourni, ce qu'il faut apprendre, le travail à réaliser, les décisions de l'enseignant, les limites méthodologiques et les preuves attendues. La couleur n'est jamais le seul indicateur.</p>
-  <div class="legend-grid">
-    <div class="legend context">◉ Bleu — situation / données</div>
-    <div class="legend learning">◆ Violet — notions à comprendre</div>
-    <div class="legend student">✓ Vert — travail étudiant</div>
-    <div class="legend teacher">✎ Turquoise — travail enseignant</div>
-    <div class="legend caution">⚑ Orange — vigilance / limite</div>
-    <div class="legend trace">▣ Sombre — trace / livrable</div>
-  </div>
+<div class="eyebrow">03 · Repères de lecture</div><h2>Un code sémiotique adapté au projet</h2>
+<p class="intro">Les couleurs indiquent la fonction d'un passage dans le raisonnement, et non le niveau d'un exercice. Les pictogrammes et les intitulés restent lisibles sans couleur.</p>
+<div class="role-strip">
+<div class="legend context">◉ Contexte / corpus / résultats observés</div>
+<div class="legend method">◆ Méthode / définition / contrat</div>
+<div class="legend action">✓ Analyse ou action à mener</div>
+<div class="legend warning">⚑ Limite / incertitude / risque</div>
+<div class="legend trace">▣ Trace / preuve / livrable</div>
+<div class="legend review">✎ Décision collective / revue</div>
+</div>
 </section>
 
 <section class="section" id="contrats">
+<div class="eyebrow">04 · Règles de méthode</div><h2>Deux niveaux : un protocole à explorer, une preuve à conserver</h2>
+<div class="panel"><h3>Contrat A — Mesurer des objets explicitement définis <span class="status pending">À éprouver</span></h3>
+<p>Les fonctions autorisent des choix méthodologiques documentés : forme ou lemme, expression contiguë, unité « phrase », « paragraphe » ou « fenêtre de ±k tokens », traversée éventuelle des frontières, présence au moins une fois ou nombre de paires d'occurrences. <strong>Ces modes ne comptent pas la même chose.</strong></p>
+<p>Pour un premier décompte de cooccurrence, la convention de référence est <strong>le nombre de phrases contenant les deux termes, une phrase comptée au maximum une fois pour une paire</strong> (mode <code>union</code>). Les autres agrégations — notamment <code>somme_paires</code> — sont conservées comme modes distincts pour l'analyse de sensibilité. Ce choix ne prétend pas révéler la méthode interne de Gemini.</p>
+</div>
+<div class="panel"><h3>Contrat B — Chaque mesure garde sa preuve <span class="status">FIGÉ POUR LE PROJET</span></h3>
+<p>Chaque indicateur, tableau ou rapprochement doit conserver une chaîne de traçabilité complète :</p>
+<ol>
+<li><strong>Source :</strong> identifiant du corpus, révision Git, empreinte ou provenance vérifiable.</li>
+<li><strong>Préparation :</strong> version du notebook et des fonctions, plan de nettoyage, compte rendu d'inspection et statut de validation.</li>
+<li><strong>Protocole :</strong> unité, convention de normalisation, segmentateur, paramètres, dénominateur et éventuelle règle d'agrégation.</li>
+<li><strong>Mesure :</strong> valeur, population comptée, unité et contrôles internes.</li>
+<li><strong>Preuves :</strong> positions dans le texte d'origine, passages, fenêtres, concordances ou contre-exemples retrouvables.</li>
+</ol>
+<p>La <strong>confrontation avec les chiffres ou citations d'un LLM</strong> est une couche distincte ; elle n'efface aucun des cinq niveaux. Pour chaque valeur discutée, préciser son statut : <em>calculé</em>, <em>annoncé</em>, <em>estimé</em>, <em>proposé</em> ou <em>non calculé</em>.</p>
+</div>
+<div class="semi trace"><h3>▣ Tableau de preuve minimal</h3><p><strong>Source → préparation → protocole → mesure → positions/extraits → comparaison</strong>. Cette structure est le contrat partagé par les quatre notebooks. La définition reste stable même si les algorithmes sont révisés.</p></div>
+</section>
 
-  <div class="eyebrow">04 · Contrats évolutifs</div>
-  <h2>Deux engagements communs pour des mesures reproductibles</h2>
-  <div class="grid">
-    <div class="panel"><h3>Contrat A · Chaque valeur a une définition calculable</h3>
-      <p>Le moteur commun doit accepter des conventions explicites&nbsp;: <strong>version du corpus, tokenisation, inclusion/exclusion de la ponctuation, formes/lemmes, casse, segmentation, regroupements</strong> et dénominateurs. La cooccurrence introduira ensuite phrase, fenêtre glissante, limites franchies ou non et agrégation.</p>
-      <p>Une valeur de <em>tokens</em>, de <em>types</em> ou de <em>phrases</em> dépend de ces choix ; plusieurs protocoles peuvent être plausibles sans être équivalents.</p>
-      <p><span class="tag green">Étudiants</span> Tester plusieurs cas, identifier les dépendances, proposer les variantes pertinentes.</p>
-      <p><span class="tag">Enseignant</span> Arbitrer les conventions collectives et conserver les alternatives documentées.</p>
-    </div>
-    <div class="panel"><h3>Contrat B · Chaque affirmation est reliée à une preuve</h3>
-      <p>Chaque ligne d'audit conserve la <strong>source (§ et formulation originale)</strong>, le <strong>corpus SHA-256</strong>, le prétraitement et sa version, le protocole, la mesure observée, la précision des arrondis, les passages/positions, le contrôle sur échantillon et le <strong>statut d'interprétation</strong>.</p>
-      <p><strong>États distingués&nbsp;:</strong> reproduit selon protocole, écart numérique, convention non identifiée, annotation à discuter, inférence non étayée ou non évaluable.</p>
-      <p><span class="tag green">Étudiants</span> Renseigner les preuves, les désaccords et les cas non concluants.</p>
-      <p><span class="tag">Enseignant</span> Valider la qualité des traces, pas l'obtention du chiffre attendu.</p>
-    </div>
-  </div>
-  <div class="semi caution"><h3>⚑ Les retours à la ligne ne sont pas forcément des frontières de phrase</h3>
-    <p>Le corpus Faguet des TD S3 compte <strong>8&nbsp;456 fins de ligne CRLF</strong>, souvent typographiques. La segmentation en phrases de ce fichier ne se déduit pas de leur nombre. Toute recomposition éventuelle doit préserver le lien avec les positions originales, et l'effet du choix de segmentation doit être testé <a class="ref" href="#r9">[R9]</a>.</p>
-  </div>
+<section class="section" id="piege">
+<div class="eyebrow">05 · Un piège réel du corpus</div><h2>Les retours à la ligne ne sont pas des frontières de phrases</h2>
+<p>Le fichier <em>Le Féminisme</em> de référence contient <strong>456 257 caractères</strong> et <strong>8 456 retours de ligne CRLF</strong>. Le contrôle d'intégration de la bibliothèque a recensé <strong>6 479 retours typographiques recomposés</strong>, <strong>20 lignes de séparation à astérisques</strong>, <strong>4 appels de notes</strong> et <strong>3 blocs de notes</strong>. Une note contient elle-même des crochets (<code>[féminin]</code>) : une suppression naïve par expression régulière peut tronquer son contenu.</p>
+<div class="two-col">
+<div class="panel compact"><h3>Un exemple de conséquence sur les phrases</h3>
+<p><strong>« M. Charles Turgeon a publié… »</strong> commence par une abréviation. Un découpage naïf à chaque point peut créer une frontière après <code>M.</code> ; une coupure de ligne au milieu d'une phrase peut introduire une autre frontière fictive si l'on assimile ligne et phrase.</p>
+<p>Dans ce texte, on rencontre environ <strong>208 occurrences du motif <code>M.</code> suivi d'un espace</strong>. Il s'agit de <em>sites à examiner</em>, non de 208 erreurs certaines. Un découpage brut sur <code>. ! ?</code> produit <strong>3 987 segments non vides</strong> : ce nombre ne vaut pas automatiquement le nombre de phrases. <a href="#ref-Spacy">[R9]</a></p>
+</div>
+<div class="panel compact"><h3>Un exemple de conséquence sur les cooccurrences</h3>
+<p>Pour les formes exactes <code>femme/femmes</code> et <code>homme/hommes</code>, le nombre d'unités contenant les deux groupes varie avec l'unité choisie, même sans changer les mots :</p>
+<div class="table-wrap"><table><thead><tr><th>Unité exploratoire</th><th>Unités contenant les deux groupes</th></tr></thead><tbody>
+<tr><td>Lignes non vides</td><td class="fact">98</td></tr>
+<tr><td>Segments par <code>[.!?]+</code></td><td class="fact">203</td></tr>
+<tr><td>Blocs séparés par lignes vides</td><td class="fact">169</td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div class="semi warning"><h3>⚑ Ordres de grandeur à préciser, et non comptes de référence</h3>
+<p>Ces premiers nombres proviennent d'un <strong>recomptage exploratoire sur la source figée</strong>, utilisant des frontières simples et la présence des formes graphiques, sans le pipeline de segmentation retenu pour le projet. Ils servent à montrer l'<strong>ampleur possible des écarts</strong> (de quelques unités à plusieurs dizaines ou centaines selon l'indicateur) ; les mesures avec spaCy, les abréviations et les effets de chaque opération restent à évaluer. Les <strong>6 479</strong> recompositions signalent de surcroît un risque d'écarts de l'ordre du millier d'unités si l'on confondait systématiquement retours typographiques et phrases.</p>
+<p>Ce « piège » <strong>peut contribuer</strong> aux variations entre productions de LLM, mais les travaux préparatoires ne permettent pas d'établir qu'il en est la cause effective.</p>
+</div>
 </section>
 
 <section class="section" id="architecture">
-
-  <div class="eyebrow">05 · Organisation technique</div>
-  <h2>Une bibliothèque Git partagée et quatre cahiers d'enquête</h2>
-  <p>Le développement se fait dans <a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener"><strong>dreymond732/PT-LLMvsPy</strong></a>. La <a href="https://github.com/dreymond732/PT-LLMvsPy/pull/1" target="_blank" rel="noopener">PR #1</a> propose un premier socle de fonctions, tests et notebook 01&nbsp;: il peut être corrigé, et n'est pas considéré comme une réponse prédéterminée à Gemini.</p>
-  <div class="flow" aria-label="Chaîne de reproductibilité">
-    <div><strong>01 · Sources figées</strong><span>Faguet, rapport Gemini intégral, seconde transcription G1–G6 et empreintes.</span></div>
-    <div><strong>02 · Bibliothèque commune</strong><span>Fonctions typées, protocoles explicites et tests sur microcorpus.</span></div>
-    <div><strong>03 · Quatre notebooks</strong><span>Échantillon choisi, contrôle manuel, application intégrale et analyse des écarts.</span></div>
-    <div><strong>04 · Revue / PR</strong><span>Preuves, corrections justifiées, arbitrage et passage à la question suivante.</span></div>
-  </div>
-  <div class="table-wrap"><table><thead><tr><th>Élément</th><th>Fonction</th><th>Contrat</th></tr></thead><tbody>
-    <tr><td><code>app/static/</code> sur le dépôt des TD</td><td><a href="PT_LLMvsPy_Analyse_Gemini_integrale.md">Réponse Gemini complète</a>, notice de provenance et présent cadrage HTML.</td><td>Texte source conservé à l’identique dans une copie distincte ; seuls les cinq tableaux sont remis en forme pour la lecture.</td></tr>
-    <tr><td><code>Notebooks TD/S3/ressources/</code></td><td>Corpus Faguet figé, empreintes et transcription G1–G6.</td><td>Comparer uniquement des fichiers identifiés, distinguer les deux productions Gemini.</td></tr>
-    <tr><td><code>src/tal_toolkit/</code></td><td><code>io_corpus</code>, <code>linguistic</code>, <code>metriques_globales</code>, <code>textometry</code>, <code>audit_llm</code>.</td><td>Un code commun réutilisable ; pas quatre fonctions concurrentes pour une même mesure.</td></tr>
-    <tr><td><code>tests/</code></td><td>Microcorpus, cas limites, comparaison manuel/programme et tests de régression.</td><td>Toute correction d'une erreur reproductible ajoute une preuve testable.</td></tr>
-    <tr><td><code>notebooks/</code></td><td>Quatre étapes d'analyse et de discussion méthodologique.</td><td>Appeler les fonctions de la bibliothèque, pas recopier des résultats.</td></tr>
-    <tr><td>Issues, branches et PR</td><td>Discuter les choix, tracer les changements, relire les contributions.</td><td>Issue ou question → test → changement → revue → décision de fusion.</td></tr>
-    <tr><td>Rapport de synthèse</td><td>Résultats, écarts, zones non concluantes, hypothèses et limites.</td><td>Reproductible à partir des versions et paramètres archivés.</td></tr>
-  </tbody></table></div>
-  <div class="semi learning"><h3>◆ Pourquoi cette architecture&nbsp;?</h3><p>Les données originales et le code sont séparés des résultats. La documentation, les contrôles automatisés, la traçabilité des choix et les versions de dépendances rendent les calculs réexécutables et les écarts discutables <a class="ref" href="#r4">[R4]</a> <a class="ref" href="#r5">[R5]</a>.</p></div>
-  <div class="semi trace"><h3>▣ Trace minimale d'une contribution</h3><p>Question ou anomalie → extrait original → résultat attendu selon une convention → résultat observé → test → correction éventuelle → PR → décision en revue.</p></div>
+<div class="eyebrow">06 · Architecture et circulation des résultats</div><h2>Une bibliothèque GitHub, quatre notebooks, un corpus validé</h2>
+<p>Le projet mobilise les acquis des <strong>TD0 à TD7 du cours</strong> : Python, spaCy, fréquences, concordances, cooccurrences et contrôle des citations. L'objectif est maintenant de les articuler dans une chaîne commune de recherche.</p>
+<div class="flow">
+<div><strong>1 · Référence</strong><span>Corpus d'origine et documents Gemini identifiés, version Git, empreintes.</span></div>
+<div><strong>2 · Notebook 01</strong><span>Nettoyage complet, inspection du fichier, décision et corpus épuré.</span></div>
+<div><strong>3 · Notebooks 02 à 04</strong><span>Analyses lexicales, cooccurrences et audit sur la version épurée validée.</span></div>
+<div><strong>4 · Restitution</strong><span>Rapports, traces vérifiables, résultats individuels sur Drive et revue collective.</span></div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Composant</th><th>Fonction dans le projet</th><th>Condition de reprise</th></tr></thead><tbody>
+<tr><td><code>src/tal_toolkit/</code></td><td>Prétraitements, analyse lexicale, mesures, recherche de passages et audit.</td><td>Révision Git identifiée et tests reproductibles.</td></tr>
+<tr><td><code>notebooks/01_corpus_protocole.ipynb</code></td><td>Préparer, inspecter et retenir un texte épuré.</td><td>Manifeste, journal d'inspection, empreintes et décision.</td></tr>
+<tr><td><code>notebooks/02_mesures_lexicales.ipynb</code></td><td>Approfondir le lexique et les expressions (contenu à réviser).</td><td>Lire la version épurée retenue, pas une nouvelle source silencieuse.</td></tr>
+<tr><td><code>notebooks/03_relations_lexicales.ipynb</code></td><td>Définir et comparer les cooccurrences et leurs preuves (à reprendre).</td><td>Reprendre les mêmes tokens et frontières du corpus nettoyé.</td></tr>
+<tr><td><code>notebooks/04_audit_llm.ipynb</code></td><td>Confronter les annonces, citations et intervalles (à reprendre).</td><td>Associer chaque réponse au protocole et aux passages retrouvables.</td></tr>
+<tr><td>Google Drive partagé</td><td>Archives individuelles, décisions, comptes rendus et versions.</td><td>Fichiers identifiés par une version du notebook et des fonctions.</td></tr>
+</tbody></table></div>
+<div class="semi warning"><h3>⚑ Dépendance entre notebooks</h3><p><strong>Les notebooks 02, 03 et 04 dépendent tous de la version nettoyée et validée lors de l'étape 1.</strong> Ils ne doivent pas reprendre le texte brut par défaut. Les quatre définitions sont mises à jour ici ; le code existant des notebooks 02 à 04 doit encore être aligné sur cette organisation.</p></div>
 </section>
 
-<section class="section" id="notebook1">
-
-  <div class="eyebrow">06 · Première réalisation obligatoire</div>
-  <h2>Notebook 1 — Reproduire les métriques globales (§ 1)</h2>
-  <p class="intro">On commence par les <strong>indicateurs chiffrés de la section 1 du rapport Gemini intégral</strong>. Le notebook utilise la bibliothèque commune, mais aucun chiffre de Faguet ne doit devenir une « bonne réponse » intégrée à un test. La démonstration passe d'abord par un <strong>échantillon personnel</strong>, contrôlé à la main, puis seulement par le corpus entier.</p>
-  <div class="semi context"><h3>◉ Six indicateurs, huit valeurs affichées</h3>
-    <p>Document à confronter&nbsp;: <a href="PT_LLMvsPy_Analyse_Gemini_integrale.md">rapport intégral de Gemini, section 1</a>. Il décrit un traitement « intégral » du livre sans fournir son programme, ses conventions ni l'empreinte du fichier effectivement traité. Les quatre effectifs de base et les ratios dérivés ne constituent pas huit observations indépendantes.</p>
-  </div>
-  <div class="table-wrap"><table><thead><tr><th>Indicateur</th><th>Valeur annoncée</th><th>Question de reproductibilité</th></tr></thead><tbody>
-    <tr><td><strong>Tokens</strong></td><td>79&nbsp;540</td><td>Quels tokens sont retenus&nbsp;? Ponctuation, nombres, mots composés&nbsp;?</td></tr>
-    <tr><td><strong>Types</strong></td><td>8&nbsp;633</td><td>Formes exactes, minuscules ou lemmes&nbsp;?</td></tr>
-    <tr><td><strong>TTR</strong></td><td>0,1085 (10,85&nbsp;%)</td><td>Ratio types/tokens&nbsp;; contrôle arithmétique et sensibilité à la longueur du corpus.</td></tr>
-    <tr><td><strong>Hapax</strong></td><td>4&nbsp;609 (53,39&nbsp;% des types)</td><td>Combien de formes de fréquence exactement 1&nbsp;? Quel dénominateur&nbsp;?</td></tr>
-    <tr><td><strong>Phrases</strong></td><td>3&nbsp;829</td><td>Comment sont délimitées les phrases, titres et abréviations&nbsp;?</td></tr>
-    <tr><td><strong>Moyenne</strong></td><td>20,77 mots/phrase</td><td>Quels tokens et quelles phrases entrent dans la moyenne&nbsp;?</td></tr>
-  </tbody></table></div>
-  <h3 class="margin-top">Parcours obligatoire de vérification</h3>
-  <ol class="step-list">
-    <li><h3>Décrire les affirmations et leurs dépendances</h3><p>Distinguer quatre effectifs, leurs rapports dérivés et les jugements qualitatifs («&nbsp;homogénéité stylistique&nbsp;», «&nbsp;figeabilité thématique&nbsp;», «&nbsp;rythme équilibré&nbsp;»). Recalculer les ratios à partir des seuls nombres de Gemini pour tester la cohérence interne&nbsp;: cela ne valide pas les comptes.</p><p><span class="tag green">Étudiants</span> Tableau «&nbsp;annonce / formule / unité / statut&nbsp;».</p></li>
-    <li><h3>Choisir un échantillon avant toute mesure</h3><p>Sélectionner et justifier un passage de Faguet contenant des répétitions, des majuscules, de la ponctuation et, si possible, un retour typographique. Conserver ses bornes exactes dans le corpus figé.</p><p><span class="tag green">Étudiants</span> Extrait identifié et justification explicite.</p></li>
-    <li><h3>Établir la référence manuelle</h3><p>Prédire, selon une convention écrite, le nombre de tokens, types, hapax et phrases. Documenter les décisions sur l'apostrophe, le tiret, la casse, les abréviations et les limites de phrase.</p><p><span class="tag green">Étudiants</span> Table de fréquences et valeurs attendues avant l'exécution.</p></li>
-    <li><h3>Éprouver les fonctions communes</h3><p>Appeler chaque fonction utile sur l'extrait, inspecter les tokens, les positions et les sorties. Pour chaque cas&nbsp;: attendu, observé, réussite, désaccord, cas non défini ou défaut de contrat. Un contrôle manuel peut lui-même être corrigé s'il était erroné.</p><p><span class="tag green">Étudiants</span> Tableau de tests documenté et exemples de preuve.</p></li>
-    <li><h3>Corriger les défauts démontrés</h3><p>Qualifier bug, convention discutable, erreur de l'oracle ou limite connue. Ajouter un test de régression avant toute correction de code et soumettre une PR si une modification est nécessaire. Ne pas forcer les fonctions à produire les chiffres Gemini.</p><p><span class="tag green">Étudiants</span> Issue, test et PR éventuelle. <span class="tag">Enseignant</span> Arbitrage des conventions.</p></li>
-    <li><h3>Calculer le corpus intégral après validation</h3><p>Réaliser les mesures sous le protocole éprouvé et conserver SHA-256 du texte, version de spaCy, modèle de segmentation, comptages et dénominateurs. Comparer séparément la sensibilité à la casse, aux tokens retenus et aux retours de ligne.</p><p><span class="tag green">Étudiants</span> Résultats réexécutables et variantes identifiées.</p></li>
-    <li><h3>Confronter et discuter les conclusions</h3><p>Présenter les écarts avec les chiffres Gemini sans inventer son protocole. Dire quelles propositions sont soutenues par les mesures et lesquelles exigent des analyses complémentaires. Les conclusions stylistiques ne sont pas établies par le seul TTR <a class="ref" href="#r10">[R10]</a>.</p><p><span class="tag green">Étudiants</span> Tableau de confrontation et contre-exemples éventuels.</p></li>
-    <li><h3>Préparer la revue et la question suivante</h3><p>Présenter ce qui a résisté aux tests, les anomalies et décisions demandées. La revue choisit les sous-problèmes du notebook 2&nbsp;: regroupements lexicaux, classements, formes/lemmes et/ou marqueurs énonciatifs.</p><p><span class="tag">Enseignant</span> Valider le périmètre de la suite ; ne pas fournir une solution préfabriquée.</p></li>
-  </ol>
-  <div class="grid">
-    <div class="semi student"><h3>✓ Livrables des étudiants</h3><ul>
-      <li>Le notebook 01 exécuté avec un échantillon choisi et documenté.</li>
-      <li>Un oracle manuel, les sorties de chaque fonction et le journal des erreurs/réussites.</li>
-      <li>Les tests de régression et les PR correctives éventuelles.</li>
-      <li>Les métriques sur le texte complet, leurs paramètres, l'empreinte et les écarts.</li>
-      <li>Une note critique distinguant mesure, méthode inconnue et interprétation.</li>
-    </ul></div>
-    <div class="semi teacher"><h3>✎ Décisions de l'enseignant</h3><ul>
-      <li>Vérifier l'accès aux sources figées et à la bibliothèque commune.</li>
-      <li>Accepter ou discuter la représentativité des échantillons.</li>
-      <li>Arbitrer les conventions non tranchées, sans masquer les variantes.</li>
-      <li>Examiner tests, preuves et PR, puis définir la liaison vers N2.</li>
-    </ul></div>
-  </div>
-  <div class="semi trace"><h3>▣ Contrat de preuve d'une ligne d'audit</h3>
-    <p><code>source_section · valeur_Gemini · unité · fichier_SHA256 · protocole · extrait_échantillon · attendu_manuel · observé · statut · traces_positions · version_code · limite</code></p>
-    <p>Un test vert atteste un comportement convenu sur un cas donné, non l'exactitude historique de l'opération effectuée par Gemini.</p>
-  </div>
+<section class="section" id="premiere-etape">
+<div class="eyebrow">07 · Première étape du projet</div><h2>Normaliser la source et rendre le nettoyage discutable</h2>
+<div class="panel">
+<h3>Le premier notebook à récupérer</h3>
+<p><a class="cta" href="https://github.com/dreymond732/PT-LLMvsPy/blob/docs/td01-simplification-pedagogique/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir / télécharger le notebook 01</a></p>
+<p>Depuis le dépôt GitHub partagé, téléchargez <code>01_corpus_protocole.ipynb</code>, puis ouvrez-le dans <strong>Google Colab</strong> (Fichier → Importer un notebook). Enregistrez une copie dans <strong>votre Drive</strong>. L'accès au dépôt privé doit être opérationnel dans l'environnement Python de Colab ; cette connexion fait partie de la recette technique préalable à la diffusion.</p>
+</div>
+<ol class="step-list">
+<li><h3>Charger la source et les fonctions</h3><p>Le notebook associe le texte Faguet d'origine, la révision Git des fonctions et la version du notebook. Les six micro-exemples illustrent les opérations de nettoyage.</p></li>
+<li><h3>Nettoyer tout le texte puis sauvegarder</h3><p>Exécuter le plan initial, produire une version lisible et <strong>ouvrir le fichier dans un éditeur de texte</strong>. Examiner des zones différentes plutôt que prévoir manuellement le résultat de tout le livre.</p></li>
+<li><h3>Rechercher les contre-exemples et évaluer leur portée</h3><p>Localiser un problème par une courte ancre dans le texte original, vérifier sa fenêtre, retrouver les fonctions qui ont agi et compter les occurrences d'un motif susceptible de représenter le défaut. Documenter aussi une inspection sans anomalie détectée.</p></li>
+<li><h3>Décider : conserver ou réviser</h3><p>Peser la nature, la fréquence estimée et les conséquences du problème. Si une correction est nécessaire, conserver le diagnostic et réexécuter une <strong>copie du notebook avec versions incrémentées</strong>. Sinon, retenir la version nettoyée et documenter son manifeste.</p></li>
+<li><h3>Comparer les mesures de base</h3><p>Calculer tokens, types, hapax, TTR, part d'hapax, phrases et longueur moyenne sur l'original et l'épuré avec le même moteur, pour mesurer les effets de cette préparation.</p></li>
+</ol>
+<div class="semi trace"><h3>▣ Sortie attendue de la première étape</h3><p><strong>Texte épuré retenu + empreinte + journal des anomalies/inspections + décisions + compteurs lexicaux comparatifs + référence de version.</strong> La revue collective statue sur la version utilisée par les notebooks suivants.</p></div>
 </section>
 
-<section class="section" id="parcours">
-
-  <div class="eyebrow">07 · Parcours des quatre notebooks</div>
-  <h2>Quatre enquêtes complémentaires, un seul moteur logiciel</h2>
-  <p class="intro">Les six parties du rapport Gemini ne sont pas six devoirs séparés. Les quatre notebooks organisent leur vérification en regroupant les objets liés, mais chaque frontière pourra être révisée lors des revues hebdomadaires.</p>
-  <div class="grid">
-    <div class="panel">
-      <div class="one-line"><span class="num">N1</span><h3>Métriques globales (§ 1)</h3></div>
-      <p><strong>À examiner&nbsp;:</strong> 79&nbsp;540 tokens, 8&nbsp;633 types, 4&nbsp;609 hapax, 3&nbsp;829 phrases, TTR, proportions et moyenne ; commentaires sur la richesse lexicale et le style.</p>
-      <p><strong>Travail&nbsp;:</strong> choix d'un extrait, référence manuelle, tests des fonctions, corrections éventuelles, application à Faguet entier.</p>
-      <p><strong>Sortie&nbsp;:</strong> protocole testé, écarts numériques, limites d'interprétation et question de la revue suivante.</p>
-      <span class="tag">Premier jalon obligatoire</span>
-    </div>
-    <div class="panel">
-      <div class="one-line"><span class="num">N2</span><h3>Cartographie et énonciation (§ 2 et § 3)</h3></div>
-      <p><strong>À examiner&nbsp;:</strong> cinq pôles annoncés (1&nbsp;917, 690, 300, 268 et 255 occurrences), leurs regroupements de formes ; groupes pronominaux (727, 498, 390, 322) et marqueurs d'obligation, possibilité, évaluation.</p>
-      <p><strong>Travail&nbsp;:</strong> définir les dictionnaires/variantes, contrôler lemmatiseur et règles, rechercher les occurrences originales, distinguer classements et inférences discursives.</p>
-      <p><strong>Sortie&nbsp;:</strong> tableaux lexical et énonciatif, conventions et cas ambigus.</p>
-      <span class="tag">Cadrage ajusté après revue N1</span>
-    </div>
-    <div class="panel">
-      <div class="one-line"><span class="num">N3</span><h3>Cooccurrences et séquences (§ 4)</h3></div>
-      <p><strong>À examiner&nbsp;:</strong> 208 phrases annoncées pour femme(s)/homme(s), autres associations présentées avec des effectifs, groupes de bigrammes et trigrammes (ex. «&nbsp;union libre&nbsp;», «&nbsp;divorce consentement mutuel&nbsp;»).</p>
-      <p><strong>Travail&nbsp;:</strong> tester phrase, fenêtre en tokens et éventuellement paragraphe, en distinguant présence par contexte, paires et pivots couverts. Explorer séparément les intervalles G1–G6 issus de l'autre transcription.</p>
-      <p><strong>Sortie&nbsp;:</strong> mesures par protocole et positions de preuve ; analyse de sensibilité <a class="ref" href="#r1">[R1]</a> <a class="ref" href="#r2">[R2]</a>.</p>
-      <span class="tag">Protocoles définis collectivement</span>
-    </div>
-    <div class="panel">
-      <div class="one-line"><span class="num">N4</span><h3>Noms propres et synthèse (§ 5 et § 6)</h3></div>
-      <p><strong>À examiner&nbsp;:</strong> Théodore Joran (83), Charles Turgeon (35), Ellen Key (28) et autres mentions ; regroupements patronymiques et noms composés ; trois conclusions finales sur l'ouvrage.</p>
-      <p><strong>Travail&nbsp;:</strong> rechercher et désambiguïser les références, vérifier la présence des formes et confronter chaque inférence à des passages du texte et aux limites des comptes.</p>
-      <p><strong>Sortie&nbsp;:</strong> dossier de reproductibilité et de non-conclusions justifiées, restitution finale de la bibliothèque et de ses tests.</p>
-      <span class="tag">Rapport final avant stage</span>
-    </div>
-  </div>
-  <div class="semi learning"><h3>◆ Distinguer la vérification d'un nombre et celle d'une thèse</h3>
-    <p>«&nbsp;208 phrases distinctes&nbsp;» peut être soumis à un comptage sous une règle annoncée. En revanche, les expressions «&nbsp;déséquilibre majeur&nbsp;», «&nbsp;style oratoire personnalisé&nbsp;» ou «&nbsp;méthode comparative&nbsp;» demandent une argumentation supplémentaire. On ne transforme pas automatiquement des concordances en preuves des intentions de l'auteur.</p>
-  </div>
-  <div class="semi caution"><h3>⚑ Les étapes N2 à N4 restent révisables</h3>
-    <p>La priorité des sous-problèmes, les regroupements et les méthodes seront décidés à partir des résultats de la revue précédente. Les tests doivent mettre à l'épreuve les fonctions, pas apprendre à celles-ci les chiffres attendus de Gemini.</p>
-  </div>
+<section class="section" id="quatre-etapes">
+<div class="eyebrow">08 · Progression du projet</div><h2>Quatre notebooks, une même chaîne de preuves</h2>
+<div class="grid">
+<div class="panel"><h3>Notebook 01 · Source et préparation</h3><p><span class="status">Développé, en revue</span></p><p>Corpus, prétraitement, inspection dans un éditeur, contre-exemples, décision sur la qualité, version retenue et premier tableau lexical original/épuré.</p></div>
+<div class="panel"><h3>Notebook 02 · Description lexicale</h3><p><span class="status pending">À redéfinir</span></p><p>À partir <strong>du corpus épuré validé</strong> : fréquences de formes, mots grammaticaux, hapax, expressions, concordances et choix argumentés de normalisation. Mise en regard des comptes LLM disponibles.</p></div>
+<div class="panel"><h3>Notebook 03 · Relations lexicales</h3><p><span class="status pending">À redéfinir</span></p><p>À partir du même corpus : contexte partagé, cooccurrence par présence de phrase, variantes par fenêtres, comptages de paires, marges et indicateurs d'association. Justifier chaque fenêtre et dénominateur.</p></div>
+<div class="panel"><h3>Notebook 04 · Audit et synthèse</h3><p><span class="status pending">À redéfinir</span></p><p>Confronter méthodiquement les nombres et citations des différents LLM, les six intervalles G1–G6, les preuves textuelles, les écarts, les méthodes réellement observées et les limites d'interprétation.</p></div>
+</div>
+<div class="semi review"><h3>✎ Jalon de passage</h3><p>Les travaux des notebooks 02 à 04 ne démarrent sur une base commune qu'après la <strong>validation de la version nettoyée</strong> en revue. Une correction ultérieure de cette version doit être tracée et ses conséquences sur les résultats suivants réévaluées.</p></div>
 </section>
 
-<section class="section" id="calendrier">
-
-  <div class="eyebrow">08 · Calendrier prévisionnel</div>
-  <h2>Revue hebdomadaire et jalons jusqu'au stage</h2>
-  <p>Scénario proposé à partir de la semaine du <strong>16 novembre 2026</strong>. Les dates de stage, la répartition réelle des séances et les interruptions pédagogiques restent à confirmer. Les semaines du 21 et du 28 décembre ne comportent pas de revue dans cette hypothèse.</p>
-  <div class="table-wrap"><table><thead><tr><th>Revue</th><th>Semaine du</th><th>Travail prioritaire et preuve attendue</th><th>Décision pour la suite</th></tr></thead><tbody>
-    <tr><td><strong>R0 · Lancement</strong></td><td>16/11/2026</td><td>Lire les six sections du rapport Gemini, distinguer mesures, catégories et interprétations ; répartir les rôles Git.</td><td>Valider sources, périmètre N1 et questions ouvertes.</td></tr>
-    <tr><td>R1 · N1</td><td>23/11/2026</td><td>Inventorier les métriques §1, choisir et justifier les échantillons ; annoncer le protocole de comptage.</td><td>Approuver les échantillons et la stratégie de contrôle.</td></tr>
-    <tr><td>R2 · N1</td><td>30/11/2026</td><td>Références manuelles, tests sur échantillons, tableau attendu/observé, erreurs et limites.</td><td>Prioriser bugs, conventions et cas indécidables.</td></tr>
-    <tr><td>R3 · N1</td><td>07/12/2026</td><td>PR correctives, mesures du corpus intégral et sensibilité aux réglages.</td><td>Valider la qualité de preuve avant confrontation.</td></tr>
-    <tr><td><strong>R4 · Passage N2</strong></td><td>14/12/2026</td><td>Confronter les métriques globales au §1 Gemini, distinguer accords, écarts et interprétations.</td><td><strong>Jalon 1</strong>&nbsp;: préciser les questions N2.</td></tr>
-    <tr><td>Réserve</td><td>21 et 28/12/2026</td><td>Pas de revue proposée dans cette hypothèse.</td><td>À confirmer avec le calendrier réel.</td></tr>
-    <tr><td>R5 · N2</td><td>04/01/2027</td><td>Tester les catégories lexicales du §2 et les groupes pronominaux/modalisateurs du §3 sur échantillons.</td><td>Décider des règles de regroupement et de segmentation.</td></tr>
-    <tr><td><strong>R6 · Passage N3</strong></td><td>11/01/2027</td><td>Résultats N2 sur corpus entier ; formes, lemmes, catégories et preuves.</td><td><strong>Jalon 2</strong>&nbsp;: choisir les protocoles de cooccurrence.</td></tr>
-    <tr><td>R7 · N3</td><td>18/01/2027</td><td>Microcorpus pour cooccurrences «&nbsp;phrastiques&nbsp;», fenêtres et séquences du §4.</td><td>Valider les unités et règles d'agrégation.</td></tr>
-    <tr><td>R8 · N3</td><td>25/01/2027</td><td>Confronter le §4 du rapport au corpus ; explorer G1–G6 <em>séparément</em> et sans surajustement.</td><td>Qualifer accords numériques, écarts et lacunes de méthode.</td></tr>
-    <tr><td><strong>R9 · Passage N4</strong></td><td>01/02/2027</td><td>Rapport de sensibilité, tableaux de preuve et corrections finales des fonctions lexicales.</td><td><strong>Jalon 3</strong>&nbsp;: préciser l'audit des noms propres et des interprétations.</td></tr>
-    <tr><td>R10 · N4</td><td>08/02/2027</td><td>Vérification des mentions propres (§5) et discussion des conclusions (§6) avec extraits originaux.</td><td>Relire les limites, objections et contre-exemples.</td></tr>
-    <tr><td><strong>R11 · Livraison</strong></td><td>15/02/2027</td><td>Rapport reproductible, cahiers, tests, issues résolues/non résolues et présentation collective.</td><td><strong>Jalon 4</strong>&nbsp;: transmission avant stage, si possible.</td></tr>
-  </tbody></table></div>
-  <div class="semi teacher"><h3>✎ Calendrier à confirmer</h3><p>L'enseignant vérifie la date réelle du départ en stage et la disponibilité des groupes. Si cette date est antérieure au 15 février 2027, les jalons seront compressés ou reportés&nbsp;: les éléments déjà testés et les limites documentées doivent rester exploitables, même si toutes les sections ne sont pas couvertes.</p></div>
+<section class="section" id="revues">
+<div class="eyebrow">09 · Régulation scientifique</div><h2>La revue hebdomadaire est conservée</h2>
+<p>La revue ne consiste pas seulement à montrer un programme : elle vérifie les preuves, discute les contre-exemples et arrête le prochain jalon. Son calendrier détaillé reste à confirmer en fonction des cours et du départ en stage.</p>
+<div class="table-wrap"><table><thead><tr><th>Moment</th><th>Contenu</th><th>Trace</th></tr></thead><tbody>
+<tr><td>Avant la revue</td><td>Mettre à disposition la version du notebook, le texte produit, les résultats obtenus, les anomalies et le point bloquant principal.</td><td>Journal d'inspection + tableau « fait / vérifié / à trancher ».</td></tr>
+<tr><td>Revue · 5 min</td><td>Objectif de la semaine et état du jalon.</td><td>Question prioritaire.</td></tr>
+<tr><td>Revue · 10 min</td><td>Démonstration reproductible de résultats, avec retour à la source.</td><td>Extrait et mesure.</td></tr>
+<tr><td>Revue · 10 min</td><td>Examen des divergences, segmentation, contre-exemples et portée des défauts.</td><td>Diagnostic et estimation.</td></tr>
+<tr><td>Revue · 10 min</td><td>Arbitrage sur la version de référence et les paramètres à retenir.</td><td>Décision motivée.</td></tr>
+<tr><td>Revue · 5 min</td><td>Actions pour la semaine suivante.</td><td>Responsable, critère de réussite et livrable.</td></tr>
+</tbody></table></div>
+<div class="semi trace"><h3>▣ Compte rendu minimal</h3><p><strong>Objectif · sources/versions · travaux réalisés · preuves · anomalies · nombres et unités · décisions · questions ouvertes · prochaine étape.</strong> Le compte rendu sert d'entrée à la revue suivante.</p></div>
 </section>
 
-<section class="section" id="revue">
-  <div class="eyebrow">09 · Régulation scientifique et collective</div>
-  <h2>Une revue hebdomadaire qui prépare la semaine suivante</h2>
-  <p>La revue n’est pas seulement une démonstration de code. Elle est un <strong>moment de contrôle des preuves et de décision méthodologique</strong>. Toute nouvelle question vient d’un résultat, d’un échec ou d’une limite documentée lors de l’étape précédente.</p>
-  <div class="grid">
-    <div class="panel"><h3>Avant la revue</h3><ul><li>Mettre à jour les notebooks, issues et PR.</li><li>Déposer un tableau synthétique&nbsp;: prévu / fait / démontré / bloqué.</li><li>Choisir un exemple de réussite et un problème à discuter.</li><li>Identifier explicitement les décisions attendues de l’enseignant.</li></ul></div>
-    <div class="panel"><h3>Pendant la revue · trame indicative de 40 minutes</h3><ol><li><strong>5 min</strong>&nbsp;: objectif et état du jalon.</li><li><strong>10 min</strong>&nbsp;: démonstration reproductible, avec preuves.</li><li><strong>10 min</strong>&nbsp;: discussion des erreurs et protocoles.</li><li><strong>10 min</strong>&nbsp;: arbitrages et priorités.</li><li><strong>5 min</strong>&nbsp;: actions, responsables et critères de réussite.</li></ol></div>
-  </div>
-  <div class="semi trace"><h3>▣ Compte rendu de revue — format commun</h3><p><code>Semaine · objectif · tests exécutés · démonstration · écarts · décisions prises · questions non résolues · responsable · issue/PR · prochain livrable</code></p><p>Le compte rendu est lié à un commit et reste accessible au groupe. Il sert de point de départ à la séance suivante.</p></div>
-  <div class="semi caution"><h3>⚑ Ce qu’on refuse de conclure sans preuve</h3><p>« Tous les tests sont verts, donc la mesure est valide » ; « notre fenêtre reproduit Gemini, donc c’est sa fenêtre » ; « la citation est proche, donc elle est exacte » ; « une association de termes signifie que l’auteur défend cette idée ». Chacune de ces propositions confond des niveaux différents d’observation et d’interprétation.</p></div>
-</section>
-
-<section class="section" id="roles">
-  <div class="eyebrow">10 · Responsabilités</div>
-  <h2>Un travail collectif, des décisions clairement attribuées</h2>
-  <div class="table-wrap"><table class="roles-table"><thead><tr><th>Objet</th><th>Responsabilité des étudiants</th><th>Responsabilité de l’enseignant</th></tr></thead><tbody>
-  <tr><td>Questionnement</td><td>Formuler des hypothèses falsifiables et des sous-questions observables.</td><td>Maintenir le cadre scientifique, décider des priorités et de l’ambition réaliste.</td></tr>
-  <tr><td>Choix des échantillons</td><td>Choisir, figer, justifier et conserver les positions originales.</td><td>Examiner la pertinence et la diversité des cas retenus.</td></tr>
-  <tr><td>Développement</td><td>Écrire ou reprendre les tests, corriger les fonctions, documenter et relire les PR.</td><td>Garantir les critères de qualité, arbitrer les contrats structurants.</td></tr>
-  <tr><td>Mesure et vérification</td><td>Calculer, tester, conserver les exemples et les contre-exemples.</td><td>Questionner la définition des unités, la preuve et la comparabilité.</td></tr>
-  <tr><td>Interprétation</td><td>Distinguer résultats, conditions de validité, hypothèses et limites.</td><td>Contester les conclusions insuffisamment étayées et faire progresser les questions.</td></tr>
-  <tr><td>Coordination</td><td>Assurer par rotation une animation de séance, une synthèse et une revue de PR.</td><td>Fixer et valider les jalons, résoudre les conflits de priorités.</td></tr>
-  <tr><td>Échéance</td><td>Alerter sur les blocages et fournir le dossier final réexécutable.</td><td>Confirmer les contraintes administratives et la date effective du départ en stage.</td></tr>
-  </tbody></table></div>
-  <h3 class="margin-top">Critères de réception d’un livrable, sans barème présupposé</h3>
-  <div class="grid"><div class="panel"><ul class="checklist"><li>La question et le protocole sont explicités.</li><li>Le calcul peut être exécuté sur un autre extrait.</li><li>Un échantillon vérifié est fourni.</li><li>Une erreur identifiée est conservée comme trace, pas masquée.</li></ul></div><div class="panel"><ul class="checklist"><li>Les résultats globaux conservent leurs paramètres et unités.</li><li>Les citations ou cooccurrences ont des positions retrouvables.</li><li>Les limites sont documentées sans faux verdict.</li><li>Les décisions de la revue figurent dans le dépôt.</li></ul></div></div>
-  <div class="semi learning"><h3>◆ Compétences visées</h3><p>Modéliser un problème, développer une fonction réutilisable, formuler une hypothèse de mesure, concevoir des tests, interpréter les écarts, lire et discuter un article scientifique, documenter une preuve et contribuer à un projet Git partagé. Ces pratiques s’inscrivent dans la continuité de la démarche de recherche computationnelle reproductible <a class="ref" href="#r4">[R4]</a> <a class="ref" href="#r5">[R5]</a>.</p></div>
+<section class="section" id="organisation">
+<div class="eyebrow">10 · Organisation du travail de master 2</div><h2>Travail individuel, validation et construction collective</h2>
+<div class="table-wrap"><table><thead><tr><th>Responsabilité</th><th>Travail confié aux étudiants</th><th>Décision et contrôle</th></tr></thead><tbody>
+<tr><td>Inspection</td><td>Produire le texte nettoyé, relire le document, localiser des erreurs éventuelles et en estimer la portée.</td><td>Revue des éléments probants ; conserver ou demander une correction.</td></tr>
+<tr><td>Mesures</td><td>Utiliser les fonctions communes et relever les hypothèses qui changent les résultats.</td><td>Contrôler l'unité, le dénominateur, le code et les exemples.</td></tr>
+<tr><td>Interprétation</td><td>Confronter les résultats LLM et Python sans confondre proximité numérique et identité de procédure.</td><td>Vérifier la force des conclusions et signaler les limites.</td></tr>
+<tr><td>Coordination</td><td>Préparer une présentation synthétique et un problème argumenté pour la revue hebdomadaire.</td><td>Arbitrage de la version commune et des prochains jalons.</td></tr>
+</tbody></table></div>
+<div class="semi action"><h3>✓ Critères de réception</h3><p>Un livrable est interprétable lorsque ses fichiers sont accessibles, que les sources et versions sont indiquées, que les calculs peuvent être relancés, que les anomalies éventuelles sont localisées et quantifiées avec prudence, et que les décisions sont argumentées. La conformité du code ne dispense pas de la lecture critique des résultats.</p></div>
 </section>
 
 <section class="section" id="references">
-  <div class="eyebrow">11 · Travaux scientifiques et ressources</div>
-  <h2>Bibliographie de départ — références vérifiées</h2>
-  <p class="intro">Références de lecture au format proche d’APA, avec liens vers les notices éditeur, DOI ou actes officiels. Elles servent à comprendre et discuter les méthodes&nbsp;; elles ne prédéterminent pas les résultats attendus du projet.</p>
-  <div class="semi context"><h3>◉ Sources primaires et provenance</h3>
-    <p><strong>Document étudié :</strong> <a href="PT_LLMvsPy_Analyse_Gemini_integrale.md">Analyse lexicométrique, quantitative et relationnelle de « Le Féminisme »</a>, texte intégral attribué à Gemini, transmis par l'enseignant le 10 novembre 2026. <a href="PT_LLMvsPy_Analyse_Gemini_provenance.json">Notice de provenance (JSON)</a> et empreinte SHA-256 : <code>a6e30b6bb9e907ccd71be22bc253e2d377896564fb524a5f7949de2b4df999fa</code>. L'identité du modèle et le prompt initial ne sont pas vérifiables à partir de ce fichier.</p>
-    <p><strong>Corpus :</strong> <em>Le Féminisme</em> d'Émile Faguet, dans la version figée des TD S3 (<a href="https://github.com/dreymond732/tal-notebook-evaluator/tree/main/Notebooks%20TD/S3/ressources/" target="_blank" rel="noopener">ressources et empreintes</a>). <strong>Production distincte :</strong> <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/gemini_transcription.txt" target="_blank" rel="noopener">transcription S3</a> incluant les intervalles G1–G6.</p>
-  </div>
-  <div class="semi caution"><h3>⚑ Conditions de diffusion du document source</h3>
-    <p>Le document est partagé pour étude critique, avec attribution explicite à Gemini, et sans présomption d'exactitude ni modification du texte d'origine. Les <a href="https://workspace.google.com/intl/fr/terms/service-terms/" target="_blank" rel="noopener">conditions Google Workspace</a> indiquent que Google ne revendique pas de droits sur les nouveaux contenus générés, mais que ces résultats peuvent constituer des <em>données du client</em>. Si la production relève d'un compte institutionnel, vérifier les habilitations de diffusion auprès de l'établissement ; ne pas lui appliquer automatiquement une licence libre. Le texte de Faguet relève du domaine public en France (voir la <a href="https://catalogue.bnf.fr/ark:/12148/cb11902158x" target="_blank" rel="noopener">notice BnF</a>).</p>
-  </div>
-  <ol class="reference-list">
-    <li id="r1"><span class="idx">[R1]</span>Evert, S. (2009). Corpora and collocations. In A. Lüdeling &amp; M. Kytö (Eds.), <em>Corpus linguistics: An international handbook</em> (Vol. 2, pp. 1212–1248). De Gruyter Mouton. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">https://doi.org/10.1515/9783110213881.2.1212</a><p class="why">Types de cooccurrences, définitions opérationnelles et scores d’association. La notice de l’éditeur donne 2009 (certaines bases indiquent 2008).</p></li>
-    <li id="r2"><span class="idx">[R2]</span>Gablasova, D., Brezina, V., &amp; McEnery, T. (2017). Collocations in corpus-based language learning research: Identifying, comparing, and interpreting the evidence. <em>Language Learning, 67</em>(S1), 155–179. <a href="https://doi.org/10.1111/lang.12225" target="_blank" rel="noopener">https://doi.org/10.1111/lang.12225</a><p class="why">Choix des unités et mesures, comparabilité et interprétation des collocations.</p></li>
-    <li id="r3"><span class="idx">[R3]</span>Church, K. W., &amp; Hanks, P. (1990). Word association norms, mutual information, and lexicography. <em>Computational Linguistics, 16</em>(1), 22–29. <a href="https://aclanthology.org/J90-1003/" target="_blank" rel="noopener">Notice ACL Anthology</a><p class="why">Fondements des mesures d’association lexicale et de leur interprétation.</p></li>
-    <li id="r4"><span class="idx">[R4]</span>Sandve, G. K., Nekrutenko, A., Taylor, J., &amp; Hovig, E. (2013). Ten simple rules for reproducible computational research. <em>PLOS Computational Biology, 9</em>(10), e1003285. <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">https://doi.org/10.1371/journal.pcbi.1003285</a><p class="why">Tracer les transformations et rendre une analyse réexécutable.</p></li>
-    <li id="r5"><span class="idx">[R5]</span>Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L., &amp; Teal, T. K. (2017). Good enough practices in scientific computing. <em>PLOS Computational Biology, 13</em>(6), e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510" target="_blank" rel="noopener">https://doi.org/10.1371/journal.pcbi.1005510</a><p class="why">Organisation des fichiers, versionnement, collaboration et pratiques de code scientifique.</p></li>
-    <li id="r6"><span class="idx">[R6]</span>Gao, T., Yen, H., Yu, J., &amp; Chen, D. (2023). Enabling large language models to generate text with citations. In <em>Proceedings of EMNLP 2023</em> (pp. 6465–6488). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.398" target="_blank" rel="noopener">https://doi.org/10.18653/v1/2023.emnlp-main.398</a><p class="why">Vérifiabilité des affirmations et qualité des citations fournies par les LLM.</p></li>
-    <li id="r7"><span class="idx">[R7]</span>Farquhar, S., Kossen, J., Kuhn, L., &amp; Gal, Y. (2024). Detecting hallucinations in large language models using semantic entropy. <em>Nature, 630</em>, 625–630. <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank" rel="noopener">https://doi.org/10.1038/s41586-024-07421-0</a><p class="why">Contexte scientifique sur les productions non étayées&nbsp;: cet article ne révèle pas le protocole interne de Gemini.</p></li>
-    <li id="r8"><span class="idx">[R8]</span>Artstein, R., &amp; Poesio, M. (2008). Inter-coder agreement for computational linguistics. <em>Computational Linguistics, 34</em>(4), 555–596. <a href="https://doi.org/10.1162/coli.07-034-R2" target="_blank" rel="noopener">https://doi.org/10.1162/coli.07-034-R2</a><p class="why">Distinguer un désaccord de codage humain d’une erreur d’algorithme.</p></li>
-    <li id="r9"><span class="idx">[R9]</span>Explosion AI. (s. d.). <em>Sentencizer — spaCy API documentation</em> [Documentation technique]. <a href="https://spacy.io/api/sentencizer/" target="_blank" rel="noopener">https://spacy.io/api/sentencizer/</a><p class="why">Détection des frontières de phrases par règles et accès aux objets <code>Doc.sents</code> ; documentation technique, distincte d’un article scientifique.</p></li>
-      <li id="r10"><span class="idx">[R10]</span>McCarthy, P. M., &amp; Jarvis, S. (2010). MTLD, vocd-D, and HD-D: A validation study of sophisticated approaches to lexical diversity assessment. <em>Behavior Research Methods, 42</em>(2), 381–392. <a href="https://doi.org/10.3758/BRM.42.2.381" target="_blank" rel="noopener">https://doi.org/10.3758/BRM.42.2.381</a><p class="why">Sensibilité du TTR à la taille du texte et limites d’une interprétation isolée des ratios lexicaux.</p></li>
+<div class="eyebrow">11 · Sources et bibliographie</div><h2>Des documents de travail distincts des références scientifiques</h2>
+<div class="panel compact"><h3>Sources primaires et documents préparatoires</h3>
+<ul>
+<li>Corpus Faguet du cours : <code>Notebooks TD/S3/ressources/faguet_source.txt</code>, commit <code>b92e92b6c216014283056c83aa545881a447b3a5</code> ; empreinte SHA-256 conservée par la bibliothèque.</li>
+<li>Transcription Gemini du 18 septembre 2026 : <code>gemini_transcription.txt</code> ; intervalles de cooccurrences G1–G6 consignés dans les ressources du cours.</li>
+<li>Rapport Gemini de métriques globales communiqué le 10 novembre 2026 : <code>data/annonces_globales_gemini.json</code> dans PT-LLMvsPy. Autres tableaux Gemini sur les calculs et opérations, à statut distinct.</li>
+<li>Travail préparatoire joint : <em>projet tutoré.docx</em> (comparaisons LLM / Colab), <em>Projet 1.ipynb</em> (comptages et comparaisons) et <em>projet_tutoré.ipynb</em> (essai de traitement d'un texte incorporé au notebook).</li>
+</ul></div>
+<ol class="reference-list bibliography">
+<li id="ref-Evert"><span class="idx">[R1]</span> Evert, S. (2009). <em>Corpora and collocations</em>. In A. Lüdeling &amp; M. Kytö (dir.), <em>Corpus linguistics: An international handbook</em> (vol. 2, p. 1212–1248). De Gruyter Mouton. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Gablasova"><span class="idx">[R2]</span> Gablasova, D., Brezina, V. et McEnery, T. (2017). Collocations in corpus-based language learning research: Identifying, comparing, and interpreting the evidence. <em>Language Learning, 67</em>(S1), 155–179. <a href="https://doi.org/10.1111/lang.12225" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Church"><span class="idx">[R3]</span> Church, K. W. et Hanks, P. (1990). Word association norms, mutual information, and lexicography. <em>Computational Linguistics, 16</em>(1), 22–29. <a href="https://aclanthology.org/J90-1003/" target="_blank" rel="noopener">ACL Anthology</a>.</li>
+<li id="ref-Sandve"><span class="idx">[R4]</span> Sandve, G. K., Nekrutenko, A., Taylor, J. et Hovig, E. (2013). Ten simple rules for reproducible computational research. <em>PLOS Computational Biology, 9</em>(10), e1003285. <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Wilson"><span class="idx">[R5]</span> Wilson, G., Bryan, J., Cranston, K., Kitzes, J., Nederbragt, L. et Teal, T. K. (2017). Good enough practices in scientific computing. <em>PLOS Computational Biology, 13</em>(6), e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Gao"><span class="idx">[R6]</span> Gao, T., Yen, H., Yu, J. et Chen, D. (2023). Enabling large language models to generate text with citations. <em>EMNLP 2023</em>, 6465–6488. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.398" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Farquhar"><span class="idx">[R7]</span> Farquhar, S., Kossen, J., Kuhn, L. et Gal, Y. (2024). Detecting hallucinations in large language models using semantic entropy. <em>Nature, 630</em>, 625–630. <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Artstein"><span class="idx">[R8]</span> Artstein, R. et Poesio, M. (2008). Inter-coder agreement for computational linguistics. <em>Computational Linguistics, 34</em>(4), 555–596. <a href="https://doi.org/10.1162/coli.07-034-R2" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Spacy"><span class="idx">[R9]</span> spaCy. <em>Sentencizer</em>, documentation de l'API. <a href="https://spacy.io/api/sentencizer/" target="_blank" rel="noopener">Documentation</a>.</li>
+<li id="ref-Manning"><span class="idx">[R10]</span> Manning, C. D., Raghavan, P. et Schütze, H. (2008). <em>Introduction to Information Retrieval</em>. Cambridge University Press, chap. 2. <a href="https://doi.org/10.1017/CBO9780511809071" target="_blank" rel="noopener">DOI</a>.</li>
+<li id="ref-Bird"><span class="idx">[R11]</span> Bird, S., Klein, E. et Loper, E. (2009). <em>Natural Language Processing with Python</em>. O'Reilly Media, chap. 3 « Processing Raw Text ». <a href="https://www.nltk.org/book/ch03.html" target="_blank" rel="noopener">Texte en ligne</a>.</li>
 </ol>
-  <h3 class="margin-top">Sources primaires de l’exercice</h3>
-  <div class="panel"><ul>
-    <li><strong>Transcription de Gemini (18/09/2026)</strong>&nbsp;: <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/gemini_transcription.txt" target="_blank" rel="noopener">gemini_transcription.txt</a>.</li>
-    <li><strong>Affirmations numériques structurées</strong>&nbsp;: <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/affirmations_gemini.json" target="_blank" rel="noopener">affirmations_gemini.json</a>.</li>
-    <li><strong>Corpus de référence</strong>&nbsp;: <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/README.md" target="_blank" rel="noopener">notice de provenance des ressources S3</a> et texte figé <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/faguet_source.txt" target="_blank" rel="noopener">faguet_source.txt</a>.</li>
-    <li><strong>Bibliothèque du projet</strong>&nbsp;: <a href="https://github.com/dreymond732/PT-LLMvsPy" target="_blank" rel="noopener">PT-LLMvsPy</a> ; <a href="https://github.com/dreymond732/PT-LLMvsPy/pull/1" target="_blank" rel="noopener">PR initiale en brouillon</a>.</li>
-  </ul><p class="footnote">La notice pédagogique indique que le corpus est la copie nettoyée figée pour le TD, avec historique antérieur du nettoyage incomplet. Les mesures du projet portent sur <em>ce fichier</em> et non automatiquement sur toutes les éditions de l’œuvre.</p></div>
-</section>
-<section class="section" id="decisions">
-  <div class="eyebrow">12 · Décisions restant à prendre</div>
-  <h2>Ce que le cadrage ne doit pas décider à la place du collectif</h2>
-  <div class="panel"><dl class="qa"><dt>Calendrier réel</dt><dd>Début des stages, semaine d’interruption pédagogique, nombre réel de revues et ordre des dates de passage.</dd></dl><dl class="qa"><dt>Répartition des groupes</dt><dd>Effectifs, modalités d’organisation et rotation des responsabilités.</dd></dl><dl class="qa"><dt>Protocole de cooccurrence</dt><dd>Taille des fenêtres, franchissement des phrases, forme/lemme et agrégations à tester&nbsp;: décision fondée sur N1 et N2.</dd></dl><dl class="qa"><dt>Critères de comparabilité</dt><dd>Définir à quel niveau une comparaison avec Gemini est possible, sans effacer les paramètres originellement absents.</dd></dl><dl class="qa"><dt>Diffusion et droits</dt><dd>Vérifier l'habilitation institutionnelle à diffuser une sortie Gemini Workspace ; ne pas appliquer automatiquement de licence aux contenus tiers. Définir le public, les usages et une éventuelle valorisation scientifique ultérieure.</dd></dl></div>
-  <div class="decision"><strong>Principe directeur :</strong> ce projet débute par une enquête sur la fiabilité des fonctions et des affirmations, non par une recherche des paramètres qui « font tomber juste » les chiffres de Gemini. Chaque revue fait progresser l’enquête et détermine la suivante.</div>
 </section>
 </main>
-<footer><p><strong>PT-LLMvsPy — Document de cadrage pédagogique et scientifique, version 0.2</strong></p><p>Préparé pour discussion · 10 novembre 2026 · Document HTML autonome, conçu pour lecture écran et impression. Les dates du calendrier sont indicatives jusqu’à validation du début des stages.</p></footer>
-</body>
-</html>
+<footer>
+<div class="wrap"><p><strong>PT-LLMvsPy · Cadrage scientifique et pédagogique · version 0.2</strong></p>
+<p>11 novembre 2026 · Source de référence et travaux préparatoires explicitement distingués · Document HTML autonome pour lecture et impression. Les éventuels comptes exploratoires sont identifiés comme tels ; le calendrier réel et les révisions des notebooks 02 à 04 restent à arbitrer.</p>
+</div>
+</footer>
+</body></html>
