@@ -1,4 +1,4 @@
-"""Le notebook de projet est syntaxiquement valide et ses étapes bien ordonnées."""
+"""Le notebook de projet reste syntaxiquement valide et sans formulaire bloquant."""
 import ast
 import json
 from pathlib import Path
@@ -9,69 +9,55 @@ RACINE = Path(__file__).resolve().parents[1]
 def analyser_notebook(nom):
     nb = json.loads((RACINE / "notebooks" / nom).read_text(encoding="utf-8"))
     assert nb["nbformat"] == 4 and len(nb["cells"]) >= 20
-    scripts, textes = [], []
+    codes, textes = [], []
     for i, cell in enumerate(nb["cells"]):
-        source = "".join(cell.get("source", []))
-        assert source.strip(), f"Cellule vide {i}"
+        texte = "".join(cell.get("source", []))
+        assert texte.strip(), f"Cellule vide {i}"
         if cell["cell_type"] == "code":
             assert cell["execution_count"] is None and cell["outputs"] == []
-            ast.parse(source, filename=f"{nom}:{i}")
-            scripts.append(source)
+            ast.parse(texte, filename=f"{nom}:{i}")
+            codes.append(texte)
         else:
-            textes.append(source)
-    return scripts, textes
+            textes.append(texte)
+    return "\n".join(codes), "\n".join(textes)
 
 
-def test_notebook_01_processus_de_revision_et_inspection():
-    codes, textes = analyser_notebook("01_corpus_protocole.ipynb")
-    code = "\n".join(codes)
-    presentation = "\n".join(textes)
+def test_notebook_01_resultats_libres_et_drive_monte():
+    code, presentation = analyser_notebook("01_corpus_protocole.ipynb")
     for element in (
-        "VERSION_NOTEBOOK", "REVISION_GIT", "MODE_REVISION",
-        "exécuter_pretraitements" if False else "executer_pretraitements",
-        "preparer_faguet_standard_td01", "files.download(str(FICHIER_APERCU))",
+        "VERSION_NOTEBOOK", "REVISION_GIT", "REVISION_GIT_RESOLUE",
+        'DOSSIER_TRAVAIL = Path("/content")',
+        'NUMERO_SESSION = f"{secrets.randbelow',
+        "DATE_SESSION = datetime.now(timezone.utc)",
+        "executer_pretraitements", "composer_texte_epure",
+        "files.download(str(FICHIER_APERCU))",
         "localiser_dans_original", "fonctions_ayant_modifie_zone",
-        "compter_motif", "ANOMALIES_A_EXAMINER", "DECISION_SUITE",
-        "journal_inspection", "valider_inspection",
-        "preparer_archive_td01", "inspection=journal_inspection",
-        "version_notebook=VERSION_NOTEBOOK",
-        "deposer_archive_drive_api", "bouton_depot.on_click(_deposer_td01)",
+        "compter_motif", "NOTES_INSPECTION",
+        "FICHIER_COMPARAISON", "FICHIER_COMPARAISON_JSON",
+        "METADONNEES_ANALYSE", "FICHIER_ARCHIVE",
+        "COMMENTAIRES_ANALYSE", 'drive.mount("/content/drive")',
+        'DOSSIER_DEPOT_DRIVE = ""', "sha_drive != sha_local",
+        'DOSSIER_DRIVE_ID = "18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO"',
     ):
         assert element in code, element
-    for expression in (
+    for element in (
         "dépendance des traitements lexicaux",
-        "Bloc-notes", "estime la portée du motif",
-        "## 1", "## 2", "## 3", "## 4",
-        "une copie", "révision",
+        "Bloc-notes", "## 1", "## 2", "## 3", "## 4",
+        "une copie",
     ):
-        assert expression.lower() in presentation.lower(), expression
+        assert element.lower() in presentation.lower()
     assert presentation.index("## 2") < presentation.index("## 3")
-    assert "imaginez d'abord" not in presentation.lower()
-    assert "sélectionnez **deux passages authentiques**" not in presentation.lower()
-    assert "### Examiner et valider le résultat" not in presentation
-    assert "notebook de TD" not in presentation
-    assert "DOSSIER_DEPOTS" not in code
-    assert "GITHUB_TAL_TOKEN" not in code
-    assert "REVUE_ECHANTILLONS_VALIDE" not in code
-    assert "MES_CAS" not in code
-    # La décision de réviser ne bloque plus les calculs.
-    assert 'assert DECISION_SUITE == "conserver"' not in code
-    assert 'FICHIER_APERCU, sha256_attendu=vue_epuree.sha256_texte_utf8' in code
-    assert '"provisoire_a_reviser"' in code
-    assert 'FICHIER_COMPARAISON' in code
-    assert 'FICHIER_SUIVI' in code
-    assert '"fiche_suivi.json"' in code
-    assert '"faguet_nettoye_provisoire.txt"' in code
-    assert 'if DECISION_SUITE == "conserver":' in code
-    assert 'export_epuration = exporter_texte_approuve(' in code
-    assert "bouton_depot.disabled = True" in code
-    assert "validation" not in code.lower() or "valider_inspection" in code
-
-    assert 'DOSSIER_DRIVE_ID = "18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO"' in code
+    for ancien in (
+        "MON_IDENTIFIANT", "DECISION_SUITE", "STATUT_ANALYSE",
+        "ANOMALIES_A_EXAMINER", "valider_inspection(",
+        "VALIDATION_ANALYSE", "MODE_REVISION",
+        "exporter_texte_approuve(", "deposer_archive_drive_api(",
+        "preparer_archive_td01(", "MES_CAS", "REVUE_ECHANTILLONS_VALIDE",
+    ):
+        assert ancien not in code, ancien
 
 
 def test_notebook_02_audit_conserve():
-    codes, textes = analyser_notebook("02_mesures_lexicales.ipynb")
-    code = "\n".join(codes)
+    code, presentation = analyser_notebook("02_mesures_lexicales.ipynb")
     assert "calculer_metriques_globales" in code
     assert "comparer_annonces" in code
