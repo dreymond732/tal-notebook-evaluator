@@ -54,6 +54,19 @@ def test_notebook_01_processus_de_revision_et_inspection():
     assert "GITHUB_TAL_TOKEN" not in code
     assert "REVUE_ECHANTILLONS_VALIDE" not in code
     assert "MES_CAS" not in code
+    # La décision de réviser ne bloque plus les calculs.
+    assert 'assert DECISION_SUITE == "conserver"' not in code
+    assert 'FICHIER_APERCU, sha256_attendu=vue_epuree.sha256_texte_utf8' in code
+    assert '"provisoire_a_reviser"' in code
+    assert 'FICHIER_COMPARAISON' in code
+    assert 'FICHIER_SUIVI' in code
+    assert '"fiche_suivi.json"' in code
+    assert '"faguet_nettoye_provisoire.txt"' in code
+    assert 'if DECISION_SUITE == "conserver":' in code
+    assert 'export_epuration = exporter_texte_approuve(' in code
+    assert "bouton_depot.disabled = True" in code
+    assert "validation" not in code.lower() or "valider_inspection" in code
+
     assert 'DOSSIER_DRIVE_ID = "18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO"' in code
 
 
