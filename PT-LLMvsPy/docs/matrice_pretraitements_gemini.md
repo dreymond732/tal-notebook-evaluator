@@ -39,7 +39,9 @@
 - **Décision C — représentations linguistiques (OP06–OP12)** : inventorier les abréviations et les termes composés, comparer les frontières de tokens et de phrases sur un échantillon annoté manuellement.
 - **Décision D — filtrages (OP09)** : fixer pour chaque indicateur l'inclusion ou non de la ponctuation, des chiffres et des stopwords ; ne pas modifier le texte d'origine pour cela.
 
-Le notebook 01 importe la bibliothèque depuis Git, teste des phrases types puis des contre-exemples choisis par les étudiants et prévisualise les effets sur Faguet entier. **L'export du texte épuré, de son manifeste et de ses offsets est subordonné à l'approbation de chaque opération et à une validation globale motivée.** Le notebook 02 exige ce résultat approuvé pour lancer les métriques.
+**État de mise en œuvre (11 novembre 2026).** Le notebook 01 a effectivement exécuté le masquage des blocs et appels de notes, des séparateurs d'astérisques et la recomposition des retours typographiques ; les effectifs et leur provenance figurent dans `metadonnees_analyse.json`. Les observations d'anomalies y sont libres et n'empêchent pas les calculs. Le texte nettoyé est sauvegardé dans `/content/analyse_faguet_v2_0_0/`.
+
+Le **notebook 02** exploite ce fichier plutôt que de refaire implicitement le nettoyage ; il vérifie le comportement du plan sous réapplication (idempotence éventuelle sur ce corpus), recense les opérations restant à définir (notamment OP03, OP05, OP06, OP10 et OP12) et calcule les indicateurs du rapport Gemini avec des conventions explicites. Les mots vides ne sont pas retirés par défaut. Les **lemmes** ne sont comptés que si un pipeline spaCy réellement lemmatiseur est disponible. Le résultat du traitement informatique n'est pas une certification du protocole interne de Gemini.
 
 ## Références techniques
 

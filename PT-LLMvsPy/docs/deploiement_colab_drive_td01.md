@@ -59,7 +59,7 @@ Le corpus initial est téléchargé depuis le commit public `b92e92b6c2160142830
 
 Les mesures Gemini proviennent du dossier `PT-LLMvsPy/data/` à la même révision Git que le code. Les règles de nettoyage et de calcul sont enregistrées dans `metadonnees_analyse.json`. L'empreinte du texte épuré permet de voir si deux exécutions ont produit la même sortie.
 
-La suite des notebooks 02 à 04 reste à adapter pour charger le corpus retenu après la première revue.
+Le [notebook 02](../notebooks/02_mesures_lexicales.ipynb) lit directement `faguet_nettoye.txt` et `metadonnees_analyse.json` produits ici, dans le même dossier de travail. En cas de nouvelle session Colab, recopier ce dossier depuis Drive ou adapter `DOSSIER_N1`. Les notebooks 03 et 04 restent à redéfinir.
 
 Tests sur une copie du dépôt public :
 
