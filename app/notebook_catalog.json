@@ -23,7 +23,7 @@
     },
     {
       "id": "Controletilt-s1",
-      "version": 1,
+      "version": 2,
       "evaluator": "Controletilt-s1",
       "active": true,
       "semester": "S1",

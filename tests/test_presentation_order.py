@@ -38,9 +38,20 @@ class PresentationOrderTests(unittest.TestCase):
                 self.assertEqual(body, f'<!-- {CELL_START}\n{context}{CELL_END} -->\n')
                 self.assertEqual(sum(CELL_START in ''.join(c['source']) for c in new['cells']), 1)
                 self.assertEqual([c.get('id') for c in new['cells']], [c.get('id') for c in old['cells']])
-                self.assertEqual(new['metadata']['tal'], old['metadata']['tal'])
+                revised_s1 = oldpath == 'Notebooks contrôles finaux/DevoirS1.ipynb'
+                if revised_s1:
+                    self.assertEqual(new['metadata']['tal'], dict(old['metadata']['tal'], version=2))
+                else:
+                    self.assertEqual(new['metadata']['tal'], old['metadata']['tal'])
                 # Every pre-existing executable statement and data value remains.
                 for previous, revised in zip(old['cells'], new['cells']):
+                    if revised_s1:
+                        # Approved subject changes have dedicated v2 contract tests.
+                        # IDs, answer roles, identification and tutor remain stable.
+                        self.assertEqual(previous['metadata'].get('tal'), revised['metadata'].get('tal'))
+                        if previous.get('id') == 'identification_etudiant_final':
+                            self.assertEqual(previous['source'], revised['source'])
+                        continue
                     self.assertEqual(previous['metadata'], revised['metadata'])
                     if previous['cell_type'] == 'code':
                         try:
@@ -65,7 +76,10 @@ class PresentationOrderTests(unittest.TestCase):
 
     def test_outside_s3_td_only_title_moves_no_field_or_prose_changes(self):
         for path, raw in self.baseline['subjects'].items():
-            if path.startswith('Notebooks TD/S3/'):
+            if (path.startswith('Notebooks TD/S3/')
+                    or path == 'Notebooks contrôles finaux/DevoirS1.ipynb'):
+                # Final S1 has an explicitly approved v2 revision, checked above
+                # for preserved title, tutor, cell IDs, roles and identification.
                 continue
             with self.subTest(notebook=path):
                 current = json.loads((ROOT / current_path(path)).read_text())

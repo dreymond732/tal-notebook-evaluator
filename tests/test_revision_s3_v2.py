@@ -185,8 +185,8 @@ class RevisionRoutes(unittest.TestCase):
     def post(self, nb, path):
         return self.client.post(path,data={'file':(io.BytesIO(json.dumps(nb).encode()),'copy.ipynb')})
 
-    def test_old_s3_never_corrects_or_persists_and_s1_control_keeps_legacy(self):
-        for evaluator in ['td-r0-s3','td-r1-s3','td-r2-s3','td1-s3','controle-td1-s3']:
+    def test_old_s3_and_s1_final_control_versions_are_rejected(self):
+        for evaluator in ['td-r0-s3','td-r1-s3','td-r2-s3','td1-s3','controle-td1-s3','Controletilt-s1']:
             for metadata in [{},{'tal':{'id':evaluator,'evaluator':evaluator,'version':0}}]:
                 nb={'cells':[],'metadata':metadata}
                 with patch('routes.process_submission') as persist:
@@ -195,8 +195,8 @@ class RevisionRoutes(unittest.TestCase):
                         self.assertIn('mauvaise version du notebook',response.get_data(as_text=True))
                     persist.assert_not_called()
         self.assertEqual(list(Path(self.temp.name).rglob('*')),[])
-        for evaluator in ['Controletilt-s1']:
-            self.assertIsNone(resolve_notebook({'cells':[]},evaluator,require_metadata=False))
+        with self.assertRaisesRegex(ContractError, 'mauvaise version du notebook'):
+            resolve_notebook({'cells':[]},'Controletilt-s1',require_metadata=False)
 
     def test_new_reference_persists_and_renders_technical_score_safely(self):
         nb=fixture(0)

@@ -53,13 +53,17 @@ S2_RENAMED_SUBJECTS = {
 }
 S2_REVISED_SUBJECTS = dict(zip(list(S2_RENAMED_SUBJECTS)[:6],
     ("td3-S2", "td5-S2", "td6-S2", "td2-S2", "td4-S2", "ControleDevoirMaisonS2")))
-REVISED_SUBJECTS = R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS | S2_REVISED_SUBJECTS
+# Explicitly approved final S1 v2 revision; the original fixture stays frozen.
+S1_FINAL_REVISED_SUBJECTS = {"Notebooks contrôles finaux/DevoirS1.ipynb": "Controletilt-s1"}
+REVISED_SUBJECTS = (R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS | S1_REVISED_SUBJECTS
+                    | S2_REVISED_SUBJECTS | S1_FINAL_REVISED_SUBJECTS)
 ADDED_ACTIVE_SUBJECTS = {
     "Notebooks TD/S3/TD1B_S3_entites_similarite_regles.ipynb",
     "Notebooks contrôles finaux/S1/DM_intermediaire_S1.ipynb",
 }
 ADDED_EXCLUDED_NOTEBOOKS = {
     "Corrigés modèles/Contrôles finaux/dm-intermediaire-s1/DM_intermediaire_S1_corrige_non_execute.ipynb",
+    "Corrigés modèles/Contrôles finaux/controle-s1-v2/Controle_S1_v2_corrige_non_execute.ipynb",
 }
 
 
@@ -153,7 +157,7 @@ class MigrationIntegrityTests(unittest.TestCase):
 
     def test_unrevised_subjects_preserve_every_field_except_routing_metadata(self):
         self.assertEqual(len(self.baseline["active"]), 32)
-        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 1)
+        self.assertEqual(len(set(self.baseline["active"]) - set(REVISED_SUBJECTS)), 0)
         self.assertTrue(set(REVISED_SUBJECTS) <= set(self.baseline["active"]))
         for path, expected in self.baseline["active"].items():
             if path in REVISED_SUBJECTS:
@@ -179,7 +183,7 @@ class MigrationIntegrityTests(unittest.TestCase):
                                  self.baseline["active"][old_path])
 
     def test_reviewed_revisions_have_explicit_version_two_contracts(self):
-        self.assertEqual(len(REVISED_SUBJECTS), 31)
+        self.assertEqual(len(REVISED_SUBJECTS), 32)
         for path, evaluator in (R012_REVISED_SUBJECTS | S3_REVISED_SUBJECTS).items():
             with self.subTest(notebook=path):
                 notebook = json.loads((ROOT / presentation_path(path)).read_text())

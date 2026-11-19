@@ -7207,6 +7207,10 @@
     {
       "notebook": "Corrigés modèles/TD/td4-swinnen/TD4-ter_S1_comptages_comprehensions_corrige_non_execute.ipynb",
       "reason": "Copie de référence non exécutée, avec lecture indépendante du TD4 renforcé ; hors distribution étudiante."
+    },
+    {
+      "notebook": "Corrigés modèles/Contrôles finaux/controle-s1-v2/Controle_S1_v2_corrige_non_execute.ipynb",
+      "reason": "Corrigé modèle réservé, non exécuté et exclu de la distribution étudiante."
     }
   ]
 }
