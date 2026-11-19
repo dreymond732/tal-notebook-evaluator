@@ -253,17 +253,36 @@ def current_by_receipt(receipt):
         conn.close()
 
 
+class ReviewValidationError(ValueError):
+    """Erreurs de saisie localisées ; la transaction n'est pas enregistrée."""
+
+    def __init__(self, errors):
+        self.errors = errors
+        super().__init__("La correction n'a pas été enregistrée. Vérifiez les champs signalés.")
+
+
 def queue():
     conn = _db()
     try:
         rows = conn.execute("""
             SELECT a.receipt,a.number,a.name,a.first_name,a.created_at,a.score,
-                   CASE WHEN v.receipt IS NULL THEN 'À corriger' ELSE 'Validée' END AS status
+                   v.validated_at,
+                   (SELECT SUM(CAST(r.points AS REAL)) FROM reviews r
+                    WHERE r.receipt=a.receipt) AS human_score,
+                   CASE WHEN v.receipt IS NOT NULL THEN 'Validée'
+                        WHEN EXISTS (SELECT 1 FROM reviews r WHERE r.receipt=a.receipt)
+                        THEN 'Brouillon' ELSE 'À corriger' END AS status
             FROM current_attempt c JOIN attempts a ON c.receipt=a.receipt
             LEFT JOIN validation v ON a.receipt=v.receipt
             ORDER BY a.name COLLATE NOCASE, a.first_name COLLATE NOCASE, a.number
         """).fetchall()
-        return [dict(row) for row in rows]
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["final_score"] = (round(item["score"] + item["human_score"], 3)
+                                   if item["validated_at"] else None)
+            result.append(item)
+        return result
     finally:
         conn.close()
 
@@ -277,24 +296,30 @@ def save_review(receipt, values, validate=False):
         if current is None or current["validated_at"]:
             raise ValueError("Copie remplacée ou correction déjà validée")
         cleaned = {}
+        errors = {}
         for q in QUESTIONS:
-            raw = (values.get(f"points_{q}") or "").strip().replace(",", ".")
+            field = f"points_{q}"
+            raw = (values.get(field) or "").strip().replace(",", ".")
             comment = (values.get(f"comment_{q}") or "").strip()
             if len(comment) > 4000:
-                raise ValueError("Appréciation trop longue pour Q" + str(q))
+                errors[f"comment_{q}"] = "4 000 caractères maximum pour l'appréciation."
             points = None
             if raw:
                 try:
                     points = Decimal(raw)
-                except InvalidOperation as exc:
-                    raise ValueError("Points non numériques pour Q" + str(q)) from exc
-                if not points.is_finite() or not 0 <= points <= Decimal(str(HUMAN_WEIGHTS[q])):
-                    raise ValueError("Points hors barème pour Q" + str(q))
-                if points.as_tuple().exponent < -2:
-                    raise ValueError("Deux décimales maximum pour Q" + str(q))
-            if validate and (points is None or not comment):
-                raise ValueError("Note et appréciation requises pour Q" + str(q))
+                except InvalidOperation:
+                    errors[field] = "Saisissez une note numérique."
+                else:
+                    maximum = Decimal(str(HUMAN_WEIGHTS[q]))
+                    if not points.is_finite() or not 0 <= points <= maximum:
+                        errors[field] = f"La note doit être comprise entre 0 et {maximum}."
+                    elif points.as_tuple().exponent < -2:
+                        errors[field] = "Deux décimales maximum."
+            elif validate:
+                errors[field] = "Saisissez une note, y compris 0."
             cleaned[q] = (str(points) if points is not None else None, comment)
+        if errors:
+            raise ReviewValidationError(errors)
         for q, (points, comment) in cleaned.items():
             conn.execute("""
                 INSERT INTO reviews(receipt,question,points,comment) VALUES (?,?,?,?)

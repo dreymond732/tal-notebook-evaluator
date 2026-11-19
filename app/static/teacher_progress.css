@@ -8,3 +8,6 @@ td.subactivity{padding-left:2rem;position:relative}td.subactivity::before{conten
 
 /* Relecture humaine du DM : saisie et preuves sans styles inline. */
 .dm-evidence{white-space:pre-wrap;overflow-wrap:anywhere;max-width:510px;font-family:ui-monospace,monospace;font-size:.84rem}input[type=number],textarea{display:block;width:100%;max-width:850px;font:inherit;padding:.7rem;border:1px solid #9eafc3;border-radius:7px;margin:.35rem 0 1rem}textarea{min-height:6rem}input:disabled,textarea:disabled{background:#edf0f4;color:#465770}
+
+/* Saisie des notes DM : conserver aussi les virgules et les valeurs à corriger. */
+input.dm-score{width:7rem;max-width:100%}.field-error{color:#9a241b;font-weight:650;margin:.35rem 0 1rem}input.dm-score[aria-invalid="true"]{border:2px solid #ad3325}textarea[aria-invalid="true"]{outline:1px solid #ad3325}

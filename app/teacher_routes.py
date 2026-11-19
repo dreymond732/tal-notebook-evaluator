@@ -217,7 +217,7 @@ def dm_detail(receipt):
     _require_teacher()
     if len(receipt) != 32 or any(ch not in "0123456789abcdef" for ch in receipt):
         abort(404)
-    from dm_hybrid import current_by_receipt, save_review
+    from dm_hybrid import current_by_receipt, save_review, ReviewValidationError
     attempt = current_by_receipt(receipt)
     if attempt is None:
         abort(404)
@@ -234,6 +234,24 @@ def dm_detail(receipt):
                 save_review(receipt, request.form, validate=(action == "valider"))
             flash("Correction validée et publiée." if action == "valider"
                   else "Brouillon enregistré.", "info")
+            if action == "valider":
+                return redirect(tal_url_for("teacher.dm_queue"), code=303)
+        except ReviewValidationError as exc:
+            # Recharger la fiche active, puis réafficher les valeurs brutes :
+            # une erreur ne doit pas effacer la saisie ni publier une note.
+            attempt = current_by_receipt(receipt)
+            if attempt is None:
+                abort(404)
+            if attempt["validated_at"]:
+                flash("Cette correction a déjà été validée.", "info")
+                return redirect(tal_url_for("teacher.dm_detail", receipt=receipt), code=303)
+            for question in attempt["questions"]:
+                q = question["number"]
+                question["points"] = request.form.get(f"points_{q}", "")
+                question["comment"] = request.form.get(f"comment_{q}", "")
+            return render_template("teacher_dm_review_template.html", queue=None,
+                                   attempt=attempt, csrf=_csrf(),
+                                   field_errors=exc.errors, form_error=str(exc)), 422
         except ValueError as exc:
             flash(str(exc), "error")
         return redirect(tal_url_for("teacher.dm_detail", receipt=receipt), code=303)
