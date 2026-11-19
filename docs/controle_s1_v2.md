@@ -8,7 +8,7 @@ La matrice enseignante et le détail des objectifs sont dans `docs/pedagogy/cont
 
 ## Contrat et correction
 
-- Même sujet `Notebooks contrôles finaux/DevoirS1.ipynb`, même évaluateur `Controletilt-s1`, version **2** dans le sujet et le catalogue.
+- Sujet actuel `Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb`, même évaluateur `Controletilt-s1`, version **2** dans le sujet et le catalogue.
 - Les cellules d'identité (nom, prénom, classe) et les 30 cellules de réponse doivent être présentes avec leur rôle explicite. Aucun numéro étudiant supplémentaire n'est requis.
 - Les copies version 1 ou sans métadonnées sont refusées comme « mauvaise version du notebook », sur `/submit` et `/eval/Controletilt-s1`, avant correction et persistance. Les archives déjà enregistrées ne sont ni migrées ni recalculées.
 - Les poids sont conservés : 25 questions à 1 point, 5 à 2 points et 1 point d'identification, soit **36 points**. Les points d'identification ne sont pas accordés aux noms laissés à `...`.

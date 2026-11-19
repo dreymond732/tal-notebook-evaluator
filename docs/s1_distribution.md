@@ -80,6 +80,34 @@ du seul fait du renommage. Le renommage historique, pris isolément, ne modifiai
 ni les règles d’identification ni les correcteurs. Les neuf contrats additifs de
 l’expansion Swinnen sont décrits ci-dessous et restent distincts des copies anciennes.
 
+## Contrôles dans le même dossier de distribution
+
+Depuis le rangement demandé le 19 novembre 2026, le sujet du contrôle final S1
+est `Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb` ; sa copie
+à distribuer est donc
+`dist/Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb`.
+Le DM reste dans le même sous-dossier S1. Les contrôles S2 et S3 sont rangés dans
+leurs sous-dossiers respectifs.
+
+La sélection de distribution est distincte de l'activation d'un correcteur :
+`distribution_sources()` inclut les TD actifs et tous les sujets de contrôle
+inscrits au catalogue. Le lot actuel comprend **47 notebooks**, pour **46
+évaluateurs actifs**. Le contrôle final S2 est ainsi disponible dans `dist/`
+sans modifier son état inactif ni ouvrir un dépôt.
+
+Pour ce sujet sans dépôt actif, la cellule finale de restitution est remplacée,
+dans la copie générée seulement, par une consigne Markdown de sauvegarde du
+notebook avec ses sorties et de remise selon les modalités de l'enseignant.
+Il n'y a ni adresse de dépôt ni marqueur non remplacé dans cette copie. Les
+questions, données, identifiants et consignes du tuteur sont conservés. Les
+sources restent identiques et les corrigés modèles ne sont jamais exportés.
+
+L'ancien manifeste de 46 fichiers reste reconnu : une nouvelle génération
+remplace la distribution complète, retire l'ancien chemin S1 à la racine et
+ajoute le final S2. Les fichiers étrangers à une distribution gérée restent
+protégés par le refus de remplacement ; aucun dossier de soumissions n'est lu
+ou déplacé pour cette opération.
+
 ## Vérifications techniques
 
 Les tests de distribution contrôlent la substitution unique, la conservation

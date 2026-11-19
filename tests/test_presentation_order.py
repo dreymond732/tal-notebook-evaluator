@@ -66,6 +66,12 @@ class PresentationOrderTests(unittest.TestCase):
                         self.assertEqual(previous.get('execution_count'), revised.get('execution_count'))
                 old_session = old['metadata']['tal_tutor']['session']
                 new_session = new['metadata']['tal_tutor']['session']
+                self.assertEqual(new_session['notebook'], current_path(old_session['notebook']))
+                if revised_s1:
+                    # Only the current source path changes in the tutor metadata.
+                    expected_tutor = copy.deepcopy(old['metadata']['tal_tutor'])
+                    expected_tutor['session']['notebook'] = current_path(oldpath)
+                    self.assertEqual(new['metadata']['tal_tutor'], expected_tutor)
                 self.assertEqual(old_session['allowed_libraries'], new_session['allowed_libraries'])
                 self.assertEqual(old_session['provided_libraries'], new_session['provided_libraries'])
                 for before, after in zip(old_session['exercises'], new_session['exercises']):
@@ -151,8 +157,8 @@ class PresentationOrderTests(unittest.TestCase):
         import prepare_student_notebooks as prep
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'dist'
-            self.assertEqual(prep.render(output, 'https://example.test/tal'), 46)
-            self.assertEqual(prep.verify_rendered(output, 'https://example.test/tal'), 46)
+            self.assertEqual(prep.render(output, 'https://example.test/tal'), 47)
+            self.assertEqual(prep.verify_rendered(output, 'https://example.test/tal'), 47)
             for oldpath, newpath in RENAMED.items():
                 self.assertFalse((output / oldpath).exists())
                 rendered = json.loads((output / newpath).read_text())

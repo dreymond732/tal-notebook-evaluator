@@ -354,7 +354,7 @@
     },
     {
       "id": "CONTROLE_S1",
-      "notebook": "Notebooks contrôles finaux/DevoirS1.ipynb",
+      "notebook": "Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb",
       "semester": 1,
       "activity": "controle",
       "title": "Contrôle S1 : fondamentaux Python et TAL",

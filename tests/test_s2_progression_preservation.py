@@ -138,15 +138,15 @@ class S2Preservation(unittest.TestCase):
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
 
-    def test_six_active_distributions_change_only_final_url(self):
+    def test_seven_distributions_keep_active_deposit_and_inactive_control_offline(self):
         entries = [e for e in self.entries if e['active']]
         self.assertEqual(len(entries), 6)
         url = 'https://example.test/universite/tal'
         originals = {e['notebook']: (ROOT / e['notebook']).read_bytes() for e in entries}
         with tempfile.TemporaryDirectory() as temp, patch.object(prep, 'load_catalog', return_value=self.entries):
             output = Path(temp) / 'dist'
-            self.assertEqual(prep.render(output, url), 6)
-            self.assertEqual(prep.verify_rendered(output, url), 6)
+            self.assertEqual(prep.render(output, url), 7)
+            self.assertEqual(prep.verify_rendered(output, url), 7)
             for path, raw in originals.items():
                 with self.subTest(notebook=path):
                     self.assertEqual((ROOT / path).read_bytes(), raw)
@@ -157,7 +157,13 @@ class S2Preservation(unittest.TestCase):
                     self.assertEqual(original, rendered)
                     self.assertNotIn(url.encode(), raw)
             inactive = next(e for e in self.entries if not e['active'])
-            self.assertFalse((output / inactive['notebook']).exists())
+            self.assertTrue((output / inactive['notebook']).is_file())
+            original_inactive = json.loads((ROOT / inactive['notebook']).read_text())
+            self.assertEqual(original_inactive['cells'].pop(), prep.submission_cell())
+            rendered_inactive = json.loads((output / inactive['notebook']).read_text())
+            self.assertEqual(rendered_inactive['cells'].pop(), prep.saving_cell())
+            self.assertEqual(rendered_inactive, original_inactive)
+            self.assertNotIn(url, json.dumps(rendered_inactive))
 
     def test_practice_interpretations_reach_safe_human_report_without_scoring(self):
         from app import create_app

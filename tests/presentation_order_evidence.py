@@ -17,9 +17,17 @@ RENAMED = {
 }
 
 
+S1_FINAL_RENAMED = {
+    'Notebooks contrôles finaux/DevoirS1.ipynb':
+        'Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb',
+}
+
+
 def s1_current_path(path):
     """Translate only current S1 source paths; frozen fixture keys stay intact."""
     import re
+    if path in S1_FINAL_RENAMED:
+        return S1_FINAL_RENAMED[path]
     if not path.startswith("Notebooks TD/S1/"):
         return path
     path = re.sub(r"TD([1-7])_S1_([^/]+\.ipynb)",
@@ -35,6 +43,9 @@ def s1_current_path(path):
 def s1_legacy_path(path):
     """Inverse map for comparison against immutable historical fixtures."""
     import re
+    inverse_control = {current: old for old, current in S1_FINAL_RENAMED.items()}
+    if path in inverse_control:
+        return inverse_control[path]
     if not path.startswith("Notebooks TD/S1/"):
         return path
     def variant(match):

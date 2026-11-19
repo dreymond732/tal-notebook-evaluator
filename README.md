@@ -35,9 +35,29 @@ Télécharger le fichier HTML puis l’ouvrir dans un navigateur. Chaque diapora
 
 Le S3 utilise le lien Drive fourni par l’enseignant. Les dossiers Drive S1/S2 n’ayant pas été fournis, leurs titres ne contiennent pas de lien. Ces HTML sont distribués séparément des notebooks générés par `prepare_student_notebooks.py`.
 
+## Dossier unique de distribution
+
+Après `bash deploy.sh`, choisissez les fichiers à communiquer aux étudiants dans
+`dist/`. Les TD actifs et **tous les sujets de contrôle du catalogue** y sont
+préparés, y compris le contrôle final S2 dont le correcteur n'est pas activé.
+
+| Contenu | Emplacement dans `dist/` |
+|---|---|
+| TD par semestre | `Notebooks TD/S1/`, `Notebooks TD/S2/`, `Notebooks TD/S3/` |
+| DM et contrôle final S1 | `Notebooks contrôles finaux/S1/` |
+| Contrôles et DM S2 | `Notebooks contrôles finaux/S2/` |
+| Contrôles S3 | `Notebooks contrôles finaux/S3/` |
+
+Le contrôle final S1 s'appelle `Controle_final_S1_python.ipynb`.
+Les corrigés modèles restent dans `Corrigés modèles/`, hors de la distribution
+étudiante. Un sujet dont le dépôt n'est pas activé est exporté avec une consigne
+de sauvegarde et de remise par l'enseignant, sans lien de dépôt serveur. Sa présence
+dans `dist/` n'active aucun correcteur. La génération reste atomique et retire les
+anciens chemins gérés, dont `dist/Notebooks contrôles finaux/DevoirS1.ipynb`.
+
 ## Supports et distribution S2
 
-Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le contrôle final reste inactif. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
+Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le correcteur du contrôle final reste inactif, mais son sujet est inclus dans `dist/`. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
 
 ## 3. Organisation des dossiers
 
