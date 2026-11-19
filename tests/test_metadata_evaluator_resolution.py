@@ -1,6 +1,5 @@
 """Non-executing regression checks for cell metadata across evaluator families."""
 import copy
-import importlib
 import json
 from pathlib import Path
 import sys
@@ -16,10 +15,10 @@ from s3_audit import check_audit
 from s3_controls import check_control
 import outils
 import app_correction_controle_S1 as control_s1
-from notebook_contract import load_catalog
+from notebook_contract import ContractError, load_catalog, resolve_notebook
 from routes import EVALUATORS
 from test_td2_s1 import fixture as td2_fixture, grade as td2_grade
-from test_notebook_migration_integrity import REVISED_SUBJECTS, S1_RENAMED_SUBJECTS, original_s1_content
+from test_notebook_migration_integrity import REVISED_SUBJECTS, S1_RENAMED_SUBJECTS
 from s3_v2_fixture import notebook as v2_notebook
 
 
@@ -50,35 +49,30 @@ def control(cells):
 
 
 class MetadataResolutionTests(unittest.TestCase):
-    def test_all_migrated_subjects_keep_existing_scores_and_feedback(self):
-        # This is a migration regression for the 32 pre-contract subjects.
-        # New subjects have no legacy version; the thirty-one reviewed S1/S2/S3 v2
-        # revisions explicitly reject their old contract (tested separately).
+    def test_all_32_original_subjects_now_require_reviewed_contracts(self):
+        # All former legacy-compatible subjects have an approved revision now.
+        # Frozen historical fixtures stay untouched; current contracts reject
+        # unversioned copies rather than grading them with new expectations.
         baseline = json.loads((ROOT / 'tests/fixtures/notebook_migration_baseline.json').read_text())
         paths = set(baseline['active'])
         self.assertEqual(len(paths), 32)
-        paths -= set(REVISED_SUBJECTS)
-        self.assertEqual(len(paths), 1)
+        self.assertEqual(paths, set(REVISED_SUBJECTS))
         paths = {S1_RENAMED_SUBJECTS.get(path, path) for path in paths}
+        from presentation_order_evidence import current_path
+        paths = {current_path(path) for path in paths}
+        # S2 revisions have separately approved physical path changes.
+        from test_notebook_migration_integrity import S2_RENAMED_SUBJECTS
+        paths = {S2_RENAMED_SUBJECTS.get(path, path) for path in paths}
         entries = [entry for entry in load_catalog() if entry['notebook'] in paths]
         self.assertEqual({entry['notebook'] for entry in entries}, paths)
-        self.assertTrue(all(entry['active'] for entry in entries))
         for entry in entries:
             with self.subTest(evaluator=entry['evaluator']):
                 notebook = json.loads((ROOT / entry['notebook']).read_text())
-                legacy = (original_s1_content(notebook) if entry['notebook'] in S1_RENAMED_SUBJECTS.values()
-                          else copy.deepcopy(notebook))
+                self.assertEqual(resolve_notebook(notebook)['evaluator'], entry['evaluator'])
+                legacy = copy.deepcopy(notebook)
                 legacy.get('metadata', {}).pop('tal', None)
-                for item in legacy['cells']:
-                    item.get('metadata', {}).pop('tal', None)
-                evaluate = importlib.import_module(EVALUATORS[entry['evaluator']][1]).check_notebook
-                migrated_result = evaluate(json.dumps(notebook), 'renamed.ipynb')
-                legacy_result = evaluate(json.dumps(legacy), 'renamed.ipynb')
-                # Identification can now resolve a tagged cell whose historical
-                # comment did not match. Grading, feedback and errors must not vary.
-                self.assertEqual(migrated_result[:3], legacy_result[:3])
-                self.assertEqual(migrated_result[4], legacy_result[4])
-                self.assertEqual(migrated_result[3].get('score_brut'), legacy_result[3].get('score_brut'))
+                with self.assertRaisesRegex(ContractError, 'mauvaise version du notebook'):
+                    resolve_notebook(legacy, entry['evaluator'], require_metadata=False)
 
     def test_engine_same_result_with_metadata_and_no_execution(self):
         legacy = cell('raise RuntimeError("must not run")', 'Résultat Q1 : 3')

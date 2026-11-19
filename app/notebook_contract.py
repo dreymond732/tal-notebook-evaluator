@@ -30,6 +30,7 @@ STRICT_S2 = frozenset(S2_QUESTION_COUNTS)
 STRICT_V2 = STRICT_S3 | STRICT_S1 | STRICT_S2
 STRICT_V3 = frozenset({'td1b-s3'})
 STRICT_VERSIONED = STRICT_V2 | STRICT_V3
+VERSIONED_CONTROLS = {'Controletilt-s1': 30}
 CONTRACT_VERSIONS = {**dict.fromkeys(STRICT_V2, 2), **dict.fromkeys(STRICT_V3, 3)}
 QUESTION_COUNTS = {**S3_QUESTION_COUNTS, **S1_QUESTION_COUNTS, **S2_QUESTION_COUNTS, 'td1b-s3': 4}
 
@@ -144,7 +145,7 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
     metadata = _metadata(notebook)
     strict_versioned = any(entry['evaluator'] == expected_evaluator and entry['evaluator'] in STRICT_VERSIONED
                     for entry in load_catalog() if entry['active']) if expected_evaluator else False
-    require_metadata = require_metadata or strict_versioned
+    require_metadata = require_metadata or strict_versioned or expected_evaluator in VERSIONED_CONTROLS
     if (require_metadata or 'tal' in metadata) and not isinstance(notebook.get('cells'), list):
         raise ContractError('Le notebook doit contenir une liste de cellules.')
     if 'tal' not in metadata:
@@ -172,6 +173,8 @@ def resolve_notebook(notebook, expected_evaluator=None, require_metadata=True):
         if 'evaluator' not in contract:
             raise ContractError(WRONG_VERSION)
         _strict_cell_contract(notebook, entry['id'], HUMAN_REVIEW_QUESTION_COUNTS)
+    elif entry['evaluator'] in VERSIONED_CONTROLS:
+        _strict_cell_contract(notebook, entry['evaluator'], VERSIONED_CONTROLS)
     elif entry['evaluator'] in STRICT_VERSIONED:
         _strict_cell_contract(notebook, entry['evaluator'])
     else:
