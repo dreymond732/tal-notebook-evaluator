@@ -11,8 +11,8 @@ par `HYBRID_RUBRIC_VERSION=2`.
   sont les mêmes que précédemment, sans exécuter le code étudiant.
 - **2,25 points humains** pour Q2 (0,5), Q6 (0,5), Q12 (0,25),
   Q14 (0,5), Q17 (0,5).
-- **20 points finaux** après validation de toutes les notes et
-  appréciations. Avant validation, l'étudiant ne voit **que**
+- **20 points finaux** après validation des cinq notes humaines.
+  Les appréciations sont facultatives. Avant validation, l'étudiant ne voit **que**
   la note automatique sur 17,75 et la mention « en attente ».
 - La répartition exacte est appliquée **par question**, pas par un
   coefficient uniforme sur le score historique sur 20.
@@ -64,11 +64,18 @@ le code et les sorties réellement enregistrés, le score automatique
 de la question, puis deux champs de saisie :
 - score humain entre zéro et le maximum propre à la question,
   deux décimales maximum ;
-- appréciation textuelle, 4 000 caractères maximum.
+- appréciation textuelle facultative, 4 000 caractères maximum.
 
 Le bouton « Enregistrer le brouillon » conserve une fiche inachevée.
-« Valider et publier » exige les cinq notes **et** les cinq
-appréciations. La validation n'est pas réversible depuis la page.
+« Valider et publier » exige les cinq notes, y compris une note de zéro si
+nécessaire. Les appréciations sont **facultatives** (correctif demandé le
+19 novembre 2026). Points et virgules sont acceptés comme séparateurs décimaux.
+En cas d'erreur, la fiche réaffiche toutes les valeurs saisies et signale les
+champs à corriger, sans modifier le brouillon enregistré ni publier de note.
+Après validation réussie, le retour se fait vers la liste : états « À corriger »,
+« Brouillon » ou « Validée », score automatique /17,75, correction /2,25 et
+note finale /20. La note finale reste « En attente » avant validation.
+La validation n'est pas réversible depuis la page.
 L'enregistrement et le redépôt sont sérialisés avec
 `progression_lock`. Une session enseignante valide et le CSRF
 sont obligatoires.
@@ -111,7 +118,7 @@ ne reçoit aucun nom de fichier ni chemin de stockage.
 - Pour le **DM intermédiaire S1**, le serveur rend le bilan filtré
   depuis la dernière copie active en base privée ; il ne diffuse
   jamais le rapport enseignant, qui contient d'autres informations.
-  Après validation, les cinq appréciations et le score final
+  Après validation, les appréciations éventuelles et le score final
   apparaissent immédiatement sur cette route.
 - Les **contrôles sommatifs**, les rapports des autres étudiants,
   les fichiers bruts `.ipynb` et les rapports enseignants restent privés.
@@ -167,3 +174,12 @@ synthétiques et un stockage temporaire.
 - Le dépôt initial du DM, comme précédemment, ne constitue pas
   une authentification étudiante. Le redépôt, lui, nécessite
   une session individuelle confirmée.
+
+## Mise à jour du formulaire de correction (19 novembre 2026)
+
+Le correctif du formulaire ne change ni le schéma SQLite, ni le barème, ni les
+notes et brouillons déjà enregistrés. Il ne récupère pas les saisies qui avaient
+été refusées et perdues avant son installation. Les tests utilisent des copies
+synthétiques et une base temporaire : aucune copie réelle n'est validée par les
+tests. Après fusion, reconstruire le service avec la procédure ci-dessus ; une
+actualisation du navigateur seule ne met pas à jour le code serveur.
