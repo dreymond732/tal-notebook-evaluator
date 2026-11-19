@@ -129,9 +129,9 @@ def active_sources(root=ROOT):
 
 
 def distribution_sources(root=ROOT):
-    """Exporter les TD actifs et tous les sujets de contrôle du catalogue."""
+    """Exporter la progression courante, sans les éditions archivées."""
     for entry in load_catalog():
-        if entry["active"] or entry["mode"] == "controle":
+        if not entry.get("archived", False) and (entry["active"] or entry["mode"] == "controle"):
             yield entry, root / entry["notebook"]
 
 

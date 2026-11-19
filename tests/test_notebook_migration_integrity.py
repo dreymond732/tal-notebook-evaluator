@@ -16,7 +16,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
-from presentation_order_evidence import current_path as presentation_path, s1_current_path, before_title_move, parent_raw
+from presentation_order_evidence import current_path as presentation_path, s1_current_path, before_title_move, parent_raw, archive_current_path, archive_legacy_path
 import routes
 from prepare_student_notebooks import submission_cell
 
@@ -120,7 +120,7 @@ def original_s1_content(notebook):
     old_path = f"Notebooks TD/S1/TD{number}_S1_python_texte.ipynb"
     session = original["metadata"]["tal_tutor"]["session"]
     if session["notebook"] not in {S1_RENAMED_SUBJECTS[old_path],
-                                   s1_current_path(S1_RENAMED_SUBJECTS[old_path])}:
+                                   archive_legacy_path(s1_current_path(S1_RENAMED_SUBJECTS[old_path]))}:
         raise AssertionError("The tutor session must point to the renamed subject")
     session["notebook"] = old_path
     # At the frozen revision only the first tutor cell already had an ID.
@@ -262,7 +262,7 @@ class MigrationIntegrityTests(unittest.TestCase):
             if path in S2_RENAMED_SUBJECTS:
                 continue
             with self.subTest(notebook=path):
-                self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected)
+                self.assertEqual(hashlib.sha256((ROOT / archive_current_path(path)).read_bytes()).hexdigest(), expected)
 
     def test_baseline_catalog_tutors_and_registry_cover_the_same_assessments(self):
         active = [entry for entry in self.catalog if entry["active"]]
@@ -272,19 +272,32 @@ class MigrationIntegrityTests(unittest.TestCase):
         current_original_paths = {s1_current_path(S2_RENAMED_SUBJECTS.get(path, S1_RENAMED_SUBJECTS.get(path, path))) for path in self.baseline["active"]}
         self.assertEqual({presentation_path(p) for p in current_original_paths | ADDED_ACTIVE_SUBJECTS | SWINNEN_SUBJECTS},
                          {e["notebook"] for e in active})
-        self.assertEqual({S2_RENAMED_SUBJECTS.get(path, path) for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS,
+        archived = [entry for entry in self.catalog if entry.get("archived", False)]
+        self.assertEqual({entry["id"] for entry in archived},
+                         {f"td{number}-s1" for number in (3, 4, 5, 6)})
+        self.assertTrue(all(entry["active"] for entry in archived))
+        self.assertEqual({archive_current_path(S2_RENAMED_SUBJECTS.get(path, path))
+                          for path in self.baseline["unchanged"]} | ADDED_EXCLUDED_NOTEBOOKS
+                         | {entry["notebook"] for entry in archived},
                          {e["notebook"] for e in inactive} |
                          {e["notebook"] for e in self.tutors["excluded_notebooks"]})
         # A separately authorized revision edition reuses the original DM's
         # assessment contract; it adds tutoring, not a second evaluator.
         revision_path = "Notebooks contrôles finaux/S1/devoir_S1_tuteur.ipynb"
-        self.assertEqual({e["notebook"] for e in self.catalog} | {revision_path},
+        self.assertEqual({e["notebook"] for e in self.catalog if not e.get("archived", False)} | {revision_path},
                          {e["notebook"] for e in self.tutors["sessions"]})
         sessions = {e["id"]: e for e in self.tutors["sessions"]}
         self.assertEqual(sessions["devoir_S1_tuteur"]["notebook"], revision_path)
         self.assertEqual(sessions["devoir_S1_tuteur"]["tutor_profile"], "devoir_S1_tuteur")
         for entry in self.catalog:
             with self.subTest(subject=entry["id"]):
+                if entry.get("archived", False):
+                    # Archived source contexts remain byte-identical, excluded
+                    # from synchronization while their grader stays registered.
+                    self.assertNotIn(entry["tutor_session"], sessions)
+                    self.assertIn(entry["notebook"],
+                                  {e["notebook"] for e in self.tutors["excluded_notebooks"]})
+                    continue
                 tutor = sessions[entry["tutor_session"]]
                 self.assertEqual(entry["notebook"], tutor["notebook"])
                 self.assertEqual(entry["semester"], f'S{tutor["semester"]}')

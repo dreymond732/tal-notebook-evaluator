@@ -1,20 +1,17 @@
-# TD S1 : identification et distribution
+# Distribution de la progression courante
 
-Les sept TD S1 sont renommés selon leur contenu, conformément à la matrice
-[du Prof](pedagogy/s1_td_review_distribution.md). Le catalogue conserve les
-identifiants `td1-s1` à `td7-s1`, les mêmes évaluateurs, versions de contrat et
-barèmes. L'identification du correcteur repose sur les métadonnées, pas sur le
-nom téléchargé. Les autres supports ne sont pas renommés.
+Le S1 comporte quinze cahiers de TD en vigueur : TD1, TD2, les trois cahiers
+A/B/C pour chacun des TD3 à TD6, puis TD7. Le [parcours détaillé](../Notebooks%20TD/S1/README.md)
+indique leur ordre. Les quatre anciennes synthèses TD3 à TD6 et les anciens
+corrigés sont regroupés dans [`historique/`](../historique/README.md), sans
+modification de leurs octets. Ils ne sont ni mélangés aux dossiers de semestre,
+ni exportés par le déploiement.
 
-| TD | Fichier dans `Notebooks TD/S1/` |
-|---|---|
-| 1 | `S1_TD1_variables_types.ipynb` |
-| 2 | `S1_TD2_chaines_sequences.ipynb` |
-| 3 | `S1_TD3_collections.ipynb` |
-| 4 | `S1_TD4_boucles_conditions_comptages.ipynb` |
-| 5 | `S1_TD5_fonctions_reutilisation.ipynb` |
-| 6 | `S1_TD6_fichiers_csv.ipynb` |
-| 7 | `S1_TD7_expressions_regulieres_pipeline.ipynb` |
+Leurs identifiants de correction restent reconnus pour les copies déjà
+commencées. Ce rangement ne modifie aucun barème ni résultat enregistré et ne
+change pas les fonctions de consolidation du suivi. Les liens du menu étudiant
+présentent seulement les supports courants ; les routes directes historiques
+restent disponibles.
 
 ## Cellule source et adresse injectée
 
@@ -90,9 +87,9 @@ Le DM reste dans le même sous-dossier S1. Les contrôles S2 et S3 sont rangés 
 leurs sous-dossiers respectifs.
 
 La sélection de distribution est distincte de l'activation d'un correcteur :
-`distribution_sources()` inclut les TD actifs et tous les sujets de contrôle
-inscrits au catalogue. Le lot actuel comprend **47 notebooks**, pour **46
-évaluateurs actifs**. Le contrôle final S2 est ainsi disponible dans `dist/`
+`distribution_sources()` exclut les entrées `archived: true`, puis inclut les TD
+courants et tous les sujets de contrôle courants du catalogue. Le lot actuel
+comprend **43 notebooks**, pour **46 évaluateurs actifs**. Le contrôle final S2 est ainsi disponible dans `dist/`
 sans modifier son état inactif ni ouvrir un dépôt.
 
 Pour ce sujet sans dépôt actif, la cellule finale de restitution est remplacée,
@@ -102,9 +99,9 @@ Il n'y a ni adresse de dépôt ni marqueur non remplacé dans cette copie. Les
 questions, données, identifiants et consignes du tuteur sont conservés. Les
 sources restent identiques et les corrigés modèles ne sont jamais exportés.
 
-L'ancien manifeste de 46 fichiers reste reconnu : une nouvelle génération
-remplace la distribution complète, retire l'ancien chemin S1 à la racine et
-ajoute le final S2. Les fichiers étrangers à une distribution gérée restent
+Les anciens manifestes de 46 ou 47 fichiers restent reconnus : une nouvelle
+génération retire les quatre synthèses remplacées, range le contrôle S1 dans
+son semestre et conserve le final S2, pour un total de 43 fichiers courants. Les fichiers étrangers à une distribution gérée restent
 protégés par le refus de remplacement ; aucun dossier de soumissions n'est lu
 ou déplacé pour cette opération.
 
@@ -119,12 +116,28 @@ n'effectue aucun déploiement réel. Le code exécuté pour contrôler le HTML e
 uniquement le gabarit de confiance produit par le générateur ; aucun code de
 notebook étudiant n'est exécuté par le serveur ou par ces tests.
 
-## Renforcement Swinnen des TD3, TD5 et TD6
+## Historique du renforcement Swinnen des TD3, TD5 et TD6
 
-Le parcours utilise désormais treize cahiers TD, avec trois unités one → bis → ter pour chacun de ces thèmes. Les neuf nouveaux cahiers ont des contrats v2 distincts ; les trois anciens contrats restent disponibles pour les copies déjà distribuées. Le sélecteur affiche ces derniers comme synthèses historiques. Voir `Notebooks TD/S1/README.md` pour les fichiers exacts et `pedagogy/s1-swinnen-expansion.md` pour la matrice de couverture.
+Lors de cette étape, le parcours comportait treize cahiers TD, avec trois unités one → bis → ter pour chacun de ces thèmes. Les neuf nouveaux cahiers ont des contrats v2 distincts ; les trois anciens contrats restent disponibles pour les copies déjà distribuées. Ces anciens sujets sont désormais dans `historique/`, hors du sélecteur courant. Voir `Notebooks TD/S1/README.md` pour les fichiers exacts et `pedagogy/s1-swinnen-expansion.md` pour la matrice de couverture.
 
 Chaque nouveau cahier contient ses attributions et une annexe repliable avec la notice, la préface et la licence intégrale de Swinnen (CC BY-NC-SA 2.0 France). Elle reste incluse dans chaque fichier distribué ; les adaptations pédagogiques ne sont pas placées sous la licence GPL du code serveur. Les cahiers sont générés par la même commande de distribution, sans modification manuelle de `dist/`.
 
-## Extension du parcours renforcé au TD4
+## Historique de l’extension du parcours renforcé au TD4
 
-Le TD4 suit désormais la même progression one → bis → ter : conditions et filtres, bornes et répétitions, comptages et compréhensions. Les trois sujets possèdent leurs contrats `td4-one-s1`, `td4-bis-s1`, `td4-ter-s1` en version 2 et un correcteur de six points chacun. Le sujet historique `td4-s1` et son barème restent compatibles avec les copies déjà distribuées. La progression actuelle comprend quinze cahiers de TD hors DM/contrôles ; les quatre synthèses historiques restent accessibles séparément. Matrice et références : `pedagogy/s1-td4-swinnen.md`.
+Lors de cette extension, le TD4 a été décliné selon la même progression en trois cahiers : conditions et filtres, bornes et répétitions, comptages et compréhensions. Les trois sujets possèdent leurs contrats `td4-one-s1`, `td4-bis-s1`, `td4-ter-s1` en version 2 et un correcteur de six points chacun. Le sujet historique `td4-s1` et son barème restent compatibles avec les copies déjà distribuées. La progression actuelle comprend quinze cahiers de TD hors DM/contrôles ; les quatre synthèses historiques restent accessibles séparément. Matrice et références : `pedagogy/s1-td4-swinnen.md`.
+
+## État d’archive et vérifications
+
+Le champ de catalogue `archived` est booléen et doit correspondre à un chemin
+commençant par `historique/`. Les archives conservent leurs métadonnées
+embarquées d'origine comme provenance et leurs contrats de correction. Les
+quatre anciens profils du tuteur sont classés comme exclusions figées, sans
+synchronisation ni réécriture ; les profils des supports courants sont conservés.
+Le recensement du tuteur inclut aussi `historique/` pour empêcher l'oubli d'une
+archive, y compris celles dont le JSON était déjà tronqué.
+
+Les tests comparent les douze fichiers à des empreintes extraites du parent Git
+antérieur à l'archivage. Ils vérifient aussi les quinze cahiers S1 courants, les
+43 fichiers générés, les anciennes routes, l'absence d'archives dans `dist/` et
+la migration des anciennes distributions. Les fixtures historiques antérieures
+ne sont pas recalculées.

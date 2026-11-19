@@ -55,6 +55,10 @@ def load_catalog():
                 or not isinstance(entry.get('notebook'), str)
                 or not entry['notebook'] or entry['notebook'] in paths):
             raise ValueError('Entrée du catalogue TAL invalide ou dupliquée.')
+        archived = entry.get('archived', False)
+        if (type(archived) is not bool
+                or entry['notebook'].startswith('historique/') != archived):
+            raise ValueError('Statut d’archive incohérent avec le chemin du notebook.')
         evaluator = entry.get('evaluator')
         assessment = entry.get('assessment', 'automatic')
         if assessment not in {'automatic', 'human_review'}:

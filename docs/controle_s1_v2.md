@@ -24,7 +24,7 @@ Le corrigé actuel est produit indépendamment depuis le sujet v2 dans :
 
 `Corrigés modèles/Contrôles finaux/controle-s1-v2/Controle_S1_v2_corrige_non_execute.ipynb`.
 
-Sa lecture préalable par question figure dans `lecture_etudiante.md`. Ce corrigé est exclu de la distribution. Il reste sans sorties enregistrées et n'a pas été exécuté dans Colab. Le fichier historique `Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb` est conservé pour l'ancien sujet v1 ; il ne constitue pas le corrigé du contrôle révisé.
+Sa lecture préalable par question figure dans `lecture_etudiante.md`. Ce corrigé est exclu de la distribution. Il reste sans sorties enregistrées et n'a pas été exécuté dans Colab. Le fichier historique `historique/Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb` est conservé pour l'ancien sujet v1 ; il ne constitue pas le corrigé du contrôle révisé.
 
 Après fusion, reconstruire la distribution via la procédure habituelle du dépôt et redistribuer le **nouveau sujet v2**, plutôt que modifier les métadonnées des anciennes copies. La présente modification n'est ni une fusion ni un déploiement du serveur.
 

@@ -9,15 +9,22 @@ sys.path.insert(0, str(ROOT / "app"))
 
 from notebook_contract import load_catalog, resolve_notebook
 from routes import EVALUATORS
+from presentation_order_evidence import archive_legacy_path
 from storage_layout import storage_id, legacy_storage_id
 
 
 class S1NomenclatureTests(unittest.TestCase):
-    def test_nineteen_subjects_use_semester_first_and_keep_contract_ids(self):
+    def test_fifteen_current_subjects_and_four_archives_keep_contract_ids(self):
         items = [entry for entry in load_catalog()
                  if entry["semester"] == "S1"
-                 and entry["notebook"].startswith("Notebooks TD/S1/")]
+                 and entry["mode"] == "td"]
         self.assertEqual(len(items), 19)
+        current = [item for item in items if not item.get("archived", False)]
+        archived = [item for item in items if item.get("archived", False)]
+        self.assertEqual(len(current), 15)
+        self.assertEqual({item["id"] for item in archived}, {f"td{number}-s1" for number in (3, 4, 5, 6)})
+        self.assertTrue(all(item["notebook"].startswith("Notebooks TD/S1/") for item in current))
+        self.assertTrue(all(item["notebook"].startswith("historique/Notebooks TD/S1/") for item in archived))
         self.assertEqual(len({entry["notebook"] for entry in items}), 19)
         for item in items:
             with self.subTest(item=item["id"]):
@@ -30,7 +37,7 @@ class S1NomenclatureTests(unittest.TestCase):
                 })
                 self.assertEqual(resolve_notebook(nb), item)
                 self.assertEqual(nb["metadata"]["tal_tutor"]["session"]["notebook"],
-                                 item["notebook"])
+                                 archive_legacy_path(item["notebook"]))
                 first_heading = "".join(nb["cells"][0]["source"]).splitlines()[0]
                 self.assertTrue(first_heading.startswith("# S1 — TD"),
                                 first_heading)

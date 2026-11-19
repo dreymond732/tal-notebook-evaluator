@@ -23,13 +23,40 @@ S1_FINAL_RENAMED = {
 }
 
 
+# Explicit archive inventory: old keys in frozen fixtures are never rewritten.
+ARCHIVED_SOURCE_PATHS = frozenset({
+    'Notebooks TD/S1/S1_TD3_collections.ipynb',
+    'Notebooks TD/S1/S1_TD4_boucles_conditions_comptages.ipynb',
+    'Notebooks TD/S1/S1_TD5_fonctions_reutilisation.ipynb',
+    'Notebooks TD/S1/S1_TD6_fichiers_csv.ipynb',
+    'Notebooks TD/TD2 - S2 - Corrigé.ipynb',
+    'Notebooks TD/TD3 - S2 - Corrigé.ipynb',
+    'Notebooks TD/TD4_S2-corrigé.ipynb',
+    'Notebooks TD/TD5_S2-corrigé.ipynb',
+    'Notebooks TD/TD6_S2-corrigé.ipynb',
+    'Notebooks TD/devoirMaisonS2-corrigé.ipynb',
+    'Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb',
+    'Notebooks contrôles finaux/DevoirS2.ipynb',
+})
+
+
+def archive_current_path(path):
+    """Locate only explicitly archived notebooks, without changing their bytes."""
+    return 'historique/' + path if path in ARCHIVED_SOURCE_PATHS else path
+
+
+def archive_legacy_path(path):
+    original = path.removeprefix('historique/')
+    return original if original in ARCHIVED_SOURCE_PATHS else path
+
+
 def s1_current_path(path):
     """Translate only current S1 source paths; frozen fixture keys stay intact."""
     import re
     if path in S1_FINAL_RENAMED:
         return S1_FINAL_RENAMED[path]
     if not path.startswith("Notebooks TD/S1/"):
-        return path
+        return archive_current_path(path)
     path = re.sub(r"TD([1-7])_S1_([^/]+\.ipynb)",
                   lambda m: f"S1_TD{m[1]}_{m[2]}", path)
     def variant(match):
@@ -37,12 +64,13 @@ def s1_current_path(path):
         v = {"one": "A", "bis": "B", "ter": "C"}[label]
         return f"S1_TD{n}_{v}_{detail}"
     path = re.sub(r"TD([3-6])-(one|bis|ter)_S1_([^/]+\.ipynb)", variant, path)
-    return path
+    return archive_current_path(path)
 
 
 def s1_legacy_path(path):
     """Inverse map for comparison against immutable historical fixtures."""
     import re
+    path = archive_legacy_path(path)
     inverse_control = {current: old for old, current in S1_FINAL_RENAMED.items()}
     if path in inverse_control:
         return inverse_control[path]

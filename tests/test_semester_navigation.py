@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'app'))
 from app import create_app
 import outils
 import routes
+from notebook_contract import load_catalog
 
 
 class SemesterNavigationTests(unittest.TestCase):
@@ -30,7 +31,7 @@ class SemesterNavigationTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         return BeautifulSoup(response.data, 'html.parser')
 
-    def test_home_then_semester_lists_reach_every_evaluator_once(self):
+    def test_home_then_semester_lists_reach_current_evaluators_once(self):
         for prefix in ('', '/universite/tal'):
             with self.subTest(prefix=prefix):
                 home = self.page('/', prefix)
@@ -38,7 +39,7 @@ class SemesterNavigationTests(unittest.TestCase):
                                  [prefix + '/semestre/' + s for s in ('S1', 'S2', 'S3')])
                 self.assertFalse(home.select('a[href*="/eval/"]'))
                 reached = []
-                for semester, count in [('S1', 21), ('S2', 6), ('S3', 19)]:
+                for semester, count in [('S1', 17), ('S2', 6), ('S3', 19)]:
                     page = self.page('/semestre/' + semester, prefix)
                     self.assertIn(semester, page.h1.text)
                     self.assertEqual(page.select_one('nav a')['href'], prefix + '/')
@@ -51,7 +52,9 @@ class SemesterNavigationTests(unittest.TestCase):
                         # Vérification indépendante à partir du module existant.
                         self.assertTrue(routes.EVALUATORS[name][1].endswith(semester))
                         reached.append(name)
-                self.assertCountEqual(reached, routes.EVALUATORS)
+                archived = {entry['evaluator'] for entry in load_catalog() if entry.get('archived', False)}
+                self.assertEqual(archived, {f'td{number}-s1' for number in (3, 4, 5, 6)})
+                self.assertCountEqual(reached, set(routes.EVALUATORS) - archived)
 
     def test_all_historical_get_routes_import_and_return_to_their_semester(self):
         prefix = '/universite/tal'

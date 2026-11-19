@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / 'app'))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import prepare_student_notebooks as prep
 from test_notebook_migration_integrity import S2_RENAMED_SUBJECTS
-from presentation_order_evidence import before_title_move, parent_raw, SNAPSHOT
+from presentation_order_evidence import before_title_move, parent_raw, SNAPSHOT, archive_current_path
 
 BASELINE = ROOT / 'tests/fixtures/s2_complete_review_source_baseline.json'
 COUNTS = {'td3-S2': 30, 'td5-S2': 25, 'td6-S2': 10, 'td2-S2': 13,
@@ -134,7 +134,7 @@ class S2Preservation(unittest.TestCase):
             # their current cell/code preservation is checked independently.
             raw = (editorial_subjects[path].encode() if path in editorial_subjects
                    else parent_raw(path).encode() if path in presentation_subjects
-                   else (ROOT / path).read_bytes())
+                   else (ROOT / archive_current_path(path)).read_bytes())
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
 

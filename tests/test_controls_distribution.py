@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / 'app'))
 import prepare_student_notebooks as prep
 from notebook_contract import ContractError, load_catalog, resolve_notebook
 from app import create_app
+from presentation_order_evidence import archive_legacy_path
 
 NEW_S1 = 'Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb'
 OLD_S1 = 'Notebooks contrôles finaux/DevoirS1.ipynb'
@@ -30,10 +31,11 @@ class AllControlsDistributionTests(unittest.TestCase):
         entries = load_catalog()
         original = {p: p.read_bytes() for _, p in prep.distribution_sources()}
         self.assertEqual(len(list(prep.active_sources())), 46)
-        self.assertEqual(prep.render(self.output, self.url), 47)
-        self.assertEqual(prep.verify_rendered(self.output, self.url), 47)
+        self.assertEqual(prep.render(self.output, self.url), 43)
+        self.assertEqual(prep.verify_rendered(self.output, self.url), 43)
         self.assertEqual({p.relative_to(self.output).as_posix() for p in self.output.rglob('*.ipynb')},
-                         {e['notebook'] for e in entries if e['active'] or e['mode'] == 'controle'})
+                         {e['notebook'] for e in entries
+                          if not e.get('archived', False) and (e['active'] or e['mode'] == 'controle')})
         for e in entries:
             if e['mode'] == 'controle':
                 self.assertTrue((self.output / e['notebook']).is_file())
@@ -41,6 +43,7 @@ class AllControlsDistributionTests(unittest.TestCase):
         self.assertFalse((self.output / OLD_S1).exists())
         self.assertFalse((ROOT / OLD_S1).exists())
         self.assertFalse((self.output / 'Corrigés modèles').exists())
+        self.assertFalse((self.output / 'historique').exists())
         for path, raw in original.items():
             self.assertEqual(path.read_bytes(), raw)
 
@@ -67,20 +70,47 @@ class AllControlsDistributionTests(unittest.TestCase):
             self.assertEqual(response.status_code, 400)
             persist.assert_not_called()
 
-    def test_previous_46_file_manifest_migrates_and_removes_old_s1_path(self):
-        prep.render(self.output, self.url)
-        (self.output / NEW_S1).rename(self.output / OLD_S1)
-        (self.output / FINAL_S2).unlink()
-        marker = self.output / prep.MANIFEST
-        manifest = json.loads(marker.read_text())
-        manifest['notebooks'] = [OLD_S1 if p == NEW_S1 else p for p in manifest['notebooks'] if p != FINAL_S2]
-        self.assertEqual(len(manifest['notebooks']), 46)
-        marker.write_text(json.dumps(manifest))
-        self.assertEqual(prep.render(self.output, self.url), 47)
-        self.assertFalse((self.output / OLD_S1).exists())
-        self.assertTrue((self.output / NEW_S1).is_file())
-        self.assertTrue((self.output / FINAL_S2).is_file())
-        self.assertEqual(prep.verify_rendered(self.output, self.url), 47)
+    def test_previous_46_or_47_file_manifests_remove_compatibility_copies(self):
+        archived = [entry for entry in load_catalog() if entry.get('archived', False)]
+        self.assertEqual({entry['id'] for entry in archived},
+                         {f'td{number}-s1' for number in (3, 4, 5, 6)})
+        for old_count in (46, 47):
+            with self.subTest(previous_count=old_count):
+                prep.render(self.output, self.url)
+                marker = self.output / prep.MANIFEST
+                manifest = json.loads(marker.read_text())
+                self.assertEqual(len(manifest['notebooks']), 43)
+                # Recreate the former four distributed syntheses at their exact
+                # original paths, preserving a realistic 47-file managed tree.
+                former_paths = []
+                for entry in archived:
+                    former = archive_legacy_path(entry['notebook'])
+                    former_paths.append(former)
+                    target = self.output / former
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    notebook = json.loads((ROOT / entry['notebook']).read_text())
+                    target.write_text(json.dumps(prep.distributable(notebook, self.url)))
+                manifest['notebooks'].extend(former_paths)
+                if old_count == 46:
+                    # The earlier deployment also used the pre-rename S1 path
+                    # and did not yet distribute the inactive final S2 control.
+                    (self.output / NEW_S1).rename(self.output / OLD_S1)
+                    (self.output / FINAL_S2).unlink()
+                    manifest['notebooks'] = [OLD_S1 if path == NEW_S1 else path
+                                             for path in manifest['notebooks'] if path != FINAL_S2]
+                self.assertEqual(len(manifest['notebooks']), old_count)
+                self.assertEqual({path.relative_to(self.output).as_posix()
+                                  for path in self.output.rglob('*.ipynb')},
+                                 set(manifest['notebooks']))
+                marker.write_text(json.dumps(manifest))
+                self.assertEqual(prep.render(self.output, self.url), 43)
+                self.assertFalse((self.output / OLD_S1).exists())
+                self.assertTrue((self.output / NEW_S1).is_file())
+                self.assertTrue((self.output / FINAL_S2).is_file())
+                for former in former_paths:
+                    self.assertFalse((self.output / former).exists())
+                self.assertFalse((self.output / 'historique').exists())
+                self.assertEqual(prep.verify_rendered(self.output, self.url), 43)
 
     def test_inactive_source_identity_is_checked_before_replacing_distribution(self):
         entry = next(e for e in load_catalog() if e['notebook'] == FINAL_S2)
