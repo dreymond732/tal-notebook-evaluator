@@ -28,7 +28,7 @@
       "active": true,
       "semester": "S1",
       "mode": "controle",
-      "notebook": "Notebooks contrôles finaux/DevoirS1.ipynb",
+      "notebook": "Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb",
       "tutor_session": "CONTROLE_S1"
     },
     {
@@ -48,8 +48,9 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD3_collections.ipynb",
-      "tutor_session": "TD3_S1"
+      "notebook": "historique/Notebooks TD/S1/S1_TD3_collections.ipynb",
+      "tutor_session": "TD3_S1",
+      "archived": true
     },
     {
       "id": "td4-s1",
@@ -58,8 +59,9 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD4_boucles_conditions_comptages.ipynb",
-      "tutor_session": "TD4_S1"
+      "notebook": "historique/Notebooks TD/S1/S1_TD4_boucles_conditions_comptages.ipynb",
+      "tutor_session": "TD4_S1",
+      "archived": true
     },
     {
       "id": "td5-s1",
@@ -68,8 +70,9 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD5_fonctions_reutilisation.ipynb",
-      "tutor_session": "TD5_S1"
+      "notebook": "historique/Notebooks TD/S1/S1_TD5_fonctions_reutilisation.ipynb",
+      "tutor_session": "TD5_S1",
+      "archived": true
     },
     {
       "id": "td6-s1",
@@ -78,8 +81,9 @@
       "active": true,
       "semester": "S1",
       "mode": "td",
-      "notebook": "Notebooks TD/S1/S1_TD6_fichiers_csv.ipynb",
-      "tutor_session": "TD6_S1"
+      "notebook": "historique/Notebooks TD/S1/S1_TD6_fichiers_csv.ipynb",
+      "tutor_session": "TD6_S1",
+      "archived": true
     },
     {
       "id": "td7-s1",

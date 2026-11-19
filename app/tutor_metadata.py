@@ -16,7 +16,7 @@ import uuid
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/pedagogy/tutor_sessions.json"
 POLICY_VERSION = "2.0"
-SUBJECT_DIRS = ("Notebooks TD", "Notebooks contrôles finaux", "Corrigés modèles")
+SUBJECT_DIRS = ("Notebooks TD", "Notebooks contrôles finaux", "Corrigés modèles", "historique")
 CELL_ID = "tal-tutor-instructions"
 CELL_START = "TAL_TUTOR_CONTEXT_START"
 CELL_END = "TAL_TUTOR_CONTEXT_END"

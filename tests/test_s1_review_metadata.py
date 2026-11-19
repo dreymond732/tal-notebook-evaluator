@@ -22,7 +22,7 @@ from notebook_contract import load_catalog, resolve_notebook, validate_cell_meta
 from prepare_student_notebooks import submission_cell
 from routes import EVALUATORS
 from test_notebook_migration_integrity import S1_RENAMED_SUBJECTS, SWINNEN_SUBJECTS
-from presentation_order_evidence import s1_current_path
+from presentation_order_evidence import s1_current_path, archive_legacy_path
 from test_td2_s1 import SOURCES as TD2_SOURCES, OUTPUTS as TD2_OUTPUTS
 
 # Independent, nonzero Q1 probes for all seven real evaluators. Subsequent
@@ -61,10 +61,14 @@ def observed_copy(number, notebook):
 class S1ReviewTests(unittest.TestCase):
     def test_seven_names_root_contracts_and_all_45_question_cells(self):
         self.assertEqual(len(S1_RENAMED_SUBJECTS), 7)
-        expected = ({Path(s1_current_path(path)).name for path in S1_RENAMED_SUBJECTS.values()}
-                    | {Path(path).name for path in SWINNEN_SUBJECTS})
+        expected = ({s1_current_path(path) for path in S1_RENAMED_SUBJECTS.values()}
+                    | SWINNEN_SUBJECTS)
         self.assertEqual(len(expected), 19)
-        self.assertEqual({p.name for p in (ROOT / 'Notebooks TD/S1').glob('*.ipynb')}, expected)
+        current = {path for path in expected if not path.startswith('historique/')}
+        archived = expected - current
+        self.assertEqual((len(current), len(archived)), (15, 4))
+        self.assertEqual({p.relative_to(ROOT).as_posix() for p in (ROOT / 'Notebooks TD/S1').glob('*.ipynb')}, current)
+        self.assertEqual({p.relative_to(ROOT).as_posix() for p in (ROOT / 'historique/Notebooks TD/S1').glob('*.ipynb')}, archived)
         total_answers, total_cells = 0, 0
         for number, entry, nb in subjects():
             with self.subTest(evaluator=entry['id']):
@@ -79,7 +83,7 @@ class S1ReviewTests(unittest.TestCase):
                 self.assertEqual(answers, {f'Q{i}' for i in range(1, QUESTION_COUNTS[number - 1] + 1)})
                 self.assertIn(('identity', 'identification'), indexed)
                 self.assertEqual(nb['cells'][-1], submission_cell())
-                self.assertEqual(nb['metadata']['tal_tutor']['session']['notebook'], entry['notebook'])
+                self.assertEqual(nb['metadata']['tal_tutor']['session']['notebook'], archive_legacy_path(entry['notebook']))
                 total_answers += len(answers)
                 total_cells += len(nb['cells'])
         self.assertEqual(total_answers, 45)

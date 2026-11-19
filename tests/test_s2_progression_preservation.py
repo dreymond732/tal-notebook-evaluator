@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / 'app'))
 from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 import prepare_student_notebooks as prep
 from test_notebook_migration_integrity import S2_RENAMED_SUBJECTS
-from presentation_order_evidence import before_title_move, parent_raw, SNAPSHOT
+from presentation_order_evidence import before_title_move, parent_raw, SNAPSHOT, archive_current_path
 
 BASELINE = ROOT / 'tests/fixtures/s2_complete_review_source_baseline.json'
 COUNTS = {'td3-S2': 30, 'td5-S2': 25, 'td6-S2': 10, 'td2-S2': 13,
@@ -134,19 +134,19 @@ class S2Preservation(unittest.TestCase):
             # their current cell/code preservation is checked independently.
             raw = (editorial_subjects[path].encode() if path in editorial_subjects
                    else parent_raw(path).encode() if path in presentation_subjects
-                   else (ROOT / path).read_bytes())
+                   else (ROOT / archive_current_path(path)).read_bytes())
             with self.subTest(notebook=path):
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
 
-    def test_six_active_distributions_change_only_final_url(self):
+    def test_seven_distributions_keep_active_deposit_and_inactive_control_offline(self):
         entries = [e for e in self.entries if e['active']]
         self.assertEqual(len(entries), 6)
         url = 'https://example.test/universite/tal'
         originals = {e['notebook']: (ROOT / e['notebook']).read_bytes() for e in entries}
         with tempfile.TemporaryDirectory() as temp, patch.object(prep, 'load_catalog', return_value=self.entries):
             output = Path(temp) / 'dist'
-            self.assertEqual(prep.render(output, url), 6)
-            self.assertEqual(prep.verify_rendered(output, url), 6)
+            self.assertEqual(prep.render(output, url), 7)
+            self.assertEqual(prep.verify_rendered(output, url), 7)
             for path, raw in originals.items():
                 with self.subTest(notebook=path):
                     self.assertEqual((ROOT / path).read_bytes(), raw)
@@ -157,7 +157,13 @@ class S2Preservation(unittest.TestCase):
                     self.assertEqual(original, rendered)
                     self.assertNotIn(url.encode(), raw)
             inactive = next(e for e in self.entries if not e['active'])
-            self.assertFalse((output / inactive['notebook']).exists())
+            self.assertTrue((output / inactive['notebook']).is_file())
+            original_inactive = json.loads((ROOT / inactive['notebook']).read_text())
+            self.assertEqual(original_inactive['cells'].pop(), prep.submission_cell())
+            rendered_inactive = json.loads((output / inactive['notebook']).read_text())
+            self.assertEqual(rendered_inactive['cells'].pop(), prep.saving_cell())
+            self.assertEqual(rendered_inactive, original_inactive)
+            self.assertNotIn(url, json.dumps(rendered_inactive))
 
     def test_practice_interpretations_reach_safe_human_report_without_scoring(self):
         from app import create_app

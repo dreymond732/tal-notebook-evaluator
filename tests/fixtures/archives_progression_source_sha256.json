@@ -1,0 +1,17 @@
+{
+  "source_commit": "501413c3e5c216138595e68bee714d7902e9a393",
+  "notebooks": {
+    "Notebooks TD/S1/S1_TD3_collections.ipynb": "8407ad74986617b6990cd512b3d9b5d7e01557276dbfeb7531db372641483642",
+    "Notebooks TD/S1/S1_TD4_boucles_conditions_comptages.ipynb": "b620f2b1331a42eee0f69ebebb9f73c9efce01c150ec6d9ca924ce3321be9460",
+    "Notebooks TD/S1/S1_TD5_fonctions_reutilisation.ipynb": "38deb1f0ab17ee767e171c5cd9a81be98318f78075c1948cea7172f55cefd907",
+    "Notebooks TD/S1/S1_TD6_fichiers_csv.ipynb": "887f9901410def59fa8e404c185ca4b8c17254a1a06064b9e7673a23fa293c43",
+    "Notebooks TD/TD2 - S2 - Corrigé.ipynb": "f24b5ef65a72aff0627920bbeeede3381416689b0552ef77fbc43dd764dbb848",
+    "Notebooks TD/TD3 - S2 - Corrigé.ipynb": "f1770e04a81f6bff5825cefe1e1e84048e2afddf85fdbebdf8658f067a591b91",
+    "Notebooks TD/TD4_S2-corrigé.ipynb": "02a4b802902ae2f5d56518e17dd0a9b7f221de48d1001dd2c3173c0076324377",
+    "Notebooks TD/TD5_S2-corrigé.ipynb": "d56c498cab4b570208a678ca37e073a0e7ebb15cfd6b9f2124546087f662c48a",
+    "Notebooks TD/TD6_S2-corrigé.ipynb": "b570c2bbe013147920d937cb939899305346f925fa16f1160df924dad9e89260",
+    "Notebooks TD/devoirMaisonS2-corrigé.ipynb": "7b2f68ba8cc8e83ac9184cbbed9b1399f8057cce4fc219165f6de4fb65efdd5c",
+    "Notebooks contrôles finaux/DevoirS1_TILT_corrigé.ipynb": "5181bba76ded28bd461e5f8bd1f67afbeb8988fb52de6832a1e9ef13ab7f19a7",
+    "Notebooks contrôles finaux/DevoirS2.ipynb": "89f66a15da739680ca808015de90ffa550e9a43e877b55d57c8cef8de4a0292d"
+  }
+}

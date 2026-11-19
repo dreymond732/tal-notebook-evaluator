@@ -11,7 +11,7 @@ import shutil
 import tempfile
 from urllib.parse import urlsplit
 
-from notebook_contract import load_catalog, resolve_notebook
+from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 
 ROOT = Path(__file__).resolve().parents[1]
 CELL_ID = "tal-submission"
@@ -100,14 +100,25 @@ def submission_cell(base_url=URL_PLACEHOLDER):
             "source": code.splitlines(keepends=True), "execution_count": None, "outputs": []}
 
 
-def distributable(notebook, base_url):
+def saving_cell():
+    """Consigne de sauvegarde lorsque la réception serveur n'est pas activée."""
+    return {"cell_type": "markdown", "id": CELL_ID,
+            "metadata": {"tal": {"question": "submission", "role": "submission"}},
+            "source": ["## Sauvegarde du travail\n", "\n",
+                       "Vérifiez que toutes les cellules ont été exécutées, puis téléchargez "
+                       "votre notebook au format `.ipynb` avec ses sorties. "
+                       "Les modalités de remise vous seront précisées par l’enseignant.\n"]}
+
+
+def distributable(notebook, base_url, *, can_submit=True):
     """Replace a canonical source placeholder, or append a cell for older sources."""
     check_source(notebook, base_url)
     rendered = copy.deepcopy(notebook)
+    final_cell = submission_cell(base_url) if can_submit else saving_cell()
     if rendered["cells"] and rendered["cells"][-1].get("id") == CELL_ID:
-        rendered["cells"][-1] = submission_cell(base_url)
+        rendered["cells"][-1] = final_cell
     else:
-        rendered["cells"].append(submission_cell(base_url))
+        rendered["cells"].append(final_cell)
     return rendered
 
 
@@ -117,13 +128,28 @@ def active_sources(root=ROOT):
             yield entry, root / entry["notebook"]
 
 
+def distribution_sources(root=ROOT):
+    """Exporter la progression courante, sans les éditions archivées."""
+    for entry in load_catalog():
+        if not entry.get("archived", False) and (entry["active"] or entry["mode"] == "controle"):
+            yield entry, root / entry["notebook"]
+
+
 def check_sources(root=ROOT, expected_url=None):
     count = 0
-    for entry, source in active_sources(root):
+    for entry, source in distribution_sources(root):
         nb = json.loads(source.read_text(encoding="utf-8"))
-        resolved = resolve_notebook(nb)
-        if resolved["id"] != entry["id"]:
-            raise ValueError(f"Identité incohérente : {entry['notebook']}")
+        if entry["active"]:
+            resolved = resolve_notebook(nb)
+            if resolved["id"] != entry["id"]:
+                raise ValueError(f"Identité incohérente : {entry['notebook']}")
+        else:
+            # Contrôle d'un fichier source, sans autoriser son dépôt serveur.
+            expected = {"id": entry["id"], "version": entry["version"],
+                        "evaluator": entry["evaluator"]}
+            if nb.get("metadata", {}).get("tal") != expected:
+                raise ValueError(f"Identité incohérente : {entry['notebook']}")
+            validate_cell_metadata(nb)
         check_source(nb, expected_url)
         if entry["semester"] == "S2" or (entry["semester"] in {"S1", "S3"} and entry["mode"] == "td"):
             if not nb["cells"] or nb["cells"][-1] != submission_cell():
@@ -135,15 +161,15 @@ def check_sources(root=ROOT, expected_url=None):
 def verify_rendered(output, base_url, root=ROOT):
     base_url = public_url(base_url)
     count = 0
-    for entry, source in active_sources(root):
+    for entry, source in distribution_sources(root):
         original = json.loads(source.read_text(encoding="utf-8"))
         rendered = json.loads((output / entry["notebook"]).read_text(encoding="utf-8"))
-        expected = distributable(original, base_url)
+        expected = distributable(original, base_url, can_submit=entry["active"])
         if rendered != expected:
             raise ValueError(f"Copie distribuable incohérente : {entry['notebook']}")
         count += 1
     actual = {p.relative_to(output).as_posix() for p in output.rglob("*.ipynb")}
-    allowed = {entry["notebook"] for entry, _ in active_sources(root)}
+    allowed = {entry["notebook"] for entry, _ in distribution_sources(root)}
     if actual != allowed:
         raise ValueError("La distribution contient des notebooks manquants ou non autorisés.")
     return count
@@ -184,16 +210,16 @@ def render(output, base_url, root=ROOT):
     temporary = Path(tempfile.mkdtemp(prefix=".tal-dist-", dir=output.parent))
     backup = None
     try:
-        for entry, source in active_sources(root):
+        for entry, source in distribution_sources(root):
             nb = json.loads(source.read_text(encoding="utf-8"))
-            nb = distributable(nb, base_url)
+            nb = distributable(nb, base_url, can_submit=entry["active"])
             target = temporary / entry["notebook"]
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         count = verify_rendered(temporary, base_url, root)
         (temporary / MANIFEST).write_text(json.dumps({
             "format": "tal-distribution-v1",
-            "notebooks": [entry["notebook"] for entry, _ in active_sources(root)],
+            "notebooks": [entry["notebook"] for entry, _ in distribution_sources(root)],
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         if output.exists():
             backup = Path(tempfile.mkdtemp(prefix=".tal-previous-", dir=output.parent))

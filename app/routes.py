@@ -10,7 +10,7 @@ from markupsafe import escape
 from uuid import uuid4
 from storage_layout import storage_id
 import outils
-from notebook_contract import ContractError, resolve_notebook, validate_catalog, STRICT_VERSIONED, CONTRACT_VERSIONS, strict_contract_identity, human_review_identity
+from notebook_contract import ContractError, resolve_notebook, validate_catalog, load_catalog, STRICT_VERSIONED, CONTRACT_VERSIONS, strict_contract_identity, human_review_identity
 main_bp = Blueprint('main', __name__)
 
 # Dictionnaire de configuration : Clé URL -> (Nom Affiché, Nom du Module Python)
@@ -272,8 +272,10 @@ def submit_notebook():
 def semester_evaluators(semester):
     if semester not in SEMESTERS:
         abort(404)
+    current = {entry["evaluator"] for entry in load_catalog()
+               if not entry.get("archived", False)}
     evaluators = {name: config for name, config in EVALUATORS.items()
-                  if EVALUATOR_SEMESTERS[name] == semester}
+                  if EVALUATOR_SEMESTERS[name] == semester and name in current}
     return render_template('selector_template.html', semester=semester,
                            evaluators=evaluators, evaluator_modes=EVALUATOR_MODES)
 

@@ -35,9 +35,35 @@ Télécharger le fichier HTML puis l’ouvrir dans un navigateur. Chaque diapora
 
 Le S3 utilise le lien Drive fourni par l’enseignant. Les dossiers Drive S1/S2 n’ayant pas été fournis, leurs titres ne contiennent pas de lien. Ces HTML sont distribués séparément des notebooks générés par `prepare_student_notebooks.py`.
 
+## Dossier unique de distribution
+
+Après `bash deploy.sh`, choisissez les fichiers à communiquer aux étudiants dans
+`dist/`. Les TD courants et **tous les sujets de contrôle courants du catalogue** y sont
+préparés, y compris le contrôle final S2 dont le correcteur n'est pas activé.
+
+| Contenu | Emplacement dans `dist/` |
+|---|---|
+| TD par semestre | `Notebooks TD/S1/`, `Notebooks TD/S2/`, `Notebooks TD/S3/` |
+| DM et contrôle final S1 | `Notebooks contrôles finaux/S1/` |
+| Contrôles et DM S2 | `Notebooks contrôles finaux/S2/` |
+| Contrôles S3 | `Notebooks contrôles finaux/S3/` |
+
+Le contrôle final S1 s'appelle `Controle_final_S1_python.ipynb`.
+Les corrigés modèles courants restent dans `Corrigés modèles/`, hors de la distribution
+étudiante. Les versions remplacées et anciens corrigés sont rangés dans
+[`historique/`](historique/README.md), avec leurs fichiers conservés à l’identique.
+Les dossiers de semestre et `dist/` ne contiennent que la progression courante
+(**43 notebooks**, dont 15 TD S1). Les quatre correcteurs des anciennes synthèses
+restent accessibles par leur route directe pour les copies déjà commencées ;
+ils ne figurent plus dans le menu courant. Les notes déjà enregistrées restent
+consultables et ne sont pas recalculées. Un sujet dont le dépôt n'est pas activé est exporté avec une consigne
+de sauvegarde et de remise par l'enseignant, sans lien de dépôt serveur. Sa présence
+dans `dist/` n'active aucun correcteur. La génération reste atomique et retire les
+anciens chemins gérés, dont `dist/Notebooks contrôles finaux/DevoirS1.ipynb`.
+
 ## Supports et distribution S2
 
-Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le contrôle final reste inactif. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
+Les [TD S2](Notebooks%20TD/S2/) et les [contrôles S2](Notebooks%20contr%C3%B4les%20finaux/S2/) sont regroupés par semestre. La [revue S2](docs/s2_complete_review.md) précise la progression, le contrat v2 et les six supports à redistribuer. Le correcteur du contrôle final reste inactif, mais son sujet est inclus dans `dist/`. Générer les copies étudiantes avec `bash deploy.sh`, ou avec les commandes `render` et `verify` documentées ; l’adresse définie par `TAL_PUBLIC_URL` est injectée uniquement dans `dist/`.
 
 ## 3. Organisation des dossiers
 
@@ -178,7 +204,7 @@ Effectuer cette migration avant de remplacer l'application en production.
 
 ### Migration des répertoires S1 après la nouvelle nomenclature
 
-Pour les 19 TD du S1, les dossiers physiques suivent désormais les cahiers renommés (`S1_TD1`, `S1_TD4_A`, etc.). Avant le démarrage du nouveau service, sauvegarder les soumissions et exécuter la migration non destructive, en simulation puis avec validation explicite : [procédure de migration v2](docs/MIGRATION_PHYSIQUE_S1_V2.md). L'ancien migrateur de classes/version `migrate_storage.py` est obsolète.
+Pour les 15 cahiers courants et les 4 anciennes synthèses du S1, les dossiers physiques suivent désormais les cahiers renommés (`S1_TD1`, `S1_TD4_A`, etc.). Avant le démarrage du nouveau service, sauvegarder les soumissions et exécuter la migration non destructive, en simulation puis avec validation explicite : [procédure de migration v2](docs/MIGRATION_PHYSIQUE_S1_V2.md). L'ancien migrateur de classes/version `migrate_storage.py` est obsolète.
 
 ## Espace enseignant — suivi de progression
 

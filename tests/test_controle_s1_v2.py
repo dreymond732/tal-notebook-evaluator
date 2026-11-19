@@ -13,9 +13,10 @@ sys.path.insert(0, str(ROOT / 'app'))
 from app import create_app
 import app_correction_controle_S1 as control
 import outils
-from notebook_contract import resolve_notebook, validate_cell_metadata
+from notebook_contract import load_catalog, resolve_notebook, validate_cell_metadata
 
-SUBJECT = ROOT / 'Notebooks contrôles finaux/DevoirS1.ipynb'
+SUBJECT = ROOT / next(entry['notebook'] for entry in load_catalog()
+                      if entry['id'] == 'Controletilt-s1')
 # Références indépendantes du dictionnaire de l'évaluateur. Injection de traces
 # uniquement dans les fixtures : aucune sortie n'est ajoutée au sujet/modèle.
 EXPECTED = [150.0, {'deb': 19, 'fin': 29}, True, 'Terminologie', False,

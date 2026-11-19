@@ -198,10 +198,12 @@ def prepare(root):
     if not root.is_dir() or root.is_symlink():
         raise ValueError("Volume soumissions absent : " + str(root))
     _directory(root / "suivi")
+    # La migration concerne aussi les copies des quatre synthèses archivées ;
+    # le classement physique des sources ne définit pas les journaux à préserver.
     entries = [x["evaluator"] for x in load_catalog()
                if x["active"] and x["evaluator"]
                and x["semester"] == "S1"
-               and x["notebook"].startswith("Notebooks TD/S1/")]
+               and x["mode"] == "td"]
     if len(entries) != 19 or len(set(entries)) != 19:
         raise ValueError("Le catalogue ne contient plus exactement les 19 TD du S1")
     plans = [_entry_plan(root, name) for name in entries]

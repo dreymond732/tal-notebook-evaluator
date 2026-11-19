@@ -2,7 +2,7 @@
 
 Identité fictive : **Camille Modele**, classe **M1-TILT-2027**. Aucun numéro étudiant ajouté. Mandat : validation enseignante hors épreuve, sans aide à un étudiant en contrôle. Les consignes cachées du tuteur restent celles du contrôle dans les deux emplacements d’origine ; aucune assistance tutorielle n’est activée.
 
-Source : `Notebooks contrôles finaux/DevoirS1.ipynb`, métadonnée TAL version 2 ; empreinte SHA-256 du sujet synchronisé après retouches cosmétiques : `033339bc1e14ced85638919998df45aed92c6c74e14426d66e90902f7aa9d13d`. Branche de mission communiquée : `pedagogy/controle-s1-td1-5`.
+Source courante : `Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb`, métadonnée TAL version 2 ; empreinte SHA-256 du fichier courant après déplacement : `1120bcaf92a529e3e312cfce1a54e24c6fe2e058596b59335ad21d32efa51348`. Branche de la mise à jour de rangement : `code/distribution-controles` ; branche de la résolution initiale : `pedagogy/controle-s1-td1-5`.
 
 **État : non exécuté.** Les valeurs ci-dessous sont des prévisions de lecture et de calcul manuel, jamais des sorties observées. Toutes les cellules de code de la copie ont `outputs: []` et `execution_count: null`. Aucun dépôt serveur, aucune exécution de cellule, aucune consultation de correcteur, test, corrigé existant ou historique n’a été effectuée. Une analyse syntaxique statique des cellules résolues ne vaut pas exécution ni validation des résultats.
 
@@ -343,6 +343,12 @@ Les consignes générales, le barème et les sections sont adressés à l’étu
 Après la résolution, trois passages du sujet ont été comparés et synchronisés : commentaire de Q10 corrigé en « CORRECTIONS REQUISES (LIGNES SUIVANTES) » ; consigne Markdown de Q17 simplifiée ; commentaire de Q23 précisant « valeur numérique stockée dans resultat ». Ce dernier commentaire était déjà à jour dans la copie au moment de cette synchronisation : aucune nouvelle modification n’y a été nécessaire. L’ambiguïté de vocabulaire signalée pour Q23 est donc corrigée ; la question continue de demander une réponse numérique explicite. La réserve sur le print intermédiaire de Q17 reste pertinente.
 
 Empreinte de la première lecture : `f2d21774e2ce340d77c4a29d807e5165403ac479064fdba85a436cafbf68421f`. Empreinte du sujet synchronisé : `033339bc1e14ced85638919998df45aed92c6c74e14426d66e90902f7aa9d13d`. Comparaison stricte : tous les Markdown correspondent maintenant au sujet courant ; les solutions sont inchangées, vérifiées par comparaison de leurs arbres syntaxiques avant et après la synchronisation. Métadonnées inchangées, sorties toujours vides, compteurs d’exécution toujours nuls. Aucune nouvelle exécution.
+
+## Postlecture — Déplacement du sujet dans le dossier S1
+
+Le sujet courant est désormais `Notebooks contrôles finaux/S1/Controle_final_S1_python.ipynb`, à la place de `Notebooks contrôles finaux/DevoirS1.ipynb`. Ce déplacement demandé pour le rangement ne change aucune des 70 cellules ni aucune question ; l’empreinte de fichier change parce que le chemin de `metadata.tal_tutor.session.notebook` est actualisé. L’empreinte du fichier courant est `1120bcaf92a529e3e312cfce1a54e24c6fe2e058596b59335ad21d32efa51348` ; celle de la version synchronisée avant déplacement, conservée ci-dessus comme preuve historique, est `033339bc1e14ced85638919998df45aed92c6c74e14426d66e90902f7aa9d13d`.
+
+Dans la copie de référence, seul `metadata.tal_tutor.session.notebook` a été remplacé par le nouveau chemin. Une assertion d’égalité JSON avant/après, après normalisation de ce seul champ, confirme l’absence de toute autre modification : cellules, solutions, identité fictive et contextes du tuteur sont identiques. Les métadonnées du modèle concordent avec celles du sujet courant ; tous leurs Markdown concordent également. Les sorties restent vides et les compteurs d’exécution nuls. Aucune exécution de notebook, aucune consultation de correcteur ou de tests, aucun commit ni push pour cette mise à jour limitée.
 
 ## Handoff et critères de vérification
 
