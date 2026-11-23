@@ -63,11 +63,11 @@
   <div class="wrap">
     <div class="kicker">Projet tutoré · Master 2 · TAL et Python</div>
     <h1>LLM vs Python : de la préparation du corpus aux mesures lexicales</h1>
-    <p class="lead">Partir des essais déjà réalisés avec plusieurs LLM et Python, stabiliser le texte étudié, puis comparer les résultats sur des unités explicitement définies.</p>
+    <p class="lead">Tout le S3 applique les quatre notebooks au livre de Faguet. À partir de ces résultats, l’équipe du projet tuteuré répond à la question commune et teste un prompt qui permet d’en retrouver les principaux éléments.</p>
     <div class="hero-meta">
       <span>Projet PT-LLMvsPy</span>
       <span>Corpus : <em>Le Féminisme</em> d’Émile Faguet</span>
-      <span>Première échéance : restitution du notebook 01</span>
+      <span>Fin du S3 · 18 décembre 2026</span>
     </div>
     <div class="actions">
       <a href="#premiere-etape">Première étape</a>
@@ -84,7 +84,8 @@
   <a href="#piege">Corpus</a>
   <a href="#contrat">Méthode</a>
   <a href="#architecture">4 notebooks</a>
-  <a href="#revues">Revues</a>
+  <a href="#revues">Séances et revues S3</a>
+  <a href="#synthese">Travail du PT</a>
   <a href="#sources">Références</a>
 </div></nav>
 <main>
@@ -94,6 +95,7 @@
   <h2>Une mesure lexicale dépend d’abord du texte qu’on lui donne</h2>
   <p class="intro essential">Peut-on reproduire et expliquer les résultats annoncés par des modèles de langage sur <em>Le Féminisme</em>, avec un traitement Python explicite et des preuves retrouvables dans le texte ?</p>
   <p>Le nettoyage du corpus, la définition d’un token ou d’une phrase et la délimitation du contexte d’une cooccurrence peuvent modifier les comptes. Il faut donc <strong>préparer une source commune avant d’en interpréter les chiffres</strong>.</p>
+  <p><strong>Repères de lecture.</strong> Le symbole ✓ indique une tâche à réaliser et ▣ un résultat à conserver. Chaque type d’encadré associe un symbole, une couleur et un intitulé.</p>
   <div class="role-strip" aria-label="Code de lecture">
     <div class="legend context">◉ Corpus et données</div>
     <div class="legend method">◆ Méthode et définitions</div>
@@ -101,7 +103,7 @@
     <div class="legend warning">⚑ Point à vérifier</div>
     <div class="legend trace">▣ Résultat à conserver</div>
   </div>
-  <p class="subtle"><a href="https://hazigo.duckdns.org/universite/tal/static/Organisation_progression_S3.html" target="_blank" rel="noopener">Les exercices des TD0 à TD7 du cours</a> ont apporté les outils Python et TAL nécessaires. Le projet tutoré les mobilise maintenant dans une chaîne commune.</p>
+  <p class="subtle"><a href="https://hazigo.duckdns.org/universite/tal/static/Organisation_progression_S3.html" target="_blank" rel="noopener">Les exercices des TD0 à TD7 du cours</a> ont apporté les outils Python et TAL nécessaires. Sur les mêmes données, chaque étudiant du S3, y compris en projet tuteuré, réalise les quatre cahiers et formule sa propre conclusion.</p>
 </section>
 
 <section class="section" id="acquis">
@@ -130,9 +132,9 @@
 
 <section class="section" id="premiere-etape">
   <div class="first-step">
-    <div class="eyebrow">Étape 1 · À commencer maintenant</div>
+    <div class="eyebrow">Étape 1 · Séance du 25 novembre</div>
     <h2>Préparer, lire et valider le corpus de référence</h2>
-    <p class="intro">Le premier objectif n’est pas de retrouver un nombre annoncé par un LLM : il est de disposer d’un <strong>texte nettoyé dont les choix de préparation peuvent être examinés et discutés</strong>.</p>
+    <p class="intro">Le premier notebook fixe le <strong>prétraitement commun</strong>. Examinez les choix de préparation sur quelques lignes, puis appliquez le traitement au livre entier. Le texte et la version retenus à la revue du 01 servent de référence aux cahiers 02 à 04.</p>
     <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Google Colab</a></p>
     <p>Le notebook est disponible dans le <strong>dossier public PT-LLMvsPy</strong> du dépôt du cours. Dans Colab, choisissez <strong>Fichier → Enregistrer une copie dans Drive</strong>, puis exécutez les cellules dans l'ordre. La bibliothèque Python et les documents de référence sont chargés depuis ce même dépôt.</p>
     <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">télécharger le fichier <code>01_corpus_protocole.ipynb</code> sur GitHub</a> puis l'importer dans Colab.</p>
@@ -140,11 +142,11 @@
       <li><h3>Exécuter le nettoyage</h3><p>Charger la version de référence de Faguet et les fonctions Python, lancer le traitement complet, puis sauvegarder le fichier texte obtenu.</p></li>
       <li><h3>Lire le document nettoyé</h3><p>Ouvrir le fichier dans Bloc-notes ou un éditeur de texte. Vérifier les paragraphes, les titres, la ponctuation, les notes et les passages qui paraissent anormaux.</p></li>
       <li><h3>Examiner les anomalies éventuelles</h3><p>Retrouver une zone par une suite exacte de caractères dans le texte original ; vérifier la fenêtre, identifier l’opération concernée et compter les occurrences d’un motif représentatif. Si aucune anomalie n’est observée, décrire les passages inspectés.</p></li>
-      <li><h3>Décider et comparer</h3><p>Conserver le traitement ou documenter une correction à tester dans une nouvelle révision. Comparer ensuite les premiers comptes lexicaux sur le texte original et le texte préparé.</p></li>
+      <li><h3>Décider et comparer</h3><p>Consigner les anomalies et les corrections proposées dans le notebook pour les discuter en revue. Comparer les premiers comptes lexicaux sur le texte original et sur le texte préparé.</p></li>
     </ol>
     <div class="semi trace">
-      <h3>▣ Rendu de la première étape — de R0 à R1</h3>
-      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Déposez votre archive dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. La revue retient le corpus commun ou demande une correction avant les étapes suivantes.</p>
+      <h3>▣ Rendu de la première séance</h3>
+      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Déposez votre archive dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue, conservez le texte nettoyé retenu et sa provenance pour les trois séances suivantes.</p>
     </div>
   </div>
 </section>
@@ -179,20 +181,19 @@
   <p>Ces deux règles sont complémentaires : la première précise <strong>ce qui est compté</strong> ; la seconde rend le résultat <strong>reproductible et vérifiable</strong>. Elles s’appliquent à toutes les étapes du projet, même si les méthodes évoluent.</p>
   <div class="grid">
     <div class="panel">
-      <h3>1 · Définir les unités et les règles de comptage</h3>
+      <h3>Contrat A · Définir les unités et les règles de comptage</h3>
       <p>Une mesure doit préciser ce qu’elle compte : <strong>forme ou lemme</strong>, mot ou expression contiguë, <strong>phrase, paragraphe ou fenêtre de ± k tokens</strong>, franchissement éventuel des frontières et règle d’agrégation.</p>
-      <p>Pour le premier calcul de cooccurrences, nous retiendrons le <strong>nombre de phrases contenant les deux termes</strong> : chaque phrase est comptée <strong>une seule fois</strong> pour une paire (<code>union</code>). D’autres modes, comme le nombre de paires d’occurrences (<code>somme_paires</code>), pourront ensuite être comparés. Ils ne mesurent pas la même chose.</p>
+      <p>Pour le premier calcul de cooccurrences, nous retiendrons le <strong>nombre de phrases contenant les deux termes</strong> : chaque phrase est comptée <strong>une seule fois</strong> pour une paire (<code>union</code>). Avec <code>somme_paires</code>, la présence de chaque couple de formes est comptée séparément. Si une phrase contient à la fois « femme » et « femmes » avec « homme », elle contribue une fois à l’union et deux fois à cette somme.</p>
     </div>
     <div class="panel">
-      <h3>2 · Garder la trace de chaque résultat</h3>
-      <p>Pour pouvoir retrouver et discuter une valeur, conserver :</p>
+      <h3>Contrat B · Ce que chacun valide</h3>
+      <p>La source, sa version et le prétraitement sont fixés au 01. Dans les cahiers suivants, chacun valide trois éléments sur ce même texte.</p>
       <ol>
-        <li>la <strong>source</strong> et sa version ;</li>
-        <li>la <strong>préparation</strong> du texte (nettoyage et éventuelles anomalies) ;</li>
-        <li>le <strong>protocole</strong> (unités, paramètres et règles de décompte) ;</li>
-        <li>la <strong>mesure</strong> calculée ;</li>
-        <li>les <strong>preuves</strong> : positions, extraits ou concordances retrouvables.</li>
+        <li><strong>Protocole.</strong> Nommez l’unité, le filtre et la règle. Vérifiez sur un exemple personnel que la fonction compte ce que vous avez prévu.</li>
+        <li><strong>Mesure.</strong> Appliquez la règle à Faguet. Conservez l’effectif et son unité, ainsi que le dénominateur si vous donnez une proportion.</li>
+        <li><strong>Preuves.</strong> Retrouvez les passages concernés. Indiquez leur emplacement et ce qui justifie le compte ou en limite l’interprétation.</li>
       </ol>
+      <p>La comparaison avec les affirmations de Gemini est le dernier traitement du 04. Appuyez votre conclusion sur ces trois vérifications et signalez toute convention manquante dans l’annonce.</p>
     </div>
   </div>
   <div class="semi method"><h3>◆ Exemple : interpréter une cooccurrence</h3>
@@ -207,32 +208,51 @@
     <div><strong>GitHub public</strong><span>Sous-dossier PT-LLMvsPy : fonctions Python, notebooks et documents de référence.</span></div>
     <div><strong>Notebook 01</strong><span>Nettoyage, inspection et version du corpus retenue.</span></div>
     <div><strong>Notebooks 02 à 04</strong><span>Mesures et audit sur le même texte préparé.</span></div>
-    <div><strong>Drive partagé</strong><span>Résultats, rapports et traces des versions.</span></div>
+    <div><strong>Sauvegarde</strong><span>Archive du 01 déposée sur le Drive partagé. TXT ou ZIP du 01 et trois JSON conservés dans le dossier personnel.</span></div>
   </div>
   <div class="grid">
-    <div class="panel"><h3>01 · Préparation de la source</h3><p>Nettoyer le corpus entier, chercher les défauts, décider de conserver ou réviser et produire les mesures lexicales de base.</p></div>
-    <div class="panel"><h3>02 · Description du lexique</h3><p>Sur le <strong>texte nettoyé validé</strong> : fréquences, types, hapax, expressions et concordances. Définition à finaliser.</p></div>
-    <div class="panel"><h3>03 · Relations lexicales</h3><p>Sur le <strong>même corpus</strong> : cooccurrences par phrase, variantes de fenêtres, marges et scores d’association. Définition à finaliser.</p></div>
-    <div class="panel"><h3>04 · Audit des résultats LLM</h3><p>Confronter les comptes, les rapprochements G1–G6 et les citations aux résultats et aux passages vérifiables. Définition à finaliser.</p></div>
+    <div class="panel"><h3>01 · Prétraitement</h3><p>Nettoyez le livre entier, vérifiez un passage avant et après nettoyage et comparez les comptes de base. La revue fixe le texte qui sera réutilisé.</p></div>
+    <div class="panel"><h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/02_mesures_lexicales.ipynb" target="_blank" rel="noopener">02 · Mesures lexicales</a></h3><p>Que compte-t-on dans les 79 540 tokens annoncés par Studio ? Sur une phrase personnelle, prévoyez l’effet d’un pluriel ou d’une virgule. Avec <code>calculer_metriques_globales()</code>, comptez les unités retenues. Sur le livre, comparez les formes et les lemmes à filtre constant, les hapax et les cinq champs lexicaux. Fixez la convention retenue et contrôlez une annotation dans sa phrase.</p></div>
+    <div class="panel"><h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_relations_lexicales.ipynb" target="_blank" rel="noopener">03 · Cooccurrences et séquences</a></h3><p>Testez la règle sur deux phrases de votre invention. Sur Faguet, calculez combien de phrases contiennent à la fois une forme du groupe <em>femme/femmes</em> et une forme du groupe <em>homme/hommes</em>. <strong>Studio en annonce 208.</strong> <code>mesurer()</code> en mode union compte chaque phrase commune une fois. Répartissez les autres associations entre binômes. Examinez aussi une suite de mots contigus comme <em>union libre</em>.</p><p>Le protocole M4 de la conversation concerne <em>femme / droit</em>. Gemini propose une méthode et laisse la valeur à calculer. Comparez les rayons ±5 et ±10 tokens autour du lemme <em>femme</em>. Distinguez le nombre d’occurrences de <em>femme</em> ayant au moins une occurrence du lemme <em>droit</em> dans la fenêtre et le nombre total de paires de positions. Fixez l’unité et conservez deux passages localisés. Les marges et, en approfondissement, le score PMI aident à interpréter l’association.</p></div>
+    <div class="panel"><h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_audit_llm.ipynb" target="_blank" rel="noopener">04 · Audit et conclusion individuelle</a></h3><p>Rouvrez les résultats des 02 et 03. Testez <code>verifier_citation()</code> sur une phrase personnelle et sa variante. Retrouvez ensuite les mots cités dans le livre et relisez le contexte pour identifier qui parle. Faites relire à un binôme l’indice textuel qui soutient votre interprétation.</p><p>Pour finir, confrontez vos éléments validés aux affirmations de Gemini. Les nombres portent-ils sur la même unité ? La citation est-elle fidèle et bien attribuée ? Les passages justifient-ils le mot « toujours » employé par Studio ? Rédigez votre conclusion en indiquant ses limites.</p></div>
   </div>
-  <div class="semi warning"><h3>⚑ Une condition de passage</h3><p>Les notebooks 02, 03 et 04 utiliseront la <strong>version nettoyée retenue à l’issue de l’étape 1</strong>. Si cette version change, les résultats qui en dépendent doivent être recalculés.</p></div>
+  <div class="semi trace"><h3>▣ D’une séance à l’autre</h3><p>Déposez le TXT nettoyé ou le ZIP du 01 dans votre dossier personnel <code>Mon Drive/PT-Faguet</code>. Dans chaque cahier suivant, exécutez la dernière cellule après avoir renseigné vos observations. Elle enregistre <code>resultats_02.json</code>, <code>resultats_03.json</code> ou <code>resultats_04.json</code> dans ce même dossier. Le 04 relit les résultats des 02 et 03.</p></div>
+  <p>Si la version du texte devait être corrigée, repérez les calculs qui en dépendent avant de les reproduire sur cette nouvelle version.</p>
 </section>
 
 <section class="section" id="revues">
-  <div class="eyebrow">Organisation du travail</div>
-  <h2>Un premier rendu, puis des revues régulières</h2>
-  <div class="takeaway">
-    <strong>R0 → R1 : rendre le premier notebook et ses résultats.</strong>
-    <p>Ce premier jalon sert à décider si le corpus nettoyé peut être retenu pour la suite. Le calendrier des autres étapes sera précisé après cette revue.</p>
-  </div>
-  <p>La <strong>revue hebdomadaire</strong> est conservée. Elle s’appuie sur une démonstration courte : ce qui a été exécuté, une preuve ou une difficulté rencontrée, la décision prise et la prochaine action. Il n’est pas nécessaire de formaliser ici un planning détaillé par semaine.</p>
-  <div class="semi trace"><h3>▣ Trace de chaque revue</h3><p>Version du notebook et du corpus · résultat observé · anomalie ou contrôle · décision · prochaine étape.</p></div>
+  <div class="eyebrow">Organisation du S3 · Novembre et décembre 2026</div>
+  <h2>Quatre séances pour terminer les quatre cahiers</h2>
+  <p>Chaque séance se termine par une revue. Montrez ce que vous avez exécuté sur le livre et une preuve que l’on peut retrouver. Si une difficulté subsiste, décrivez-la dans votre cahier et signalez-la en séance.</p>
+  <div class="table-wrap"><table class="comparison-table">
+    <thead><tr><th scope="col">Séance</th><th scope="col">Notebook</th><th scope="col">Ce que vous montrez en revue</th></tr></thead>
+    <tbody>
+      <tr><td><time datetime="2026-11-25">25 novembre</time></td><td>01 · Prétraitement</td><td>Un passage avant et après nettoyage, la version du texte retenue et l’archive.</td></tr>
+      <tr><td><time datetime="2026-11-27">27 novembre</time></td><td>02 · Mesures lexicales</td><td>Une entrée dont vous expliquez les effectifs en formes et en lemmes à filtre constant.</td></tr>
+      <tr><td><time datetime="2026-12-16">16 décembre</time></td><td>03 · Relations lexicales</td><td>La règle qui détermine ce qui compte une fois, les effectifs obtenus et deux passages pour le 04.</td></tr>
+      <tr><td><time datetime="2026-12-18">18 décembre</time></td><td>04 · Audit final</td><td>Votre comparaison avec Gemini à partir d’un chiffre et d’une citation vérifiés, puis votre conclusion individuelle.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="semi trace"><h3>▣ Dossier final, fin de S3</h3><p>À la fin de la revue du 18 décembre, rassemblez le texte ou l’archive du 01 et les trois fichiers de résultats. Transmettez à l’équipe PT votre contribution avec l’annonce examinée, le protocole, la mesure, les passages localisés et votre conclusion.</p></div>
+</section>
+
+<section class="section" id="synthese">
+  <div class="eyebrow">Projet tuteuré · Janvier et février 2027</div>
+  <h2>Des conclusions individuelles à la réponse collective</h2>
+  <p>Les étudiants en projet tuteuré ont d’abord réalisé les quatre cahiers avec le S3. En janvier et février, leur travail porte sur la mise en commun, la rédaction et l’essai du prompt final. Quelques séances seront consacrées au PT en janvier. Leurs dates restent à fixer.</p>
+  <ol class="step-list">
+    <li><h3>Rassembler les résultats de chacun</h3><p>Pour chaque contribution, relevez l’auteur ou le binôme, l’annonce, la convention, le résultat et le passage qui l’étaye. Regroupez les contributions par affirmation. Si deux binômes recomptent les mêmes phrases, comparez les résultats et expliquez les écarts éventuels. Les additionner ferait compter ces phrases deux fois.</p></li>
+    <li><h3>Répondre à la question commune</h3><p>Rédigez ensemble la réponse à la <a href="#objectif">question du projet</a>. Pour chaque idée, indiquez la preuve, la convention dont elle dépend et sa limite. Consignez les désaccords qui subsistent. Conservez cette conclusion comme référence pour lire la réponse du LLM.</p></li>
+    <li><h3>Écrire et essayer un prompt utilisable avec tout LLM</h3><p>Spécifiez la question, le texte ou les extraits fournis, les affirmations à examiner, les unités de comptage et les preuves attendues. Demandez au modèle d’indiquer les calculs qu’il a pu effectuer et les informations qui lui manquent. Gardez votre conclusion de référence pour la correction de l’essai.</p><p>Dans une conversation vierge, transmettez uniquement le prompt et ses pièces. Si vous essayez plusieurs modèles, gardez les mêmes entrées. Pour chaque idée de votre conclusion, citez la phrase du modèle qui la retrouve, même approximativement, ou indiquez qu’elle manque ou qu’elle est contredite. Vérifiez séparément les chiffres et les citations.</p></li>
+  </ol>
+  <div class="semi trace"><h3>▣ Restitution du projet tuteuré</h3><p>Réunissez le tableau des contributions, la conclusion collective, le prompt exact et ses pièces, le nom du modèle, la réponse datée et votre comparaison point par point.</p></div>
 </section>
 
 <section class="section" id="sources">
   <div class="eyebrow">Pour approfondir</div>
   <h2>Corpus, travaux préparatoires et références</h2>
   <p>Les sources du projet comprennent le texte Faguet des ressources du cours, les échanges Gemini et les documents préparatoires <em>projet tutoré.docx</em>, <em>Projet 1.ipynb</em> et <em>projet_tutoré.ipynb</em>.</p>
+  <p><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md" target="_blank" rel="noopener">Rapport Studio intégral, dont le § 4</a> · <a href="https://share.gemini.google/43HURKzcfoet" target="_blank" rel="noopener">Conversation Gemini, tableau M4</a> · <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/gemini_transcription.txt" target="_blank" rel="noopener">Transcription de septembre</a>.</p>
   <ol class="reference-list">
     <li><span class="idx">[1]</span> Evert, S. (2009). « Corpora and collocations ». Dans A. Lüdeling et M. Kytö (dir.), <em>Corpus Linguistics: An International Handbook</em>, vol. 2, p. 1212–1248. De Gruyter Mouton. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">DOI</a> · <a href="https://stephanie-evert.de/PUB/Evert2007HSK_extended_manuscript.pdf" target="_blank" rel="noopener">Manuscrit étendu ouvert (PDF)</a>.</li>
     <li><span class="idx">[2]</span> Gablasova, D., Brezina, V. et McEnery, T. (2017). « Collocations in corpus-based language learning research: Identifying, comparing, and interpreting the evidence ». <em>Language Learning</em>, 67(S1), 155–179. <a href="https://doi.org/10.1111/lang.12225" target="_blank" rel="noopener">DOI</a>.</li>
@@ -250,6 +270,6 @@
 </main>
 <footer><div class="wrap">
   <p><strong>PT-LLMvsPy — Projet tutoré de master 2</strong></p>
-  <p>Version de cadrage pédagogique · 11 novembre 2026 · Les données annoncées, calculées et encore à vérifier restent distinguées.</p>
+  <p>Version de cadrage pédagogique · 23 novembre 2026 · Les données annoncées, calculées et encore à vérifier restent distinguées.</p>
 </div></footer>
 </body></html>
