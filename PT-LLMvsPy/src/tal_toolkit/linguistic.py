@@ -34,26 +34,36 @@ class DocCache:
         self._cache.clear()
 
 
-def tokeniser_phrases(doc: Doc, *, mode: str = "forme") -> list[list[str]]:
-    """Phrases en tokens : formes minuscules ou lemmes, ponctuation conservée.
+def tokeniser_phrases(
+    doc: Doc, *, mode: str = "forme", tokens: str = "tous_sans_espaces",
+) -> list[list[str]]:
+    """Phrases en formes minuscules ou lemmes, dans les frontières du Doc.
 
     Nécessite un analyseur de phrases (parser/senter/sentencizer) actif.
-    Les tokens d'espacement seuls sont exclus ; une expression ne saute pas
-    silencieusement la ponctuation.
+    Par défaut, tous les tokens hors espaces sont conservés. Le filtre
+    « sans_ponctuation » exclut en plus les signes de ponctuation, tandis
+    que « alphabetiques » sélectionne les tokens dont la FORME est alphabétique.
+    Une phrase devenue vide garde sa place afin de préserver les indices.
     """
     if mode not in {"forme", "lemme"}:
         raise ValueError("mode attendu : forme ou lemme")
+    if tokens not in {"tous_sans_espaces", "sans_ponctuation", "alphabetiques"}:
+        raise ValueError("Politique de tokens inconnue")
     sorties: list[list[str]] = []
     for phrase in doc.sents:
-        tokens: list[str] = []
+        valeurs: list[str] = []
         for token in phrase:
             if token.is_space:
+                continue
+            if tokens == "sans_ponctuation" and token.is_punct:
+                continue
+            if tokens == "alphabetiques" and not token.is_alpha:
                 continue
             if mode == "lemme":
                 if not token.lemma_:
                     raise ValueError("Lemmes absents : charger un pipeline avec lemmatiseur")
-                tokens.append(token.lemma_.lower())
+                valeurs.append(token.lemma_.lower())
             else:
-                tokens.append(token.text.lower())
-        sorties.append(tokens)
+                valeurs.append(token.text.lower())
+        sorties.append(valeurs)
     return sorties
