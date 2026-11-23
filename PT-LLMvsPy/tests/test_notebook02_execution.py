@@ -59,4 +59,11 @@ def test_cahier_complet_sur_microcorpus(tmp_path):
     assert len(mesures["annonces"]) == len(annonces["annonces"])
     preuve = mesures["preuve_champ"]
     assert contexte["corpus"].texte[preuve["debut"]:preuve["fin"]] == "droits"
-    assert mesures["choix_03"]["pivot"] == "femme"
+    assert mesures["frequences_meme_entree"]["droit"] == {"formes": 1, "lemmes": 2, "écart": 1}
+    assert mesures["ecarts_mesures"]["retrait de la ponctuation"]["N"] == -3
+    assert mesures["preuve_vote"] is None
+    travail = mesures["travail_03"]
+    assert travail["studio"] == {"pivots": ["femme", "femmes"], "associes": ["homme", "hommes"],
+                                "annonce_phrases": 208}
+    assert travail["m4"] == {"pivot": "femme", "associe": "droit", "statut": "NON_CALCULE"}
+    assert mesures["essais_personnels"]["annonce"]["statut_numerique"] == "MEME_VALEUR_A_L_ARRONDI"

@@ -41,7 +41,7 @@
 
 **État de mise en œuvre (11 novembre 2026).** Le notebook 01 a effectivement exécuté le masquage des blocs et appels de notes, des séparateurs d'astérisques et la recomposition des retours typographiques ; les effectifs et leur provenance figurent dans `metadonnees_analyse.json`. Les observations d'anomalies y sont libres et n'empêchent pas les calculs. Le texte nettoyé est sauvegardé dans `/content/analyse_faguet_v2_0_0/`.
 
-Le [notebook 02](../notebooks/02_mesures_lexicales.ipynb) reprend le texte nettoyé du 01. Il fait varier le filtre des tokens, puis compare formes et lemmes avec le même découpage et le même filtre. Les étudiants examinent une graphie, une annotation et un emploi en contexte. Le [03](../notebooks/03_relations_lexicales.ipynb) réutilise leur couple de mots pour comparer plusieurs unités de cooccurrence. Le [04](../notebooks/04_audit_llm.ipynb) confronte les calculs aux annonces documentées et les citations au texte.
+Le [notebook 02](../notebooks/02_mesures_lexicales.ipynb) reprend le texte nettoyé du 01. Il fait varier le filtre des tokens, puis compare formes et lemmes avec le même découpage et le même filtre. Les étudiants examinent une graphie, une annotation et un emploi en contexte. Le [03](../notebooks/03_relations_lexicales.ipynb) vérifie les associations chiffrées du rapport Studio puis compare, pour les lemmes *femme* et *droit*, les phrases communes et les fenêtres de proximité. Le [04](../notebooks/04_audit_llm.ipynb) confronte les calculs aux annonces documentées et les citations au texte.
 
 ## Références techniques
 

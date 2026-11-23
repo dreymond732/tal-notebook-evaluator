@@ -36,10 +36,17 @@ def verifier_parcours() -> None:
             subprocess.run([sys.executable, str(SCRIPT), str(chemin)], cwd=temporaire, check=True)
             print(f"{chemin.name} exécuté", flush=True)
         dossier_audit = json.loads((dossier / "resultats_04.json").read_text(encoding="utf-8"))
-        passages = dossier_audit["protocole_B"]["relation_03"]["passages"]
-        assert passages, "Le couple par défaut doit fournir des passages à relire."
-        for passage in passages:
-            assert epure.texte[passage["debut"]:passage["fin"]] == passage["texte"]
+        resultat03 = json.loads((dossier / "resultats_03.json").read_text(encoding="utf-8"))
+        principal = dossier_audit["studio"]["principal_03"]
+        relation = dossier_audit["protocole_B"]["relation_03"]
+        assert principal == resultat03["studio"]["principal"]
+        assert relation == resultat03["relation"]
+        assert principal["annonce"] == 208
+        assert (relation["pivot"], relation["associe"]) == ("femme", "droit")
+        for resultat in (principal, relation):
+            assert len(resultat["passages"]) == 2, "Deux passages à relire sur Faguet intégral."
+            for passage in resultat["passages"]:
+                assert epure.texte[passage["debut"]:passage["fin"]] == passage["texte"]
 
 
 if __name__ == "__main__":
