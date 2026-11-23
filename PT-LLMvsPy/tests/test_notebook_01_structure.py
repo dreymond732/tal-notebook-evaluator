@@ -22,11 +22,11 @@ def analyser_notebook(nom):
     return "\n".join(codes), "\n".join(textes)
 
 
-def test_notebook_01_resultats_libres_et_drive_monte():
+def test_notebook_01_exports_locaux_et_partage_manuel():
     code, presentation = analyser_notebook("01_corpus_protocole.ipynb")
     for element in (
         "VERSION_NOTEBOOK", "REVISION_GIT", "REVISION_GIT_RESOLUE",
-        'DOSSIER_TRAVAIL = Path("/content")',
+        'Path("/content")', "NUMERO_ETUDIANT",
         'NUMERO_SESSION = f"{secrets.randbelow',
         "DATE_SESSION = datetime.now(timezone.utc)",
         "executer_pretraitements", "composer_texte_epure",
@@ -35,19 +35,21 @@ def test_notebook_01_resultats_libres_et_drive_monte():
         "compter_motif", "NOTES_INSPECTION",
         "FICHIER_COMPARAISON", "FICHIER_COMPARAISON_JSON",
         "METADONNEES_ANALYSE", "FICHIER_ARCHIVE",
-        "COMMENTAIRES_ANALYSE", 'drive.mount("/content/drive")',
-        'DOSSIER_DEPOT_DRIVE = ""', "sha_drive != sha_local",
-        'DOSSIER_DRIVE_ID = "18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO"',
+        "COMMENTAIRES_ANALYSE", "files.download(str(FICHIER_ARCHIVE))",
     ):
         assert element in code, element
     for element in (
         "dépendance des traitements lexicaux",
         "Bloc-notes", "## 1", "## 2", "## 3", "## 4",
-        "une copie",
+        "une copie", "S3-PythonVsLLM", "Importer un fichier",
+        "depuis **votre dossier personnel**", "volet **Fichiers**",
+        "https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO",
+
     ):
         assert element.lower() in presentation.lower()
     assert presentation.index("## 2") < presentation.index("## 3")
     for ancien in (
+        "drive.mount(", "from google.colab import drive", "DOSSIER_DEPOT_DRIVE", "/content/drive",
         "MON_IDENTIFIANT", "DECISION_SUITE", "STATUT_ANALYSE",
         "ANOMALIES_A_EXAMINER", "valider_inspection(",
         "VALIDATION_ANALYSE", "MODE_REVISION",

@@ -136,7 +136,7 @@
     <h2>Préparer, lire et valider le corpus de référence</h2>
     <p class="intro">Le premier notebook fixe le <strong>prétraitement commun</strong>. Examinez les choix de préparation sur quelques lignes, puis appliquez le traitement au livre entier. Le texte et la version retenus à la revue du 01 servent de référence aux cahiers 02 à 04.</p>
     <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Google Colab</a></p>
-    <p>Le notebook est disponible dans le <strong>dossier public PT-LLMvsPy</strong> du dépôt du cours. Dans Colab, choisissez <strong>Fichier → Enregistrer une copie dans Drive</strong>, puis exécutez les cellules dans l'ordre. La bibliothèque Python et les documents de référence sont chargés depuis ce même dépôt.</p>
+    <p>Le notebook est disponible dans le <strong>dossier public PT-LLMvsPy</strong> du dépôt du cours. Dans Google Drive, créez un dossier personnel nommé <strong>S3-PythonVsLLM</strong>. Pour conserver vos réponses modifiables, choisissez dans Colab <strong>Fichier → Enregistrer une copie dans Drive</strong>. Rangez la copie dans <strong>S3-PythonVsLLM</strong>, ouvrez-la et travaillez dedans. Saisissez votre numéro étudiant en conservant ses éventuels zéros initiaux, puis exécutez les cellules dans l’ordre. La bibliothèque Python et les documents de référence sont chargés depuis ce même dépôt.</p>
     <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">télécharger le fichier <code>01_corpus_protocole.ipynb</code> sur GitHub</a> puis l'importer dans Colab.</p>
     <ol class="step-list">
       <li><h3>Exécuter le nettoyage</h3><p>Charger la version de référence de Faguet et les fonctions Python, lancer le traitement complet, puis sauvegarder le fichier texte obtenu.</p></li>
@@ -146,7 +146,7 @@
     </ol>
     <div class="semi trace">
       <h3>▣ Rendu de la première séance</h3>
-      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Déposez votre archive dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue, conservez le texte nettoyé retenu et sa provenance pour les trois séances suivantes.</p>
+      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Téléchargez sur votre ordinateur le TXT nettoyé pour l’inspection puis, en fin de séance, le ZIP. Dans Google Drive, importez ces deux fichiers dans <strong>S3-PythonVsLLM</strong>. Depuis ce dossier personnel, copiez le ZIP dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue, conservez le texte nettoyé retenu et sa provenance pour les trois séances suivantes.</p>
     </div>
   </div>
 </section>
@@ -208,7 +208,7 @@
     <div><strong>GitHub public</strong><span>Sous-dossier PT-LLMvsPy : fonctions Python, notebooks et documents de référence.</span></div>
     <div><strong>Notebook 01</strong><span>Nettoyage, inspection et version du corpus retenue.</span></div>
     <div><strong>Notebooks 02 à 04</strong><span>Mesures et audit sur le même texte préparé.</span></div>
-    <div><strong>Sauvegarde</strong><span>Archive du 01 déposée sur le Drive partagé. TXT ou ZIP du 01 et trois JSON conservés dans le dossier personnel.</span></div>
+    <div><strong>Sauvegarde</strong><span>Téléchargement sur l’ordinateur, puis rangement manuel dans S3-PythonVsLLM. Copie vers le dossier partagé aux revues du 01 et du 04.</span></div>
   </div>
   <div class="grid">
     <div class="panel"><h3>01 · Prétraitement</h3><p>Nettoyez le livre entier, vérifiez un passage avant et après nettoyage et comparez les comptes de base. La revue fixe le texte qui sera réutilisé.</p></div>
@@ -216,7 +216,13 @@
     <div class="panel"><h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_relations_lexicales.ipynb" target="_blank" rel="noopener">03 · Cooccurrences et séquences</a></h3><p>Testez la règle sur deux phrases de votre invention. Sur Faguet, calculez combien de phrases contiennent à la fois une forme du groupe <em>femme/femmes</em> et une forme du groupe <em>homme/hommes</em>. <strong>Studio en annonce 208.</strong> <code>mesurer()</code> en mode union compte chaque phrase commune une fois. Répartissez les autres associations entre binômes. Examinez aussi une suite de mots contigus comme <em>union libre</em>.</p><p>Le protocole M4 de la conversation concerne <em>femme / droit</em>. Gemini propose une méthode et laisse la valeur à calculer. Comparez les rayons ±5 et ±10 tokens autour du lemme <em>femme</em>. Distinguez le nombre d’occurrences de <em>femme</em> ayant au moins une occurrence du lemme <em>droit</em> dans la fenêtre et le nombre total de paires de positions. Fixez l’unité et conservez deux passages localisés. Les marges et, en approfondissement, le score PMI aident à interpréter l’association.</p></div>
     <div class="panel"><h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_audit_llm.ipynb" target="_blank" rel="noopener">04 · Audit et conclusion individuelle</a></h3><p>Rouvrez les résultats des 02 et 03. Testez <code>verifier_citation()</code> sur une phrase personnelle et sa variante. Retrouvez ensuite les mots cités dans le livre et relisez le contexte pour identifier qui parle. Faites relire à un binôme l’indice textuel qui soutient votre interprétation.</p><p>Pour finir, confrontez vos éléments validés aux affirmations de Gemini. Les nombres portent-ils sur la même unité ? La citation est-elle fidèle et bien attribuée ? Les passages justifient-ils le mot « toujours » employé par Studio ? Rédigez votre conclusion en indiquant ses limites.</p></div>
   </div>
-  <div class="semi trace"><h3>▣ D’une séance à l’autre</h3><p>Déposez le TXT nettoyé ou le ZIP du 01 dans votre dossier personnel <code>Mon Drive/PT-Faguet</code>. Dans chaque cahier suivant, exécutez la dernière cellule après avoir renseigné vos observations. Elle enregistre <code>resultats_02.json</code>, <code>resultats_03.json</code> ou <code>resultats_04.json</code> dans ce même dossier. Le 04 relit les résultats des 02 et 03.</p></div>
+  <div class="semi trace"><h3>▣ D’une séance à l’autre</h3>
+    <p>Les calculs écrivent dans les fichiers temporaires de Colab. Avant de quitter la séance, téléchargez chaque export sur votre ordinateur. Si nécessaire, choisissez <strong>Télécharger</strong> dans le menu du fichier affiché dans le volet <strong>Fichiers</strong>. Dans Google Drive, ouvrez <strong>S3-PythonVsLLM</strong> et importez l’export depuis votre ordinateur. Vérifiez que le nom porte votre numéro étudiant.</p>
+    <p>Après une correction, ouvrez le dernier téléchargement et vérifiez qu’il contient votre réponse mise à jour. Si le nom porte le suffixe <code>(1)</code>, redonnez-lui le nom prévu ci-dessous. Remplacez uniquement votre propre ancienne version dans Drive et, si vous l’aviez déjà remise, dans le dossier partagé.</p>
+    <p>Pour reprendre, téléchargez les entrées de la prochaine séance depuis votre dossier Drive, puis importez-les dans <code>/content</code> par le volet <strong>Fichiers</strong> du nouveau notebook. Utilisez le même numéro étudiant.</p>
+    <ul><li><strong>Au 02</strong>, reprenez <code>faguet_nettoye_&lt;numero&gt;.txt</code> ou <code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code>. Conservez ensuite <code>resultats_02_&lt;numero&gt;.json</code>.</li>
+      <li><strong>Au 03</strong>, reprenez le TXT ou le ZIP du 01 <strong>et</strong> le JSON du 02. Conservez <code>resultats_03_&lt;numero&gt;.json</code>.</li>
+      <li><strong>Au 04</strong>, reprenez le TXT ou le ZIP du 01 <strong>et les deux JSON</strong> des 02 et 03. Conservez <code>resultats_04_&lt;numero&gt;.json</code>, qui contient votre conclusion.</li></ul></div>
   <p>Si la version du texte devait être corrigée, repérez les calculs qui en dépendent avant de les reproduire sur cette nouvelle version.</p>
 </section>
 
@@ -233,7 +239,7 @@
       <tr><td><time datetime="2026-12-18">18 décembre</time></td><td>04 · Audit final</td><td>Votre comparaison avec Gemini à partir d’un chiffre et d’une citation vérifiés, puis votre conclusion individuelle.</td></tr>
     </tbody>
   </table></div>
-  <div class="semi trace"><h3>▣ Dossier final, fin de S3</h3><p>À la fin de la revue du 18 décembre, rassemblez le texte ou l’archive du 01 et les trois fichiers de résultats. Transmettez à l’équipe PT votre contribution avec l’annonce examinée, le protocole, la mesure, les passages localisés et votre conclusion.</p></div>
+  <div class="semi trace"><h3>▣ Dossier final, fin de S3</h3><p>À la fin de la revue du 18 décembre, ouvrez <strong>S3-PythonVsLLM</strong> dans Drive et copiez vos trois JSON des 02, 03 et 04 dans le dossier partagé du projet. Vérifiez que l’équipe PT y retrouvera votre annonce, votre protocole, votre mesure, les passages localisés et votre conclusion. Le ZIP du 01 déjà partagé identifie le texte utilisé.</p></div>
 </section>
 
 <section class="section" id="synthese">
