@@ -161,3 +161,40 @@ def couverture_pivots(tokens: Sequence[str], pivot: str, associe: str, k: int) -
     couverts = [i for i in piv if any(abs(i - j) <= k for j in ass)]
     return {"positions_pivot": piv, "positions_couvertes": couverts,
             "effectif": len(couverts), "total": len(piv)}
+
+
+def bilan_fenetres(
+    phrases: Sequence[Sequence[str]], pivot: str, associe: str, k: int,
+) -> dict[str, int]:
+    """Compter positions de pivot, positions couvertes et paires dans ±k tokens.
+
+    Une fenêtre reste dans sa phrase. La répétition de l'associé ajoute une
+    paire par position voisine, tandis que le pivot reste couvert une fois.
+    Les termes de cette comparaison doivent être distincts.
+    """
+    if not pivot or not associe or pivot == associe:
+        raise ValueError("Choisir deux termes non vides et distincts.")
+    if k < 0:
+        raise ValueError("k doit être positif ou nul.")
+    total = couverts = paires = 0
+    for phrase in phrases:
+        for i, terme in enumerate(phrase):
+            if terme == pivot:
+                voisins = phrase[max(0, i - k):i + k + 1]
+                nombre = voisins.count(associe)
+                total += 1
+                couverts += int(nombre > 0)
+                paires += nombre
+    return {"pivots": total, "pivots_couverts": couverts, "paires": paires}
+
+
+def frequences_ngrammes(phrases: Sequence[Sequence[str]], n: int) -> list[dict]:
+    """Fréquences des suites de n tokens contigus, limitées à une phrase."""
+    if n < 1:
+        raise ValueError("La longueur d'une séquence doit être positive.")
+    sequences = [
+        " ".join(phrase[i:i + n])
+        for phrase in phrases
+        for i in range(len(phrase) - n + 1)
+    ]
+    return frequences(sequences)

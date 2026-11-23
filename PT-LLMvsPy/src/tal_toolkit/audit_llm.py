@@ -115,3 +115,26 @@ def evaluer_affirmation(
             or any(not isinstance(x, int) or isinstance(x, bool) for x in bornes)):
         return "NON_COMPARABLE"
     return comparer_intervalle(valeur, bornes[0], bornes[1])
+
+
+def concordances_expression(
+    source: str, expression: str, *, largeur: int = 100
+) -> list[dict]:
+    """Localise les mots entiers, sans distinguer la casse, dans le texte reçu.
+
+    Un espace dans l'expression accepte un ou plusieurs blancs. Les autres
+    caractères sont littéraux. Les bornes [debut:fin] indexent le texte reçu.
+    """
+    mots = expression.split()
+    if not mots or largeur < 0:
+        raise ValueError("Précisez une expression et une largeur positive ou nulle.")
+    motif = r"(?<!\w)" + r"\s+".join(map(re.escape, mots)) + r"(?!\w)"
+    lignes = []
+    for match in re.finditer(motif, source, flags=re.IGNORECASE):
+        debut, fin = match.span()
+        lignes.append({
+            "debut": debut, "fin": fin, "expression": match.group(),
+            "gauche": source[max(0, debut - largeur):debut],
+            "droite": source[fin:fin + largeur],
+        })
+    return lignes

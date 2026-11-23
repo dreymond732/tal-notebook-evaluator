@@ -41,7 +41,7 @@
 
 **État de mise en œuvre (11 novembre 2026).** Le notebook 01 a effectivement exécuté le masquage des blocs et appels de notes, des séparateurs d'astérisques et la recomposition des retours typographiques ; les effectifs et leur provenance figurent dans `metadonnees_analyse.json`. Les observations d'anomalies y sont libres et n'empêchent pas les calculs. Le texte nettoyé est sauvegardé dans `/content/analyse_faguet_v2_0_0/`.
 
-Le **notebook 02** exploite ce fichier plutôt que de refaire implicitement le nettoyage ; il vérifie le comportement du plan sous réapplication (idempotence éventuelle sur ce corpus), recense les opérations restant à définir (notamment OP03, OP05, OP06, OP10 et OP12) et calcule les indicateurs du rapport Gemini avec des conventions explicites. Les mots vides ne sont pas retirés par défaut. Les **lemmes** ne sont comptés que si un pipeline spaCy réellement lemmatiseur est disponible. Le résultat du traitement informatique n'est pas une certification du protocole interne de Gemini.
+Le [notebook 02](../notebooks/02_mesures_lexicales.ipynb) reprend le texte nettoyé du 01. Il fait varier le filtre des tokens, puis compare formes et lemmes avec le même découpage et le même filtre. Les étudiants examinent une graphie, une annotation et un emploi en contexte. Le [03](../notebooks/03_relations_lexicales.ipynb) vérifie les associations chiffrées du rapport Studio puis compare, pour les lemmes *femme* et *droit*, les phrases communes et les fenêtres de proximité. Le [04](../notebooks/04_audit_llm.ipynb) confronte les calculs aux annonces documentées et les citations au texte.
 
 ## Références techniques
 

@@ -8,7 +8,10 @@ from __future__ import annotations
 from collections import Counter
 from hashlib import sha256
 import re
-from typing import Mapping
+from typing import TYPE_CHECKING, Mapping
+
+if TYPE_CHECKING:
+    from spacy.tokens import Doc
 
 from .epuration import composer_texte_epure
 from .pretraitements import PlanPretraitement, executer_pretraitements
@@ -139,22 +142,29 @@ def _mentions(texte: str, variantes: tuple[str, ...]) -> dict:
 
 
 def analyser_lexique_pt02(
-    texte: str, nlp: object, *, taille_sttr: int = 1000,
+    texte: str | Doc, nlp: object, *, taille_sttr: int = 1000,
     calculer_lemmes: bool = False,
 ) -> dict:
     """Calculs sur le texte reçu ; ne retélécharge ni ne renettoie le corpus.
 
+    Un Doc déjà annoté permet de relire les mêmes tokens dans le cahier.
     Les champs lexicaux du rapport sont décomptés par formes minuscules.
     Si calculer_lemmes=True, les lemmes sont rendus uniquement si un modèle
     effectivement annotant est disponible. Pas de repli sur des lemmes vides.
     """
-    if not isinstance(texte, str):
-        raise TypeError("texte doit être une chaîne")
+    from spacy.tokens import Doc
+
     if taille_sttr <= 0:
         raise ValueError("taille_sttr doit être positive")
-    if len(texte) >= nlp.max_length:
-        raise ValueError("Augmenter explicitement nlp.max_length")
-    doc = nlp(texte)
+    if isinstance(texte, Doc):
+        doc = texte
+        texte = doc.text
+    elif isinstance(texte, str):
+        if len(texte) >= nlp.max_length:
+            raise ValueError("Augmenter explicitement nlp.max_length")
+        doc = nlp(texte)
+    else:
+        raise TypeError("texte doit être une chaîne ou un document spaCy")
     try:
         phrases = list(doc.sents)
     except ValueError as exc:
