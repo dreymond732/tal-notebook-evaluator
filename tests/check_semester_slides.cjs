@@ -25,9 +25,16 @@ const { chromium } = require('playwright');
       assert(count > 0, `${file}: slides missing`);
       assert.equal(await page.locator('#jump option').count(), count);
       const links = await page.locator('a[href]').evaluateAll(nodes => nodes.map(a => a.getAttribute('href')));
-      assert(links.every(url => url === 'https://drive.google.com/drive/folders/1mkc-LIA1ModDi0Hst0Se-cV8mMnmW_Te?usp=sharing'), `${file}: unexpected external link`);
-      if (!file.includes('/S3/')) assert.equal(links.length, 0, `${file}: no S1/S2 folder supplied`);
-      else assert(links.length > 0, `${file}: missing S3 Drive links`);
+      if (file.includes('/S3/')) {
+        const drive = 'https://drive.google.com/drive/folders/1mkc-LIA1ModDi0Hst0Se-cV8mMnmW_Te?usp=sharing';
+        const colab = 'https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/';
+        const notebooks = ['01_corpus_protocole', '02_mesures_lexicales', '03_relations_lexicales', '04_audit_llm'];
+        assert(links.includes(drive), `${file}: missing S3 Drive links`);
+        assert.deepEqual(links.filter(url => url !== drive).sort(),
+          notebooks.map(name => colab + name + '.ipynb').sort(), `${file}: expected one link per PT notebook`);
+      } else {
+        assert.equal(links.length, 0, `${file}: no S1/S2 folder supplied`);
+      }
       assert.equal(await page.locator('script[src], link[rel=stylesheet], img[src], iframe[src]').count(), 0, `${file}: external resource`);
       const css = (await page.locator('style').allTextContents()).join('');
       const cssUrls = Array.from(css.matchAll(/url\s*\(\s*['"]?([^)'"]+)/gi), match => match[1].trim());

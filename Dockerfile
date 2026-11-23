@@ -4,6 +4,8 @@ COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 # On copie tout le contenu du dossier local ./app dans /app du conteneur
 COPY ./app /app/
+# Le cadrage du projet renvoie au diaporama S3 servi à cette adresse statique.
+COPY ["Notebooks TD/S3/Organisation_progression_S3.html", "/app/static/Organisation_progression_S3.html"]
 # Corpus figé nécessaire à la validation des citations et de leurs positions.
 COPY ["Notebooks TD/S3/ressources/", "/app/s3_resources/"]
 # On s'assure que le dossier de destination des copies existe
