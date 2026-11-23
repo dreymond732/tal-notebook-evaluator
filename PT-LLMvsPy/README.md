@@ -37,11 +37,28 @@ Le notebook monte votre Drive avec `drive.mount()`. Il reste à repérer le [dos
 
 L'accès au dossier exige un droit de contribution Google Drive ; il ne découle pas de l'accès au dépôt GitHub.
 
-## Les autres notebooks
+## Du texte nettoyé au dossier d’audit
 
-Le [notebook 02 — audit du nettoyage et mesures lexicales](notebooks/02_mesures_lexicales.ipynb) reprend directement **`/content/analyse_faguet_v2_0_0/faguet_nettoye.txt`** et ses métadonnées. Il teste la réapplication des opérations OP01–OP12 puis calcule les métriques globales, le STTR, cinq champs lexicaux, des marqueurs énonciatifs, des locutions et des mentions orthographiques. Les lemmes exigent un modèle annotant. Les résultats et preuves sont enregistrés dans **`/content/analyse_faguet_n2_v1_0_0/`**.
+Dans Colab, créez **Mon Drive → PT-Faguet** et placez-y le fichier `faguet_nettoye.txt` ou l’archive ZIP du 01. Les trois notebooks utilisent ce dossier personnel, y compris d’une séance à l’autre. Si le texte ou l’archive se trouve ailleurs, indiquez son chemin dans **SOURCE_01**. Pour travailler dans un autre dossier de résultats, utilisez le même **DOSSIER_PERSONNEL** dans les trois cahiers. Ouvrez chaque cahier dans sa propre session. Si vous rattachez le 02 à un noyau qui a déjà importé la bibliothèque du 01, redémarrez ce noyau avant la première cellule. En local, le dossier par défaut est `PT-Faguet/` dans le répertoire de travail de Jupyter.
 
-Les notebooks [03 — relations lexicales](notebooks/03_relations_lexicales.ipynb) et [04 — audit LLM](notebooks/04_audit_llm.ipynb) restent à reprendre ; ils devront utiliser le **même texte nettoyé** et la même provenance. Les cooccurrences détaillées par phrase ou fenêtres ±5/±10 relèvent du notebook 03.
+| Cahier | Manipulation | Trace sauvegardée par la dernière cellule |
+|---|---|---|
+| [02 — Compter les mots de Faguet](notebooks/02_mesures_lexicales.ipynb) | Prévoir un compte sur une phrase, comparer formes et lemmes à filtre constant, puis relire un emploi dans le livre. | `resultats_02.json` contient les mesures, les observations et le couple de mots proposé pour le 03. |
+| [03 — Relations lexicales](notebooks/03_relations_lexicales.ipynb) | Classer des phrases à la main, retrouver deux mots dans Faguet, changer une convention de comptage et interpréter les passages. | `resultats_03.json` contient la question, les unités, les effectifs, les positions des passages et la conclusion. |
+| [04 — Audit de Gemini](notebooks/04_audit_llm.ipynb) | Examiner un chiffre, vérifier une citation, puis enquêter sur un problème de sens en confrontant deux lectures. | `resultats_04.json` rassemble les pièces examinées, les contextes et le jugement argumenté. |
+
+La dernière cellule actualise le JSON du cahier. Pour conserver le travail personnel, renseignez les champs de réponse puis relancez les cellules concernées et la sauvegarde. Ces trois JSON sont des fichiers de travail personnels. La procédure de dépôt collectif décrite plus haut concerne l’archive du 01.
+
+### Quatre temps de TD en classe
+
+| Temps | Activité | Ce que l’étudiant peut montrer |
+|---|---|---|
+| 1 · Du 01 au 02 | Compter les unités d’une phrase sur papier, puis comparer avec l’affichage. Sur Faguet, retrouver une graphie dont le découpage mérite discussion. | Expliquer ce qui entre dans un compte et montrer la graphie dans le texte. |
+| 2 · Commencer le 03 | Trier individuellement les phrases du microcorpus dans les quatre cases. Comparer les classements en binôme puis appliquer la même règle au couple choisi au 02. | Expliquer pourquoi une phrase où le pivot apparaît deux fois contribue une seule fois à l’effectif des phrases communes. |
+| 3 · Interpréter le 03 | Un étudiant change le rayon, l’autre prédit l’effet. Inverser les rôles pour la ponctuation. Échanger une conclusion et le passage censé l’étayer. | Nommer le paramètre changé, donner les deux effectifs avec leur unité et retrouver un indice qui soutient ou limite la lecture. |
+| 4 · Conduire le 04 | Examiner ensemble un chiffre et les conditions du calcul. Chaque binôme vérifie ensuite une citation et choisit une enquête sur le sens. Un second binôme relit un extrait avant la conclusion individuelle. | Distinguer une valeur comparable, une méthode annoncée et une citation retrouvée, puis expliquer ce que le passage permet de conclure. |
+
+**Observation individuelle.** Annoncer une courte manipulation sans assistance de l’IA, avec les cellules et les fonctions fournies. Demander à chacun d’expliquer une ligne, de prévoir puis d’essayer un autre paramètre, et d’appuyer une conclusion limitée sur un passage retrouvé. Pour le suivi, relever séparément **compte expliqué**, **passage retrouvé**, **variation interprétée** et **conclusion justifiée**. Employer « observé », « à reprendre » ou « non observé » selon ce que l’étudiant a effectivement montré.
 
 ## Développement et vérification
 
@@ -52,6 +69,7 @@ cd PT-LLMvsPy
 python -m pip install -e ".[test,nlp]"
 python -m pytest -q
 python scripts/verifier_corpus_td01.py
+python scripts/verifier_notebook02.py
 ```
 
 GitHub Actions vérifie aussi l'**installation Git du sous-dossier** depuis le dépôt public, pour reproduire le parcours d'import de Colab.
