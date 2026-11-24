@@ -90,7 +90,8 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize("pivot,associe", [("droit civil", "femme"), ("femme", "droit civil")])
 def test_couple_personnel_refuse_plusieurs_mots(pivot, associe):
-    cahier = json.loads((NOTEBOOKS / "03_relations_lexicales.ipynb").read_text(encoding="utf-8"))
+    (chemin,) = NOTEBOOKS.glob("03_*.ipynb")
+    cahier = json.loads(chemin.read_text(encoding="utf-8"))
     cellule = next(c for c in cahier["cells"] if c["id"] == "couple-perso")
     source = "".join(cellule["source"]).replace(
         'pivot_libre, associe_libre = "", ""', f"pivot_libre, associe_libre = {pivot!r}, {associe!r}"
@@ -100,7 +101,8 @@ def test_couple_personnel_refuse_plusieurs_mots(pivot, associe):
 
 
 def test_enquete_modalisation_avec_un_export_partiel(capsys):
-    cahier = json.loads((NOTEBOOKS / "04_audit_llm.ipynb").read_text(encoding="utf-8"))
+    (chemin,) = NOTEBOOKS.glob("04_*.ipynb")
+    cahier = json.loads(chemin.read_text(encoding="utf-8"))
     cellule = next(c for c in cahier["cells"] if c["id"] == "explorer-enquete")
     source = "".join(cellule["source"]).replace('ENQUETE = "polysémie"', 'ENQUETE = "modalisation"')
     exec(source, {"lexique": {"locutions": {"il_faut": {"occurrences": 0}}}})

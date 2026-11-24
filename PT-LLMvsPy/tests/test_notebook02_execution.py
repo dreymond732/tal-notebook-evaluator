@@ -74,7 +74,8 @@ def test_cahier_complet_sur_microcorpus(tmp_path):
 
 
 def test_annotation_absente_ou_elargie_au_token():
-    source = (PT / "notebooks/02_mesures_lexicales.ipynb").read_text(encoding="utf-8")
+    (chemin,) = (PT / "notebooks").glob("02_*.ipynb")
+    source = chemin.read_text(encoding="utf-8")
     cellule = next(c for c in json.loads(source)["cells"] if c["id"] == "annotation-faguet")
     code = "".join(cellule["source"])
     corpus = corpus_depuis_texte("Je vote aux élections.")

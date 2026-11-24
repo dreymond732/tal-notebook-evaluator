@@ -25,7 +25,7 @@ def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
         assert 'preparer_atelier(numero_etudiant=NUMERO_ETUDIANT)' in initialisation
         paquet = "tal-toolkit[nlp] @ git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy"
         assert paquet in initialisation
-        if nom == "04_audit_llm":
+        if nom.startswith("04_"):
             ouvrir = next(c for c in cahier["cells"] if c["id"] == "ouvrir-04")
             assert paquet in "".join(ouvrir["source"])
         assert not any("drive.mount(" in code or "/content/drive" in code for code in codes.values())
