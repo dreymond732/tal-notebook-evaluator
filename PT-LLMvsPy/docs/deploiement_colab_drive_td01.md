@@ -39,6 +39,8 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 
 **Après le 02.** Ouvrez le JSON téléchargé et retrouvez `numero_etudiant` ainsi qu’une réponse que vous venez d’écrire dans `observations`. Le 03 reprend ce JSON avec le TXT ou le ZIP du 01. Conservez l’original du JSON dans **S3-PythonVsLLM** jusqu’à la remise des trois JSON à la revue du 04.
 
+**Après le 03.** Dans le JSON téléchargé, vérifiez votre `numero_etudiant`, votre `conclusion` et les passages conservés dans `studio → principal → passages`. Rangez `resultats_03_<numero>.json` dans **S3-PythonVsLLM**. Au 04, importez le TXT ou le ZIP du 01 **et** les JSON des 02 et 03. À la revue finale, copiez les trois JSON depuis votre dossier personnel vers le dossier partagé.
+
 ### Reprendre vos propres exports d’une ancienne séance
 
 Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-PythonVsLLM** et donnez aux copies les noms utilisés par les cahiers actuels.

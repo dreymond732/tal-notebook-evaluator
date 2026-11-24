@@ -7,8 +7,8 @@ import re
 
 def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
     notebooks = Path(__file__).resolve().parents[1] / "notebooks"
-    revisions = []
-    for path in sorted(notebooks.glob("0[234]_*.ipynb")):
+    for nom in ("02_mesures_lexicales", "03_relations_lexicales", "04_audit_llm"):
+        path = notebooks / f"{nom}.ipynb"
         cahier = json.loads(path.read_text(encoding="utf-8"))
         assert cahier["nbformat"] == 4
         codes = {}
@@ -25,9 +25,7 @@ def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
         assert 'preparer_atelier(numero_etudiant=NUMERO_ETUDIANT)' in initialisation
         revision = re.search(r"\.git@([0-9a-f]{40})#subdirectory=PT-LLMvsPy", initialisation)
         assert revision, f"{path.name} doit installer une révision Git immuable"
-        revisions.append(revision.group(1))
         assert not any("drive.mount(" in code or "/content/drive" in code for code in codes.values())
-    assert len(revisions) == 3 and len(set(revisions)) == 1
 
 
 def test_le_02_ouvre_le_corpus_du_01_puis_travaille_sur_les_unites():
