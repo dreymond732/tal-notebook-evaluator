@@ -27,11 +27,27 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     monkeypatch.setattr(atelier, "charger_modele_francais", lambda: modele)
     dossier = tmp_path
     numero = "00123456"
-    texte = ("Une femme parle à un homme. Les femmes et les hommes lisent. "
+    texte = ("Une femme parle à un homme.\n\nLes femmes et les hommes lisent, 2 fois. "
              "Une femme revendique un droit. La loi prévoit une peine. "
              "Une loi modifie la peine. La peine relève de la loi.")
     (dossier / f"faguet_nettoye_{numero}.txt").write_text(texte, encoding="utf-8")
     executer_cahier(NOTEBOOKS / "02_mesures_lexicales.ipynb", numero)
+
+    r2 = json.loads((dossier / f"resultats_02_{numero}.json").read_text(encoding="utf-8"))
+    mesures = r2["mesures"]
+    doc = modele(texte)
+    assert r2["globales"]["tokens_bruts_spacy"] == len(doc)
+    hors_espaces = mesures["tous_sans_espaces"]["tokens"]
+    sans_ponctuation = mesures["sans_ponctuation"]["tokens"]
+    assert r2["decompte_tokens"] == {
+        "tokens_bruts_spacy": len(doc), "len_doc": len(doc),
+        "tokens_is_space": 1, "tous_sans_espaces": hors_espaces,
+    }
+    assert r2["logiciel_formes"]["pipeline"] == ["sentencizer"]
+    assert len(doc) - hors_espaces == 1  # Le double retour forme un token d'espacement.
+    assert hors_espaces - sans_ponctuation == sum(t.is_punct for t in doc)
+    assert sans_ponctuation - mesures["alphabetiques"]["tokens"] == 1  # Le chiffre 2.
+    assert mesures["alphabetiques · lemmes"]["tokens"] == mesures["alphabetiques"]["tokens"]
 
     # L’étudiant saisit ses deux lemmes dans la copie personnelle du notebook.
     cahier = json.loads((NOTEBOOKS / "03_relations_lexicales.ipynb").read_text(encoding="utf-8"))
