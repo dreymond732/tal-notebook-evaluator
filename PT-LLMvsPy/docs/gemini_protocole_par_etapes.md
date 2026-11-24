@@ -1,13 +1,13 @@
 # Expérience Gemini Notebook — prompts courts et reproductibilité
 
-**Matériau** : le texte Faguet du dépôt TAL S3, conservé dans une source propre du notebook Google ; empreinte contrôlée séparément. Le rapport Studio fourni par l'enseignant est une **production à auditer**, pas une preuve que les traitements mentionnés ont été exécutés.
+**Matériau** : le texte Faguet du dépôt TAL S3, conservé dans une source propre du notebook Google ; empreinte contrôlée séparément. Le [rapport chiffré transmis le 10 novembre 2026](rapports_gemini.md) contient les affirmations à vérifier dans le livre.
 
 ## Organisation recommandée
 
 1. Créer **un seul notebook Gemini** avec le fichier texte Faguet comme source sélectionnée. Conserver le lien vers le fichier du dépôt et son commit.
 2. Dans **Discussion**, utiliser un prompt court par étape, sauvegarder les réponses comme Notes si leur statut est explicite.
 3. Après validation manuelle, créer une **Note « Protocole confirmé »** (seules les opérations effectivement observées ou décidées y figurent).
-4. Dans **Studio → Rapports → Document → Personnaliser**, produire **un rapport par partie** en sélectionnant seulement le corpus et la Note confirmée. Utiliser « Afficher le prompt personnalisé » pour vérifier la consigne enregistrée.
+4. Dans le panneau **Studio** de Gemini Notebook, choisir **Rapports → Document → Personnaliser** pour produire **un rapport par partie** en sélectionnant seulement le corpus et la Note confirmée. Utiliser « Afficher le prompt personnalisé » pour vérifier la consigne enregistrée.
 5. Exporter les rapports vers Docs et, si pertinent, les tableaux vers Sheets. Conserver ces exports, la date et les versions accessibles. Ne pas attribuer automatiquement des capacités d'exécution de code à toutes les sessions.
 
 ### Règle commune à conserver dans les paramètres de Discussion ou dans une Note sélectionnée

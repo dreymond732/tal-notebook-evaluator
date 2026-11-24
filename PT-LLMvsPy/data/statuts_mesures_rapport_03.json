@@ -1,0 +1,49 @@
+{
+  "rapport": 3,
+  "outil": "Gemini Notebook",
+  "date_transmission": "2026-11-10",
+  "date_generation": "2026-11-10",
+  "source_date_generation": "Confirmation de l’enseignant",
+  "source": "../../app/static/PT_LLMvsPy_Rapport_03_Gemini_Notebook_source_originale.md",
+  "sha256_source": "ea83fe9d3aff13474d9492a2d0ca307094b2e55f05b385c96206743c146620c3",
+  "section_source": "6.1 — Tableau récapitulatif du statut des mesures du rapport",
+  "description": "Transcription pédagogique du 24 novembre 2026. Chaque statut et sa justification reproduisent le bilan du rapport.",
+  "mesures": [
+    {
+      "identifiant": "M-01",
+      "indicateur": "Nombre total de tokens",
+      "statut_declare": "NON VÉRIFIABLE",
+      "justification_du_rapport": "Exige le traitement automatique dynamique du corpus intégral."
+    },
+    {
+      "identifiant": "M-02",
+      "indicateur": "Nombre de types",
+      "statut_declare": "NON VÉRIFIABLE",
+      "justification_du_rapport": "Incalculable sans dédoublonnage exécuté par script."
+    },
+    {
+      "identifiant": "M-03",
+      "indicateur": "Hapax legomena",
+      "statut_declare": "NON VÉRIFIABLE",
+      "justification_du_rapport": "Nécessite la distribution fréquentielle complète de l'ensemble des formes."
+    },
+    {
+      "identifiant": "M-04",
+      "indicateur": "Type-token ratio",
+      "statut_declare": "ESTIMÉ",
+      "justification_du_rapport": "Qualifié à partir de la variété lemmatique observée empiriquement."
+    },
+    {
+      "identifiant": "M-05",
+      "indicateur": "Nombre total de phrases",
+      "statut_declare": "NON VÉRIFIABLE",
+      "justification_du_rapport": "Exige l'exécution de l'analyseur de limites de phrases sur le graphe."
+    },
+    {
+      "identifiant": "M-06",
+      "indicateur": "Longueur moyenne des phrases",
+      "statut_declare": "ESTIMÉ",
+      "justification_du_rapport": "Déduite de la structure alternée des périodes oratoires du texte."
+    }
+  ]
+}

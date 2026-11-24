@@ -1,6 +1,6 @@
-# Matrice critique des prétraitements — rapport Studio et tableau Gemini
+# Matrice critique des prétraitements — rapport chiffré et tableau Gemini
 
-**Source examinée :** tableau de données Gemini transmis par l'enseignant le 10 novembre 2026, identifiants `OP01` à `OP12`. Les douze lignes portent le statut **PROPOSÉ** ; aucune ne contient de preuve d'exécution. Le rapport Studio antérieur et le tableau ne permettent pas de certifier le prétraitement effectivement réalisé par Gemini. Les exemples avant/après sont parfois génériques, et la mention « Source 1 » constitue un renvoi documentaire, non une trace d'exécution.
+**Source examinée :** tableau de données Gemini transmis par l'enseignant le 10 novembre 2026, identifiants `OP01` à `OP12`. Les douze lignes portent le statut **PROPOSÉ** ; aucune ne contient de preuve d'exécution. Le [rapport chiffré transmis le 10 novembre 2026](rapports_gemini.md) et le tableau ne permettent pas de certifier le prétraitement effectivement réalisé par Gemini. Les exemples avant/après sont parfois génériques, et la mention « Source 1 » constitue un renvoi documentaire, non une trace d'exécution.
 
 **Objet :** convertir ces propositions en **questions de validation**, puis en contrats testables lorsque les règles auront été explicitement approuvées. Ne pas utiliser les nombres du rapport Gemini comme résultats attendus des tests.
 
@@ -41,7 +41,7 @@
 
 **État de mise en œuvre (11 novembre 2026).** Le notebook 01 a effectivement exécuté le masquage des blocs et appels de notes, des séparateurs d'astérisques et la recomposition des retours typographiques ; les effectifs et leur provenance figurent dans `metadonnees_analyse.json`. Les observations d'anomalies y sont libres et n'empêchent pas les calculs. Le texte nettoyé est sauvegardé dans `/content/analyse_faguet_v2_0_0/`.
 
-Le [notebook 02](../notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb) reprend le texte nettoyé du 01. Il fait varier le filtre des tokens, puis compare formes et lemmes avec le même découpage et le même filtre. Les étudiants examinent une graphie, une annotation et un emploi en contexte. Le [03](../notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) vérifie les associations chiffrées du rapport Studio puis compare, pour les lemmes *femme* et *droit*, les phrases communes et les fenêtres de proximité. Le [04](../notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) confronte les calculs aux annonces documentées et les citations au texte.
+Le [notebook 02](../notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb) reprend le texte nettoyé du 01. Il fait varier le filtre des tokens, puis compare formes et lemmes avec le même découpage et le même filtre. Les étudiants examinent une graphie, une annotation et un emploi en contexte. Le [03](../notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) recompte les associations annoncées dans le rapport puis compare, pour les lemmes *femme* et *droit*, les phrases communes et les fenêtres de proximité. Le [04](../notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) confronte les calculs aux annonces documentées et les citations au texte.
 
 ## Références techniques
 

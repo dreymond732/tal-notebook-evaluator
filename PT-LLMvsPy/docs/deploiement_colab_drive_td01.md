@@ -22,7 +22,7 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et retrouvez-le à la position indiquée dans la source.
 2. Exécutez les six exemples fournis. Sur une phrase de votre choix, prédisez l’effet d’une règle, puis comparez votre prédiction au texte obtenu.
 3. Appliquez le plan commun au livre, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
-4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. Vous pouvez consigner votre interprétation dans `COMMENTAIRES_ANALYSE`. Exécutez la cellule de création du ZIP même si vous laissez ces commentaires vides.
+4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. À la revue du 25 novembre, montrez ce passage et expliquez à l’oral votre décision et l’écart obtenu. Les notes écrites dans `NOTES_INSPECTION` et `COMMENTAIRES_ANALYSE` sont facultatives. Exécutez la cellule de création du ZIP pour y conserver les résultats.
 
 ## Garder ses résultats et reprendre dans Colab
 
@@ -51,7 +51,7 @@ Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-Pyth
 | `FAGUET_v…_<date>_<session>.zip` | `FAGUET_01_<numero>_<date>_<session>.zip` en conservant la date et le numéro de session d’origine |
 | `resultats_02.json`, `resultats_03.json` | `resultats_02_<numero>.json`, `resultats_03_<numero>.json` |
 
-Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport Studio, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
+Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport chiffré, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
 
 **À la fin du 04.** Ouvrez le fichier téléchargé `resultats_04_<numero>.json` et retrouvez `numero_etudiant`, `lecture_du_binome` et `conclusion`. Rangez la version vérifiée dans **S3-PythonVsLLM**. Après correction, rouvrez le nouveau téléchargement pour y lire votre dernière réponse avant d’actualiser votre copie de remise.
 
