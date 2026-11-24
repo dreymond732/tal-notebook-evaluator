@@ -67,7 +67,6 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
         NUMERO_ETUDIANT="00Ab_7-9", NUMERO_SESSION="123456789",
         DATE_SESSION="20261111T124200Z",
         VERSION_NOTEBOOK="2.1.0",
-        REVISION_GIT_RESOLUE="d" * 40,
         VERSION_BIBLIOTHEQUE="0.3.0",
         NOTES_INSPECTION="",
         COMMENTAIRES_ANALYSE="",
@@ -95,7 +94,7 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
     assert meta["numero_etudiant"] == "00Ab_7-9"
     assert meta["numero_session"] == "123456789"
     assert meta["version_notebook"] == "2.1.0"
-    assert meta["revision_git"] == "d" * 40
+    assert meta["revision_git"] == "main"
     assert meta["sha256_nettoye"] == contexte["vue_epuree"].sha256_texte_utf8
     assert meta["sha256_source"] == source.sha256
 

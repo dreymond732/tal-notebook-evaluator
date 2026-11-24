@@ -27,8 +27,11 @@ def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
         initialisation = codes["initialisation-pt"]
         assert 'NUMERO_ETUDIANT = ""' in initialisation
         assert 'preparer_atelier(numero_etudiant=NUMERO_ETUDIANT)' in initialisation
-        revision = re.search(r"\.git@([0-9a-f]{40})#subdirectory=PT-LLMvsPy", initialisation)
-        assert revision, f"{path.name} doit installer une révision Git immuable"
+        paquet = "tal-toolkit[nlp] @ git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy"
+        assert paquet in initialisation
+        if nom.startswith("04_"):
+            ouvrir = next(c for c in cahier["cells"] if c["id"] == "ouvrir-04")
+            assert paquet in "".join(ouvrir["source"])
         assert not any("drive.mount(" in code or "/content/drive" in code for code in codes.values())
 
 

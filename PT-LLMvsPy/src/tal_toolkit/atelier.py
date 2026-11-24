@@ -196,7 +196,7 @@ def lire_annonces_globales() -> dict:
     from urllib.request import urlopen
 
     url = ("https://raw.githubusercontent.com/dreymond732/tal-notebook-evaluator/"
-           "51c355fd026d68a5bfada8e8cfa57687e5a57fd6/PT-LLMvsPy/data/annonces_globales_gemini.json")
+           "main/PT-LLMvsPy/data/annonces_globales_gemini.json")
     with urlopen(url, timeout=30) as reponse:
         return json.load(reponse)
 

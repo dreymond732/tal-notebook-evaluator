@@ -10,15 +10,16 @@ Quatre notebooks et une bibliothèque Python pour vérifier les mesures lexicale
 
 Créez le dossier **S3-PythonVsLLM** dans **Mon Drive**. [Ouvrez le notebook 01](notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb) dans Colab. Pour conserver vos réponses modifiables, choisissez **Fichier → Enregistrer une copie dans Drive**, rangez la copie dans **S3-PythonVsLLM**, puis ouvrez-la et travaillez dedans. Faites de même pour chaque nouveau cahier.
 
-Le notebook installe les fonctions à partir du **même dépôt public** avec la syntaxe Git de pip pour un sous-dossier Python :
+Dans Colab, exécutez la cellule d’initialisation au début de chaque séance. Elle charge la bibliothèque depuis la branche `main` du dépôt public. Pour bénéficier aussi de nouvelles consignes, ouvrez le cahier de la séance depuis le dépôt et conservez vos copies déjà renseignées.
+
+Avec Jupyter, vous pouvez installer la même bibliothèque dans l’environnement de votre noyau avant d’ouvrir le cahier :
 
 ```bash
-python -m pip install 'git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy'
+python -m pip install --force-reinstall --no-deps 'tal-toolkit[nlp] @ git+https://github.com/dreymond732/tal-notebook-evaluator.git@main#subdirectory=PT-LLMvsPy'
+python -m pip install 'tal-toolkit[nlp]'
 ```
 
-La cellule de démarrage résout la référence sélectionnée (`main` ou une branche de test) vers un **SHA Git immuable** et utilise ce SHA à la fois pour la bibliothèque et le document Gemini. Le SHA effectivement utilisé est conservé dans le manifeste de résultats.
-
-La révision `main` fonctionne par défaut ; elle est résolue en commit au démarrage. Les changements de fonctions se testent dans une copie du notebook avec une nouvelle révision.
+Le 01 permet aussi d’utiliser les sources d’un clone local. Son archive conserve le texte nettoyé, le plan appliqué, la branche `main` et les versions du cahier et de la bibliothèque.
 
 ## Première étape : préparer la source
 
@@ -29,7 +30,7 @@ La révision `main` fonctionne par défaut ; elle est résolue en commit au dém
 
 Le 01 produit dans l’espace temporaire de Colab le TXT nettoyé pour l’inspection et un ZIP qui rassemble le texte, les mesures CSV/JSON, les métadonnées de provenance et les deux fichiers de notes facultatives. Le nom des deux exports porte votre numéro étudiant. Le ZIP porte aussi la date et le numéro de session.
 
-Le corpus source provient du fichier du cours à la révision Git `b92e92b6c216014283056c83aa545881a447b3a5`, SHA-256 **`c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`**. Le profil de référence produit **446 289 caractères**, SHA-256 **`0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`**.
+Le corpus source provient du [fichier du cours](../Notebooks%20TD/S3/ressources/faguet_source.txt) sur `main`. Son empreinte SHA-256 est **`c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`**. Le profil de référence produit **446 289 caractères**, SHA-256 **`0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`**.
 
 Le traitement de référence n'est pas présenté comme exempt d'erreurs : les modifications proposées doivent être examinées dans une nouvelle version. Les contre-exemples éventuels seront discutés lors de la revue collective du corpus à utiliser ensuite.
 

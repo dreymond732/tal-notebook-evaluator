@@ -4,7 +4,7 @@
 
 Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
-Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. La bibliothèque est installée depuis GitHub à la révision `REVISION_GIT`, résolue en SHA de commit au début de la session. `VERSION_NOTEBOOK` reste modifiable pour comparer les versions.
+Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. Dans Colab, l’initialisation de chaque séance installe la bibliothèque depuis la branche `main` du dépôt public. Le 01 enregistre le nom de la branche et les versions du cahier et de la bibliothèque dans son archive.
 
 ## Le répertoire de travail
 
@@ -66,7 +66,7 @@ Vérifiez que les fichiers portant votre numéro figurent dans le dossier partag
 
 Le corpus initial est téléchargé depuis le commit public `b92e92b6c216014283056c83aa545881a447b3a5`. SHA-256 attendu : `c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`.
 
-Les mesures Gemini proviennent du dossier `PT-LLMvsPy/data/` à la même révision Git que le code. Les règles de nettoyage et de calcul sont enregistrées dans `metadonnees_analyse.json`. L'empreinte du texte épuré permet de voir si deux exécutions ont produit la même sortie.
+Le 01 lit les annonces de Gemini dans `PT-LLMvsPy/data/` sur la branche `main`. Les règles de nettoyage et de calcul sont enregistrées dans `metadonnees_analyse.json`. L'empreinte du texte épuré permet de voir si deux exécutions ont produit la même sortie.
 
 Les activités de préparation, de mesure et de vérification sont détaillées dans [la progression des quatre cahiers](../README.md#du-texte-nettoyé-au-dossier-daudit).
 

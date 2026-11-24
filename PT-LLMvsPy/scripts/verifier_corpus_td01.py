@@ -16,7 +16,7 @@ from tal_toolkit import (
 
 SOURCE_URL = (
     "https://raw.githubusercontent.com/dreymond732/tal-notebook-evaluator/"
-    "b92e92b6c216014283056c83aa545881a447b3a5/"
+    "main/"
     "Notebooks%20TD/S3/ressources/faguet_source.txt"
 )
 

@@ -26,7 +26,7 @@ def analyser_notebook(nom):
 def test_notebook_01_exports_locaux_et_partage_manuel():
     code, presentation = analyser_notebook("01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb")
     for element in (
-        "VERSION_NOTEBOOK", "REVISION_GIT", "REVISION_GIT_RESOLUE",
+        "VERSION_NOTEBOOK", ".git@main#subdirectory=PT-LLMvsPy",
         'Path("/content")', "NUMERO_ETUDIANT",
         'NUMERO_SESSION = f"{secrets.randbelow',
         "DATE_SESSION = datetime.now(timezone.utc)",
@@ -51,6 +51,7 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
         assert element.lower() in presentation.lower()
     assert "exporter_texte_approuve" not in presentation
     for ancien in (
+        "figer_revision_git", "REVISION_GIT_RESOLUE", "api.github.com",
         "drive.mount(", "from google.colab import drive", "DOSSIER_DEPOT_DRIVE", "/content/drive",
         "MON_IDENTIFIANT", "DECISION_SUITE", "STATUT_ANALYSE",
         "ANOMALIES_A_EXAMINER", "valider_inspection(",
@@ -65,3 +66,11 @@ def test_notebook_02_audit_conserve():
     code, presentation = analyser_notebook("02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb")
     assert "calculer_metriques_globales" in code
     assert "comparer_annonces" in code
+
+
+def test_les_quatre_cahiers_diffuses_utilisent_main():
+    for chemin in (RACINE / "notebooks").glob("*.ipynb"):
+        code, presentation = analyser_notebook(chemin.name)
+        assert not re.search(r"\b[0-9a-f]{40}\b", code + presentation), chemin.name
+        references = re.findall(r"tal-notebook-evaluator/blob/([^/]+)/", code + presentation)
+        assert set(references) == {"main"}, chemin.name

@@ -36,10 +36,19 @@ const { chromium } = require('playwright');
         ];
         const projectFolder = 'https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO';
         const projectGuide = 'https://hazigo.duckdns.org/universite/tal/static/PT_LLMvsPy_cadrage_projet_tutore.html';
+        const repository = 'https://github.com/dreymond732/tal-notebook-evaluator/blob/main/';
+        const sources = [
+          'Notebooks%20TD/S3/ressources/faguet_source.txt',
+          'Notebooks%20TD/S3/ressources/gemini_transcription.txt',
+          'app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md',
+          'app/static/PT_LLMvsPy_Rapport_03_Gemini_Notebook_source_originale.md',
+          'PT-LLMvsPy/docs/rapports_gemini.md'
+        ];
         assert(links.includes(drive), `${file}: missing S3 Drive links`);
-        assert.deepEqual(links.filter(url => url !== drive).sort(),
-          [...notebooks.map(name => colab + name + '.ipynb'), projectFolder, projectGuide].sort(),
-          `${file}: expected the four PT notebooks, shared project folder and project guide`);
+        assert.deepEqual(new Set(links), new Set([
+          drive, projectFolder, projectGuide, ...notebooks.map(name => colab + name + '.ipynb'),
+          ...sources.map(source => repository + source)
+        ]), `${file}: expected the four PT notebooks, project folders, guide and Faguet/Gemini sources`);
       } else {
         assert.equal(links.length, 0, `${file}: no S1/S2 folder supplied`);
       }
