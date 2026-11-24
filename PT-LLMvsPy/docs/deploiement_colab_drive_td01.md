@@ -19,13 +19,10 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 
 ## Travail scientifique
 
-1. Charger Faguet et les fonctions communes, puis observer les six exemples.
-2. Exécuter le nettoyage complet et télécharger la version épurée pour l'ouvrir dans un éditeur.
-3. Rechercher éventuellement des anomalies : ancre dans le corpus initial, fenêtre autour d'elle, fonction impliquée, motif à compter. Les observations peuvent être consignées librement dans `NOTES_INSPECTION`, mais ne bloquent pas le calcul.
-4. Calculer automatiquement les sept indicateurs sur le texte original et le texte nettoyé : tokens, types, hapax, TTR, part d'hapax, nombre de phrases et longueur moyenne. Les valeurs, les paramètres, la version de la bibliothèque et le SHA des textes sont enregistrés.
-5. Ajouter si nécessaire un commentaire libre et préparer l'archive ZIP.
-
-Une anomalie peut justifier une nouvelle révision des fonctions ; **elle n'empêche pas l'enregistrement des mesures de la version courante**.
+1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et retrouvez-le à la position indiquée dans la source.
+2. Exécutez les six exemples fournis. Sur une phrase de votre choix, prédisez l’effet d’une règle, puis comparez votre prédiction au texte obtenu.
+3. Appliquez le plan commun au livre, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
+4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. Vous pouvez consigner votre interprétation dans `COMMENTAIRES_ANALYSE`. Exécutez la cellule de création du ZIP même si vous laissez ces commentaires vides.
 
 ## Garder ses résultats et reprendre dans Colab
 

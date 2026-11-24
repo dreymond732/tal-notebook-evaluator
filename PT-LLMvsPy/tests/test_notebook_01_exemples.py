@@ -1,4 +1,4 @@
-"""Exécuter les six micro-exemples réellement décrits dans le notebook 01."""
+"""Exécuter les exemples fournis et l'essai personnel du notebook 01."""
 import json
 from pathlib import Path
 
@@ -8,24 +8,26 @@ from tal_toolkit import (
 )
 
 
-def test_toutes_les_phrases_types_du_notebook_01():
+def _essayer(identifiant, **entrees):
     fichier = Path(__file__).resolve().parents[1] / "notebooks" / "01_corpus_protocole.ipynb"
-    cellules = json.loads(fichier.read_text(encoding="utf-8"))["cells"]
-    code = next(
-        "".join(c["source"]) for c in cellules
-        if c["cell_type"] == "code"
-        and "EXEMPLES_FOURNIS = [" in "".join(c["source"])
-    )
-    def operation(nom, justification, cibles=()):
-        return OperationPretraitement(nom, justification, tuple(cibles))
-
+    cellules = {
+        c["id"]: "".join(c["source"])
+        for c in json.loads(fichier.read_text(encoding="utf-8"))["cells"]
+    }
     contexte = {
-        "operation": operation,
+        "OperationPretraitement": OperationPretraitement,
         "PlanPretraitement": PlanPretraitement,
         "executer_pretraitements": executer_pretraitements,
         "composer_texte_epure": composer_texte_epure,
+        **entrees,
     }
-    exec(compile(code, "notebook01:phrases-types", "exec"), contexte)
+    for etape in ("decrire-operation", identifiant):
+        exec(compile(cellules[etape], f"notebook01:{etape}", "exec"), contexte)
+    return contexte
+
+
+def test_toutes_les_phrases_types_du_notebook_01():
+    contexte = _essayer("exemples-fournis")
     assert len(contexte["EXEMPLES_FOURNIS"]) == 6
     assert {x["nom"] for x in contexte["EXEMPLES_FOURNIS"]} == {
         "retours typographiques",
@@ -35,3 +37,11 @@ def test_toutes_les_phrases_types_du_notebook_01():
         "titre conservé",
         "césure approuvée",
     }
+
+
+def test_une_prevision_personnelle_inexacte_permet_d_observer_le_resultat():
+    exemple = "Je relis le chapitre.\n\n[Note 2: Une référence à écarter.]\n\nJe poursuis."
+    contexte = _essayer("essai-personnel", MON_TEXTE=exemple, MA_PREVISION=exemple)
+    assert contexte["mon_journal"].original == exemple
+    assert contexte["mon_resultat"] == "Je relis le chapitre.\n\nJe poursuis."
+    assert contexte["MA_PREVISION"] != contexte["mon_resultat"]

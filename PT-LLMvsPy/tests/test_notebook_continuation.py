@@ -20,7 +20,11 @@ from tal_toolkit import (
 
 def _cellules():
     p = Path(__file__).resolve().parents[1] / "notebooks/01_corpus_protocole.ipynb"
-    return ["".join(c["source"]) for c in json.loads(p.read_text(encoding="utf-8"))["cells"]]
+    return {
+        c["id"]: "".join(c["source"])
+        for c in json.loads(p.read_text(encoding="utf-8"))["cells"]
+        if c["cell_type"] == "code"
+    }
 
 
 class _DataFrame:
@@ -73,8 +77,12 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
     fichiers_colab = types.SimpleNamespace(download=telechargements.append)
     monkeypatch.setitem(sys.modules, "google.colab", types.SimpleNamespace(files=fichiers_colab))
 
-    for i in [12, 13, 18, 20, 22, 23, 25, 27]:
-        exec(compile(codes[i], f"notebook:{i}", "exec"), contexte)
+    for etape in (
+        "nettoyer-livre", "telecharger-texte", "noter-inspection",
+        "verifier-texte", "preparer-mesures", "mesurer-corpus", "enregistrer-metadonnees",
+        "commenter-analyse", "preparer-archive", "telecharger-archive",
+    ):
+        exec(compile(codes[etape], f"notebook:{etape}", "exec"), contexte)
 
     assert contexte["FICHIER_INSPECTION"].is_file()
     assert contexte["FICHIER_COMPARAISON"].is_file()
@@ -110,5 +118,5 @@ def test_numero_invalide_refuse_avant_preparation(numero, tmp_path, monkeypatch)
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr("builtins.input", lambda question: numero)
     with pytest.raises(ValueError, match="Numéro étudiant"):
-        exec(compile(_cellules()[2], "notebook:initialisation", "exec"), {})
+        exec(compile(_cellules()["identification"], "notebook:identification", "exec"), {})
     assert not list(tmp_path.iterdir())

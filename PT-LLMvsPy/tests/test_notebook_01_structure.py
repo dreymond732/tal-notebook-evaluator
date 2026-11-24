@@ -2,6 +2,7 @@
 import ast
 import json
 from pathlib import Path
+import re
 
 RACINE = Path(__file__).resolve().parents[1]
 
@@ -38,23 +39,24 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
         "COMMENTAIRES_ANALYSE", "files.download(str(FICHIER_ARCHIVE))",
     ):
         assert element in code, element
+    sections = re.findall(r"^## (\d+)\b", presentation, flags=re.MULTILINE)
+    assert sections == ["0", "1", "2", "3"]
     for element in (
-        "dépendance des traitements lexicaux",
-        "Bloc-notes", "## 1", "## 2", "## 3", "## 4",
+        "Bloc-notes",
         "une copie", "S3-PythonVsLLM", "Importer un fichier",
         "depuis **votre dossier personnel**", "volet **Fichiers**",
         "https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO",
 
     ):
         assert element.lower() in presentation.lower()
-    assert presentation.index("## 2") < presentation.index("## 3")
+    assert "exporter_texte_approuve" not in presentation
     for ancien in (
         "drive.mount(", "from google.colab import drive", "DOSSIER_DEPOT_DRIVE", "/content/drive",
         "MON_IDENTIFIANT", "DECISION_SUITE", "STATUT_ANALYSE",
         "ANOMALIES_A_EXAMINER", "valider_inspection(",
         "VALIDATION_ANALYSE", "MODE_REVISION",
         "exporter_texte_approuve(", "deposer_archive_drive_api(",
-        "preparer_archive_td01(", "MES_CAS", "REVUE_ECHANTILLONS_VALIDE",
+        "preparer_archive_td01(", "REVUE_ECHANTILLONS_VALIDE",
     ):
         assert ancien not in code, ancien
 
