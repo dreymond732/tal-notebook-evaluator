@@ -4,7 +4,7 @@ import pytest
 
 from tal_toolkit import (
     DocCache, charger_corpus, corpus_depuis_texte, tokeniser_phrases,
-    frequences, concordances_exactes, contient_expression, mesurer,
+    frequences, concordances_exactes, concordances_mot, contient_expression, mesurer,
     table_contingence, proportion, pour_mille, pmi_phrase,
     couverture_pivots, verifier_citation, champs_manquants,
     comparer_intervalle, evaluer_affirmation,
@@ -51,6 +51,26 @@ def test_concordances_positions_et_non_chevauchement():
 def test_concordances_refuse_parametres_invalides(motif, largeur):
     with pytest.raises(ValueError):
         concordances_exactes("abc", motif, largeur)
+
+
+def test_concordances_mot_casse_frontieres_et_positions():
+    source = "État d’état, États, réétat. ÉTAT"
+    lignes = concordances_mot(source, "état", largeur=3)
+    assert [ligne["pivot"] for ligne in lignes] == ["État", "état", "ÉTAT"]
+    for ligne in lignes:
+        debut, fin = ligne["debut"], ligne["fin"]
+        assert ligne["pivot"] == source[debut:fin]
+        assert ligne["gauche"] == source[max(0, debut - 3):debut]
+        assert ligne["droite"] == source[fin:fin + 3]
+    assert concordances_mot("a.b et axb", "a.b", 0) == [
+        {"debut": 0, "fin": 3, "pivot": "a.b", "gauche": "", "droite": ""},
+    ]
+
+
+@pytest.mark.parametrize("mot,largeur", [("", 1), ("deux mots", 1), ("été", -1)])
+def test_concordances_mot_parametres(mot, largeur):
+    with pytest.raises(ValueError):
+        concordances_mot("été", mot, largeur)
 
 
 def test_expression_contigue():
@@ -163,6 +183,23 @@ def test_intervalle_bornes_inclusives():
     assert comparer_intervalle(4, 2, 4) == "compatible selon le protocole"
     with pytest.raises(ValueError):
         comparer_intervalle(3, 4, 2)
+
+
+def test_audit_ratio_decimal_bornes_inclusives_sans_arrondi():
+    a = {"unite": "types/token", "fenetre": "corpus", "normalisation": "forme",
+         "agregation": "V/N", "intervalle": [0, 0.125]}
+    assert evaluer_affirmation(a, 0.125, protocole_comparable=True) == "compatible selon le protocole"
+    assert evaluer_affirmation(a, 0.12501, protocole_comparable=True) == "contredit selon le protocole"
+    assert evaluer_affirmation(a, 0.12, protocole_comparable=False) == "NON_COMPARABLE"
+
+
+@pytest.mark.parametrize("invalide", [True, float("nan"), float("inf"), "0.12"])
+def test_audit_nombre_non_comparable(invalide):
+    a = {"unite": "types/token", "fenetre": "corpus", "normalisation": "forme",
+         "agregation": "V/N", "intervalle": (0, 1)}
+    assert evaluer_affirmation(a, invalide, protocole_comparable=True) == "NON_COMPARABLE"
+    a["intervalle"] = (invalide, 1)
+    assert evaluer_affirmation(a, 0.12, protocole_comparable=True) == "NON_COMPARABLE"
 
 
 def test_cache_spacy_et_tokenisation():

@@ -5,6 +5,7 @@ Une comparaison numérique exige un protocole explicitement comparable.
 """
 from __future__ import annotations
 
+import math
 import re
 from typing import Mapping, Sequence, TypedDict
 
@@ -90,8 +91,13 @@ def champs_manquants(
             if champ not in affirmation or affirmation[champ] is None]
 
 
-def comparer_intervalle(valeur: int, borne_basse: int, borne_haute: int) -> str:
-    """Valeur et bornes déjà comparables ; bornes inclusives."""
+def comparer_intervalle(valeur: int | float, borne_basse: int | float, borne_haute: int | float) -> str:
+    """Compare sans arrondi, bornes incluses. Une donnée non numérique ou non finie est non comparable."""
+    for nombre in (valeur, borne_basse, borne_haute):
+        if not isinstance(nombre, (int, float)) or isinstance(nombre, bool):
+            return "NON_COMPARABLE"
+        if isinstance(nombre, float) and not math.isfinite(nombre):
+            return "NON_COMPARABLE"
     if borne_basse > borne_haute:
         raise ValueError("Intervalle inversé")
     return ("compatible selon le protocole"
@@ -101,7 +107,7 @@ def comparer_intervalle(valeur: int, borne_basse: int, borne_haute: int) -> str:
 
 def evaluer_affirmation(
     affirmation: Mapping[str, object],
-    valeur: int,
+    valeur: int | float,
     *,
     protocole_comparable: bool,
 ) -> str:
@@ -111,8 +117,7 @@ def evaluer_affirmation(
     if not protocole_comparable:
         return "NON_COMPARABLE"
     bornes = affirmation.get("intervalle")
-    if (not isinstance(bornes, (list, tuple)) or len(bornes) != 2
-            or any(not isinstance(x, int) or isinstance(x, bool) for x in bornes)):
+    if not isinstance(bornes, (list, tuple)) or len(bornes) != 2:
         return "NON_COMPARABLE"
     return comparer_intervalle(valeur, bornes[0], bornes[1])
 
