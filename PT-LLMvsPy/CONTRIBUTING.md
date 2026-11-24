@@ -7,14 +7,11 @@ les versions de la bibliothèque et les notebooks modèles sont maintenus dans c
 dépôt. La modification du code partagé reste soumise à une pull request examinée
 et à des tests de régression.
 
-**Travail étudiant (Google Colab → Drive)** : les étudiantes n'ont besoin ni de
-compte GitHub ni d'accès en écriture au dépôt. Elles installent la bibliothèque directement depuis un commit GitHub public,
-complètent le TD01 avec le protocole commun, contrôlent leurs résultats et déposent
-une archive dans le dossier Google Drive identifié dans le notebook. Les anomalies repérées dans la bibliothèque sont décrites dans
-leur rapport, puis traitées séparément par l'équipe enseignante.
+**Travail étudiant.** Chaque étudiant crée le dossier `S3-PythonVsLLM` dans son Drive. Les quatre notebooks travaillent dans le stockage temporaire de Colab. Après chaque séance, l’étudiant télécharge les fichiers portant son numéro sur son ordinateur, puis les importe dans son dossier personnel. À la séance suivante, il remet les pièces demandées dans le volet **Fichiers** de Colab.
 
-Pour la publication du dépôt, l'autorisation Drive et les livrables : voir
-[Guide TD01 Colab et Drive](docs/deploiement_colab_drive_td01.md).
+Le partage se fait dans l’interface de Drive. À la première revue, l’étudiant copie son ZIP du 01 depuis son dossier personnel dans le dossier partagé. En fin de S3, il y copie les JSON des 02, 03 et 04 pour la synthèse du projet tuteuré. Il conserve les originaux dans son dossier personnel. Les anomalies observées sont consignées dans le cahier et discutées en revue.
+
+[Procédure de sauvegarde, de reprise et de remise](docs/deploiement_colab_drive_td01.md)
 
 ## Cycle d'une correction de code par l'équipe enseignante
 

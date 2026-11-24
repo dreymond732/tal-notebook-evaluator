@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -48,35 +47,33 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
             OperationPretraitement("masquer_blocs_notes", "Notes éditoriales"),
         ), identifiant="test-corpus",
     )
-    nettoyage = executer_pretraitements(source, plan=plan)
-    epure = composer_texte_epure(nettoyage)
-    fichier = tmp_path / "faguet_nettoye.txt"
-    with fichier.open("w", encoding="utf-8", newline="") as stream:
-        stream.write(epure.texte)
-
     monkeypatch.setitem(
         sys.modules, "pandas", types.SimpleNamespace(DataFrame=_DataFrame)
     )
 
     contexte = dict(
-        corpus_source=source, FICHIER_APERCU=fichier,
-        DOSSIER_TRAVAIL=tmp_path, vue_epuree=epure,
-        resultat_global=nettoyage,
+        corpus_source=source, EST_COLAB=True,
+        DOSSIER_TRAVAIL=tmp_path, plan_standard_td01=lambda: plan,
+        executer_pretraitements=executer_pretraitements, composer_texte_epure=composer_texte_epure,
         SHA256_SOURCE=source.sha256,
         METRIQUES_TD01=METRIQUES_TD01,
         spacy=spacy, charger_corpus=charger_corpus,
         comparer_corpus_td01=comparer_corpus_td01,
-        json=json, hashlib=hashlib, Path=Path, display=lambda x: None,
-        NUMERO_SESSION="123456789",
+        json=json, Path=Path, display=lambda x: None,
+        NUMERO_ETUDIANT="00Ab_7-9", NUMERO_SESSION="123456789",
         DATE_SESSION="20261111T124200Z",
-        VERSION_NOTEBOOK="2.0.0",
+        VERSION_NOTEBOOK="2.1.0",
         REVISION_GIT_RESOLUE="d" * 40,
         VERSION_BIBLIOTHEQUE="0.3.0",
         NOTES_INSPECTION="",
         COMMENTAIRES_ANALYSE="",
     )
 
-    for i in [18, 20, 22, 23, 25]:
+    telechargements = []
+    fichiers_colab = types.SimpleNamespace(download=telechargements.append)
+    monkeypatch.setitem(sys.modules, "google.colab", types.SimpleNamespace(files=fichiers_colab))
+
+    for i in [12, 13, 18, 20, 22, 23, 25, 27]:
         exec(compile(codes[i], f"notebook:{i}", "exec"), contexte)
 
     assert contexte["FICHIER_INSPECTION"].is_file()
@@ -87,13 +84,19 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
     assert len(contexte["resultat_comparaison"]["comparaison"]) == 7
 
     meta = json.loads(contexte["FICHIER_METADONNEES"].read_text(encoding="utf-8"))
+    assert meta["numero_etudiant"] == "00Ab_7-9"
     assert meta["numero_session"] == "123456789"
-    assert meta["version_notebook"] == "2.0.0"
+    assert meta["version_notebook"] == "2.1.0"
     assert meta["revision_git"] == "d" * 40
-    assert meta["sha256_nettoye"] == epure.sha256_texte_utf8
+    assert meta["sha256_nettoye"] == contexte["vue_epuree"].sha256_texte_utf8
     assert meta["sha256_source"] == source.sha256
 
+    assert contexte["FICHIER_APERCU"].name == "faguet_nettoye_00Ab_7-9.txt"
+    assert contexte["FICHIER_ARCHIVE"].name == "FAGUET_01_00Ab_7-9_20261111T124200Z_123456789.zip"
+    assert telechargements == [str(contexte["FICHIER_APERCU"]), str(contexte["FICHIER_ARCHIVE"])]
     with zipfile.ZipFile(contexte["FICHIER_ARCHIVE"]) as archive:
+        assert archive.read("faguet_nettoye.txt") == contexte["FICHIER_APERCU"].read_bytes()
+        assert json.loads(archive.read("metadonnees_analyse.json")) == meta
         assert archive.testzip() is None
         assert set(archive.namelist()) == {
             "faguet_nettoye.txt", "observations_nettoyage.txt",
@@ -101,20 +104,11 @@ def test_mesures_sans_decision_et_archive_automatique(tmp_path, monkeypatch):
             "metadonnees_analyse.json", "commentaires_analyse.txt",
         }
 
-    # Copier vers un dossier représentant le Drive monté.
-    dossier_drive = tmp_path / "DrivePartage"
-    dossier_drive.mkdir()
-    cell28 = codes[28].replace(
-        'DOSSIER_DEPOT_DRIVE = ""',
-        f'DOSSIER_DEPOT_DRIVE = {str(dossier_drive)!r}'
-    )
-    exec(compile(cell28, "notebook:28", "exec"), contexte)
-    fichier_depose = dossier_drive / contexte["FICHIER_ARCHIVE"].name
-    assert fichier_depose.is_file()
-    assert hashlib.sha256(fichier_depose.read_bytes()).digest() == hashlib.sha256(
-        contexte["FICHIER_ARCHIVE"].read_bytes()
-    ).digest()
 
-    # Un dépôt du même fichier ne doit jamais être écrasé.
-    with pytest.raises(FileExistsError):
-        exec(compile(cell28, "notebook:28", "exec"), contexte)
+@pytest.mark.parametrize("numero", ["", "../001", "0 01", "é01", "x" * 65])
+def test_numero_invalide_refuse_avant_preparation(numero, tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr("builtins.input", lambda question: numero)
+    with pytest.raises(ValueError, match="Numéro étudiant"):
+        exec(compile(_cellules()[2], "notebook:initialisation", "exec"), {})
+    assert not list(tmp_path.iterdir())

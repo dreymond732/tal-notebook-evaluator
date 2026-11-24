@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from shutil import copy2
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
@@ -13,14 +14,20 @@ from tal_toolkit import charger_corpus, preparer_faguet_standard_td01
 PROJET = Path(__file__).resolve().parents[1]
 SCRIPT = Path(__file__).resolve()
 CAHIERS = ("02_mesures_lexicales", "03_relations_lexicales", "04_audit_llm")
+NUMERO_TEST = "00123456"
 
 
-def executer_cahier(chemin: Path) -> None:
+def executer_cahier(chemin: Path, numero_etudiant: str) -> None:
     cahier = json.loads(chemin.read_text(encoding="utf-8"))
     session = {"__name__": "__main__", "display": print}
     for cellule in cahier["cells"]:
         if cellule["cell_type"] == "code":
             source = "".join(cellule["source"])
+            if cellule["id"] == "initialisation-pt":
+                # Renseigner le champ de la copie, comme le ferait l’étudiant.
+                champ = 'NUMERO_ETUDIANT = ""'
+                assert source.count(champ) == 1
+                source = source.replace(champ, f"NUMERO_ETUDIANT = {numero_etudiant!r}")
             exec(compile(source, f"{chemin.name}/{cellule['id']}", "exec"), session)
 
 
@@ -28,15 +35,34 @@ def verifier_parcours() -> None:
     original = PROJET.parent / "Notebooks TD/S3/ressources/faguet_source.txt"
     _, epure, _ = preparer_faguet_standard_td01(charger_corpus(original))
     with TemporaryDirectory() as temporaire:
-        dossier = Path(temporaire) / "PT-Faguet"
-        dossier.mkdir()
-        (dossier / "faguet_nettoye.txt").write_text(epure.texte, encoding="utf-8")
+        racine = Path(temporaire)
+        personnel = racine / "S3-PythonVsLLM"
+        personnel.mkdir()
+        corpus_01 = personnel / f"faguet_nettoye_{NUMERO_TEST}.txt"
+        corpus_01.write_bytes(epure.texte.encode("utf-8"))
+        pieces = [corpus_01]
+
         for nom in CAHIERS:
+            numero = nom[:2]
+            seance = racine / f"session_{numero}"
+            seance.mkdir()
+            for piece in pieces:
+                copy2(piece, seance / piece.name)
             chemin = PROJET / "notebooks" / f"{nom}.ipynb"
-            subprocess.run([sys.executable, str(SCRIPT), str(chemin)], cwd=temporaire, check=True)
-            print(f"{chemin.name} exécuté", flush=True)
-        dossier_audit = json.loads((dossier / "resultats_04.json").read_text(encoding="utf-8"))
-        resultat03 = json.loads((dossier / "resultats_03.json").read_text(encoding="utf-8"))
+            subprocess.run(
+                [sys.executable, str(SCRIPT), str(chemin), NUMERO_TEST],
+                cwd=seance, check=True,
+            )
+            sortie = seance / f"resultats_{numero}_{NUMERO_TEST}.json"
+            assert json.loads(sortie.read_text(encoding="utf-8"))["numero_etudiant"] == NUMERO_TEST
+            # Rangement manuel simulé entre deux sessions indépendantes.
+            sauvegarde = personnel / sortie.name
+            copy2(sortie, sauvegarde)
+            pieces.append(sauvegarde)
+            print(f"{chemin.name} exécuté, {sortie.name} repris", flush=True)
+
+        dossier_audit = json.loads(pieces[-1].read_text(encoding="utf-8"))
+        resultat03 = json.loads(pieces[-2].read_text(encoding="utf-8"))
         principal = dossier_audit["studio"]["principal_03"]
         relation = dossier_audit["protocole_B"]["relation_03"]
         assert principal == resultat03["studio"]["principal"]
@@ -50,7 +76,7 @@ def verifier_parcours() -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        executer_cahier(Path(sys.argv[1]))
+    if len(sys.argv) == 3:
+        executer_cahier(Path(sys.argv[1]), sys.argv[2])
     else:
         verifier_parcours()

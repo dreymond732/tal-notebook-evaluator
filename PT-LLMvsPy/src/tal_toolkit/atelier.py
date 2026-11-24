@@ -2,10 +2,94 @@
 from __future__ import annotations
 
 import json
+import re
+from functools import partial
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from zipfile import ZipFile
 
-from .io_corpus import Corpus, charger_corpus
+from .io_corpus import Corpus, charger_corpus, corpus_depuis_texte
+
+DOSSIER_COLAB = Path("/content")
+
+
+def valider_numero_etudiant(numero: str) -> str:
+    """Conserve le numéro tel qu’il apparaît sur la carte, zéros initiaux compris."""
+    if not isinstance(numero, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", numero):
+        raise ValueError("Complétez NUMERO_ETUDIANT avec votre numéro étudiant : 1 à 64 lettres non accentuées, chiffres, tirets ou tirets bas, sans espace.")
+    return numero
+
+
+def _nom_sans_doublon(chemin: Path) -> str:
+    """Un navigateur peut ajouter « (1) » juste avant l’extension."""
+    return re.sub(r" \(\d+\)$", "", chemin.stem) + chemin.suffix
+
+
+def _archive_de(source: Path, etudiant: str) -> bool:
+    # Date et étiquette de session occupent les deux derniers champs du ZIP.
+    prefixe = _nom_sans_doublon(source).removesuffix(".zip").rsplit("_", 2)[0]
+    return source.suffix == ".zip" and prefixe == f"FAGUET_01_{etudiant}"
+
+
+def _signaler_import_anonyme(source: Path, etudiant: str) -> None:
+    for fichier in source.parent.iterdir():
+        if not fichier.is_file():
+            continue
+        nom = _nom_sans_doublon(fichier)
+        identite = re.fullmatch(r"(?:resultats_0[234]_(.+)\.json|faguet_nettoye_(.+)\.txt)", nom)
+        autre = identite is not None and etudiant not in identite.groups()
+        if autre or (nom.startswith("FAGUET_01_") and nom.endswith(".zip") and not _archive_de(fichier, etudiant)):
+            raise ValueError(f"{source.name} ne porte aucun numéro et la session contient un export "
+                             "d’un autre étudiant. Importez uniquement vos propres fichiers dans une nouvelle session.")
+    print(f"Ancien export sans numéro : {source.name}. Vérifiez qu’il provient de votre dossier personnel.")
+
+
+def _corpus_importe(source: Path, etudiant: str) -> Corpus:
+    if source.suffix.lower() == ".txt":
+        nom = _nom_sans_doublon(source)
+        if nom not in ("faguet_nettoye.txt", f"faguet_nettoye_{etudiant}.txt"):
+            raise ValueError(f"{source.name} : choisissez le TXT nettoyé du 01 portant votre numéro étudiant.")
+        if nom == "faguet_nettoye.txt":
+            _signaler_import_anonyme(source, etudiant)
+        return charger_corpus(source)
+
+    if source.suffix.lower() != ".zip":
+        raise ValueError("Choisissez le TXT nettoyé ou le ZIP du notebook 01.")
+    if source.name.startswith("FAGUET_01_") and not _archive_de(source, etudiant):
+        raise ValueError(f"{source.name} : le numéro du ZIP ne correspond pas à votre numéro étudiant.")
+    with ZipFile(source) as archive:
+        if "faguet_nettoye.txt" not in archive.namelist():
+            raise ValueError(f"{source.name} ne contient pas le texte nettoyé du notebook 01.")
+        texte = archive.read("faguet_nettoye.txt").decode("utf-8")
+        meta = (json.loads(archive.read("metadonnees_analyse.json"))
+                if "metadonnees_analyse.json" in archive.namelist() else {})
+    if meta.get("numero_etudiant", etudiant) != etudiant:
+        raise ValueError(f"{source.name} : le numéro enregistré dans le ZIP ne correspond pas au vôtre.")
+    if "numero_etudiant" not in meta and not _archive_de(source, etudiant):
+        _signaler_import_anonyme(source, etudiant)
+    corpus = corpus_depuis_texte(texte, origine=f"{source}!faguet_nettoye.txt")
+    if meta.get("sha256_nettoye", corpus.sha256) != corpus.sha256:
+        raise ValueError(f"{source.name} : l’empreinte du texte ne correspond pas aux métadonnées du 01.")
+    return corpus
+
+
+def _charger_import_01(dossier: Path, source_01: str, etudiant: str) -> Corpus:
+    if source_01:
+        return _corpus_importe(dossier / Path(source_01).expanduser(), etudiant)
+    fichiers = sorted(p for p in dossier.iterdir() if p.is_file())
+    sources = [p for p in fichiers if
+               _nom_sans_doublon(p) == f"faguet_nettoye_{etudiant}.txt"
+               or _archive_de(p, etudiant)]
+    if not sources:
+        sources = [p for p in fichiers if _nom_sans_doublon(p) == "faguet_nettoye.txt"
+                   or (p.name.startswith("FAGUET_v") and p.suffix == ".zip")]
+    if not sources:
+        raise FileNotFoundError(f"Importez votre TXT nettoyé ou le ZIP du notebook 01 dans {dossier}, puis relancez la cellule.")
+    corpus = _corpus_importe(sources[0], etudiant)
+    for autre in sources[1:]:
+        if _corpus_importe(autre, etudiant).sha256 != corpus.sha256:
+            raise ValueError(f"Plusieurs textes du 01 diffèrent dans {dossier}. Gardez dans la session la version retenue en revue.")
+    return corpus
 
 
 def ouvrir_corpus_atelier(dossier: Path, source_01: str = "") -> Corpus:
@@ -38,18 +122,57 @@ def ouvrir_corpus_atelier(dossier: Path, source_01: str = "") -> Corpus:
     return charger_corpus(copie)
 
 
-def enregistrer_resultats(dossier: Path, numero: str, contenu: dict) -> Path:
-    chemin = dossier / f"resultats_{numero}.json"
-    chemin.write_text(json.dumps(contenu, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+def enregistrer_resultats(dossier: Path, numero: str, contenu: dict, *,
+                          numero_etudiant: str | None = None, sha256_corpus: str | None = None) -> Path:
+    if numero_etudiant is None:
+        chemin = dossier / f"resultats_{numero}.json"
+    else:
+        numero_etudiant = valider_numero_etudiant(numero_etudiant)
+        chemin = dossier / f"resultats_{numero}_{numero_etudiant}.json"
+        contenu = {**contenu, "numero_etudiant": numero_etudiant, "numero_notebook": numero}
+        if sha256_corpus is not None:
+            contenu["sha256_corpus"] = sha256_corpus
+    donnees = json.dumps(contenu, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+    sortie = NamedTemporaryFile(mode="w", dir=dossier, encoding="utf-8", delete=False)
+    temporaire = Path(sortie.name)
+    try:
+        with sortie:
+            sortie.write(donnees)
+        temporaire.replace(chemin)
+    finally:
+        temporaire.unlink(missing_ok=True)
     print("Résultats enregistrés dans", chemin)
     return chemin
 
 
-def lire_resultats(dossier: Path, numero: str) -> dict:
-    chemin = dossier / f"resultats_{numero}.json"
-    if not chemin.is_file():
-        raise FileNotFoundError(f"Exécutez la dernière cellule du notebook {numero}, puis reprenez ce cahier dans le même dossier ({dossier}).")
-    return json.loads(chemin.read_text(encoding="utf-8"))
+def lire_resultats(dossier: Path, numero: str, *, numero_etudiant: str | None = None,
+                   sha256_corpus: str | None = None) -> dict:
+    nom_ancien = f"resultats_{numero}.json"
+    nom = nom_ancien
+    if numero_etudiant is not None:
+        numero_etudiant = valider_numero_etudiant(numero_etudiant)
+        nom = f"resultats_{numero}_{numero_etudiant}.json"
+    fichiers = sorted(dossier.glob(f"resultats_{numero}*.json"))
+    copies = [p for p in fichiers if _nom_sans_doublon(p) == nom]
+    if not copies and numero_etudiant is not None:
+        copies = [p for p in fichiers if _nom_sans_doublon(p) == nom_ancien]
+    if not copies:
+        raise FileNotFoundError(f"Importez {nom}, exporté par le notebook {numero}, dans {dossier}, puis relancez la cellule.")
+    contenu = json.loads(copies[0].read_text(encoding="utf-8"))
+    if any(json.loads(p.read_text(encoding="utf-8")) != contenu for p in copies[1:]):
+        raise ValueError(f"Plusieurs versions du résultat {numero} diffèrent dans {dossier}. Gardez uniquement votre version à reprendre.")
+    if not isinstance(contenu, dict):
+        raise ValueError(f"{copies[0].name} ne contient pas un résultat de notebook.")
+    if numero_etudiant is not None and contenu.get("numero_etudiant", numero_etudiant) != numero_etudiant:
+        raise ValueError(f"{copies[0].name} : le numéro étudiant du résultat ne correspond pas au vôtre.")
+    if (numero_etudiant is not None and "numero_etudiant" not in contenu
+            and _nom_sans_doublon(copies[0]) == nom_ancien):
+        _signaler_import_anonyme(copies[0], numero_etudiant)
+    if contenu.get("numero_notebook", numero) != numero:
+        raise ValueError(f"{copies[0].name} : ce résultat provient d’un autre notebook.")
+    if sha256_corpus is not None and contenu.get("sha256_corpus", sha256_corpus) != sha256_corpus:
+        raise ValueError(f"{copies[0].name} : le texte utilisé pour cette mesure diffère du texte importé du 01.")
+    return contenu
 
 
 def charger_modele_francais():
@@ -78,17 +201,39 @@ def lire_annonces_globales() -> dict:
         return json.load(reponse)
 
 
-def preparer_atelier(source_01: str = "", dossier_personnel: str = ""):
-    """Monte Drive dans Colab et rattache les fichiers des trois séances au même dossier."""
-    from functools import partial
+def preparer_atelier(source_01: str = "", dossier_personnel: str = "", *,
+                     numero_etudiant: str | None = None):
+    """Ouvre les fichiers importés dans la session et prépare la reprise des résultats."""
+    if numero_etudiant is not None:
+        numero_etudiant = valider_numero_etudiant(numero_etudiant)
     try:
-        from google.colab import drive
+        from google.colab import files
     except ImportError:
-        defaut = Path.cwd() / "PT-Faguet"
+        files = None
+    if files is not None:
+        dossier = DOSSIER_COLAB
+        if dossier_personnel and Path(dossier_personnel).resolve() != dossier:
+            raise ValueError("Dans Colab, importez vos fichiers dans /content via le volet Fichiers.")
+    elif dossier_personnel:
+        dossier = Path(dossier_personnel).expanduser()
     else:
-        drive.mount("/content/drive")
-        defaut = Path("/content/drive/MyDrive/PT-Faguet")
-    dossier = Path(dossier_personnel).expanduser() if dossier_personnel else defaut
-    corpus = ouvrir_corpus_atelier(dossier, source_01)
-    print("Votre dossier de travail :", dossier)
-    return corpus, dossier, partial(lire_resultats, dossier), partial(enregistrer_resultats, dossier)
+        dossier = Path.cwd() if numero_etudiant is not None else Path.cwd() / "PT-Faguet"
+
+    if numero_etudiant is None:
+        corpus = ouvrir_corpus_atelier(dossier, source_01)
+    else:
+        corpus = _charger_import_01(dossier, source_01, numero_etudiant)
+    identite = {"numero_etudiant": numero_etudiant,
+                "sha256_corpus": corpus.sha256 if numero_etudiant is not None else None}
+
+    def sauvegarder(numero: str, contenu: dict) -> Path:
+        chemin = enregistrer_resultats(dossier, numero, contenu, **identite)
+        if files is not None:
+            try:
+                files.download(str(chemin))
+            except Exception:
+                print(f"Pour récupérer {chemin.name}, ouvrez le volet Fichiers de Colab et choisissez Télécharger.")
+        return chemin
+
+    print("Dossier de la séance :", dossier)
+    return corpus, dossier, partial(lire_resultats, dossier, **identite), sauvegarder

@@ -25,13 +25,13 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     modele.add_pipe("sentencizer")
     modele.add_pipe("lemmes_essai_transfert", name="lemmatizer")
     monkeypatch.setattr(atelier, "charger_modele_francais", lambda: modele)
-    dossier = tmp_path / "PT-Faguet"
-    dossier.mkdir()
+    dossier = tmp_path
+    numero = "00123456"
     texte = ("Une femme parle à un homme. Les femmes et les hommes lisent. "
              "Une femme revendique un droit. La loi prévoit une peine. "
              "Une loi modifie la peine. La peine relève de la loi.")
-    (dossier / "faguet_nettoye.txt").write_text(texte, encoding="utf-8")
-    executer_cahier(NOTEBOOKS / "02_mesures_lexicales.ipynb")
+    (dossier / f"faguet_nettoye_{numero}.txt").write_text(texte, encoding="utf-8")
+    executer_cahier(NOTEBOOKS / "02_mesures_lexicales.ipynb", numero)
 
     # L’étudiant saisit ses deux lemmes dans la copie personnelle du notebook.
     cahier = json.loads((NOTEBOOKS / "03_relations_lexicales.ipynb").read_text(encoding="utf-8"))
@@ -41,11 +41,11 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     )
     copie = tmp_path / "03_personnel.ipynb"
     copie.write_text(json.dumps(cahier), encoding="utf-8")
-    executer_cahier(copie)
-    executer_cahier(NOTEBOOKS / "04_audit_llm.ipynb")
+    executer_cahier(copie, numero)
+    executer_cahier(NOTEBOOKS / "04_audit_llm.ipynb", numero)
 
-    r3 = atelier.lire_resultats(dossier, "03")
-    r4 = atelier.lire_resultats(dossier, "04")
+    r3 = json.loads((dossier / f"resultats_03_{numero}.json").read_text(encoding="utf-8"))
+    r4 = json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))
     assert r3["transfert"]["mesure"]["cooc"] == 3
     principal = r3["studio"]["principal"]
     assert (principal["annonce"], principal["calcule"]) == (208, 2)

@@ -4,27 +4,18 @@
 
 Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_corpus_protocole.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
-Ouvrir le notebook dans Colab, puis enregistrer une copie dans votre Drive. La bibliothèque est installée depuis GitHub à la révision `REVISION_GIT`, résolue en SHA de commit au début de la session. `VERSION_NOTEBOOK` reste modifiable pour comparer les versions.
+Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. La bibliothèque est installée depuis GitHub à la révision `REVISION_GIT`, résolue en SHA de commit au début de la session. `VERSION_NOTEBOOK` reste modifiable pour comparer les versions.
 
 ## Le répertoire de travail
 
-La version `2.0.0` produit directement tous ses fichiers dans :
+Le notebook 01 affiche son répertoire de travail temporaire sous `/content`. Saisissez votre numéro étudiant tel qu’il apparaît sur vos documents, en conservant ses lettres et ses éventuels zéros initiaux. Gardez le même numéro pour les quatre cahiers.
 
-```text
-/content/analyse_faguet_v2_0_0/
-    faguet_source.txt
-    faguet_nettoye.txt
-    observations_nettoyage.txt
-    comparaison_metriques.csv
-    comparaison_metriques.json
-    commentaires_analyse.txt
-    metadonnees_analyse.json
-    FAGUET_v2_0_0_<dateUTC>_<numeroAleatoire>.zip
-```
+| Fichier à télécharger au 01 | Usage |
+|---|---|
+| `faguet_nettoye_<numero>.txt` | Lire le texte nettoyé dans un éditeur et le reprendre pour les calculs suivants. |
+| `FAGUET_01_<numero>_<date>_<session>.zip` | Conserver ensemble le texte, les observations, les mesures CSV/JSON, les commentaires et les métadonnées. Le numéro de session identifie une exécution. |
 
-Le nom de l'archive intègre automatiquement la date UTC et un **nombre aléatoire de neuf chiffres** généré à l'exécution. Il n'y a pas de champ « identifiant étudiant » et aucune décision de validation imposée.
-
-Un nouveau numéro `VERSION_NOTEBOOK` produit un autre dossier `analyse_faguet_v...`.
+Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérieur du ZIP, le texte du corpus porte le nom `faguet_nettoye.txt`. Les cahiers suivants peuvent le lire directement dans l’archive.
 
 ## Travail scientifique
 
@@ -36,22 +27,37 @@ Un nouveau numéro `VERSION_NOTEBOOK` produit un autre dossier `analyse_faguet_v
 
 Une anomalie peut justifier une nouvelle révision des fonctions ; **elle n'empêche pas l'enregistrement des mesures de la version courante**.
 
-## Retrouver le Drive partagé
+## Garder ses résultats et reprendre dans Colab
 
-Ouvrir [le dossier partagé du projet](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO) avec son compte Google. Si le dossier figure uniquement dans « Partagés avec moi », ajouter un **raccourci dans Mon Drive**.
+1. Exécutez la cellule de téléchargement du TXT, puis celle du ZIP en fin de séance. Si le navigateur ne récupère pas le fichier, ouvrez **Fichiers** dans Colab, suivez le chemin affiché et choisissez **Télécharger** dans le menu du fichier.
+2. Ouvrez **Mon Drive → S3-PythonVsLLM** dans Google Drive et importez depuis votre ordinateur les deux fichiers téléchargés. Avant de fermer la session Colab, vérifiez que les fichiers portant votre numéro figurent bien dans ce dossier.
+3. À chaque nouvelle séance, téléchargez les entrées nécessaires depuis **S3-PythonVsLLM** sur votre ordinateur. Ouvrez le nouveau cahier dans Colab et utilisez le bouton d’import du volet **Fichiers** pour les placer directement dans `/content`. Saisissez votre numéro étudiant, puis exécutez le cahier.
+4. À la fin des cahiers 02 à 04, téléchargez à son tour le JSON produit par la dernière cellule et importez-le dans **S3-PythonVsLLM**. Après une correction, ouvrez le dernier téléchargement et vérifiez votre numéro et la réponse modifiée. Si le navigateur a ajouté `(1)`, rendez au fichier le nom prévu dans le tableau. Remplacez uniquement votre propre ancienne version dans Drive et, si vous l’aviez déjà remise, dans le dossier partagé.
 
-La cellule de fin de notebook monte le Drive :
+| Séance | À importer dans Colab | À récupérer et à ranger |
+|---|---|---|
+| [02 · Mesures lexicales](../notebooks/02_mesures_lexicales.ipynb) | Le TXT nettoyé **ou** le ZIP du 01 | `resultats_02_<numero>.json` |
+| [03 · Relations lexicales](../notebooks/03_relations_lexicales.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
+| [04 · Audit](../notebooks/04_audit_llm.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
 
-```python
-from google.colab import drive
-drive.mount("/content/drive")
-```
+### Reprendre vos propres exports d’une ancienne séance
 
-Après avoir identifié le chemin du dossier partagé sous `/content/drive/MyDrive/`, le renseigner dans `DOSSIER_DEPOT_DRIVE`. La cellule de dépôt copie l'archive et vérifie son SHA-256. Elle ne crée pas de dossier de destination et refuse d'écraser un fichier de même nom.
+Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-PythonVsLLM** et donnez aux copies les noms utilisés par les cahiers actuels.
 
-La copie locale reste disponible dans `/content/analyse_faguet_v2_0_0/` si le partage n'est pas accessible.
+| Ancien export | Nom de la copie |
+|---|---|
+| `faguet_nettoye.txt` | `faguet_nettoye_<numero>.txt` |
+| `FAGUET_v…_<date>_<session>.zip` | `FAGUET_01_<numero>_<date>_<session>.zip` en conservant la date et le numéro de session d’origine |
+| `resultats_02.json`, `resultats_03.json` | `resultats_02_<numero>.json`, `resultats_03_<numero>.json` |
 
-**Attention :** Colab conserve ses fichiers locaux seulement pendant la durée de vie de son environnement. Il faut récupérer le texte et les résultats avant fermeture de la session. Une copie sur Drive suppose un dossier accessible en écriture.
+Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport Studio, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
+
+## Copier les pièces dans le dossier partagé
+
+- **Revue du 01.** Dans l’interface de Drive, copiez votre ZIP depuis **S3-PythonVsLLM** dans le dossier partagé du projet. Gardez l’original dans votre dossier personnel.
+- **Revue finale du 04.** Depuis ce même dossier personnel, copiez les trois JSON des 02, 03 et 04 vers le dossier partagé. L’équipe PT y retrouvera votre protocole, vos résultats, vos passages et votre conclusion individuelle. Indiquez le ZIP du 01 déjà partagé pour identifier le corpus correspondant.
+
+Vérifiez que les fichiers portant votre numéro figurent dans le dossier partagé. [Ouvrir le dossier partagé du projet](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO)
 
 ## Contrôles et reproductibilité
 
@@ -59,7 +65,7 @@ Le corpus initial est téléchargé depuis le commit public `b92e92b6c2160142830
 
 Les mesures Gemini proviennent du dossier `PT-LLMvsPy/data/` à la même révision Git que le code. Les règles de nettoyage et de calcul sont enregistrées dans `metadonnees_analyse.json`. L'empreinte du texte épuré permet de voir si deux exécutions ont produit la même sortie.
 
-Pour poursuivre dans [le notebook 02](../notebooks/02_mesures_lexicales.ipynb), placez le texte nettoyé ou l’archive ZIP du 01 dans **Mon Drive → PT-Faguet**. Le 03 retrouve dans ce dossier le résultat sauvegardé par le 02 et le 04 utilise les deux résultats. Le [parcours et ses activités en classe](../README.md#du-texte-nettoyé-au-dossier-daudit) détaille les fichiers attendus et les options de dossier.
+Les activités de préparation, de mesure et de vérification sont détaillées dans [la progression des quatre cahiers](../README.md#du-texte-nettoyé-au-dossier-daudit).
 
 Tests sur une copie du dépôt public :
 
