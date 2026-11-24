@@ -63,15 +63,15 @@
   <div class="wrap">
     <div class="kicker">Projet tuteuré · Master 2 · TAL et Python</div>
     <h1>De la préparation du corpus à l’audit des affirmations du LLM</h1>
-    <p class="lead">Avec toute la promotion du S3, préparez le texte de Faguet, mesurez son lexique et ses cooccurrences, puis vérifiez un chiffre et une citation. En janvier et février, l’équipe du projet tuteuré réunit les conclusions individuelles et teste un prompt sur les mêmes pièces.</p>
+    <p class="lead">La séance précédente a réuni le bilan des TD1 à TD7 (12 réponses recueillies) et le lancement du cahier 01 sur <em>Le Féminisme</em> de Faguet. Le 25 novembre, apportez le passage que vous avez inspecté et votre archive du 01. Après la revue, vous ouvrirez le 02 pour comparer les fréquences des formes et des lemmes sur le texte retenu.</p>
     <div class="hero-meta">
       <span>Projet PT-LLMvsPy</span>
       <span>Corpus : <em>Le Féminisme</em> d’Émile Faguet</span>
       <span>Fin du S3 · 18 décembre 2026</span>
     </div>
     <div class="actions">
-      <a href="#premiere-etape">Première étape</a>
-      <a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Colab</a>
+      <a href="#premiere-etape">Préparer la revue du 01</a>
+      <a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Ouvrir le cahier 01 dans Colab</a>
       <a href="https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy" target="_blank" rel="noopener">Code et notebooks sur GitHub</a>
       <button type="button" onclick="window.print()">Imprimer / PDF</button>
     </div>
@@ -94,7 +94,7 @@
   <div class="eyebrow">Question commune au S3 et au projet tuteuré</div>
   <h2>Une mesure lexicale dépend d’abord du texte qu’on lui donne</h2>
   <p class="intro essential">Peut-on reproduire et expliquer les résultats annoncés par des modèles de langage sur <em>Le Féminisme</em>, avec un traitement Python explicite et des preuves retrouvables dans le texte ?</p>
-  <p>Le nettoyage du corpus, la définition d’un token ou d’une phrase et la délimitation du contexte d’une cooccurrence peuvent modifier les comptes. Il faut donc <strong>préparer une source commune avant d’en interpréter les chiffres</strong>.</p>
+  <p>Tout le S3 prépare le corpus, mesure son lexique et ses cooccurrences, puis vérifie un chiffre et une citation du LLM. Votre conclusion individuelle précisera de quelles conventions dépend votre résultat. En janvier et février, l’équipe du projet tuteuré réunira ces conclusions pour rédiger une réponse collective et tester un prompt sur les mêmes pièces.</p>
   <p><strong>Repères de lecture.</strong> Le symbole ✓ indique une tâche à réaliser et ▣ un résultat à conserver. Chaque type d’encadré associe un symbole, une couleur et un intitulé.</p>
   <div class="role-strip" aria-label="Code de lecture">
     <div class="legend context">◉ Corpus et données</div>
@@ -136,12 +136,14 @@
 
 <section class="section" id="premiere-etape">
   <div class="first-step">
-    <div class="eyebrow">Étape 1 · À préparer pour la revue du 25 novembre</div>
-    <h2>Préparer, lire et valider le corpus de référence</h2>
-    <p class="intro">Le premier notebook fixe le <strong>prétraitement commun</strong>. Examinez les choix de préparation sur quelques lignes, puis appliquez le traitement au livre entier. Le texte et la version retenus à la revue du 01 servent de référence aux cahiers 02 à 04.</p>
-    <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">Ouvrir le notebook 01 dans Google Colab</a></p>
-    <p>Le notebook est disponible dans le <strong>dossier public PT-LLMvsPy</strong> du dépôt du cours. Dans Google Drive, créez un dossier personnel nommé <strong>S3-PythonVsLLM</strong>. Pour conserver vos réponses modifiables, choisissez dans Colab <strong>Fichier → Enregistrer une copie dans Drive</strong>. Rangez la copie dans <strong>S3-PythonVsLLM</strong>, ouvrez-la et travaillez dedans. Saisissez votre numéro étudiant en conservant ses éventuels zéros initiaux, puis exécutez les cellules dans l’ordre. La bibliothèque Python et les documents de référence sont chargés depuis ce même dépôt.</p>
-    <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_corpus_protocole.ipynb" target="_blank" rel="noopener">télécharger le fichier <code>01_corpus_protocole.ipynb</code> sur GitHub</a> puis l'importer dans Colab.</p>
+    <div class="eyebrow">Cahier 01 · Reprendre le travail engagé à la séance précédente</div>
+    <h2>Préparer un corpus et mesurer l’effet du nettoyage</h2>
+    <p class="intro">Si vous souhaitez revoir une fonction Python, commencez par l’exemple guidé du cahier. Si vous êtes à l’aise avec les appels de fonctions, reprenez votre propre exemple et expliquez l’écart prévu. Dans les deux cas, vous aurez à justifier sur le livre ce qu’une opération change au texte et à son décompte.</p>
+    <p>La <strong>chaîne de traitements</strong> est la suite d’opérations que vous exécutez. Dans le 01, les fonctions de <code>tal_toolkit</code> sont déjà écrites. <code>executer_pretraitements()</code> applique les opérations choisies, par exemple masquer un appel de note et son contenu. <code>composer_texte_epure()</code> produit ensuite le texte à lire. Essayez ces fonctions sur une phrase accompagnée d’une note avant de les appliquer au livre.</p>
+    <p>Le <strong>protocole</strong> précise vos choix et la façon de vérifier leur effet. Pour compter les mots du corps du livre, vous écartez les notes et retenez, avant comme après nettoyage, les tokens composés de lettres. Avec <code>comparer_corpus_td01()</code>, mesurez l’écart entre les deux textes. Retrouvez la note dans l’original et vérifiez que la phrase qui l’appelait reste lisible.</p>
+    <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Ouvrir le cahier 01 dans Colab</a></p>
+    <p>Rouvrez votre copie depuis <strong>Mon Drive → S3-PythonVsLLM</strong>. Si vous devez encore la créer, ouvrez le cahier dans Colab, choisissez <strong>Fichier → Enregistrer une copie dans Drive</strong> et rangez-la dans ce dossier personnel, à créer si nécessaire. Dans votre copie, conservez les éventuels zéros initiaux de votre numéro étudiant et exécutez les cellules dans l’ordre. Le cahier charge les fonctions et les documents du projet.</p>
+    <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">télécharger le cahier 01 depuis GitHub</a> puis l'importer dans Colab.</p>
     <ol class="step-list">
       <li><h3>Exécuter le nettoyage</h3><p>Sur un exemple de votre invention, prévoyez le texte qui restera après le retrait d’une note. Vérifiez votre prévision, puis appliquez le nettoyage au livre et sauvegardez le texte obtenu.</p></li>
       <li><h3>Lire le document nettoyé</h3><p>Ouvrez le fichier dans un éditeur de texte. Examinez les paragraphes, les titres, la ponctuation, les notes et les passages qui vous paraissent anormaux.</p></li>
@@ -149,8 +151,8 @@
       <li><h3>Décider et comparer</h3><p>Consignez votre décision et les corrections proposées. Comparez les sept indicateurs du texte original et du texte préparé avec les mêmes règles. Quel écart pouvez-vous expliquer par une opération observée dans le passage ?</p></li>
     </ol>
     <div class="semi trace">
-      <h3>▣ Rendu de la première séance</h3>
-      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Téléchargez sur votre ordinateur le TXT nettoyé pour l’inspection puis, en fin de séance, le ZIP. Dans Google Drive, importez ces deux fichiers dans <strong>S3-PythonVsLLM</strong>. Depuis ce dossier personnel, copiez le ZIP dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue, conservez le texte nettoyé retenu et sa provenance pour les trois séances suivantes.</p>
+      <h3>▣ Remise du cahier 01 le 25 novembre</h3>
+      <p><strong>Notebook 01 complété, fichier nettoyé, journal d’inspection, décision motivée, premiers comptes comparatifs et références des versions utilisées.</strong> Téléchargez sur votre ordinateur le TXT nettoyé pour l’inspection puis, une fois votre travail terminé, le ZIP. Dans Google Drive, importez ces deux fichiers dans <strong>S3-PythonVsLLM</strong>. Depuis ce dossier personnel, copiez le ZIP dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue du 25 novembre, ouvrez dans le 02 le texte nettoyé retenu. Conservez-le avec sa provenance pour les trois cahiers suivants.</p>
     </div>
   </div>
 </section>
@@ -208,6 +210,7 @@
 <section class="section" id="architecture">
   <div class="eyebrow">Architecture du projet</div>
   <h2>Une bibliothèque commune, quatre notebooks enchaînés</h2>
+  <p>Choisissez le titre d’un cahier ci-dessous pour l’ouvrir dans Colab.</p>
   <div class="flow" aria-label="Circulation des données du projet">
     <div><strong>GitHub public</strong><span>Sous-dossier PT-LLMvsPy : fonctions Python, notebooks et documents de référence.</span></div>
     <div><strong>Notebook 01</strong><span>Nettoyage, inspection et version du corpus retenue.</span></div>
@@ -216,22 +219,22 @@
   </div>
   <div class="grid">
     <div class="panel">
-      <h3>01 · Prétraitement</h3>
+      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">01 · Préparer un corpus et mesurer l’effet du nettoyage</a></h3>
       <p>Un retour à la ligne peut couper une phrase. Une note peut introduire des mots étrangers au propos. Repérez un passage dans les deux versions du livre pour expliquer comment le nettoyage modifie un compte. À la revue, retenez ensemble le texte utilisé dans les trois cahiers suivants.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/02_mesures_lexicales.ipynb" target="_blank" rel="noopener">02 · Mesures lexicales</a></h3>
+      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb" target="_blank" rel="noopener">02 · Comparer les fréquences des formes et des lemmes</a></h3>
       <p>Que recouvrent les 79 540 tokens de Studio ? Ajoutez une virgule à votre phrase puis vérifiez avec <code>calculer_metriques_globales()</code> comment les filtres modifient le volume <em>N</em> et la longueur moyenne des phrases. <code>len(doc)</code> inclut les tokens d’espace. Le filtre alphabétique écarte aussi les nombres.</p>
       <p>À filtre constant, comparez les formes minuscules et les lemmes. Le regroupement de <em>droit</em> et <em>droits</em> peut modifier les types (formes distinctes), les hapax (observés une seule fois) et le TTR (types divisés par occurrences). Le STTR moyenne les TTR de blocs complets de même taille. Confrontez le classement des fréquences et les effectifs des cinq champs lexicaux aux emplois dans le livre. Contrôlez un lemme ambigu, une marque de voix et l’effet d’une abréviation sur la fin de phrase.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_relations_lexicales.ipynb" target="_blank" rel="noopener">03 · Cooccurrences et séquences</a></h3>
+      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb" target="_blank" rel="noopener">03 · Mesurer les cooccurrences par phrase et par fenêtre</a></h3>
       <p>Testez <code>mesurer()</code> sur deux phrases de votre invention. Menez les deux enquêtes communes sur Faguet. Pour Studio, comptez en union les phrases contenant <em>femme(s)</em> et <em>homme(s)</em> et comparez à la somme des couples de graphies. Pour M4, comptez les phrases où figurent les lemmes <em>femme</em> et <em>droit</em>. Répartissez les autres associations de Studio entre binômes.</p>
       <p>Pour les deux enquêtes, lisez la table de contingence et le PMI (information mutuelle ponctuelle). Le score compare les phrases communes observées à celles attendues sous indépendance, compte tenu des fréquences des deux groupes. Un couple rare peut avoir un PMI élevé. L’essai supplémentaire sur ce cas est facultatif.</p>
       <p>Autour de <em>femme</em>, comparez les rayons ±5 et ±10 tokens, dans la phrase puis en continu. Un pivot peut être couvert par plusieurs occurrences de <em>droit</em> et former autant de paires. Une virgule occupe une position et interrompt un bigramme ou trigramme de mots contigus. Comparez les séquences avec et sans ponctuation, dont <em>union libre</em>. Gardez deux passages localisés. Vous pouvez ensuite transférer la méthode à deux lemmes de votre choix.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_audit_llm.ipynb" target="_blank" rel="noopener">04 · Audit et conclusion individuelle</a></h3>
+      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb" target="_blank" rel="noopener">04 · Vérifier une affirmation par le calcul et la lecture</a></h3>
       <p>Rouvrez les résultats des 02 et 03. Recalculez les ratios avec les chiffres de Studio pour en vérifier l’arithmétique. Pour les comparer ensuite à vos mesures sur Faguet, précisez unités, filtres et dénominateurs. Classez l’annonce selon ce que permet sa documentation. Reprenez le résultat de M4 et confrontez le « toujours » de Studio à vos deux passages.</p>
       <p>Testez <code>verifier_citation()</code> sur votre phrase et sa variante. Cherchez ensuite une citation de la pièce C. Indiquez si la citation est exacte, retrouvée après normalisation ou non retrouvée. Si vous proposez un passage voisin, relevez les différences de formulation. Dans les concordances, recherchez les mots entiers pour éviter de compter un fragment de mot.</p>
       <p>Choisissez une enquête sur le sens d’un mot (polysémie), le degré d’adhésion à un propos (modalisation) ou les voix qui se répondent (polyphonie). Qui parle dans votre passage, et à quel indice le reconnaissez-vous ? Faites relire cet indice à votre binôme, puis rédigez votre conclusion individuelle et sa limite.</p>
@@ -266,7 +269,7 @@
 <section class="section" id="synthese">
   <div class="eyebrow">Projet tuteuré · Janvier et février 2027</div>
   <h2>Des conclusions individuelles à la réponse collective</h2>
-  <p>Les étudiants en projet tuteuré ont d’abord réalisé les quatre cahiers avec le S3. En janvier et février, leur travail porte sur la mise en commun, la rédaction et l’essai du prompt final. Quelques séances seront consacrées au PT en janvier. Leurs dates restent à fixer.</p>
+  <p>Si vous faites partie de l’équipe du projet tuteuré, reprenez en janvier et février les contributions remises par toute la promotion en décembre. Votre équipe rédige la conclusion collective et éprouve le prompt final. Les dates des séances de janvier restent à fixer.</p>
   <ol class="step-list">
     <li><h3>Rassembler les résultats de chacun</h3><p>Pour chaque contribution, relevez l’auteur ou le binôme, l’annonce, la convention, le résultat et le passage qui l’étaye. Regroupez les contributions par affirmation. Si deux binômes recomptent les mêmes phrases, comparez les résultats et expliquez les écarts éventuels. Les additionner ferait compter ces phrases deux fois.</p></li>
     <li><h3>Répondre à la question commune</h3><p>Rédigez ensemble la réponse à la <a href="#objectif">question du projet</a>. Pour chaque idée, indiquez la preuve, la convention dont elle dépend et sa limite. Consignez les désaccords qui subsistent. Conservez cette conclusion comme référence pour lire la réponse du LLM.</p></li>

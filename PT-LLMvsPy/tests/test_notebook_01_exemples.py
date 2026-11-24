@@ -9,7 +9,7 @@ from tal_toolkit import (
 
 
 def _essayer(identifiant, **entrees):
-    fichier = Path(__file__).resolve().parents[1] / "notebooks" / "01_corpus_protocole.ipynb"
+    fichier = Path(__file__).resolve().parents[1] / "notebooks" / "01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb"
     cellules = {
         c["id"]: "".join(c["source"])
         for c in json.loads(fichier.read_text(encoding="utf-8"))["cells"]

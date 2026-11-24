@@ -2,7 +2,7 @@
 
 ## Ouverture et versions
 
-Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_corpus_protocole.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
+Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
 Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. La bibliothèque est installée depuis GitHub à la révision `REVISION_GIT`, résolue en SHA de commit au début de la session. `VERSION_NOTEBOOK` reste modifiable pour comparer les versions.
 
@@ -33,9 +33,9 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 
 | Séance | À importer dans Colab | À récupérer et à ranger |
 |---|---|---|
-| [02 · Mesures lexicales](../notebooks/02_mesures_lexicales.ipynb) | Le TXT nettoyé **ou** le ZIP du 01 | `resultats_02_<numero>.json` |
-| [03 · Relations lexicales](../notebooks/03_relations_lexicales.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
-| [04 · Audit](../notebooks/04_audit_llm.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
+| [02 · Comparer les fréquences des formes et des lemmes](../notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb) | Le TXT nettoyé **ou** le ZIP du 01 | `resultats_02_<numero>.json` |
+| [03 · Mesurer les cooccurrences par phrase et par fenêtre](../notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
+| [04 · Vérifier une affirmation par le calcul et la lecture](../notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
 
 **Après le 02.** Ouvrez le JSON téléchargé et retrouvez `numero_etudiant` ainsi qu’une réponse que vous venez d’écrire dans `observations`. Le 03 reprend ce JSON avec le TXT ou le ZIP du 01. Conservez l’original du JSON dans **S3-PythonVsLLM** jusqu’à la remise des trois JSON à la revue du 04.
 

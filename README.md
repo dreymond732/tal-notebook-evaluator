@@ -33,7 +33,7 @@ L'application suit une architecture micro-service simple basée sur **Flask** et
 
 Télécharger le fichier HTML puis l’ouvrir dans un navigateur. Chaque diaporama est autonome : navigation au clavier, sommaire cliquable, plein écran et impression. Il présente la progression, la portée des correcteurs automatiques et les traces à conserver. Les notebooks restent les supports d’exercice.
 
-Le [cadrage du projet tuteuré](app/static/PT_LLMvsPy_cadrage_projet_tutore.html) prolonge le diaporama du S3 avec les quatre cahiers communs sur Faguet et la restitution collective de janvier et février.
+Le [cadrage du projet tuteuré](app/static/PT_LLMvsPy_cadrage_projet_tutore.html) reprend les compétences travaillées du TD1 au TD7. Les quatre cahiers sur Faguet permettent de préciser un protocole, de contrôler un calcul et d’étayer une lecture. L’équipe du projet réunit les contributions en janvier et février.
 
 Le S3 utilise le lien Drive fourni par l’enseignant. Les dossiers Drive S1/S2 n’ayant pas été fournis, leurs titres ne contiennent pas de lien. Ces HTML sont distribués séparément des notebooks générés par `prepare_student_notebooks.py`.
 
