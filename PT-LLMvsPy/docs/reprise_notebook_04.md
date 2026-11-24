@@ -1,6 +1,6 @@
 # Notebook 04 — préparer le TD d’audit des affirmations de Gemini
 
-Cette fiche compare le [04 distribué avant la reprise](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcf8bdf152db52c26ec17f1ffc81618a3d9458a0/PT-LLMvsPy/notebooks/04_audit_llm.ipynb) au [cahier révisé](../notebooks/04_audit_llm.ipynb). Les nombres ci-dessous proviennent du rapport et d’une exécution sur le texte nettoyé au 01. Le cahier étudiant est distribué avec les sorties vides.
+Cette fiche compare le [04 distribué avant la reprise](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcf8bdf152db52c26ec17f1ffc81618a3d9458a0/PT-LLMvsPy/notebooks/04_audit_llm.ipynb) au [cahier révisé](../notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb). Les nombres ci-dessous proviennent du rapport et d’une exécution sur le texte nettoyé au 01. Le cahier étudiant est distribué avec les sorties vides.
 
 ## Évolution du découpage et des tâches
 

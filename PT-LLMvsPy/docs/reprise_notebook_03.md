@@ -1,6 +1,6 @@
 # Notebook 03 — correspondance des tâches et repères pour le TD
 
-Cette fiche compare le [cahier révisé](../notebooks/03_relations_lexicales.ipynb) à la [version du 03 distribuée avant la reprise](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcf8bdf152db52c26ec17f1ffc81618a3d9458a0/PT-LLMvsPy/notebooks/03_relations_lexicales.ipynb). Les chiffres ci-dessous proviennent d’une exécution sur le texte nettoyé du 01 avec spaCy 3.8.18 et `fr_core_news_sm` 3.8.0. Dans le cahier distribué, les étudiants les calculent eux-mêmes.
+Cette fiche compare le [cahier révisé](../notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) à la [version du 03 distribuée avant la reprise](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcf8bdf152db52c26ec17f1ffc81618a3d9458a0/PT-LLMvsPy/notebooks/03_relations_lexicales.ipynb). Les chiffres ci-dessous proviennent d’une exécution sur le texte nettoyé du 01 avec spaCy 3.8.18 et `fr_core_news_sm` 3.8.0. Dans le cahier distribué, les étudiants les calculent eux-mêmes.
 
 ## Du découpage précédent au travail demandé
 

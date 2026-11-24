@@ -28,7 +28,12 @@ const { chromium } = require('playwright');
       if (file.includes('/S3/')) {
         const drive = 'https://drive.google.com/drive/folders/1mkc-LIA1ModDi0Hst0Se-cV8mMnmW_Te?usp=sharing';
         const colab = 'https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/';
-        const notebooks = ['01_corpus_protocole', '02_mesures_lexicales', '03_relations_lexicales', '04_audit_llm'];
+        const notebooks = [
+          '01_preparer_le_corpus_et_mesurer_le_nettoyage',
+          '02_comparer_les_frequences_des_formes_et_des_lemmes',
+          '03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre',
+          '04_verifier_une_affirmation_par_le_calcul_et_la_lecture'
+        ];
         const projectFolder = 'https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO';
         const projectGuide = 'https://hazigo.duckdns.org/universite/tal/static/PT_LLMvsPy_cadrage_projet_tutore.html';
         assert(links.includes(drive), `${file}: missing S3 Drive links`);

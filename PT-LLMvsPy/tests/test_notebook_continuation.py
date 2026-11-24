@@ -19,7 +19,7 @@ from tal_toolkit import (
 
 
 def _cellules():
-    p = Path(__file__).resolve().parents[1] / "notebooks/01_corpus_protocole.ipynb"
+    p = Path(__file__).resolve().parents[1] / "notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb"
     return {
         c["id"]: "".join(c["source"])
         for c in json.loads(p.read_text(encoding="utf-8"))["cells"]

@@ -7,7 +7,11 @@ import re
 
 def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
     notebooks = Path(__file__).resolve().parents[1] / "notebooks"
-    for nom in ("02_mesures_lexicales", "03_relations_lexicales", "04_audit_llm"):
+    for nom in (
+        "02_comparer_les_frequences_des_formes_et_des_lemmes",
+        "03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre",
+        "04_verifier_une_affirmation_par_le_calcul_et_la_lecture",
+    ):
         path = notebooks / f"{nom}.ipynb"
         cahier = json.loads(path.read_text(encoding="utf-8"))
         assert cahier["nbformat"] == 4
@@ -29,7 +33,7 @@ def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
 
 
 def test_le_02_ouvre_le_corpus_du_01_puis_travaille_sur_les_unites():
-    chemin = Path(__file__).resolve().parents[1] / "notebooks/02_mesures_lexicales.ipynb"
+    chemin = Path(__file__).resolve().parents[1] / "notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb"
     cellules = json.loads(chemin.read_text(encoding="utf-8"))["cells"]
     sections = []
     for cellule in cellules:

@@ -1,6 +1,6 @@
 # Notebook 02 — correspondance des activités et des références
 
-Cette fiche accompagne la lecture du [cahier 02](../notebooks/02_mesures_lexicales.ipynb). Elle compare la [version distribuée après le cahier 01](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcb176f6e9454ff49a276d82d63eef80b6f6fabe/PT-LLMvsPy/notebooks/02_mesures_lexicales.ipynb) aux cinq étapes du descriptif de séance.
+Cette fiche accompagne la lecture du [cahier 02](../notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb). Elle compare la [version distribuée après le cahier 01](https://github.com/dreymond732/tal-notebook-evaluator/blob/fcb176f6e9454ff49a276d82d63eef80b6f6fabe/PT-LLMvsPy/notebooks/02_mesures_lexicales.ipynb) aux cinq étapes du descriptif de séance.
 
 ## Ce qui change dans le travail en classe
 
