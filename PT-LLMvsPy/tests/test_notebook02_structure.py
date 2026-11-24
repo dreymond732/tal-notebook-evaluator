@@ -28,3 +28,17 @@ def test_cahiers_diffuses_avec_reprise_locale_et_sorties_vides():
         revisions.append(revision.group(1))
         assert not any("drive.mount(" in code or "/content/drive" in code for code in codes.values())
     assert len(revisions) == 3 and len(set(revisions)) == 1
+
+
+def test_le_02_ouvre_le_corpus_du_01_puis_travaille_sur_les_unites():
+    chemin = Path(__file__).resolve().parents[1] / "notebooks/02_mesures_lexicales.ipynb"
+    cellules = json.loads(chemin.read_text(encoding="utf-8"))["cells"]
+    sections = []
+    for cellule in cellules:
+        source = "".join(cellule["source"])
+        if cellule["cell_type"] == "markdown":
+            sections.extend(re.findall(r"^## (\d+)\b", source, re.MULTILINE))
+        else:
+            assert "auditer_reapplication" not in source, cellule["id"]
+            assert "sha256_attendu" not in source, cellule["id"]
+    assert sections == ["0", "1", "2", "3", "4"]

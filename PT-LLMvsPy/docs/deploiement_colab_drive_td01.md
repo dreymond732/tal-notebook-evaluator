@@ -37,6 +37,8 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 | [03 · Relations lexicales](../notebooks/03_relations_lexicales.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
 | [04 · Audit](../notebooks/04_audit_llm.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
 
+**Après le 02.** Ouvrez le JSON téléchargé et retrouvez `numero_etudiant` ainsi qu’une réponse que vous venez d’écrire dans `observations`. Le 03 reprend ce JSON avec le TXT ou le ZIP du 01. Conservez l’original du JSON dans **S3-PythonVsLLM** jusqu’à la remise des trois JSON à la revue du 04.
+
 ### Reprendre vos propres exports d’une ancienne séance
 
 Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-PythonVsLLM** et donnez aux copies les noms utilisés par les cahiers actuels.
