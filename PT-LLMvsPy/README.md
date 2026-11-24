@@ -20,10 +20,10 @@ La révision `main` fonctionne par défaut ; elle est résolue en commit au dém
 
 ## Première étape : préparer la source
 
-1. Découvrir les fonctions sur des exemples courts.
-2. Nettoyer le **texte Faguet intégral** et télécharger une première version lisible.
-3. Examiner le fichier dans Bloc-notes ou un autre éditeur, puis relever les éventuelles anomalies dans le texte original et estimer leur fréquence avec un motif défini.
-4. Calculer les sept métriques lexicales de base sur l'original et le texte préparé. Les observations et les éventuelles corrections n'interrompent pas les calculs.
+1. Repérez dans le texte source un appel de note, un séparateur ou un autre élément signalé par l’inventaire.
+2. Essayez les règles sur six exemples courts. Écrivez ensuite votre propre exemple, prévoyez le texte obtenu et comparez-le au résultat de la fonction.
+3. Appliquez le plan commun à tout le livre et téléchargez le texte nettoyé. Examinez-le dans un éditeur. Retrouvez un passage dans les deux textes et comptez les occurrences du motif que vous avez choisi.
+4. Comparez les sept indicateurs calculés avant et après nettoyage. Pour l’un d’eux, relevez les deux valeurs et appuyez votre interprétation sur un passage inspecté.
 
 Le 01 produit dans l’espace temporaire de Colab le TXT nettoyé pour l’inspection et un ZIP qui rassemble le texte, les mesures CSV/JSON, les observations et les métadonnées de provenance. Le nom des deux exports porte votre numéro étudiant. Le ZIP porte aussi la date et le numéro de session.
 
