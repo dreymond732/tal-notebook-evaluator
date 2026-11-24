@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections import Counter
 import math
+import re
 from typing import Literal, Sequence, TypedDict
 
 
@@ -43,6 +44,13 @@ def frequences(tokens: Sequence[str], *, minimum: int = 1) -> list[dict]:
     ]
 
 
+def _concordance(source: str, debut: int, fin: int, largeur: int) -> Concordance:
+    return {
+        "debut": debut, "fin": fin, "pivot": source[debut:fin],
+        "gauche": source[max(0, debut - largeur):debut], "droite": source[fin:fin + largeur],
+    }
+
+
 def concordances_exactes(source: str, motif: str, largeur: int = 20) -> list[Concordance]:
     """Cherche sans chevauchement ; bornes en caractères du texte original."""
     if not motif:
@@ -53,13 +61,24 @@ def concordances_exactes(source: str, motif: str, largeur: int = 20) -> list[Con
     position = 0
     while (debut := source.find(motif, position)) != -1:
         fin = debut + len(motif)
-        trouvailles.append({
-            "debut": debut, "fin": fin, "pivot": source[debut:fin],
-            "gauche": source[max(0, debut - largeur):debut],
-            "droite": source[fin:min(len(source), fin + largeur)],
-        })
+        trouvailles.append(_concordance(source, debut, fin, largeur))
         position = fin
     return trouvailles
+
+
+def concordances_mot(source: str, mot: str, largeur: int = 45) -> list[Concordance]:
+    r"""Cherche une graphie entière sans distinguer la casse, avec les frontières Unicode \b.
+
+    Le mot est littéral, sans espace et avec un caractère de mot à chaque extrémité.
+    Les bornes [debut:fin] et les contextes, en caractères, se rapportent au texte reçu.
+    """
+    if not re.fullmatch(r"\w(?:\S*\w)?", mot):
+        raise ValueError("Saisissez un mot dont les extrémités sont des caractères de mot.")
+    if largeur < 0:
+        raise ValueError("La largeur doit être positive ou nulle")
+    motif = r"\b" + re.escape(mot) + r"\b"
+    return [_concordance(source, m.start(), m.end(), largeur)
+            for m in re.finditer(motif, source, flags=re.IGNORECASE)]
 
 
 def contient_expression(tokens: Sequence[str], expression: Sequence[str]) -> bool:

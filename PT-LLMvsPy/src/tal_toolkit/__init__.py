@@ -32,6 +32,7 @@ from .textometry import (
     compter_paires_fenetre, concordances_exactes, contient_expression,
     couverture_pivots, extraire_ngrammes, frequences,
     mesurer, pmi_phrase, pour_mille, proportion, table_contingence,
+    concordances_mot,
 )
 
 __version__ = "0.3.1"
@@ -50,7 +51,7 @@ __all__ = [
     "plan_standard_td01", "verifier_corpus_standard_td01",
     "preparer_faguet_standard_td01", "verifier_standardisation_td01",
     "Corpus", "DocCache", "charger_corpus", "corpus_depuis_texte",
-    "tokeniser_phrases", "frequences", "concordances_exactes",
+    "tokeniser_phrases", "frequences", "concordances_exactes", "concordances_mot",
     "contient_expression", "mesurer", "table_contingence",
     "proportion", "pour_mille", "pmi_phrase", "couverture_pivots",
     "compter_paires_fenetre", "extraire_ngrammes",

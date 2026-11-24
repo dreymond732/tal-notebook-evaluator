@@ -77,3 +77,11 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     assert (relation["pivot"], relation["associe"], relation["mesure"]["cooc"]) == ("femme", "droit", 1)
     assert r4["protocole_B"]["relation_03"] == relation
     assert r4["protocole_B"]["valeur_annoncee"] is None
+
+    reference = r2["mesures"]["alphabetiques"]
+    ratios = r4["ratios_A"]["mesures"]
+    assert ratios["ttr"]["calcul 02"] == reference["types"] / reference["tokens"]
+    assert ratios["mots_par_phrase"]["calcul 02"] == reference["tokens"] / reference["phrases"]
+    assert all(r["verdict"] == "INSUFFISAMMENT_DEFINI" for r in ratios.values())
+    temoins = r4["concordance_mot"]["temoins"]
+    assert [texte[t["debut"]:t["fin"]] for t in temoins] == ["droit"]

@@ -50,7 +50,7 @@ Le traitement de référence n'est pas présenté comme exempt d'erreurs : les m
 |---|---|---|
 | [02 — Compter les mots](notebooks/02_mesures_lexicales.ipynb) | Écrire une phrase au singulier et au pluriel, prévoir les unités retenues et comparer les sorties du tokeniseur et du lemmatiseur. | Expliquer un écart de fréquence, vérifier l’annotation d’une occurrence et préparer les deux tâches communes du 03. Les mesures et observations figurent dans `resultats_02_<numero>.json`. |
 | [03 — Vérifier les cooccurrences](notebooks/03_relations_lexicales.ipynb) | Inventer des phrases qui distinguent présence, répétition et proximité. Prévoir ce que changera une virgule ou le rayon d’une fenêtre. | Compter les phrases associant *femme(s)* et *homme(s)*. Studio en annonce 208. Examiner les autres associations et séquences du rapport, puis appliquer le protocole *femme / droit* de la conversation M4. Les deux analyses ont des entrées distinctes dans `resultats_03_<numero>.json`. |
-| [04 — Auditer les affirmations de Gemini](notebooks/04_audit_llm.ipynb) | Former une annonce vérifiable, puis essayer une citation exacte et une variante dans un texte que l’on a écrit. | Reprendre les effectifs et les passages du 03, examiner la portée de « toujours », vérifier les mots attribués à Faguet et confronter deux lectures. Le dossier et la conclusion sont sauvegardés dans `resultats_04_<numero>.json`. |
+| [04 — Auditer les affirmations de Gemini](notebooks/04_audit_llm.ipynb) | Compter à la main, tester un intervalle décimal et prévoir quelles occurrences un mot entier retrouvera dans son propre texte. | Reprendre les ratios du 02 et les passages du 03, examiner la portée de « toujours », vérifier une citation et son attribution, puis confronter deux lectures du cotexte. Le dossier et la conclusion sont sauvegardés dans `resultats_04_<numero>.json`. |
 
 Si vous modifiez une réponse, relancez les cellules concernées et la cellule d’export, puis téléchargez et rangez la nouvelle version du JSON. Si le navigateur ajoute `(1)` au nom, ouvrez le dernier téléchargement et vérifiez votre numéro et la présence de votre correction. Remettez ce fichier sous le nom prévu dans le tableau et remplacez uniquement votre propre version antérieure, dans votre Drive puis, si elle a déjà été partagée, dans le dossier partagé.
 
@@ -84,6 +84,8 @@ python scripts/verifier_notebook02.py
 GitHub Actions vérifie aussi l'**installation Git du sous-dossier** depuis le dépôt public, pour reproduire le parcours d'import de Colab.
 
 La documentation détaillée est dans [le guide de lancement](docs/deploiement_colab_drive_td01.md). La provenance de l'import du dépôt d'origine est décrite dans [MIGRATION.md](MIGRATION.md).
+
+La [fiche de préparation du 04](docs/reprise_notebook_04.md) compare les tâches avant et après la reprise, détaille les ratios et donne des repères pour discuter une attribution en TD.
 
 ## Références méthodologiques
 
