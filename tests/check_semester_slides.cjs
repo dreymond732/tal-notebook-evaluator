@@ -29,9 +29,12 @@ const { chromium } = require('playwright');
         const drive = 'https://drive.google.com/drive/folders/1mkc-LIA1ModDi0Hst0Se-cV8mMnmW_Te?usp=sharing';
         const colab = 'https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/';
         const notebooks = ['01_corpus_protocole', '02_mesures_lexicales', '03_relations_lexicales', '04_audit_llm'];
+        const projectFolder = 'https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO';
+        const projectGuide = 'https://hazigo.duckdns.org/universite/tal/static/PT_LLMvsPy_cadrage_projet_tutore.html';
         assert(links.includes(drive), `${file}: missing S3 Drive links`);
         assert.deepEqual(links.filter(url => url !== drive).sort(),
-          notebooks.map(name => colab + name + '.ipynb').sort(), `${file}: expected one link per PT notebook`);
+          [...notebooks.map(name => colab + name + '.ipynb'), projectFolder, projectGuide].sort(),
+          `${file}: expected the four PT notebooks, shared project folder and project guide`);
       } else {
         assert.equal(links.length, 0, `${file}: no S1/S2 folder supplied`);
       }
