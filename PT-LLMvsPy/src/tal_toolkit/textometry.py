@@ -207,13 +207,31 @@ def bilan_fenetres(
     return {"pivots": total, "pivots_couverts": couverts, "paires": paires}
 
 
-def frequences_ngrammes(phrases: Sequence[Sequence[str]], n: int) -> list[dict]:
-    """Fréquences des suites de n tokens contigus, limitées à une phrase."""
+def compter_paires_fenetre(tokens: Sequence[str], pivot: str, associe: str, k: int) -> int:
+    """Nombre de couples de positions (pivot, associé) à distance de 1 à k.
+
+    Les deux termes sont distincts. Chaque occurrence de l'associé à gauche
+    ou à droite du pivot compte, bornes incluses. Tous les tokens fournis
+    occupent une position. Passer une phrase limite la recherche à celle-ci.
+    """
+    return bilan_fenetres([tokens], pivot, associe, k)["paires"]
+
+
+def extraire_ngrammes(phrases: Sequence[Sequence[str]], n: int) -> list[str]:
+    """Suites de n tokens contigus dans chaque phrase, dans l'ordre de lecture.
+
+    Chaque occurrence est conservée, y compris les répétitions. Les tokens
+    d'une suite sont joints par une espace pour un décompte avec frequences().
+    """
     if n < 1:
         raise ValueError("La longueur d'une séquence doit être positive.")
-    sequences = [
+    return [
         " ".join(phrase[i:i + n])
         for phrase in phrases
         for i in range(len(phrase) - n + 1)
     ]
-    return frequences(sequences)
+
+
+def frequences_ngrammes(phrases: Sequence[Sequence[str]], n: int) -> list[dict]:
+    """Fréquences des suites de n tokens contigus, limitées à une phrase."""
+    return frequences(extraire_ngrammes(phrases, n))

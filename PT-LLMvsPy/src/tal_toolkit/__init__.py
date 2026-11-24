@@ -29,7 +29,8 @@ from .protocole_td01 import (
 from .io_corpus import Corpus, charger_corpus, corpus_depuis_texte
 from .linguistic import DocCache, tokeniser_phrases
 from .textometry import (
-    concordances_exactes, contient_expression, couverture_pivots, frequences,
+    compter_paires_fenetre, concordances_exactes, contient_expression,
+    couverture_pivots, extraire_ngrammes, frequences,
     mesurer, pmi_phrase, pour_mille, proportion, table_contingence,
     concordances_mot,
 )
@@ -53,6 +54,7 @@ __all__ = [
     "tokeniser_phrases", "frequences", "concordances_exactes", "concordances_mot",
     "contient_expression", "mesurer", "table_contingence",
     "proportion", "pour_mille", "pmi_phrase", "couverture_pivots",
+    "compter_paires_fenetre", "extraire_ngrammes",
     "verifier_citation", "champs_manquants", "comparer_intervalle",
     "evaluer_affirmation",
 ]

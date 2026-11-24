@@ -69,6 +69,8 @@ Si vous modifiez une réponse, relancez les cellules concernées et la cellule d
 
 Pour préparer le débriefing du 02, la [comparaison des deux versions](docs/reprise_notebook_02.md) situe les tâches déplacées, les références mobilisées et les mesures obtenues sur Faguet.
 
+Pour le 03, la [fiche sur les relations lexicales](docs/reprise_notebook_03.md) met en regard les anciennes et les nouvelles tâches. Elle donne un exemple à compter au tableau, les résultats sur Faguet et les références sur la cooccurrence et le PMI.
+
 Dans une copie locale du dépôt public :
 
 ```bash

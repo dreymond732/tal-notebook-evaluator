@@ -55,6 +55,8 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     cellule["source"] = "".join(cellule["source"]).replace(
         'pivot_libre, associe_libre = "", ""', 'pivot_libre, associe_libre = "loi", "peine"'
     )
+    suite = next(c for c in cahier["cells"] if c.get("id") == "micro-ngrammes")
+    suite["source"] = "".join(suite["source"]).replace('ma_suite = "loi juste"', 'ma_suite = "les femmes"')
     copie = tmp_path / "03_personnel.ipynb"
     copie.write_text(json.dumps(cahier), encoding="utf-8")
     executer_cahier(copie, numero)
@@ -65,6 +67,11 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     assert r3["transfert"]["mesure"]["cooc"] == 3
     principal = r3["studio"]["principal"]
     assert (principal["annonce"], principal["calcule"]) == (208, 2)
+    assert r3["agregations"]["essai"] == {"union": 2, "somme_paires": 3, "memes_indices": True}
+    assert r3["statistiques_phrases"]["studio"]["n11"] == principal["calcule"]
+    suites = {r["mode"]: (r["cible recherchée"], r["effectif"])
+              for r in r3["sequences"] if r["tokens"] == "alphabetiques"}
+    assert suites == {"forme": ("les femmes", 1), "lemme": ("les femme", 1)}
     assert r4["studio"]["principal_03"] == principal
     relation = r3["relation"]
     assert (relation["pivot"], relation["associe"], relation["mesure"]["cooc"]) == ("femme", "droit", 1)
