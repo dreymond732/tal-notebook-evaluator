@@ -189,7 +189,7 @@ def charger_modele_francais():
 
 
 def lire_annonces_globales() -> dict:
-    """Tableau du rapport Studio transcrit le 10 novembre 2026."""
+    """Annonces du § 1 du rapport chiffré transmis le 10 novembre 2026."""
     chemin = Path(__file__).resolve().parents[2] / "data" / "annonces_globales_gemini.json"
     if chemin.is_file():
         return json.loads(chemin.read_text(encoding="utf-8"))

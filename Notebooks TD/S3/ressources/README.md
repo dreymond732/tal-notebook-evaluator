@@ -10,6 +10,8 @@
 
 `citations_gemini.json` repère trois citations présentes dans la transcription ; leur fidélité au corpus est à vérifier. Ne pas corriger silencieusement une citation avant l'audit.
 
+[Situer cet échange du 18 septembre parmi les sources des enquêtes sur Faguet](../../../PT-LLMvsPy/docs/rapports_gemini.md)
+
 ## Ressources pédagogiques
 
 `exemples.json` fournit de petits textes distincts de Faguet. `annotation_manuelle` est une référence didactique visible sur un exemple résolu : elle sert à apprendre à contrôler une annotation, jamais à présumer qu'un modèle est infaillible. Les autres entrées ne donnent pas les solutions des exercices. Les exemples sont originaux et réutilisables dans le cours.
