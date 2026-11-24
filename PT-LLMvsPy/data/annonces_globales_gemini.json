@@ -1,6 +1,6 @@
 {
   "version": "gemini_metrics_globales_v1",
-  "origine": "Texte transmis par l'enseignant dans la conversation du 10 novembre 2026 ; distinct de gemini_transcription.txt des TD S3.",
+  "origine": "Rapport 2 de Gemini Notebook, transmis le 10 novembre 2026, section 1.",
   "titre": "1. Cadre Méthodologique et Métriques Globales du Corpus",
   "description": "Gemini déclare une analyse informatique intégrale de « Le Féminisme » d'Émile Faguet, avec environ 80 000 mots et plus de 3 800 phrases.",
   "statut_source": "Transcription fournie par l'enseignant, modèle exact, prompt intégral, traitement et versions non documentés.",

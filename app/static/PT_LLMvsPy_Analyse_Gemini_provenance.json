@@ -3,8 +3,8 @@
   "objet": "Document primaire pour une étude de reproductibilité des analyses textométriques produites par Gemini",
   "fichier": "PT_LLMvsPy_Analyse_Gemini_integrale.md",
   "source": "Document intégral transmis par l'enseignant le 10 novembre 2026",
-  "outil_attribue": "Gemini (attribution de l'enseignant, non vérifiable à partir du fichier seul)",
-  "produit_google_workspace": "possible ; la provenance exacte du rapport intégral n'est pas documentée dans le fichier",
+  "outil_attribue": "Gemini Notebook (identification confirmée par l’enseignant)",
+  "produit_google_workspace": "Le type de compte utilisé pour ce rapport n’est pas documenté.",
   "date_generation": null,
   "version_modele": null,
   "prompt_initial": null,
@@ -25,5 +25,7 @@
   "fichier_original": "PT_LLMvsPy_Analyse_Gemini_source_originale.md",
   "fichier_mis_en_forme": "PT_LLMvsPy_Analyse_Gemini_integrale.md",
   "sha256_fichier_mis_en_forme": "08530fc691202f34481fed69cae73ac33a4f982adb84e4f0233e86b839e3605d",
-  "transformation": "Restauration de cinq tableaux CSV en tableaux Markdown (29 lignes de données), sans correction du contenu ; copie originale conservée séparément."
+  "transformation": "Restauration de cinq tableaux CSV en tableaux Markdown (29 lignes de données), sans correction du contenu ; copie originale conservée séparément.",
+  "rapport": 2,
+  "date_transmission": "2026-11-10"
 }
