@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 
+import pytest
 import spacy
 from spacy.language import Language
 
@@ -85,3 +86,24 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     assert all(r["verdict"] == "INSUFFISAMMENT_DEFINI" for r in ratios.values())
     temoins = r4["concordance_mot"]["temoins"]
     assert [texte[t["debut"]:t["fin"]] for t in temoins] == ["droit"]
+
+
+@pytest.mark.parametrize("pivot,associe", [("droit civil", "femme"), ("femme", "droit civil")])
+def test_couple_personnel_refuse_plusieurs_mots(pivot, associe):
+    cahier = json.loads((NOTEBOOKS / "03_relations_lexicales.ipynb").read_text(encoding="utf-8"))
+    cellule = next(c for c in cahier["cells"] if c["id"] == "couple-perso")
+    source = "".join(cellule["source"]).replace(
+        'pivot_libre, associe_libre = "", ""', f"pivot_libre, associe_libre = {pivot!r}, {associe!r}"
+    )
+    with pytest.raises(ValueError, match="lemme"):
+        exec(source, {})
+
+
+def test_enquete_modalisation_avec_un_export_partiel(capsys):
+    cahier = json.loads((NOTEBOOKS / "04_audit_llm.ipynb").read_text(encoding="utf-8"))
+    cellule = next(c for c in cahier["cells"] if c["id"] == "explorer-enquete")
+    source = "".join(cellule["source"]).replace('ENQUETE = "polysémie"', 'ENQUETE = "modalisation"')
+    exec(source, {"lexique": {"locutions": {"il_faut": {"occurrences": 0}}}})
+    affichage = capsys.readouterr().out
+    assert "il faut · 0" in affichage
+    assert "il faudrait · non compté au 02" in affichage

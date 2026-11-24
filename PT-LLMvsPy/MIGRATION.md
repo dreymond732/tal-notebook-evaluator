@@ -24,8 +24,8 @@ données Gemini et les documents de méthode sont conservés dans ce sous-dossie
 
 - Notebook 01 : installation VCS `pip` depuis le dépôt **public**
   `tal-notebook-evaluator` en utilisant `#subdirectory=PT-LLMvsPy`.
-- Révision Git résolue en SHA au début de la session, appliquée à la bibliothèque
-  et à l'annexe Gemini, enregistrée avec le résultat de l'analyse.
+- Lors de l’import initial, le 01 résolvait la révision en SHA avant de charger
+  la bibliothèque et l’annexe Gemini.
 - Les documents de distribution et le lien vers le notebook de cadrage sont
   réorientés vers le nouveau répertoire.
 - Tests exécutés depuis le sous-projet afin d'éviter toute collision avec les
@@ -37,11 +37,8 @@ postérieures à cet import devront être réintégrées intentionnellement : il
 
 ## Contrôle de reproductibilité
 
-La version du notebook est indépendante de la version des fonctions. Le choix
-`REVISION_GIT="main"` est résolu en SHA-1 Git avant l'installation, ce qui
-garantit une révision concrète pendant une exécution, même si `main` évolue
-plus tard.
-
-Pour expérimenter avant fusion, utiliser temporairement
-`REVISION_GIT="feat/pt-llmvspy-colab-integrated"`. Après fusion, laisser
-`main`. Les étudiants n'ont pas à connaître le dépôt privé d'origine.
+Les quatre cahiers utilisent désormais la branche `main` du dépôt public pour
+installer la bibliothèque. Le 01 lit également les annonces de Gemini sur
+`main`. Les métadonnées de son archive enregistrent le nom de la branche et
+les versions du cahier et du paquet. Le texte source de Faguet conserve sa
+référence historique. Les anciennes archives gardent leurs métadonnées d’origine.

@@ -26,7 +26,7 @@ def analyser_notebook(nom):
 def test_notebook_01_exports_locaux_et_partage_manuel():
     code, presentation = analyser_notebook("01_corpus_protocole.ipynb")
     for element in (
-        "VERSION_NOTEBOOK", "REVISION_GIT", "REVISION_GIT_RESOLUE",
+        "VERSION_NOTEBOOK", ".git@main#subdirectory=PT-LLMvsPy",
         'Path("/content")', "NUMERO_ETUDIANT",
         'NUMERO_SESSION = f"{secrets.randbelow',
         "DATE_SESSION = datetime.now(timezone.utc)",
@@ -51,6 +51,7 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
         assert element.lower() in presentation.lower()
     assert "exporter_texte_approuve" not in presentation
     for ancien in (
+        "figer_revision_git", "REVISION_GIT_RESOLUE", "api.github.com",
         "drive.mount(", "from google.colab import drive", "DOSSIER_DEPOT_DRIVE", "/content/drive",
         "MON_IDENTIFIANT", "DECISION_SUITE", "STATUT_ANALYSE",
         "ANOMALIES_A_EXAMINER", "valider_inspection(",
