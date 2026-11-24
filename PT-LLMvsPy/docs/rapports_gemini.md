@@ -10,17 +10,17 @@ Le premier échange a lieu dans Gemini pour Google Workspace le matin du **18 se
 - [Retrouver les six affirmations G1 à G6 du troisième prompt](../../Notebooks%20TD/S3/ressources/affirmations_gemini.json). Le JSON conserve les intervalles annoncés et laisse les conventions non précisées à `null`.
 - [Retrouver les trois citations C1 à C3 tirées des deux premiers prompts](../../Notebooks%20TD/S3/ressources/citations_gemini.json). Pour les vérifier, recherchez leurs mots dans le [texte de Faguet utilisé en cours](../../Notebooks%20TD/S3/ressources/faguet_source.txt).
 
-## Rapport 2 · Gemini Notebook, rapport chiffré transmis le 10 novembre 2026
+## Rapport 2 · Gemini Notebook, rapport chiffré du 10 novembre 2026
 
-Le rapport *Analyse lexicométrique, quantitative et relationnelle de « Le Féminisme » d’Émile Faguet* a été **transmis le 10 novembre 2026**. Le § 1 annonce 79 540 tokens. Le § 4 annonce 208 phrases associant *femme(s)* et *homme(s)*. L’original conservé ne donne pas sa date de génération.
+Le rapport *Analyse lexicométrique, quantitative et relationnelle de « Le Féminisme » d’Émile Faguet* a été **généré et transmis le 10 novembre 2026**. Le § 1 annonce 79 540 tokens. Le § 4 annonce 208 phrases associant *femme(s)* et *homme(s)*.
 
 - [Lire le fichier original](../../app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md) ou [la version avec les tableaux remis en forme](../../app/static/PT_LLMvsPy_Analyse_Gemini_integrale.md).
 - [Consulter les huit annonces du § 1 transcrites en JSON](../data/annonces_globales_gemini.json). Le chiffre de 208 phrases se retrouve directement au § 4 de l’original.
 - [Consulter la notice de provenance et les empreintes des deux versions](../../app/static/PT_LLMvsPy_Analyse_Gemini_provenance.json).
 
-## Rapport 3 · Gemini Notebook, rapport méthodologique transmis le 10 novembre 2026
+## Rapport 3 · Gemini Notebook, rapport méthodologique du 10 novembre 2026
 
-Le *Rapport d’analyse lexicométrique, quantitative et relationnelle de l’ouvrage Le Féminisme d’Émile Faguet* s’ouvre sur le « Protocole méthodologique et exigences préalables de reproductibilité ». La date de génération ne figure pas dans l’original. Son § 2 présente six indicateurs, identifiés de M-01 à M-06. Le § 6.1 reprend pour chacun le statut et la justification donnés par le rapport. Ainsi, le nombre de tokens (M-01) est qualifié de « NON VÉRIFIABLE » et le TTR (M-04) d’« ESTIMÉ ».
+Le *Rapport d’analyse lexicométrique, quantitative et relationnelle de l’ouvrage Le Féminisme d’Émile Faguet* s’ouvre sur le « Protocole méthodologique et exigences préalables de reproductibilité ». Il a été **généré et transmis le 10 novembre 2026**, le même jour que le rapport 2, selon la confirmation de l’enseignant. Son § 2 présente six indicateurs, identifiés de M-01 à M-06. Le § 6.1 reprend pour chacun le statut et la justification donnés par le rapport. Ainsi, le nombre de tokens (M-01) est qualifié de « NON VÉRIFIABLE » et le TTR (M-04) d’« ESTIMÉ ».
 
 - [Lire le rapport méthodologique original, avec ses six parties](../../app/static/PT_LLMvsPy_Rapport_03_Gemini_Notebook_source_originale.md).
 - [Consulter la transcription en JSON des six statuts déclarés au § 6.1 et de leurs justifications](../data/statuts_mesures_rapport_03.json).
