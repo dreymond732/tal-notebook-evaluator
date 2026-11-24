@@ -189,14 +189,14 @@ def charger_modele_francais():
 
 
 def lire_annonces_globales() -> dict:
-    """Tableau du rapport Studio transcrit le 10 novembre 2026."""
+    """Annonces du § 1 du rapport chiffré transmis le 10 novembre 2026."""
     chemin = Path(__file__).resolve().parents[2] / "data" / "annonces_globales_gemini.json"
     if chemin.is_file():
         return json.loads(chemin.read_text(encoding="utf-8"))
     from urllib.request import urlopen
 
     url = ("https://raw.githubusercontent.com/dreymond732/tal-notebook-evaluator/"
-           "51c355fd026d68a5bfada8e8cfa57687e5a57fd6/PT-LLMvsPy/data/annonces_globales_gemini.json")
+           "main/PT-LLMvsPy/data/annonces_globales_gemini.json")
     with urlopen(url, timeout=30) as reponse:
         return json.load(reponse)
 

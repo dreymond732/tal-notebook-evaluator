@@ -13,7 +13,11 @@ from tal_toolkit import charger_corpus, preparer_faguet_standard_td01
 
 PROJET = Path(__file__).resolve().parents[1]
 SCRIPT = Path(__file__).resolve()
-CAHIERS = ("02_mesures_lexicales", "03_relations_lexicales", "04_audit_llm")
+CAHIERS = (
+    "02_comparer_les_frequences_des_formes_et_des_lemmes",
+    "03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre",
+    "04_verifier_une_affirmation_par_le_calcul_et_la_lecture",
+)
 NUMERO_TEST = "00123456"
 
 

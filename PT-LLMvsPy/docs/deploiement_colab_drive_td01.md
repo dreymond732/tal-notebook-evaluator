@@ -2,7 +2,7 @@
 
 ## Ouverture et versions
 
-Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_corpus_protocole.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
+Le notebook est disponible dans [PT-LLMvsPy/notebooks](../notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
 Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. Dans Colab, l’initialisation de chaque séance installe la bibliothèque depuis la branche `main` du dépôt public. Le 01 enregistre le nom de la branche et les versions du cahier et de la bibliothèque dans son archive.
 
@@ -22,7 +22,7 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et retrouvez-le à la position indiquée dans la source.
 2. Exécutez les six exemples fournis. Sur une phrase de votre choix, prédisez l’effet d’une règle, puis comparez votre prédiction au texte obtenu.
 3. Appliquez le plan commun au livre, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
-4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. Vous pouvez consigner votre interprétation dans `COMMENTAIRES_ANALYSE`. Exécutez la cellule de création du ZIP même si vous laissez ces commentaires vides.
+4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. À la revue du 25 novembre, montrez ce passage et expliquez à l’oral votre décision et l’écart obtenu. Les notes écrites dans `NOTES_INSPECTION` et `COMMENTAIRES_ANALYSE` sont facultatives. Exécutez la cellule de création du ZIP pour y conserver les résultats.
 
 ## Garder ses résultats et reprendre dans Colab
 
@@ -33,9 +33,9 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 
 | Séance | À importer dans Colab | À récupérer et à ranger |
 |---|---|---|
-| [02 · Mesures lexicales](../notebooks/02_mesures_lexicales.ipynb) | Le TXT nettoyé **ou** le ZIP du 01 | `resultats_02_<numero>.json` |
-| [03 · Relations lexicales](../notebooks/03_relations_lexicales.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
-| [04 · Audit](../notebooks/04_audit_llm.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
+| [02 · Comparer les fréquences des formes et des lemmes](../notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb) | Le TXT nettoyé **ou** le ZIP du 01 | `resultats_02_<numero>.json` |
+| [03 · Mesurer les cooccurrences par phrase et par fenêtre](../notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) | Le même TXT ou ZIP **et** le JSON du 02 | `resultats_03_<numero>.json` |
+| [04 · Vérifier une affirmation par le calcul et la lecture](../notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) | Le même TXT ou ZIP **et** les JSON des 02 et 03 | `resultats_04_<numero>.json` |
 
 **Après le 02.** Ouvrez le JSON téléchargé et retrouvez `numero_etudiant` ainsi qu’une réponse que vous venez d’écrire dans `observations`. Le 03 reprend ce JSON avec le TXT ou le ZIP du 01. Conservez l’original du JSON dans **S3-PythonVsLLM** jusqu’à la remise des trois JSON à la revue du 04.
 
@@ -51,7 +51,7 @@ Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-Pyth
 | `FAGUET_v…_<date>_<session>.zip` | `FAGUET_01_<numero>_<date>_<session>.zip` en conservant la date et le numéro de session d’origine |
 | `resultats_02.json`, `resultats_03.json` | `resultats_02_<numero>.json`, `resultats_03_<numero>.json` |
 
-Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport Studio, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
+Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport chiffré, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
 
 **À la fin du 04.** Ouvrez le fichier téléchargé `resultats_04_<numero>.json` et retrouvez `numero_etudiant`, `lecture_du_binome` et `conclusion`. Rangez la version vérifiée dans **S3-PythonVsLLM**. Après correction, rouvrez le nouveau téléchargement pour y lire votre dernière réponse avant d’actualiser votre copie de remise.
 

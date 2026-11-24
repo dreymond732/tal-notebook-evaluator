@@ -42,7 +42,7 @@ def test_cahier_complet_sur_microcorpus(tmp_path):
         "enregistrer_resultats": enregistrer,
         "display": lambda tableau: None,
     }
-    source = (PT / "notebooks/02_mesures_lexicales.ipynb").read_text(encoding="utf-8")
+    source = (PT / "notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb").read_text(encoding="utf-8")
     for cellule in json.loads(source)["cells"]:
         if cellule["cell_type"] == "code" and cellule["id"] != "initialisation-pt":
             exec(compile("".join(cellule["source"]), cellule["id"], "exec"), contexte)

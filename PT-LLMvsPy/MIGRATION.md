@@ -40,5 +40,5 @@ postérieures à cet import devront être réintégrées intentionnellement : il
 Les quatre cahiers utilisent désormais la branche `main` du dépôt public pour
 installer la bibliothèque. Le 01 lit également les annonces de Gemini sur
 `main`. Les métadonnées de son archive enregistrent le nom de la branche et
-les versions du cahier et du paquet. Le texte source de Faguet conserve sa
-référence historique. Les anciennes archives gardent leurs métadonnées d’origine.
+les versions du cahier et du paquet. Le corpus de Faguet et les rapports Gemini sont lus sur
+`main`. L’empreinte SHA-256 du corpus identifie l’édition étudiée. Les anciennes archives gardent leurs métadonnées d’origine.

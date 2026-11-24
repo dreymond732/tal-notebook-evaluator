@@ -32,7 +32,7 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
              "Une femme revendique un droit. La loi prévoit une peine. "
              "Une loi modifie la peine. La peine relève de la loi.")
     (dossier / f"faguet_nettoye_{numero}.txt").write_text(texte, encoding="utf-8")
-    executer_cahier(NOTEBOOKS / "02_mesures_lexicales.ipynb", numero)
+    executer_cahier(NOTEBOOKS / "02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb", numero)
 
     r2 = json.loads((dossier / f"resultats_02_{numero}.json").read_text(encoding="utf-8"))
     mesures = r2["mesures"]
@@ -51,7 +51,7 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     assert mesures["alphabetiques · lemmes"]["tokens"] == mesures["alphabetiques"]["tokens"]
 
     # L’étudiant saisit ses deux lemmes dans la copie personnelle du notebook.
-    cahier = json.loads((NOTEBOOKS / "03_relations_lexicales.ipynb").read_text(encoding="utf-8"))
+    cahier = json.loads((NOTEBOOKS / "03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb").read_text(encoding="utf-8"))
     cellule = next(c for c in cahier["cells"] if c.get("id") == "couple-perso")
     cellule["source"] = "".join(cellule["source"]).replace(
         'pivot_libre, associe_libre = "", ""', 'pivot_libre, associe_libre = "loi", "peine"'
@@ -61,7 +61,7 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     copie = tmp_path / "03_personnel.ipynb"
     copie.write_text(json.dumps(cahier), encoding="utf-8")
     executer_cahier(copie, numero)
-    executer_cahier(NOTEBOOKS / "04_audit_llm.ipynb", numero)
+    executer_cahier(NOTEBOOKS / "04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb", numero)
 
     r3 = json.loads((dossier / f"resultats_03_{numero}.json").read_text(encoding="utf-8"))
     r4 = json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))

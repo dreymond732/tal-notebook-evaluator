@@ -1,12 +1,14 @@
 # PT-LLMvsPy — projet d'analyse de corpus (Master 2)
 
-Bibliothèque Python et quatre notebooks pour examiner les mesures lexicales annoncées par des LLM sur *Le Féminisme* d'Émile Faguet, puis les comparer à des calculs documentés.
+Quatre notebooks et une bibliothèque Python pour vérifier les mesures lexicales, les cooccurrences et les citations proposées par Gemini sur *Le Féminisme* d’Émile Faguet. Revenez aux passages du livre pour discuter l’interprétation du modèle.
 
 **Cet ensemble est maintenant hébergé dans le dépôt public `dreymond732/tal-notebook-evaluator`, sous `PT-LLMvsPy/`.** Le dépôt `dreymond732/PT-LLMvsPy` reste conservé comme origine du développement ; aucune connexion à ce dépôt privé n'est nécessaire pour utiliser cette copie.
 
+[Consulter les sources des enquêtes sur Faguet et les JSON qui en sont tirés](docs/rapports_gemini.md)
+
 ## Accès au premier notebook
 
-Créez le dossier **S3-PythonVsLLM** dans **Mon Drive**. [Ouvrez le notebook 01](notebooks/01_corpus_protocole.ipynb) dans Colab. Pour conserver vos réponses modifiables, choisissez **Fichier → Enregistrer une copie dans Drive**, rangez la copie dans **S3-PythonVsLLM**, puis ouvrez-la et travaillez dedans. Faites de même pour chaque nouveau cahier.
+Créez le dossier **S3-PythonVsLLM** dans **Mon Drive**. [Ouvrez le notebook 01](notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb) dans Colab. Pour conserver vos réponses modifiables, choisissez **Fichier → Enregistrer une copie dans Drive**, rangez la copie dans **S3-PythonVsLLM**, puis ouvrez-la et travaillez dedans. Faites de même pour chaque nouveau cahier.
 
 Dans Colab, exécutez la cellule d’initialisation au début de chaque séance. Elle charge la bibliothèque depuis la branche `main` du dépôt public. Pour bénéficier aussi de nouvelles consignes, ouvrez le cahier de la séance depuis le dépôt et conservez vos copies déjà renseignées.
 
@@ -26,9 +28,9 @@ Le 01 permet aussi d’utiliser les sources d’un clone local. Son archive cons
 3. Appliquez le plan commun à tout le livre et téléchargez le texte nettoyé. Examinez-le dans un éditeur. Retrouvez un passage dans les deux textes et comptez les occurrences du motif que vous avez choisi.
 4. Comparez les sept indicateurs calculés avant et après nettoyage. Pour l’un d’eux, relevez les deux valeurs et appuyez votre interprétation sur un passage inspecté.
 
-Le 01 produit dans l’espace temporaire de Colab le TXT nettoyé pour l’inspection et un ZIP qui rassemble le texte, les mesures CSV/JSON, les observations et les métadonnées de provenance. Le nom des deux exports porte votre numéro étudiant. Le ZIP porte aussi la date et le numéro de session.
+Le 01 produit dans l’espace temporaire de Colab le TXT nettoyé pour l’inspection et un ZIP qui rassemble le texte, les mesures CSV/JSON, les métadonnées de provenance et les deux fichiers de notes facultatives. Le nom des deux exports porte votre numéro étudiant. Le ZIP porte aussi la date et le numéro de session.
 
-Le corpus source provient du fichier du cours à la révision Git `b92e92b6c216014283056c83aa545881a447b3a5`, SHA-256 **`c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`**. Le profil de référence produit **446 289 caractères**, SHA-256 **`0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`**.
+Le corpus source provient du [fichier du cours](../Notebooks%20TD/S3/ressources/faguet_source.txt) sur `main`. Son empreinte SHA-256 est **`c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa`**. Le profil de référence produit **446 289 caractères**, SHA-256 **`0885496f4abf4ca9112a3c303f8dc69cb887ffaa34033371aa7c49bad9e38fc2`**.
 
 Le traitement de référence n'est pas présenté comme exempt d'erreurs : les modifications proposées doivent être examinées dans une nouvelle version. Les contre-exemples éventuels seront discutés lors de la revue collective du corpus à utiliser ensuite.
 
@@ -47,11 +49,14 @@ Le traitement de référence n'est pas présenté comme exempt d'erreurs : les m
 
 **Deux moments de partage.** À la première revue, copiez le ZIP du 01 depuis **S3-PythonVsLLM** dans le dossier partagé. À la revue du 04, copiez-y les trois JSON des 02, 03 et 04 pour que l’équipe PT puisse reprendre votre contribution avec sa conclusion et ses preuves. Vous pouvez renvoyer au ZIP déjà partagé. [Dossier partagé du projet](https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO)
 
-| Cahier | Essai sur un exemple personnel | Application au texte de Faguet |
+Lors de la séance précédente, vous avez fait le point sur les [TD1 à TD7](../Notebooks%20TD/S3/README.md#du-bilan-des-td-à-la-première-enquête-sur-faguet), puis ouvert le cahier 01. Pour la revue du 25 novembre, montrez un passage avant et après nettoyage et justifiez votre décision à l’oral, en donnant l’écart mesuré. Les résultats et leur provenance figurent dans votre ZIP. Vous ouvrirez ensuite le 02 avec le texte retenu. Les quatre cahiers fournissent les fonctions Python. Sur un exemple personnel, prévoyez leur résultat, exécutez-les, puis expliquez ce qu’elles mesurent sur le livre.
+
+| Cahier | Essai sur un exemple personnel | Question à résoudre sur Faguet |
 |---|---|---|
-| [02 — Compter les mots](notebooks/02_mesures_lexicales.ipynb) | Écrire une phrase au singulier et au pluriel, prévoir les unités retenues et comparer les sorties du tokeniseur et du lemmatiseur. | Expliquer un écart de fréquence, vérifier l’annotation d’une occurrence et préparer les deux tâches communes du 03. Les mesures et observations figurent dans `resultats_02_<numero>.json`. |
-| [03 — Vérifier les cooccurrences](notebooks/03_relations_lexicales.ipynb) | Inventer des phrases qui distinguent présence, répétition et proximité. Prévoir ce que changera une virgule ou le rayon d’une fenêtre. | Compter les phrases associant *femme(s)* et *homme(s)*. Studio en annonce 208. Examiner les autres associations et séquences du rapport, puis appliquer le protocole *femme / droit* de la conversation M4. Les deux analyses ont des entrées distinctes dans `resultats_03_<numero>.json`. |
-| [04 — Auditer les affirmations de Gemini](notebooks/04_audit_llm.ipynb) | Compter à la main, tester un intervalle décimal et prévoir quelles occurrences un mot entier retrouvera dans son propre texte. | Reprendre les ratios du 02 et les passages du 03, examiner la portée de « toujours », vérifier une citation et son attribution, puis confronter deux lectures du cotexte. Le dossier et la conclusion sont sauvegardés dans `resultats_04_<numero>.json`. |
+| [01 · Préparer un corpus et mesurer l’effet du nettoyage](notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb) | Ajoutez à quelques lignes une note ou un appel de note. Prévoyez ce que la règle de nettoyage retirera. | Quels mots comptons-nous encore après nettoyage ? Retrouvez un passage avant et après transformation et comparez les deux versions avec les mêmes indicateurs. Le TXT retenu sert aux trois cahiers suivants. |
+| [02 · Comparer les fréquences des formes et des lemmes](notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb) | Testez un pluriel, un nombre et une virgule. Comparez les formes en minuscules et les lemmes selon les tokens retenus. | Le volume, les hapax (types attestés une seule fois) et le TTR (types/tokens) dépendent-ils du filtre ? Le STTR compare des blocs complets de même taille. Pour expliquer le gain d’un champ lexical, contrôlez en contexte une forme regroupée par le lemmatiseur. |
+| [03 · Mesurer les cooccurrences par phrase et par fenêtre](notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) | Dans « droit femme droit », prenez *femme* comme pivot et *droit* comme associé. Comptez les pivots couverts et les paires dans une fenêtre d’un token de chaque côté. Insérez une virgule et recommencez. | Le rapport chiffré transmis le 10 novembre 2026 annonce 208 phrases rapprochant *femme(s)* et *homme(s)*. M4 propose de compter les phrases avec les lemmes *femme* et *droit* et laisse l’effectif à calculer. Comparez l’union des phrases, les fenêtres ±5 et ±10 et les suites contiguës de deux ou trois tokens. Le PMI rapporte la présence commune à celle attendue sous indépendance. Relisez deux passages pour interpréter l’association. |
+| [04 · Vérifier une affirmation par le calcul et la lecture](notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) | Testez un intervalle décimal, puis cherchez un mot entier et une citation dans des phrases dont vous connaissez le locuteur. | Les ratios du rapport concordent-ils avec ses propres effectifs et ses unités sont-elles comparables aux vôtres ? Vérifiez ensuite une citation de la transcription et son attribution. Choisissez une enquête sur le sens des mots (polysémie), l’attitude du locuteur (modalisation) ou les voix dans l’énoncé (polyphonie). Confrontez votre lecture à celle d’un binôme. |
 
 Si vous modifiez une réponse, relancez les cellules concernées et la cellule d’export, puis téléchargez et rangez la nouvelle version du JSON. Si le navigateur ajoute `(1)` au nom, ouvrez le dernier téléchargement et vérifiez votre numéro et la présence de votre correction. Remettez ce fichier sous le nom prévu dans le tableau et remplacez uniquement votre propre version antérieure, dans votre Drive puis, si elle a déjà été partagée, dans le dossier partagé.
 
@@ -59,10 +64,12 @@ Si vous modifiez une réponse, relancez les cellules concernées et la cellule d
 
 | Séance de 2026 | Activité | Ce que chacun montre en revue |
 |---|---|---|
-| 25 novembre · 01 | Nettoyer le livre, inspecter un passage et comparer les mesures de base avant et après préparation. | Retrouver le passage dans les deux textes et identifier le corpus retenu pour la suite. |
-| 27 novembre · 02 | Prévoir le résultat d’une fonction sur une phrase personnelle, puis regarder ce que changent les filtres et la lemmatisation dans le livre. | Expliquer les entrées de l’appel et l’écart d’effectif à partir d’une occurrence localisée. |
+| 25 novembre · Revue du 01 et lancement du 02 | Présentez le 01 préparé. Comparez les mesures avant et après nettoyage, puis ouvrez le 02 avec le texte retenu. | Retrouvez le même passage dans les deux versions et montrez la copie du ZIP du 01 dans le dossier partagé. |
+| 27 novembre · Poursuite et revue du 02 | Prévoir le résultat d’une fonction sur une phrase personnelle, puis regarder ce que changent les filtres et la lemmatisation dans le livre. | Expliquer les entrées de l’appel et l’écart d’effectif à partir d’une occurrence localisée. |
 | 16 décembre · 03 | Classer des phrases à la main. Tous comptent sur Faguet les phrases associant *femme(s)* à *homme(s)*. Répartir entre binômes les annonces sur le mariage et le féminisme. Pour M4, déplacer un mot ou ajouter une virgule sur un exemple, puis comparer les fenêtres ±5 et ±10 pour *femme / droit*. Examiner aussi une suite contiguë comme *union libre*. | Distinguer une phrase commune, un pivot couvert, une paire de positions et une suite contiguë. Nommer la convention retenue et présenter deux passages. |
 | 18 décembre · 04 | Rouvrir les résultats des 02 et 03, examiner la portée de « toujours », vérifier les mots et l’attribution d’une citation, puis faire relire un passage à un autre binôme. | Confronter les constats aux affirmations de Gemini et justifier sa conclusion individuelle. |
+
+Après la revue du 04, l’équipe du projet tuteuré reprend les contributions de la promotion en janvier et février. Elle regroupe les résultats comparables, rédige la conclusion collective et éprouve un prompt en vérifiant les chiffres et les citations de la nouvelle réponse. [Présentation du projet](../app/static/PT_LLMvsPy_cadrage_projet_tutore.html)
 
 **Observation individuelle.** Annoncer une courte manipulation sans assistance de l’IA, avec les cellules et les fonctions fournies. Demander à chacun d’expliquer une ligne, de prévoir puis d’essayer un autre paramètre, et d’appuyer une conclusion limitée sur un passage retrouvé. Pour le suivi, relever séparément **compte expliqué**, **passage retrouvé**, **variation interprétée** et **conclusion justifiée**. Employer « observé », « à reprendre » ou « non observé » selon ce que l’étudiant a effectivement montré.
 
