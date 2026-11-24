@@ -51,6 +51,8 @@ Conservez les fichiers d’origine. Dupliquez vos propres exports dans **S3-Pyth
 
 Le numéro ajouté au nom permet d’attribuer votre remise. Les métadonnées historiques restent celles enregistrées à l’époque. Importez dans Colab les copies correspondant à la séance. Vous pouvez ainsi réutiliser les calculs compatibles. Si votre ancien JSON du 03 ne contient pas l’analyse des associations annoncées dans le rapport Studio, reprenez le cahier 03 et exportez son résultat complet avant l’audit du 04.
 
+**À la fin du 04.** Ouvrez le fichier téléchargé `resultats_04_<numero>.json` et retrouvez `numero_etudiant`, `lecture_du_binome` et `conclusion`. Rangez la version vérifiée dans **S3-PythonVsLLM**. Après correction, rouvrez le nouveau téléchargement pour y lire votre dernière réponse avant d’actualiser votre copie de remise.
+
 ## Copier les pièces dans le dossier partagé
 
 - **Revue du 01.** Dans l’interface de Drive, copiez votre ZIP depuis **S3-PythonVsLLM** dans le dossier partagé du projet. Gardez l’original dans votre dossier personnel.
