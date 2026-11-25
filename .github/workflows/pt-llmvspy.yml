@@ -33,7 +33,7 @@ jobs:
       - name: Vérifier le véritable corpus Faguet
         working-directory: PT-LLMvsPy
         run: python scripts/verifier_corpus_td01.py
-      - name: Exécuter les notebooks 02 à 04 sur le corpus Faguet intégral
+      - name: Rejouer les fréquences, les cooccurrences et la vérification des affirmations sur Faguet
         working-directory: PT-LLMvsPy
         run: python scripts/verifier_notebook02.py
       - name: Tester l'installation Git depuis le dépôt public
@@ -42,4 +42,13 @@ jobs:
         run: |
           python -m pip uninstall -y tal-toolkit
           python -m pip install --no-deps --force-reinstall "git+https://github.com/dreymond732/tal-notebook-evaluator.git@${REVISION_TEST}#subdirectory=PT-LLMvsPy"
-          python -c "import tal_toolkit; assert tal_toolkit.__version__ == '0.3.1'; print('Installation Colab par Git : OK')"
+          python - <<'PYTHON'
+          from importlib.metadata import version
+          from pathlib import Path
+          import tomllib
+          import tal_toolkit
+
+          projet = tomllib.loads(Path("PT-LLMvsPy/pyproject.toml").read_text(encoding="utf-8"))
+          assert tal_toolkit.__version__ == version("tal-toolkit") == projet["project"]["version"]
+          print("Installation Colab par Git", tal_toolkit.__version__)
+          PYTHON

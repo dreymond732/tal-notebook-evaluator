@@ -186,7 +186,7 @@ def test_intervalle_bornes_inclusives():
 
 
 def test_audit_ratio_decimal_bornes_inclusives_sans_arrondi():
-    a = {"unite": "types/token", "fenetre": "corpus", "normalisation": "forme",
+    a = {"unite": "formes distinctes / occurrences", "fenetre": "corpus", "normalisation": "forme",
          "agregation": "V/N", "intervalle": [0, 0.125]}
     assert evaluer_affirmation(a, 0.125, protocole_comparable=True) == "compatible selon le protocole"
     assert evaluer_affirmation(a, 0.12501, protocole_comparable=True) == "contredit selon le protocole"
@@ -195,7 +195,7 @@ def test_audit_ratio_decimal_bornes_inclusives_sans_arrondi():
 
 @pytest.mark.parametrize("invalide", [True, float("nan"), float("inf"), "0.12"])
 def test_audit_nombre_non_comparable(invalide):
-    a = {"unite": "types/token", "fenetre": "corpus", "normalisation": "forme",
+    a = {"unite": "formes distinctes / occurrences", "fenetre": "corpus", "normalisation": "forme",
          "agregation": "V/N", "intervalle": (0, 1)}
     assert evaluer_affirmation(a, invalide, protocole_comparable=True) == "NON_COMPARABLE"
     a["intervalle"] = (invalide, 1)

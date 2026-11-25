@@ -1,4 +1,4 @@
-"""Réapplication des opérations et indicateurs réels du notebook 02."""
+"""Réapplication des opérations et indicateurs du cahier sur les fréquences des formes et des lemmes."""
 from __future__ import annotations
 
 from hashlib import sha256
@@ -47,7 +47,7 @@ def test_mesures_lexicales_formes_premiere_personne_et_locutions():
     assert out["source_nettoyee_sha256"] == sha256(t.encode()).hexdigest()
     assert out["globales"]["tokens_lexicaux"] > 0
     assert out["globales"]["tokens_bruts_spacy"] >= out["globales"]["tokens_lexicaux"]
-    assert out["globales"]["types_minuscules"] <= out["globales"]["tokens_lexicaux"]
+    assert out["globales"]["formes_minuscules_distinctes"] <= out["globales"]["tokens_lexicaux"]
     assert out["globales"]["sttr_nombre_blocs_complets"] > 0
     assert out["enonciation"]["premiere_personne_formes"]["je"] >= 1
     assert out["locutions"]["je_crois"]["occurrences"] == 1

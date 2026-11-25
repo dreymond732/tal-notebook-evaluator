@@ -23,10 +23,10 @@ def test_cas_manuel_minimal(nlp):
     source = corpus_depuis_texte("Chat chat. Chien.")
     out = calculer_metriques_globales(source, nlp)
     m = out["metriques"]
-    assert (m["tokens"], m["types"], m["hapax"], m["phrases"]) == (3, 2, 1, 2)
+    assert (m["tokens"], m["unites_distinctes"], m["hapax"], m["phrases"]) == (3, 2, 1, 2)
     assert m["ttr"] == pytest.approx(2 / 3)
     assert m["ttr_pourcent"] == pytest.approx(200 / 3)
-    assert m["hapax_types_pourcent"] == pytest.approx(50)
+    assert m["part_hapax_unites_distinctes_pct"] == pytest.approx(50)
     assert m["mots_par_phrase"] == 1.5
     assert all(out["controles"].values())
     assert out["provenance"]["sha256_utf8_original"] == hashlib.sha256(
@@ -34,12 +34,12 @@ def test_cas_manuel_minimal(nlp):
     ).hexdigest()
 
 
-def test_choix_formes_exactes_change_les_types(nlp):
+def test_choix_formes_exactes_change_le_nombre_de_formes_distinctes(nlp):
     texte = "Chat chat. Chien."
     m = calculer_metriques_globales(texte, nlp, protocole=ProtocoleGlobal(
         formes="exactes"
     ))["metriques"]
-    assert (m["tokens"], m["types"], m["hapax"]) == (3, 3, 3)
+    assert (m["tokens"], m["unites_distinctes"], m["hapax"]) == (3, 3, 3)
 
 
 def test_ponctuation_change_l_unite_de_compte(nlp):
@@ -50,7 +50,7 @@ def test_ponctuation_change_l_unite_de_compte(nlp):
     ))["metriques"]
     assert alphas["tokens"] == 2
     assert tous["tokens"] == 4
-    assert tous["types"] >= alphas["types"]
+    assert tous["unites_distinctes"] >= alphas["unites_distinctes"]
 
 
 def test_retours_typographiques_recomposes_sans_decalage(nlp):
@@ -72,10 +72,10 @@ def test_retours_typographiques_recomposes_sans_decalage(nlp):
 
 def test_phrases_et_mots_sur_texte_vide(nlp):
     out = calculer_metriques_globales("", nlp)["metriques"]
-    assert (out["tokens"], out["types"], out["hapax"], out["phrases"]) == (0, 0, 0, 0)
+    assert (out["tokens"], out["unites_distinctes"], out["hapax"], out["phrases"]) == (0, 0, 0, 0)
     assert out["ttr"] is None
     assert out["ttr_pourcent"] is None
-    assert out["hapax_types_pourcent"] is None
+    assert out["part_hapax_unites_distinctes_pct"] is None
     assert out["mots_par_phrase"] is None
 
 
@@ -116,7 +116,7 @@ def test_confrontation_numerique_n_est_pas_validation_de_gemini(nlp):
     a = [
         {"cle": "tokens", "valeur": 3, "decimales": 0, "unite": "mots"},
         {"cle": "ttr", "valeur": 0.667, "decimales": 3, "unite": "ratio"},
-        {"cle": "hapax", "valeur": 3, "decimales": 0, "unite": "types"},
+        {"cle": "hapax", "valeur": 3, "decimales": 0, "unite": "formes distinctes"},
     ]
     comparaisons = comparer_annonces(m, a)
     assert [r["statut_numerique"] for r in comparaisons] == [

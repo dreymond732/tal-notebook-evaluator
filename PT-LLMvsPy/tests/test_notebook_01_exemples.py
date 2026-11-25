@@ -1,4 +1,4 @@
-"""Exécuter les exemples fournis et l'essai personnel du notebook 01."""
+"""Exécuter les exemples et l’essai personnel du cahier de préparation du corpus."""
 import json
 from pathlib import Path
 

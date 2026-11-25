@@ -122,11 +122,11 @@
 <section class="section" id="acquis">
   <div class="eyebrow">Ce qui a déjà été réalisé</div>
   <h2>Plusieurs réponses, des ordres de grandeur proches, des conventions différentes</h2>
-  <p>Un prompt d’analyse lexicométrique a été testé sur plusieurs LLM. Des essais de mesures du lexique ont aussi été réalisés en Python/Colab. Les tableaux préparatoires rapprochent des volumes d’environ 74 000 à 80 000 mots ou tokens, mais les comptes de types et de phrases divergent. <strong>Ces valeurs seraient comparables si l’on pouvait examiner les définitions utilisées.</strong></p>
+  <p>Un prompt d’analyse lexicométrique a été testé sur plusieurs LLM. Des essais de mesures du lexique ont aussi été réalisés en Python/Colab. Les tableaux préparatoires rapprochent des volumes d’environ 74 000 à 80 000 mots ou tokens, mais le nombre d’unités distinctes et le nombre de phrases varient d’un essai à l’autre. <strong>Ces valeurs seraient comparables si l’on pouvait examiner les définitions utilisées.</strong></p>
   <div class="table-wrap">
     <table class="comparison-table">
       <caption style="caption-side:top;text-align:left;padding:.8rem 1rem;background:#eef4ff;color:#244269;font-size:.9rem;line-height:1.5"><strong>Tableau 1.</strong> Valeurs transcrites du document préparatoire <em>projet tutoré.docx</em>, sans harmonisation des définitions. Un autre essai Python dans Colab (<em>Projet 1.ipynb</em>) utilise un texte de longueur différente : ses comptes ne doivent pas être directement comparés à ceux de ce tableau.</caption>
-      <thead><tr><th>Outil (travail préparatoire)</th><th>Mots / tokens rapportés</th><th>Types rapportés</th><th>Phrases rapportées</th></tr></thead>
+      <thead><tr><th>Outil (travail préparatoire)</th><th>Mots / tokens rapportés</th><th>Unités distinctes annoncées</th><th>Phrases rapportées</th></tr></thead>
       <tbody>
         <tr><td>Gemini Notebook</td><td>79 540</td><td>8 633</td><td>3 829</td></tr>
         <tr><td>ChatGPT</td><td>74 964 <small>(autres essais : 74 922 et 75 834)</small></td><td>8 481</td><td>3 614 <small>(autre essai : 3 843)</small></td></tr>
@@ -145,7 +145,7 @@
       <li><strong>Pièce B · Conversation Gemini.</strong> À la ligne <code>M4_COOC_SENT</code>, Gemini décrit un protocole de cooccurrence et laisse l’effectif à calculer. Comptez vous-même les phrases contenant les lemmes <em>femme</em> et <em>droit</em>.</li>
       <li><strong>Pièce C · Rapport nº 1, transcription Gemini du 18 septembre 2026.</strong> Elle contient six intervalles de cooccurrences (G1–G6) et des citations attribuées à Faguet. Cherchez une citation dans le livre. Si vous retrouvez un passage correspondant, relevez les indices qui permettent d’y identifier la voix.</li>
     </ul>
-    <p>Pour comprendre le statut donné à un chiffre, consultez aussi le <strong>rapport nº 3</strong> de Gemini Notebook, généré et transmis le 10 novembre 2026. Dans ce rapport méthodologique, <code>M-04</code> désigne le rapport entre le nombre de types et le nombre de tokens (TTR), qualifié d’« ESTIMÉ » au § 6.1. La ligne <code>M4_COOC_SENT</code> de la pièce B porte, elle, sur la présence de deux lemmes dans une phrase.</p>
+    <p>Pour comprendre le statut donné à un chiffre, consultez aussi le <strong>rapport nº 3</strong> de Gemini Notebook, généré et transmis le 10 novembre 2026. Dans ce rapport méthodologique, <code>M-04</code> désigne le rapport entre le nombre d’unités distinctes et le nombre d’occurrences retenues (TTR), qualifié d’« ESTIMÉ » au § 6.1. La ligne <code>M4_COOC_SENT</code> de la pièce B porte, elle, sur la présence de deux lemmes dans une phrase.</p>
   </div>
 </section>
 
@@ -247,7 +247,7 @@
     <div class="panel">
       <h3>Comparer deux comptages</h3>
       <p>Que recouvrent les 79 540 tokens annoncés dans le rapport chiffré ? Ajoutez une virgule à votre phrase puis vérifiez avec <code>calculer_metriques_globales()</code> comment les filtres modifient le volume <em>N</em> et la longueur moyenne des phrases. <code>len(doc)</code> inclut les tokens d’espace. Le filtre alphabétique écarte aussi les nombres.</p>
-      <p>À filtre constant, comparez les formes minuscules et les lemmes. Le regroupement de <em>droit</em> et <em>droits</em> peut modifier les types (formes distinctes), les hapax (observés une seule fois) et le TTR (<i>type-token ratio</i>, nombre de types divisé par le nombre de tokens). Le STTR (<i>standardised type-token ratio</i>) est la moyenne du TTR sur des blocs complets de même taille. Confrontez le classement des fréquences et les effectifs des cinq champs lexicaux aux emplois dans le livre. Contrôlez un lemme ambigu, une marque de voix et l’effet d’une abréviation sur la fin de phrase.</p>
+      <p>À filtre constant, comparez les formes minuscules et les lemmes. Les deux formes <em>droit</em> et <em>droits</em> peuvent relever du même lemme. Comptez les unités distinctes (formes ou lemmes selon la convention), puis celles qui ne figurent qu’une fois, les hapax. Pour obtenir le TTR (<i>type-token ratio</i>), divisez le nombre d’unités distinctes par le nombre d’occurrences retenues. Le STTR (<i>standardised type-token ratio</i>) est la moyenne du TTR sur des blocs complets de même taille. Confrontez le classement des fréquences et les effectifs des cinq champs lexicaux aux emplois dans le livre. Contrôlez un lemme ambigu, une marque de voix et l’effet d’une abréviation sur la fin de phrase.</p>
     </div>
     <div class="panel">
       <h3>Distinguer présence, proximité et association</h3>

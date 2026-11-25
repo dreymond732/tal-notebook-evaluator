@@ -9,7 +9,7 @@ et à des tests de régression.
 
 **Travail étudiant.** Chaque étudiant crée le dossier `S3-PythonVsLLM` dans son Drive. Les quatre notebooks travaillent dans le stockage temporaire de Colab. Après chaque séance, l’étudiant télécharge les fichiers portant son numéro sur son ordinateur, puis les importe dans son dossier personnel. À la séance suivante, il remet les pièces demandées dans le volet **Fichiers** de Colab.
 
-Le partage se fait dans l’interface de Drive. À la première revue, l’étudiant copie son ZIP du 01 depuis son dossier personnel dans le dossier partagé. En fin de S3, il y copie les JSON des 02, 03 et 04 pour la synthèse du projet tuteuré. Il conserve les originaux dans son dossier personnel. Les anomalies observées sont consignées dans le cahier et discutées en revue.
+Le partage se fait dans l’interface de Drive. À la première revue, l’étudiant copie son ZIP du corpus nettoyé depuis son dossier personnel dans le dossier partagé. En fin de S3, il y copie les trois JSON des fréquences, des cooccurrences et de l’audit pour la synthèse du projet tuteuré. Il conserve les originaux dans son dossier personnel. Les anomalies observées sont consignées dans le cahier et discutées en revue.
 
 [Procédure de sauvegarde, de reprise et de remise](docs/deploiement_colab_drive_td01.md)
 
@@ -26,7 +26,7 @@ Le partage se fait dans l’interface de Drive. À la première revue, l’étud
 
 - Ne jamais faire correspondre artificiellement une mesure aux chiffres de Gemini.
 - Ne jamais considérer une citation rapprochée comme vérifiée sans contrôle.
-- Le token, le type, le lemme et le mot vide sont des représentations ou des filtres, pas des suppressions implicites.
+- Préciser quelles occurrences sont retenues, si les unités distinctes sont des formes ou des lemmes, et si le calcul inclut les mots vides.
 - Conserver le corpus brut et, pour le texte épuré, un manifeste et une correspondance des indices.
 - Le calcul des métriques original/épuré doit employer la même configuration spaCy.
 - L'approbation étudiante et la validation du protocole commun par l'enseignant sont distinctes.

@@ -1,4 +1,4 @@
-"""Parcours élève du 02 sur un texte dont les effectifs se recomptent à la main."""
+"""Parcours du cahier sur les fréquences, avec des effectifs vérifiables à la main."""
 import json
 from pathlib import Path
 
@@ -52,8 +52,8 @@ def test_cahier_complet_sur_microcorpus(tmp_path):
         "tous_sans_espaces", "sans_ponctuation", "alphabetiques",
     )] == [15, 10, 9]
     assert protocoles["alphabetiques"]["phrases"] == 3
-    assert protocoles["alphabetiques"]["types"] == 8
-    assert protocoles["alphabetiques · lemmes"]["types"] == 5
+    assert protocoles["alphabetiques"]["unites_distinctes"] == 8
+    assert protocoles["alphabetiques · lemmes"]["unites_distinctes"] == 5
     assert protocoles["alphabetiques · lemmes"]["hapax"] == 3
     assert mesures["globales"]["sttr"] is None
     assert mesures["globales"]["ttr"] == 1

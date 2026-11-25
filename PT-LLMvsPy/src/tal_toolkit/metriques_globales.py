@@ -1,4 +1,4 @@
-"""Métriques globales vérifiables : tokens, types, hapax, phrases et ratios.
+"""Métriques globales vérifiables : occurrences, unités distinctes, hapax, phrases et ratios.
 
 Le calcul n'infère jamais le protocole qui a produit les chiffres d'un LLM.
 Le texte brut est conservé ; une éventuelle recomposition des lignes garde
@@ -104,7 +104,8 @@ def calculer_metriques_globales(
     Le nombre de phrases est celui des segments spaCy contenant au moins un
     token retenu (sauf politique ignorer_phrases_sans_mots=False).
     La longueur moyenne = N(tokens retenus) / N(phrases comptées).
-    Le TTR = types / tokens ; les hapax sont les TYPES de fréquence 1.
+    Le TTR rapporte le nombre de formes ou de lemmes distincts au nombre
+    d’occurrences retenues. Un hapax est une unité observée une seule fois.
     Aucun résultat n'utilise les chiffres de Gemini.
     """
     import spacy
@@ -138,7 +139,7 @@ def calculer_metriques_globales(
     formes = [_forme(token, protocole) for token in selection]
     distribution = Counter(formes)
     tokens = len(formes)
-    types = len(distribution)
+    unites_distinctes = len(distribution)
     hapax = sum(1 for n in distribution.values() if n == 1)
     compte_phrases = 0
     traces_phrases: list[dict] = []
@@ -167,12 +168,12 @@ def calculer_metriques_globales(
 
     metriques = {
         "tokens": tokens,
-        "types": types,
+        "unites_distinctes": unites_distinctes,
         "hapax": hapax,
         "phrases": compte_phrases,
-        "ttr": _rapport(types, tokens),
-        "ttr_pourcent": None if not tokens else 100 * types / tokens,
-        "hapax_types_pourcent": None if not types else 100 * hapax / types,
+        "ttr": _rapport(unites_distinctes, tokens),
+        "ttr_pourcent": None if not tokens else 100 * unites_distinctes / tokens,
+        "part_hapax_unites_distinctes_pct": None if not unites_distinctes else 100 * hapax / unites_distinctes,
         "mots_par_phrase": _rapport(tokens, compte_phrases),
     }
     return {
@@ -188,8 +189,8 @@ def calculer_metriques_globales(
         "metriques": metriques,
         "controles": {
             "total_frequences_egal_tokens": sum(distribution.values()) == tokens,
-            "hapax_inferieurs_aux_types": hapax <= types,
-            "types_inferieurs_aux_tokens": types <= tokens,
+            "hapax_inferieurs_aux_unites_distinctes": hapax <= unites_distinctes,
+            "unites_distinctes_inferieures_aux_occurrences": unites_distinctes <= tokens,
             "offsets_originaux_inchanges": len(analyse) == len(original),
         },
         "traces": {

@@ -48,18 +48,18 @@ def _corpus_importe(source: Path, etudiant: str) -> Corpus:
     if source.suffix.lower() == ".txt":
         nom = _nom_sans_doublon(source)
         if nom not in ("faguet_nettoye.txt", f"faguet_nettoye_{etudiant}.txt"):
-            raise ValueError(f"{source.name} : choisissez le TXT nettoyé du 01 portant votre numéro étudiant.")
+            raise ValueError(f"{source.name} : choisissez le fichier faguet_nettoye_{etudiant}.txt.")
         if nom == "faguet_nettoye.txt":
             _signaler_import_anonyme(source, etudiant)
         return charger_corpus(source)
 
     if source.suffix.lower() != ".zip":
-        raise ValueError("Choisissez le TXT nettoyé ou le ZIP du notebook 01.")
+        raise ValueError("Choisissez le TXT nettoyé ou le ZIP du cahier « Préparer un corpus et mesurer l’effet du nettoyage ».")
     if source.name.startswith("FAGUET_01_") and not _archive_de(source, etudiant):
         raise ValueError(f"{source.name} : le numéro du ZIP ne correspond pas à votre numéro étudiant.")
     with ZipFile(source) as archive:
         if "faguet_nettoye.txt" not in archive.namelist():
-            raise ValueError(f"{source.name} ne contient pas le texte nettoyé du notebook 01.")
+            raise ValueError(f"{source.name} ne contient pas le fichier faguet_nettoye.txt.")
         texte = archive.read("faguet_nettoye.txt").decode("utf-8")
         meta = (json.loads(archive.read("metadonnees_analyse.json"))
                 if "metadonnees_analyse.json" in archive.namelist() else {})
@@ -69,7 +69,7 @@ def _corpus_importe(source: Path, etudiant: str) -> Corpus:
         _signaler_import_anonyme(source, etudiant)
     corpus = corpus_depuis_texte(texte, origine=f"{source}!faguet_nettoye.txt")
     if meta.get("sha256_nettoye", corpus.sha256) != corpus.sha256:
-        raise ValueError(f"{source.name} : l’empreinte du texte ne correspond pas aux métadonnées du 01.")
+        raise ValueError(f"{source.name} : l’empreinte du texte ne correspond pas aux métadonnées de l’archive de nettoyage.")
     return corpus
 
 
@@ -84,16 +84,16 @@ def _charger_import_01(dossier: Path, source_01: str, etudiant: str) -> Corpus:
         sources = [p for p in fichiers if _nom_sans_doublon(p) == "faguet_nettoye.txt"
                    or (p.name.startswith("FAGUET_v") and p.suffix == ".zip")]
     if not sources:
-        raise FileNotFoundError(f"Importez votre TXT nettoyé ou le ZIP du notebook 01 dans {dossier}, puis relancez la cellule.")
+        raise FileNotFoundError(f"Importez faguet_nettoye_{etudiant}.txt ou le ZIP du cahier « Préparer un corpus et mesurer l’effet du nettoyage » dans {dossier}, puis relancez la cellule.")
     corpus = _corpus_importe(sources[0], etudiant)
     for autre in sources[1:]:
         if _corpus_importe(autre, etudiant).sha256 != corpus.sha256:
-            raise ValueError(f"Plusieurs textes du 01 diffèrent dans {dossier}. Gardez dans la session la version retenue en revue.")
+            raise ValueError(f"Plusieurs textes nettoyés diffèrent dans {dossier}. Gardez dans la session la version retenue en revue.")
     return corpus
 
 
 def ouvrir_corpus_atelier(dossier: Path, source_01: str = "") -> Corpus:
-    """Réutilise le texte nettoyé du 01, seul ou dans son archive."""
+    """Réutilise le texte nettoyé de Faguet, seul ou dans son archive."""
     dossier.mkdir(parents=True, exist_ok=True)
     copie = dossier / "faguet_nettoye.txt"
     if copie.is_file() and not source_01:
@@ -103,11 +103,11 @@ def ouvrir_corpus_atelier(dossier: Path, source_01: str = "") -> Corpus:
     else:
         archives = sorted(dossier.glob("*.zip"))
         if len(archives) > 1:
-            raise ValueError("Plusieurs archives dans le dossier. Indiquez celle du notebook 01 dans SOURCE_01.")
+            raise ValueError("Plusieurs archives dans le dossier. Indiquez dans SOURCE_01 le ZIP contenant votre fichier faguet_nettoye.txt.")
         source = archives[0] if archives else Path.cwd() / "analyse_faguet_v2_0_0" / copie.name
     if not source.is_file():
         raise FileNotFoundError(
-            f"Placez le fichier {copie.name} ou l’archive ZIP du notebook 01 dans {dossier}, "
+            f"Placez le fichier {copie.name} ou le ZIP du cahier « Préparer un corpus et mesurer l’effet du nettoyage » dans {dossier}, "
             "ou indiquez son chemin dans SOURCE_01, puis relancez la cellule."
         )
     if source.suffix.lower() == ".zip":
@@ -157,10 +157,10 @@ def lire_resultats(dossier: Path, numero: str, *, numero_etudiant: str | None = 
     if not copies and numero_etudiant is not None:
         copies = [p for p in fichiers if _nom_sans_doublon(p) == nom_ancien]
     if not copies:
-        raise FileNotFoundError(f"Importez {nom}, exporté par le notebook {numero}, dans {dossier}, puis relancez la cellule.")
+        raise FileNotFoundError(f"Importez votre fichier {nom} dans {dossier}, puis relancez la cellule.")
     contenu = json.loads(copies[0].read_text(encoding="utf-8"))
     if any(json.loads(p.read_text(encoding="utf-8")) != contenu for p in copies[1:]):
-        raise ValueError(f"Plusieurs versions du résultat {numero} diffèrent dans {dossier}. Gardez uniquement votre version à reprendre.")
+        raise ValueError(f"Plusieurs versions de {nom} diffèrent dans {dossier}. Gardez uniquement votre version à reprendre.")
     if not isinstance(contenu, dict):
         raise ValueError(f"{copies[0].name} ne contient pas un résultat de notebook.")
     if numero_etudiant is not None and contenu.get("numero_etudiant", numero_etudiant) != numero_etudiant:
@@ -171,7 +171,7 @@ def lire_resultats(dossier: Path, numero: str, *, numero_etudiant: str | None = 
     if contenu.get("numero_notebook", numero) != numero:
         raise ValueError(f"{copies[0].name} : ce résultat provient d’un autre notebook.")
     if sha256_corpus is not None and contenu.get("sha256_corpus", sha256_corpus) != sha256_corpus:
-        raise ValueError(f"{copies[0].name} : le texte utilisé pour cette mesure diffère du texte importé du 01.")
+        raise ValueError(f"{copies[0].name} : le texte utilisé pour cette mesure diffère du texte nettoyé que vous avez importé.")
     return contenu
 
 

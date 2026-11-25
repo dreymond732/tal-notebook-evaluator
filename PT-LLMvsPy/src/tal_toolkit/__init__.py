@@ -35,7 +35,7 @@ from .textometry import (
     concordances_mot,
 )
 
-__version__ = "0.3.1"
+__version__ = "0.4.0"
 __all__ = [
     "ProtocoleGlobal", "preparer_texte_pour_analyse", "calculer_metriques_globales", "comparer_annonces",
     "OperationPretraitement", "PlanPretraitement", "ResultatPretraitement",

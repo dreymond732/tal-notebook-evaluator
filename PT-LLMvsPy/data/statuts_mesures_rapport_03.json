@@ -18,6 +18,7 @@
     {
       "identifiant": "M-02",
       "indicateur": "Nombre de types",
+      "lecture": "Nombre d’unités distinctes annoncé par le rapport. La normalisation doit être précisée pour comparer les décomptes.",
       "statut_declare": "NON VÉRIFIABLE",
       "justification_du_rapport": "Incalculable sans dédoublonnage exécuté par script."
     },
