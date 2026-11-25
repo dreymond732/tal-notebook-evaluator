@@ -25,9 +25,9 @@ def test_reprendre_archive_01_dans_une_nouvelle_session(tmp_path):
 
 
 def test_expliquer_reprise_necessaire(tmp_path):
-    with pytest.raises(FileNotFoundError, match="notebook 01"):
+    with pytest.raises(FileNotFoundError, match="Préparer un corpus et mesurer l’effet du nettoyage"):
         ouvrir_corpus_atelier(tmp_path)
-    with pytest.raises(FileNotFoundError, match="notebook 02"):
+    with pytest.raises(FileNotFoundError, match=r"resultats_02\.json"):
         lire_resultats(tmp_path, "02")
 
 
@@ -115,7 +115,7 @@ def test_import_txt_et_zip_verifie_la_version_du_corpus(tmp_path, monkeypatch):
         z.writestr("metadonnees_analyse.json", '{"numero_etudiant":"01"}')
     with pytest.raises(ValueError, match="numéro enregistré"):
         preparer_atelier(numero_etudiant="00")
-    with pytest.raises(FileNotFoundError, match="notebook 01"):
+    with pytest.raises(FileNotFoundError, match="Préparer un corpus et mesurer l’effet du nettoyage"):
         preparer_atelier(numero_etudiant="0")
 
 

@@ -16,10 +16,18 @@ from pathlib import Path
 import sys
 import zipfile
 
+from tal_toolkit.comparaison_td01 import INDICATEURS_TD01
 from tal_toolkit.soumission_td01 import verifier_archive_td01
 
 
 SHA_FAGUET = "c9832aecd99b11f3c769d11173fd6039a4948a8ee86484658dd8c7a25848a8fa"
+
+
+# Identifiants CSV antérieurs à tal-toolkit 0.4.0, acceptés à la lecture des ZIP.
+_ANCIENS_IDENTIFIANTS_CSV = {
+    "types": "unites_distinctes",
+    "hapax_types_pourcent": "part_hapax_unites_distinctes_pct",
+}
 
 
 def collecter(dossier: Path) -> tuple[list[dict], list[dict]]:
@@ -48,8 +56,11 @@ def collecter(dossier: Path) -> tuple[list[dict], list[dict]]:
                     if len(tests) < 2:
                         raise ValueError("Tests personnels incomplets")
                     type_suivi = "tests_anterieurs"
-            valeurs = {x["id"]: x for x in comparaisons}
-            if len(valeurs) != 7:
+            valeurs = {
+                _ANCIENS_IDENTIFIANTS_CSV.get(mesure["id"], mesure["id"]): mesure
+                for mesure in comparaisons
+            }
+            if len(valeurs) != len(comparaisons) or len(valeurs) != len(INDICATEURS_TD01):
                 raise ValueError("Comparaison lexicale incomplète")
             ligne = {
                 "fichier": archive.name,
@@ -64,8 +75,7 @@ def collecter(dossier: Path) -> tuple[list[dict], list[dict]]:
                 "revision_git": manifeste.get("revision_git", ""),
                 "version_notebook": manifeste.get("version_notebook", ""),
             }
-            for cle in ("tokens", "types", "hapax", "ttr",
-                        "hapax_types_pourcent", "phrases", "mots_par_phrase"):
+            for cle, _, _ in INDICATEURS_TD01:
                 for colonne, suffixe in (
                     ("original", "_original"),
                     ("epure", "_epure"),

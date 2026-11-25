@@ -25,11 +25,11 @@ Le *Rapport d’analyse lexicométrique, quantitative et relationnelle de l’ou
 - [Lire le rapport méthodologique original, avec ses six parties](../../app/static/PT_LLMvsPy_Rapport_03_Gemini_Notebook_source_originale.md).
 - [Consulter la transcription en JSON des six statuts déclarés au § 6.1 et de leurs justifications](../data/statuts_mesures_rapport_03.json).
 
-## Repères A, B et C du cahier 04
+## Repères A, B et C pour vérifier les affirmations
 
-Dans le cahier 04, **la pièce A** renvoie au rapport 2 (§ 1 et § 4), **la pièce B** à la conversation partagée ci-dessous et **la pièce C** au rapport 1 (citations de septembre).
+Dans *Vérifier une affirmation par le calcul et la lecture*, **la pièce A** renvoie au rapport 2 (§ 1 et § 4), **la pièce B** à la conversation partagée ci-dessous et **la pièce C** au rapport 1 (citations de septembre).
 
-Au 03, le cours reprend de la première réponse de cette conversation un protocole portant sur les lemmes *femme* et *droit*. L’effectif est à calculer sur le texte préparé au 01. Le JSON produit par le 03 conserve votre propre mesure.
+Le cahier *Mesurer les cooccurrences par phrase et par fenêtre* reprend de la première réponse de cette conversation un protocole portant sur les lemmes *femme* et *droit*. L’effectif est à calculer sur le corpus nettoyé. Votre export `resultats_03_<numero>.json` conserve votre propre mesure.
 
 [Ouvrir la conversation Gemini et retrouver la ligne M4_COOC_SENT](https://share.gemini.google/43HURKzcfoet)
 

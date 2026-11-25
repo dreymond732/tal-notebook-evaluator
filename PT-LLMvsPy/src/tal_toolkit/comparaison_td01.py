@@ -16,15 +16,20 @@ if TYPE_CHECKING:
     from spacy.language import Language
 
 
-INDICATEURS_TD01 = (
-    ("tokens", "Tokens lexicaux", "tokens"),
-    ("types", "Types distincts", "types"),
-    ("hapax", "Hapax legomena", "types"),
-    ("ttr", "TTR", "ratio"),
-    ("hapax_types_pourcent", "Hapax parmi les types", "%"),
-    ("phrases", "Phrases", "phrases"),
-    ("mots_par_phrase", "Longueur moyenne", "tokens/phrase"),
-)
+def _indicateurs(formes: str) -> tuple[tuple[str, str, str], ...]:
+    unites = "lemmes distincts" if formes == "lemmes" else "formes distinctes"
+    return (
+        ("tokens", "Occurrences retenues", "occurrences"),
+        ("unites_distinctes", unites.capitalize(), unites),
+        ("hapax", "Hapax", unites),
+        ("ttr", "TTR", f"{unites} / occurrences retenues"),
+        ("part_hapax_unites_distinctes_pct", f"Part des hapax parmi les {unites}", "%"),
+        ("phrases", "Phrases", "phrases"),
+        ("mots_par_phrase", "Longueur moyenne des phrases", "occurrences par phrase"),
+    )
+
+
+INDICATEURS_TD01 = _indicateurs("minuscules")
 
 
 def comparer_corpus_td01(
@@ -56,7 +61,7 @@ def comparer_corpus_td01(
     )
     a, b = result_original["metriques"], result_epure["metriques"]
     lignes = []
-    for cle, libelle, unite in INDICATEURS_TD01:
+    for cle, libelle, unite in _indicateurs(protocole.formes):
         avant, apres = a[cle], b[cle]
         ecart = None if avant is None or apres is None else apres - avant
         variation = None if ecart is None or not avant else ecart / avant * 100
@@ -66,7 +71,7 @@ def comparer_corpus_td01(
             "variation_relative_pourcent": variation,
         })
     return {
-        "schema": "comparaison-td01-v1",
+        "schema": "comparaison-td01-v2",
         "protocole_commun": asdict(protocole),
         "logiciel": result_original["logiciel"],
         "source_originale_sha256": original.sha256,

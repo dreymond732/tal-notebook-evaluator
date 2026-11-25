@@ -34,7 +34,7 @@
 
 ## P3 — Reproduire les métriques globales (§ 1)
 
-> Applique **uniquement le protocole préalablement validé** au corpus Faguet complet. Produis tokens, types, hapax, TTR, phrases et longueur moyenne, avec définitions, numérateurs, dénominateurs, versions et état d'exécution. Si aucun comptage intégral n'a été exécuté, inscris « NON CALCULÉ » partout ; ne donne pas de nombres estimés. Conserve les résultats bruts avant arrondi et un exemple permettant de contrôler les frontières de phrase.
+> Applique **uniquement le protocole préalablement validé** au corpus Faguet complet. Indique le nombre d’occurrences retenues, d’unités distinctes (formes ou lemmes selon le protocole), d’hapax et de phrases, ainsi que le TTR et la longueur moyenne des phrases, avec définitions, numérateurs, dénominateurs, versions et état d'exécution. Si aucun comptage intégral n'a été exécuté, inscris « NON CALCULÉ » partout ; ne donne pas de nombres estimés. Conserve les résultats bruts avant arrondi et un exemple permettant de contrôler les frontières de phrase.
 
 ## P4 — Fréquences et énonciation (§ 2–3)
 

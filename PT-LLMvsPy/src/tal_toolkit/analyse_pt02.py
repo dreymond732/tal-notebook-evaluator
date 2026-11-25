@@ -1,4 +1,4 @@
-"""Analyses descriptives du projet Faguet à partir du texte nettoyé du notebook 01.
+"""Analyses descriptives du projet Faguet à partir du texte nettoyé du cahier « Préparer un corpus et mesurer l’effet du nettoyage ».
 
 Les textes ne sont jamais transformés silencieusement. Les positions de preuve
 désignent la version analysée (nettoyée), pas directement l'original.
@@ -184,10 +184,10 @@ def analyser_lexique_pt02(
     globales = {
         "tokens_bruts_spacy": len(doc),
         "tokens_lexicaux": n,
-        "types_minuscules": v,
+        "formes_minuscules_distinctes": v,
         "hapax": hapax,
         "ttr": v/n if n else None,
-        "part_hapax_types_pct": 100*hapax/v if v else None,
+        "part_hapax_unites_distinctes_pct": 100*hapax/v if v else None,
         "phrases_non_vides": len(phrases_non_vides),
         "longueur_moyenne_phrase": n/len(phrases_non_vides) if phrases_non_vides else None,
         "sttr": sum(sttr_segments)/len(sttr_segments) if sttr_segments else None,
@@ -240,7 +240,7 @@ def analyser_lexique_pt02(
             compte_lemmes = Counter(t.lemma_.lower() for t in lex)
             lemmes = {
                 "statut": "CALCULE",
-                "types_lemmes": len(compte_lemmes),
+                "lemmes_distincts": len(compte_lemmes),
                 "champs": {
                     nom: {
                         "occurrences": sum(compte_lemmes[w] for w in cibles),
@@ -251,7 +251,7 @@ def analyser_lexique_pt02(
             }
 
     return {
-        "schema": "analyse-lexicale-pt02-v1",
+        "schema": "analyse-lexicale-pt02-v2",
         "source_nettoyee_sha256": sha256(texte.encode("utf-8")).hexdigest(),
         "longueur_caracteres": len(texte),
         "logiciel": {
@@ -278,7 +278,7 @@ def analyser_lexique_pt02(
         "lemmatisation": lemmes,
         "controles": {
             "tokens_egalent_somme_frequences": n == sum(frequences.values()),
-            "types_egalent_distrib": v == len(frequences),
+            "formes_distinctes_egalent_distribution": v == len(frequences),
             "hapax_borne": 0 <= hapax <= v <= n,
             "source_inchangee": sha256(texte.encode("utf-8")).hexdigest() ==
                                 sha256(doc.text.encode("utf-8")).hexdigest(),

@@ -15,6 +15,8 @@ import re
 import shutil
 import zipfile
 
+from .comparaison_td01 import INDICATEURS_TD01
+
 
 _IDENTIFIANT = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,49}\Z")
 _NOMS_EXPORT = ("faguet_epure.txt", "faguet_epure.manifest.json",
@@ -71,7 +73,7 @@ def verifier_tests_personnels(tests: list[dict]) -> None:
 
 
 def _controle_comparaison(comparaison: dict, sha_orig: str, sha_epure: str) -> None:
-    if comparaison.get("schema") != "comparaison-td01-v1":
+    if comparaison.get("schema") != "comparaison-td01-v2":
         raise ValueError("Comparaison de mesures invalide")
     if (comparaison.get("source_originale_sha256") != sha_orig
             or comparaison.get("source_epuree_sha256") != sha_epure):
@@ -84,11 +86,8 @@ def _controle_comparaison(comparaison: dict, sha_orig: str, sha_epure: str) -> N
     ):
         raise ValueError("Contrôles des métriques non validés")
     lignes = comparaison.get("comparaison", [])
-    attendus = {
-        "tokens", "types", "hapax", "ttr",
-        "hapax_types_pourcent", "phrases", "mots_par_phrase",
-    }
-    if {x.get("id") for x in lignes} != attendus or len(lignes) != 7:
+    attendus = {cle for cle, _, _ in INDICATEURS_TD01}
+    if {x.get("id") for x in lignes} != attendus or len(lignes) != len(attendus):
         raise ValueError("Sept indicateurs obligatoires")
 
 

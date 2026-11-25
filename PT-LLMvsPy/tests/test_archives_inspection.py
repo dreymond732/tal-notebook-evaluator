@@ -1,4 +1,5 @@
 """Archives de l'analyse Faguet versionnée : inspection sans anomalie possible."""
+from hashlib import sha256
 import json
 from pathlib import Path
 import zipfile
@@ -46,7 +47,8 @@ def _cas(tmp_path):
     return corpus, export, comp, inspection
 
 
-def test_archive_inspection_revision_et_collecte(tmp_path, monkeypatch):
+@pytest.mark.parametrize("csv_historique", [False, True])
+def test_archive_inspection_revision_et_collecte(tmp_path, monkeypatch, csv_historique):
     import tal_toolkit.protocole_td01 as protocole
     from scripts import collecter_td01
     corpus, export, comparaison, inspection = _cas(tmp_path)
@@ -71,8 +73,24 @@ def test_archive_inspection_revision_et_collecte(tmp_path, monkeypatch):
         assert "inspection.json" in z.namelist()
         assert "tests_personnels.json" not in z.namelist()
         assert json.loads(z.read("inspection.json"))["anomalies"] == []
+    if csv_historique:
+        with zipfile.ZipFile(archive["archive"]) as z:
+            contenus = {nom: z.read(nom) for nom in z.namelist()}
+        csv = contenus["comparaison_metriques.csv"]
+        csv = csv.replace(b"\nunites_distinctes,", b"\ntypes,")
+        csv = csv.replace(b"\npart_hapax_unites_distinctes_pct,", b"\nhapax_types_pourcent,")
+        assert b"\ntypes," in csv and b"\nhapax_types_pourcent," in csv
+        contenus["comparaison_metriques.csv"] = csv
+        registre["fichiers_sha256"]["comparaison_metriques.csv"] = sha256(csv).hexdigest()
+        contenus["livrable.json"] = json.dumps(registre).encode()
+        with zipfile.ZipFile(archive["archive"], "w") as z:
+            for nom, donnees in contenus.items():
+                z.writestr(nom, donnees)
     lignes, erreurs = collecter_td01.collecter(tmp_path / "archives")
     assert len(lignes) == 1 and not erreurs
+    for mesure in comparaison["comparaison"]:
+        assert lignes[0][mesure["id"] + "_original"] == str(mesure["original"])
+    assert "types_original" not in lignes[0] and "hapax_types_pourcent_original" not in lignes[0]
     assert lignes[0]["type_suivi"] == "inspection"
     assert lignes[0]["nombre_tests"] == 0
     assert lignes[0]["version_notebook"] == "2.1.0"

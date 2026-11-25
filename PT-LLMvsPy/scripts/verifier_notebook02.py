@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exécute le 02 sur Faguet puis ses deux cahiers utilisateurs dans des sessions distinctes."""
+"""Exécute les cahiers sur les fréquences, les cooccurrences et la vérification des affirmations sur Faguet dans des sessions distinctes."""
 from __future__ import annotations
 
 import json

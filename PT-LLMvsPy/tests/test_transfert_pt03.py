@@ -1,4 +1,4 @@
-"""Une exploration personnelle ne doit pas remplacer les preuves communes reprises au 04."""
+"""Une exploration personnelle ne doit pas remplacer les preuves communes reprises dans le cahier de vérification des affirmations."""
 import json
 from pathlib import Path
 
@@ -20,7 +20,8 @@ def lemmes_essai_transfert(doc):
     return doc
 
 
-def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
+@pytest.mark.parametrize("variante", [False, True], ids=["consignes-du-cahier", "consignes-du-json"])
+def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, variante):
     monkeypatch.chdir(tmp_path)
     modele = spacy.blank("fr")
     modele.add_pipe("sentencizer")
@@ -34,7 +35,18 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     (dossier / f"faguet_nettoye_{numero}.txt").write_text(texte, encoding="utf-8")
     executer_cahier(NOTEBOOKS / "02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb", numero)
 
-    r2 = json.loads((dossier / f"resultats_02_{numero}.json").read_text(encoding="utf-8"))
+    fichier_frequences = dossier / f"resultats_02_{numero}.json"
+    r2 = json.loads(fichier_frequences.read_text(encoding="utf-8"))
+    travail = r2["travail_03"]
+    if variante:
+        # Des valeurs différentes de l'exemple distinguent la lecture du JSON d'un calcul figé.
+        travail["studio"] = {"pivots": ["loi", "lois"], "associes": ["peine", "peines"], "annonce_phrases": 17}
+        travail["m4"].update(pivot="femme", associe="homme")
+        travail["regle_phrase"] = "Compter chaque phrase commune une seule fois."
+        fichier_frequences.write_text(json.dumps(r2, ensure_ascii=False), encoding="utf-8")
+    else:
+        assert travail["studio"] == {"pivots": ["femme", "femmes"], "associes": ["homme", "hommes"], "annonce_phrases": 208}
+        assert travail["m4"] == {"pivot": "femme", "associe": "droit", "statut": "NON_CALCULE"}
     mesures = r2["mesures"]
     doc = modele(texte)
     assert r2["globales"]["tokens_bruts_spacy"] == len(doc)
@@ -67,7 +79,14 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     r4 = json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))
     assert r3["transfert"]["mesure"]["cooc"] == 3
     principal = r3["studio"]["principal"]
-    assert (principal["annonce"], principal["calcule"]) == (208, 2)
+    studio = travail["studio"]
+    assert principal["conventions"]["pivots"] == studio["pivots"]
+    assert principal["conventions"]["associes"] == studio["associes"]
+    assert all(forme in principal["ligne"] for forme in studio["pivots"] + studio["associes"])
+    assert principal["annonce"] == studio["annonce_phrases"]
+    assert principal["calcule"] == (3 if variante else 2)
+    assert principal["ecart"] == principal["calcule"] - studio["annonce_phrases"]
+    assert r3["regle_02"] == travail["regle_phrase"]
     assert r3["agregations"]["essai"] == {"union": 2, "somme_paires": 3, "memes_indices": True}
     assert r3["statistiques_phrases"]["studio"]["n11"] == principal["calcule"]
     suites = {r["mode"]: (r["cible recherchée"], r["effectif"])
@@ -75,14 +94,16 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch):
     assert suites == {"forme": ("les femmes", 1), "lemme": ("les femme", 1)}
     assert r4["studio"]["principal_03"] == principal
     relation = r3["relation"]
-    assert (relation["pivot"], relation["associe"], relation["mesure"]["cooc"]) == ("femme", "droit", 1)
+    assert (relation["pivot"], relation["associe"]) == (travail["m4"]["pivot"], travail["m4"]["associe"])
+    assert relation["mesure"]["cooc"] == (2 if variante else 1)
+    assert r4["protocole_B"]["statut_source"] == relation["statut_source"] == travail["m4"]["statut"]
     assert r4["protocole_B"]["relation_03"] == relation
     assert r4["protocole_B"]["valeur_annoncee"] is None
 
     reference = r2["mesures"]["alphabetiques"]
     ratios = r4["ratios_A"]["mesures"]
-    assert ratios["ttr"]["calcul 02"] == reference["types"] / reference["tokens"]
-    assert ratios["mots_par_phrase"]["calcul 02"] == reference["tokens"] / reference["phrases"]
+    assert ratios["ttr"]["ratio sur votre texte"] == reference["unites_distinctes"] / reference["tokens"]
+    assert ratios["mots_par_phrase"]["ratio sur votre texte"] == reference["tokens"] / reference["phrases"]
     assert all(r["verdict"] == "INSUFFISAMMENT_DEFINI" for r in ratios.values())
     temoins = r4["concordance_mot"]["temoins"]
     assert [texte[t["debut"]:t["fin"]] for t in temoins] == ["droit"]
@@ -108,4 +129,4 @@ def test_enquete_modalisation_avec_un_export_partiel(capsys):
     exec(source, {"lexique": {"locutions": {"il_faut": {"occurrences": 0}}}})
     affichage = capsys.readouterr().out
     assert "il faut · 0" in affichage
-    assert "il faudrait · non compté au 02" in affichage
+    assert "il faudrait · non compté dans le cahier sur les fréquences" in affichage

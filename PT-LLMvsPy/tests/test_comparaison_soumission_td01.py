@@ -62,13 +62,33 @@ def _environnement(tmp_path):
 
 def test_comparaison_conditions_identiques(tmp_path):
     _, _, comp, _ = _environnement(tmp_path)
-    assert comp["schema"] == "comparaison-td01-v1"
+    assert comp["schema"] == "comparaison-td01-v2"
     assert len(comp["comparaison"]) == 7
     assert all(v for d in comp["controles"].values()
                for v in (d.values() if isinstance(d, dict) else [d]))
     assert comp["source_originale_sha256"] != comp["source_epuree_sha256"]
     assert comp["comparaison"][0]["original"] > comp["comparaison"][0]["epure"]
     assert comp["comparaison"][0]["variation_relative_pourcent"] < 0
+
+
+@pytest.mark.parametrize(("mode", "libelle", "effectif"), [
+    ("minuscules", "Formes distinctes", 2),
+    ("lemmes", "Lemmes distincts", 1),
+])
+def test_comparaison_nomme_l_unite_effectivement_comptee(mode, libelle, effectif):
+    from tal_toolkit.io_corpus import corpus_depuis_texte
+
+    source = corpus_depuis_texte("Femme femmes.")
+    nlp = spacy.blank("fr")
+    nlp.add_pipe("sentencizer")
+    regles = nlp.add_pipe("attribute_ruler")
+    regles.add(patterns=[[{"LOWER": {"IN": ["femme", "femmes"]}}]], attrs={"LEMMA": "femme"})
+    comparaison = comparer_corpus_td01(source, source, nlp, protocole=ProtocoleGlobal(formes=mode))
+    lignes = {ligne["id"]: ligne for ligne in comparaison["comparaison"]}
+    assert lignes["unites_distinctes"]["indicateur"] == libelle
+    assert lignes["unites_distinctes"]["original"] == effectif
+    assert lignes["hapax"]["unite"] == libelle.lower()
+    assert lignes["part_hapax_unites_distinctes_pct"]["indicateur"] == f"Part des hapax parmi les {libelle.lower()}"
 
 
 def test_comparaison_interdit_second_nettoyage(tmp_path):
