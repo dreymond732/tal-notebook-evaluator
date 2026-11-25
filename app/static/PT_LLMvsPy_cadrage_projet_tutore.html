@@ -56,6 +56,19 @@
 .mini-steps li{background:#fff;border:1px solid #d6e2f4;padding:.45rem .65rem;border-radius:8px;font-size:.91rem;margin:0}
 .essential{font-size:1.08rem}
 @media(max-width:700px){.first-step{padding:1rem}.comparison-table{min-width:610px}.mini-steps li{width:100%}}
+.parcours-fichiers{table-layout:fixed}
+.parcours-fichiers th,.parcours-fichiers td{overflow-wrap:anywhere}
+.parcours-fichiers tbody th{font-size:.95rem;background:transparent}
+@media screen and (max-width:700px){
+  .parcours-fichiers{display:block;min-width:0}
+  .parcours-fichiers thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .parcours-fichiers tbody,.parcours-fichiers td,.parcours-fichiers tbody th{display:block}
+  .parcours-fichiers tbody tr{display:block;padding:.7rem 0;border-bottom:1px solid var(--line)}
+  .parcours-fichiers tbody tr:last-child{border-bottom:0}
+  .parcours-fichiers td,.parcours-fichiers tbody th{border:0;padding:.3rem .8rem}
+  .parcours-fichiers td::before{content:attr(data-label);display:block;font-size:.8rem;font-weight:700;color:var(--muted)}
+}
+@media print{.parcours-fichiers tr{break-inside:avoid}.parcours-fichiers td,.parcours-fichiers tbody th{font-size:9pt}}
 </style>
 </head>
 <body>
@@ -63,15 +76,15 @@
   <div class="wrap">
     <div class="kicker">Projet tuteuré · Master 2 · Traitement automatique des langues (TAL) et Python</div>
     <h1>De la préparation du corpus à l’audit d’un grand modèle de langage (LLM)</h1>
-    <p class="lead">À la séance précédente, vous avez déposé vos JSON dans le dossier Drive du recueil. Les 12 questionnaires sur les TD1 à TD7 réunissent 48 réponses. Vous avez ensuite commencé le cahier 01 sur <em>Le Féminisme</em> de Faguet. Le 25 novembre, montrez à l’oral ce que le nettoyage change dans votre passage et remettez l’archive du 01. Après la revue, vous ouvrirez le 02 pour comparer les fréquences des formes et des lemmes sur le texte retenu.</p>
+    <p class="lead">À la séance précédente, vous avez déposé vos JSON dans le dossier Drive du recueil. Les 12 questionnaires sur les TD1 à TD7 réunissent 48 réponses. Vous avez ensuite commencé <em>Préparer un corpus et mesurer l’effet du nettoyage</em> sur <em>Le Féminisme</em> de Faguet. Le 25 novembre, présentez à l’oral l’effet du nettoyage sur un passage de votre choix et remettez votre archive. Après la revue, ouvrez <em>Comparer les fréquences des formes et des lemmes</em> avec le texte que vous venez de préparer.</p>
     <div class="hero-meta">
       <span>Projet PT-LLMvsPy</span>
       <span>Corpus : <em>Le Féminisme</em> d’Émile Faguet</span>
       <span>Fin du S3 · 18 décembre 2026</span>
     </div>
     <div class="actions">
-      <a href="#premiere-etape">Préparer la revue du 01</a>
-      <a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Ouvrir le cahier 01 dans Colab</a>
+      <a href="#premiere-etape">Préparer la revue du nettoyage</a>
+      <a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Préparer un corpus et mesurer l’effet du nettoyage · Ouvrir dans Colab</a>
       <a href="https://github.com/dreymond732/tal-notebook-evaluator/tree/main/PT-LLMvsPy" target="_blank" rel="noopener">Code et notebooks sur GitHub</a>
       <button type="button" onclick="window.print()">Imprimer / PDF</button>
     </div>
@@ -80,10 +93,10 @@
 <nav aria-label="Sommaire"><div class="wrap">
   <a href="#objectif">Objectif</a>
   <a href="#acquis">Travaux préparatoires</a>
-  <a href="#premiere-etape">Étape 1</a>
+  <a href="#premiere-etape">Revue du nettoyage</a>
   <a href="#piege">Corpus</a>
   <a href="#contrat">Méthode</a>
-  <a href="#architecture">4 notebooks</a>
+  <a href="#architecture">Cahiers et fichiers</a>
   <a href="#revues">Séances et revues S3</a>
   <a href="#synthese">Travail du PT</a>
   <a href="#sources">Références</a>
@@ -103,7 +116,7 @@
     <div class="legend warning">⚑ Point à vérifier</div>
     <div class="legend trace">▣ Résultat à conserver</div>
   </div>
-  <p class="subtle">Retrouvez les <a href="https://hazigo.duckdns.org/universite/tal/static/Organisation_progression_S3.html" target="_blank" rel="noopener">exercices préparatoires des TD0 à TD7</a>. Au 02, reprenez la lecture des tokens de spaCy (TD1.a) et les filtres de fréquence (R2 et TD2). Au 03, choisissez une unité de contexte comme au TD4 et interprétez les associations comme au TD5. Au 04, les concordances du TD3 et le dossier de preuves du TD7 vous aident à justifier une conclusion individuelle.</p>
+  <p class="subtle">Retrouvez les <a href="https://hazigo.duckdns.org/universite/tal/static/Organisation_progression_S3.html" target="_blank" rel="noopener">exercices préparatoires des TD0 à TD7</a>. Pour comparer des fréquences, reprenez la lecture des tokens de spaCy (TD1.a) et les filtres de fréquence (R2 et TD2). Pour étudier les cooccurrences, choisissez une unité de contexte comme au TD4 et examinez la force de l’association comme au TD5. Pour vérifier une affirmation, retrouvez un passage avec les concordances du TD3 et appuyez votre conclusion sur des preuves comme au TD7.</p>
 </section>
 
 <section class="section" id="acquis">
@@ -125,35 +138,37 @@
   </div>
   
   <div class="semi method">
-    <h3>◆ Les trois pièces utilisées au cahier 04</h3>
+    <h3>◆ D’où viennent les affirmations à vérifier ?</h3>
+    <p>Dans <em>Vérifier une affirmation par le calcul et la lecture</em>, retrouvez chaque affirmation dans l’une des trois pièces de l’enquête.</p>
     <ul>
-      <li><strong>A · Rapport n° 2, rapport chiffré généré le 10 novembre 2026.</strong> Pouvez-vous retrouver les mesures globales du § 1 au 02 et les 208 phrases annoncées au § 4 au 03 ? Au 04, vérifiez aussi si les passages soutiennent le mot « toujours ».</li>
-      <li><strong>B · Conversation partagée.</strong> En M4, Gemini propose de compter les phrases contenant les lemmes <em>femme</em> et <em>droit</em> et laisse la valeur non calculée. Exécutez ce protocole au 03 et expliquez au 04 ce que votre résultat établit.</li>
-      <li><strong>C · Rapport n° 1, transcription du 18 septembre.</strong> Elle contient six intervalles de cooccurrences (G1–G6) et des citations attribuées à Faguet. Au 04, cherchez l’une de ces citations et identifiez la voix dans le passage retrouvé.</li>
+      <li><strong>Pièce A · Rapport nº 2, rapport chiffré de Gemini Notebook.</strong> Généré et transmis le 10 novembre 2026, son § 1 annonce des mesures globales, dont 79 540 tokens. Son § 4 annonce 208 phrases associant <em>femme(s)</em> et <em>homme(s)</em>. Recomptez ces phrases, puis relisez vos passages pour discuter le mot « toujours » employé dans le rapport.</li>
+      <li><strong>Pièce B · Conversation Gemini.</strong> À la ligne <code>M4_COOC_SENT</code>, Gemini décrit un protocole de cooccurrence et laisse l’effectif à calculer. Comptez vous-même les phrases contenant les lemmes <em>femme</em> et <em>droit</em>.</li>
+      <li><strong>Pièce C · Rapport nº 1, transcription Gemini du 18 septembre 2026.</strong> Elle contient six intervalles de cooccurrences (G1–G6) et des citations attribuées à Faguet. Cherchez une citation dans le livre. Si vous retrouvez un passage correspondant, relevez les indices qui permettent d’y identifier la voix.</li>
     </ul>
+    <p>Pour comprendre le statut donné à un chiffre, consultez aussi le <strong>rapport nº 3</strong> de Gemini Notebook, généré et transmis le 10 novembre 2026. Dans ce rapport méthodologique, <code>M-04</code> désigne le rapport entre le nombre de types et le nombre de tokens (TTR), qualifié d’« ESTIMÉ » au § 6.1. La ligne <code>M4_COOC_SENT</code> de la pièce B porte, elle, sur la présence de deux lemmes dans une phrase.</p>
   </div>
 </section>
 
 <section class="section" id="premiere-etape">
   <div class="first-step">
-    <div class="eyebrow">Cahier 01 · Reprendre le travail engagé à la séance précédente</div>
+    <div class="eyebrow">Reprendre le travail engagé à la séance précédente</div>
     <h2>Préparer un corpus et mesurer l’effet du nettoyage</h2>
     <p class="intro">Si vous souhaitez revoir une fonction Python, commencez par l’exemple guidé du cahier. Si vous êtes à l’aise avec les appels de fonctions, reprenez votre propre exemple et expliquez l’écart prévu. Dans les deux cas, vous aurez à justifier sur le livre ce qu’une opération change au texte et à son décompte.</p>
-    <p>La <strong>chaîne de traitements</strong> est la suite d’opérations que vous exécutez. Dans le 01, les fonctions de <code>tal_toolkit</code> sont déjà écrites. <code>executer_pretraitements()</code> applique les opérations choisies, par exemple masquer un appel de note et son contenu. <code>composer_texte_epure()</code> produit ensuite le texte à lire. Essayez ces fonctions sur une phrase accompagnée d’une note avant de les appliquer au livre.</p>
-    <p>Le <strong>protocole</strong> précise vos choix et la façon de vérifier leur effet. Pour compter les mots du corps du livre, vous écartez les notes et retenez, avant comme après nettoyage, les tokens composés de lettres. Avec <code>comparer_corpus_td01()</code>, mesurez l’écart entre les deux textes. Retrouvez la note dans l’original et vérifiez que la phrase qui l’appelait reste lisible.</p>
-    <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Ouvrir le cahier 01 dans Colab</a></p>
+    <p>La <strong>chaîne de traitements</strong> est la suite d’opérations que vous exécutez. Les fonctions de <code>tal_toolkit</code> sont fournies. <code>executer_pretraitements()</code> applique le plan commun à la promotion, qui prévoit notamment de masquer les appels de note et le texte des notes. <code>composer_texte_epure()</code> produit ensuite le texte à lire. Essayez ces fonctions sur une phrase accompagnée d’une note avant de les appliquer au livre.</p>
+    <p>Le <strong>protocole</strong> précise ce qui est comparé et selon quelle règle. Tous les cahiers utiliseront le texte issu du même plan de nettoyage. Vous choisissez le passage et le motif à inspecter. Par exemple, retrouvez une note dans l’original et vérifiez que les mots qui entouraient son appel restent lisibles. Avec <code>comparer_corpus_td01()</code>, comparez les deux versions du livre en gardant les mêmes unités de mesure.</p>
+    <p><a class="cta" href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Préparer un corpus et mesurer l’effet du nettoyage · Ouvrir dans Colab</a></p>
     <p>Rouvrez votre copie depuis <strong>Mon Drive → S3-PythonVsLLM</strong>. Si vous devez encore la créer, ouvrez le cahier dans Colab, choisissez <strong>Fichier → Enregistrer une copie dans Drive</strong> et rangez-la dans ce dossier personnel, à créer si nécessaire. Dans votre copie, conservez les éventuels zéros initiaux de votre numéro étudiant et exécutez les cellules dans l’ordre. Le cahier charge les fonctions et les documents du projet.</p>
-    <p class="subtle">Autre possibilité : <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">télécharger le cahier 01 depuis GitHub</a> puis l'importer dans Colab.</p>
+    <p class="subtle">Vous pouvez aussi <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">télécharger <em>Préparer un corpus et mesurer l’effet du nettoyage</em> depuis GitHub</a> puis l'importer dans Colab.</p>
     <ol class="step-list">
       <li><h3>Exécuter le nettoyage</h3><p>Sur un exemple de votre invention, prévoyez le texte qui restera après le retrait d’une note. Vérifiez votre prévision, puis appliquez le nettoyage au livre et sauvegardez le texte obtenu.</p></li>
       <li><h3>Lire le document nettoyé</h3><p>Ouvrez le fichier dans un éditeur de texte. Examinez les paragraphes, les titres, la ponctuation, les notes et les passages qui vous paraissent anormaux.</p></li>
       <li><h3>Examiner les anomalies éventuelles</h3><p>Retrouvez un passage grâce à une suite exacte de caractères du texte original. Identifiez l’opération concernée et comptez les occurrences d’un motif représentatif. Si le passage vous semble correct, indiquez ce que vous avez inspecté.</p></li>
-      <li><h3>Décider et comparer</h3><p>Comparez les sept indicateurs du texte original et du texte préparé avec les mêmes règles. Présentez à l’oral votre décision de nettoyage et expliquez un écart à partir du passage relu. Si une correction vous paraît utile, dites laquelle.</p></li>
+      <li><h3>Expliquer l’effet d’une règle</h3><p>Comparez les sept indicateurs du texte original et du texte préparé avec les mêmes règles. Relevez un écart. À l’oral, montrez votre passage avant et après nettoyage et expliquez comment la règle appliquée contribue à cet écart. Si une correction vous paraît utile, dites laquelle.</p></li>
     </ol>
     <div class="semi trace">
-      <h3>▣ Remise du cahier 01 le 25 novembre</h3>
-      <p><strong>Le cahier 01 produit un ZIP numéroté.</strong> Il contient le texte nettoyé, les mesures comparatives et les paramètres et versions utilisés. Vous pouvez y conserver vos notes d’inspection et vos commentaires si vous le souhaitez. Votre explication orale suffit pour la revue.</p>
-      <p>Téléchargez sur votre ordinateur le TXT nettoyé puis le ZIP. Dans Google Drive, importez ces deux fichiers dans <strong>S3-PythonVsLLM</strong>. Depuis ce dossier personnel, copiez le ZIP dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. À la fin de la revue du 25 novembre, ouvrez dans le 02 le texte nettoyé retenu. Conservez-le avec sa provenance pour les trois cahiers suivants.</p>
+      <h3>▣ Remise de l’archive de nettoyage le 25 novembre</h3>
+      <p>Téléchargez sur votre ordinateur <code>faguet_nettoye_&lt;numero&gt;.txt</code> puis <code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code>. Le ZIP rassemble le texte nettoyé, les mesures avant et après nettoyage au format CSV et JSON, les paramètres et les versions utilisées. Vos notes d’inspection et commentaires écrits sont facultatifs. Votre explication orale suffit pour la revue.</p>
+      <p>Dans <strong>Mon Drive → S3-PythonVsLLM</strong>, importez les deux fichiers téléchargés. Leurs noms contiennent votre numéro étudiant. Le nom du ZIP comporte aussi la date et l’identifiant de session. Depuis ce dossier personnel, copiez le ZIP dans le <a href="https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO" target="_blank" rel="noopener" style="color:#d7e7ff">dossier Drive partagé</a>. Après la revue, importez le TXT ou le ZIP dans <em>Comparer les fréquences des formes et des lemmes</em>. Gardez les deux originaux dans votre dossier personnel.</p>
     </div>
   </div>
 </section>
@@ -194,13 +209,13 @@
     </div>
     <div class="panel">
       <h3>Contrat B · Ce que chacun valide</h3>
-      <p>La source, sa version et le prétraitement sont fixés au 01. Dans les cahiers suivants, chacun valide trois éléments sur ce même texte.</p>
+      <p>Le cahier <em>Préparer un corpus et mesurer l’effet du nettoyage</em> fixe le texte de référence. Sur ce texte, chacun vérifie trois éléments.</p>
       <ol>
         <li><strong>Protocole.</strong> Nommez l’unité, le filtre et la règle. Vérifiez sur un exemple personnel que la fonction compte ce que vous avez prévu.</li>
         <li><strong>Mesure.</strong> Appliquez la règle à Faguet. Conservez l’effectif et son unité, ainsi que le dénominateur si vous donnez une proportion.</li>
         <li><strong>Preuves.</strong> Retrouvez les passages concernés. Indiquez leur emplacement et ce qui justifie le compte ou en limite l’interprétation.</li>
       </ol>
-      <p>Au terme du 04, réunissez ces vérifications pour formuler votre conclusion individuelle sur les affirmations de Gemini. Signalez toute convention manquante dans l’annonce.</p>
+      <p>Dans <em>Vérifier une affirmation par le calcul et la lecture</em>, réunissez ces vérifications pour formuler votre conclusion individuelle sur les affirmations de Gemini. Signalez toute convention manquante dans l’annonce.</p>
     </div>
   </div>
   <div class="semi method"><h3>◆ Interpréter une cooccurrence</h3>
@@ -209,62 +224,66 @@
 </section>
 
 <section class="section" id="architecture">
-  <div class="eyebrow">Architecture du projet</div>
-  <h2>Une bibliothèque commune, quatre notebooks enchaînés</h2>
-  <p>Choisissez le titre d’un cahier ci-dessous pour l’ouvrir dans Colab.</p>
-  <div class="flow" aria-label="Circulation des données du projet">
-    <div><strong>GitHub public</strong><span>Sous-dossier PT-LLMvsPy : fonctions Python, notebooks et documents de référence.</span></div>
-    <div><strong>Notebook 01</strong><span>Le ZIP rassemble le texte nettoyé, les mesures et la provenance du corpus retenu.</span></div>
-    <div><strong>Notebooks 02 à 04</strong><span>Mesures et audit sur le même texte préparé.</span></div>
-    <div><strong>Sauvegarde</strong><span>Téléchargement sur l’ordinateur, puis rangement manuel dans S3-PythonVsLLM. Copie vers le dossier partagé aux revues du 01 et du 04.</span></div>
+  <div class="eyebrow">Les fichiers d’une séance à la suivante</div>
+  <h2>Ouvrir un cahier et reprendre ses résultats</h2>
+  <p>Pour commencer un nouveau cahier, ouvrez son titre dans le tableau. Le lien Colab pointe vers la branche <code>main</code> du cours. Enregistrez une copie dans <strong>Mon Drive → S3-PythonVsLLM</strong>. Pour poursuivre un travail déjà commencé, rouvrez votre copie personnelle et importez vos fichiers.</p>
+  <p>Dans le tableau, <strong>corpus préparé</strong> désigne au choix <code>faguet_nettoye_&lt;numero&gt;.txt</code> ou <code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code>. Pour chacune des trois enquêtes qui suivent le nettoyage, un seul de ces deux fichiers suffit pour relire le texte. Les mentions <code>&lt;numero&gt;</code>, <code>&lt;date&gt;</code> et <code>&lt;session&gt;</code> représentent les valeurs déjà inscrites dans vos noms de fichiers.</p>
+  <div class="table-wrap">
+    <table class="comparison-table parcours-fichiers" aria-label="Cahiers sur Faguet, fichiers à ouvrir et résultats à conserver">
+      <thead><tr><th scope="col">Cahier à ouvrir dans Colab</th><th scope="col">Fichiers à reprendre</th><th scope="col">Question à résoudre</th><th scope="col">À conserver dans votre dossier</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">Préparer un corpus et mesurer l’effet du nettoyage</a></th><td data-label="Fichiers à reprendre">Le cahier charge le texte source.</td><td data-label="Question à résoudre">Quel effet du nettoyage pouvez-vous expliquer à partir d’un passage ?</td><td data-label="À conserver"><code>faguet_nettoye_&lt;numero&gt;.txt</code><br><code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code></td></tr>
+        <tr><th scope="row"><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb" target="_blank" rel="noopener">Comparer les fréquences des formes et des lemmes</a></th><td data-label="Fichiers à reprendre">Corpus préparé</td><td data-label="Question à résoudre">Pourquoi un compte change-t-il entre formes et lemmes à filtre constant ?</td><td data-label="À conserver"><code>resultats_02_&lt;numero&gt;.json</code></td></tr>
+        <tr><th scope="row"><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb" target="_blank" rel="noopener">Mesurer les cooccurrences par phrase et par fenêtre</a></th><td data-label="Fichiers à reprendre">Corpus préparé et <code>resultats_02_&lt;numero&gt;.json</code></td><td data-label="Question à résoudre">Que comptez-vous lorsque deux mots figurent dans une phrase ou dans une fenêtre ?</td><td data-label="À conserver"><code>resultats_03_&lt;numero&gt;.json</code></td></tr>
+        <tr><th scope="row"><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb" target="_blank" rel="noopener">Vérifier une affirmation par le calcul et la lecture</a></th><td data-label="Fichiers à reprendre">Corpus préparé, <code>resultats_02_&lt;numero&gt;.json</code> et <code>resultats_03_&lt;numero&gt;.json</code></td><td data-label="Question à résoudre">Quel calcul et quel passage étayent votre conclusion ?</td><td data-label="À conserver"><code>resultats_04_&lt;numero&gt;.json</code></td></tr>
+      </tbody>
+    </table>
   </div>
   <div class="grid">
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb" target="_blank" rel="noopener">01 · Préparer un corpus et mesurer l’effet du nettoyage</a></h3>
-      <p>Un retour à la ligne peut couper une phrase. Une note peut introduire des mots étrangers au propos. Repérez un passage dans les deux versions du livre pour expliquer comment le nettoyage modifie un compte. À la revue, retenez ensemble le texte utilisé dans les trois cahiers suivants.</p>
+      <h3>Suivre une transformation dans le texte</h3>
+      <p>Un retour à la ligne peut couper une phrase. Une note peut introduire des mots étrangers au propos. Repérez un passage dans les deux versions du livre pour expliquer comment le nettoyage modifie un compte. Gardez le texte préparé selon le plan commun pour pouvoir comparer les résultats entre séances.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb" target="_blank" rel="noopener">02 · Comparer les fréquences des formes et des lemmes</a></h3>
+      <h3>Comparer deux comptages</h3>
       <p>Que recouvrent les 79 540 tokens annoncés dans le rapport chiffré ? Ajoutez une virgule à votre phrase puis vérifiez avec <code>calculer_metriques_globales()</code> comment les filtres modifient le volume <em>N</em> et la longueur moyenne des phrases. <code>len(doc)</code> inclut les tokens d’espace. Le filtre alphabétique écarte aussi les nombres.</p>
       <p>À filtre constant, comparez les formes minuscules et les lemmes. Le regroupement de <em>droit</em> et <em>droits</em> peut modifier les types (formes distinctes), les hapax (observés une seule fois) et le TTR (<i>type-token ratio</i>, nombre de types divisé par le nombre de tokens). Le STTR (<i>standardised type-token ratio</i>) est la moyenne du TTR sur des blocs complets de même taille. Confrontez le classement des fréquences et les effectifs des cinq champs lexicaux aux emplois dans le livre. Contrôlez un lemme ambigu, une marque de voix et l’effet d’une abréviation sur la fin de phrase.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb" target="_blank" rel="noopener">03 · Mesurer les cooccurrences par phrase et par fenêtre</a></h3>
-      <p>Testez <code>mesurer()</code> sur deux phrases de votre invention. Menez les deux enquêtes communes sur Faguet. Pour vérifier le rapport chiffré, comptez en union les phrases contenant <em>femme(s)</em> et <em>homme(s)</em> et comparez à la somme des couples de graphies. Pour M4, comptez les phrases où figurent les lemmes <em>femme</em> et <em>droit</em>. Répartissez entre binômes les autres associations annoncées dans ce rapport.</p>
+      <h3>Distinguer présence, proximité et association</h3>
+      <p>Testez <code>mesurer()</code> sur deux phrases de votre invention. Menez les deux enquêtes communes sur Faguet. Pour vérifier le rapport chiffré, comptez en union les phrases contenant <em>femme(s)</em> et <em>homme(s)</em> et comparez à la somme des couples de graphies. Pour M4, comptez les phrases où figurent les lemmes <em>femme</em> et <em>droit</em>. Répartissez entre binômes les autres associations annoncées dans le rapport chiffré.</p>
       <p>Pour les deux enquêtes, lisez la table de contingence et le PMI (information mutuelle ponctuelle). Le score compare les phrases communes observées à celles attendues sous indépendance, compte tenu des fréquences des deux groupes. Un couple rare peut avoir un PMI élevé. L’essai supplémentaire sur ce cas est facultatif.</p>
       <p>Autour de <em>femme</em>, comparez les rayons ±5 et ±10 tokens, dans la phrase puis en continu. Un pivot peut être couvert par plusieurs occurrences de <em>droit</em> et former autant de paires. Une virgule occupe une position et interrompt un bigramme ou trigramme de mots contigus. Comparez les séquences avec et sans ponctuation, dont <em>union libre</em>. Gardez deux passages localisés. Vous pouvez ensuite transférer la méthode à deux lemmes de votre choix.</p>
     </div>
     <div class="panel">
-      <h3><a href="https://colab.research.google.com/github/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb" target="_blank" rel="noopener">04 · Vérifier une affirmation par le calcul et la lecture</a></h3>
-      <p>Rouvrez les résultats des 02 et 03. Recalculez les ratios avec les chiffres du rapport pour en vérifier l’arithmétique. Pour les comparer ensuite à vos mesures sur Faguet, précisez unités, filtres et dénominateurs. Classez l’annonce selon ce que permet sa documentation. Reprenez le résultat de M4 et confrontez le « toujours » du rapport à vos deux passages.</p>
+      <h3>Discuter une affirmation en contexte</h3>
+      <p>Rouvrez vos comptes lexicaux et vos relevés de cooccurrences. Recalculez les ratios avec les chiffres du rapport pour en vérifier l’arithmétique. Pour les comparer ensuite à vos mesures sur Faguet, précisez unités, filtres et dénominateurs. Classez l’annonce selon ce que permet sa documentation. Reprenez le résultat de M4 et confrontez le « toujours » du rapport à vos deux passages.</p>
       <p>Testez <code>verifier_citation()</code> sur votre phrase et sa variante. Cherchez ensuite une citation de la pièce C. Indiquez si la citation est exacte, retrouvée après normalisation ou non retrouvée. Si vous proposez un passage voisin, relevez les différences de formulation. Dans les concordances, recherchez les mots entiers pour éviter de compter un fragment de mot.</p>
       <p>Choisissez une enquête sur le sens d’un mot (polysémie), le degré d’adhésion à un propos (modalisation) ou les voix qui se répondent (polyphonie). Qui parle dans votre passage, et à quel indice le reconnaissez-vous ? Faites relire cet indice à votre binôme, puis rédigez votre conclusion individuelle et sa limite.</p>
     </div>
   </div>
   <div class="semi trace"><h3>▣ D’une séance à l’autre</h3>
     <p>Les calculs écrivent dans les fichiers temporaires de Colab. Avant de quitter la séance, téléchargez chaque export sur votre ordinateur. Si nécessaire, choisissez <strong>Télécharger</strong> dans le menu du fichier affiché dans le volet <strong>Fichiers</strong>. Dans Google Drive, ouvrez <strong>S3-PythonVsLLM</strong> et importez l’export depuis votre ordinateur. Vérifiez que le nom porte votre numéro étudiant.</p>
-    <p>Après une correction, ouvrez le dernier téléchargement et vérifiez qu’il contient votre réponse mise à jour. Si le nom porte le suffixe <code>(1)</code>, redonnez-lui le nom prévu ci-dessous. Remplacez uniquement votre propre ancienne version dans Drive et, si vous l’aviez déjà remise, dans le dossier partagé.</p>
+    <p>Après une correction, ouvrez le dernier téléchargement et vérifiez qu’il contient votre réponse mise à jour. Si le nom porte le suffixe <code>(1)</code>, redonnez-lui le nom indiqué dans le tableau des fichiers. Remplacez uniquement votre propre ancienne version dans Drive et, si vous l’aviez déjà remise, dans le dossier partagé.</p>
     <p>Pour reprendre, téléchargez les entrées de la prochaine séance depuis votre dossier Drive, puis importez-les dans <code>/content</code> par le volet <strong>Fichiers</strong> du nouveau notebook. Utilisez le même numéro étudiant.</p>
-    <ul><li><strong>Au 02</strong>, reprenez <code>faguet_nettoye_&lt;numero&gt;.txt</code> ou <code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code>. Conservez ensuite <code>resultats_02_&lt;numero&gt;.json</code>.</li>
-      <li><strong>Au 03</strong>, reprenez le TXT ou le ZIP du 01 <strong>et</strong> le JSON du 02. Conservez <code>resultats_03_&lt;numero&gt;.json</code>.</li>
-      <li><strong>Au 04</strong>, reprenez le TXT ou le ZIP du 01 <strong>et les deux JSON</strong> des 02 et 03. Conservez <code>resultats_04_&lt;numero&gt;.json</code>, qui contient votre conclusion.</li></ul></div>
+  </div>
   <p>Si la version du texte devait être corrigée, repérez les calculs qui en dépendent avant de les reproduire sur cette nouvelle version.</p>
 </section>
 
 <section class="section" id="revues">
   <div class="eyebrow">Organisation du S3 · Novembre et décembre 2026</div>
   <h2>Quatre séances pour terminer les quatre cahiers</h2>
-  <p>À chaque revue, montrez ce que vous avez exécuté sur le livre et une preuve que l’on peut retrouver. Si une difficulté subsiste, décrivez-la dans votre cahier et signalez-la en séance.</p>
+  <p>À chaque revue, montrez ce que vous avez exécuté sur le livre et une preuve que l’on peut retrouver. Si une difficulté subsiste, signalez-la en revue.</p>
   <div class="table-wrap"><table class="comparison-table">
     <thead><tr><th scope="col">Séance</th><th scope="col">Notebook</th><th scope="col">Ce que vous montrez en revue</th></tr></thead>
     <tbody>
-      <tr><td><time datetime="2026-11-25">25 novembre</time></td><td>Rendu et débrief du 01, puis lancement du 02</td><td>Montrez le passage avant et après nettoyage. Expliquez votre décision à l’oral, remettez le ZIP du 01 et ouvrez le texte retenu dans le 02.</td></tr>
-      <tr><td><time datetime="2026-11-27">27 novembre</time></td><td>Poursuite et revue du 02</td><td>Expliquez un écart entre formes et lemmes à filtre constant en revenant à un emploi dans sa phrase.</td></tr>
-      <tr><td><time datetime="2026-12-16">16 décembre</time></td><td>03 · Relations lexicales</td><td>La règle qui détermine ce qui compte une fois, les effectifs obtenus et deux passages pour le 04.</td></tr>
-      <tr><td><time datetime="2026-12-18">18 décembre</time></td><td>04 · Audit final</td><td>Votre comparaison avec Gemini à partir d’un chiffre et d’une citation vérifiés, puis votre conclusion individuelle.</td></tr>
+      <tr><td><time datetime="2026-11-25">25 novembre</time></td><td>Revue de <em>Préparer un corpus et mesurer l’effet du nettoyage</em> et lancement de <em>Comparer les fréquences des formes et des lemmes</em></td><td>Montrez le même passage avant et après nettoyage et expliquez l’écart à l’oral. Copiez <code>FAGUET_01_&lt;numero&gt;_&lt;date&gt;_&lt;session&gt;.zip</code> dans le dossier partagé, puis ouvrez le TXT ou le ZIP pour commencer les mesures lexicales.</td></tr>
+      <tr><td><time datetime="2026-11-27">27 novembre</time></td><td>Comparer les fréquences des formes et des lemmes</td><td>Expliquez un écart entre formes et lemmes à filtre constant en revenant à un emploi dans sa phrase.</td></tr>
+      <tr><td><time datetime="2026-12-16">16 décembre</time></td><td>Mesurer les cooccurrences par phrase et par fenêtre</td><td>Distinguez le compte des phrases annoncé dans le rapport chiffré et celui que vous calculez pour la conversation M4. Expliquez votre règle et conservez deux passages localisés pour l’audit.</td></tr>
+      <tr><td><time datetime="2026-12-18">18 décembre</time></td><td>Vérifier une affirmation par le calcul et la lecture</td><td>Recalculez un ratio à partir des chiffres du rapport. Précisez si vous retrouvez les mots cités dans le livre. Si vous localisez un passage, identifiez qui parle. Présentez votre conclusion et une limite de cette lecture.</td></tr>
     </tbody>
   </table></div>
-  <div class="semi trace"><h3>▣ Dossier final, fin de S3</h3><p>À la fin de la revue du 18 décembre, ouvrez <strong>S3-PythonVsLLM</strong> dans Drive et copiez vos trois JSON des 02, 03 et 04 dans le dossier partagé du projet. Vérifiez que l’équipe PT y retrouvera votre annonce, votre protocole, votre mesure, les passages localisés et votre conclusion. Le ZIP du 01 déjà partagé identifie le texte utilisé.</p></div>
+  <div class="semi trace"><h3>▣ Dossier final, fin de S3</h3><p>À la fin de la revue du 18 décembre, ouvrez <strong>S3-PythonVsLLM</strong> dans Drive. Copiez <code>resultats_02_&lt;numero&gt;.json</code>, <code>resultats_03_&lt;numero&gt;.json</code> et <code>resultats_04_&lt;numero&gt;.json</code> dans le dossier partagé du projet. Vérifiez que l’équipe PT y retrouvera votre annonce, votre protocole, votre mesure, les passages localisés et votre conclusion. L’archive de nettoyage déjà partagée en novembre identifie le texte utilisé. Avec les trois JSON, vous devez retrouver quatre pièces portant votre numéro.</p></div>
 </section>
 
 <section class="section" id="synthese">
@@ -285,11 +304,11 @@
   <p>Pour refaire les calculs, utilisez <a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/faguet_source.txt" target="_blank" rel="noopener">le texte de Faguet fourni dans le cours</a>. Pour consulter l’ouvrage d’Émile Faguet, paru à Paris en 1910, ouvrez <a href="https://www.gutenberg.org/ebooks/59719" target="_blank" rel="noopener">l’édition numérique de <em>Le Féminisme</em></a>.</p>
   <h3>Les trois rapports sur Faguet</h3>
   <ul>
-    <li><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/gemini_transcription.txt" target="_blank" rel="noopener">Rapport n° 1 · Gemini, échange sur le prompt naïf</a> — 18 septembre 2026. La pièce C du cahier 04 en reprend les citations.</li>
-    <li><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md" target="_blank" rel="noopener">Rapport n° 2 · Gemini Notebook, rapport chiffré</a> — généré et transmis le 10 novembre 2026. Ses § 1 et 4 sont étudiés dans la pièce A du cahier 04.</li>
+    <li><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/Notebooks%20TD/S3/ressources/gemini_transcription.txt" target="_blank" rel="noopener">Rapport n° 1 · Gemini, échange sur le prompt naïf</a> — 18 septembre 2026. Ses citations constituent la pièce C de votre audit.</li>
+    <li><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md" target="_blank" rel="noopener">Rapport n° 2 · Gemini Notebook, rapport chiffré</a> — généré et transmis le 10 novembre 2026. Ses § 1 et 4 constituent la pièce A de votre audit.</li>
     <li><a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/app/static/PT_LLMvsPy_Rapport_03_Gemini_Notebook_source_originale.md" target="_blank" rel="noopener">Rapport n° 3 · Gemini Notebook, rapport méthodologique</a> — généré et transmis le 10 novembre 2026. Le § 6.1 détaille le statut des mesures M-01 à M-06.</li>
   </ul>
-  <p>La <a href="https://share.gemini.google/43HURKzcfoet" target="_blank" rel="noopener">conversation Gemini sur le calcul M4</a> constitue la pièce B du cahier 04. L’<a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/docs/rapports_gemini.md" target="_blank" rel="noopener">index des rapports</a> relie chaque original aux données transcrites en JSON.</p>
+  <p>La <a href="https://share.gemini.google/43HURKzcfoet" target="_blank" rel="noopener">conversation Gemini sur le calcul M4</a> constitue la pièce B de votre audit. L’<a href="https://github.com/dreymond732/tal-notebook-evaluator/blob/main/PT-LLMvsPy/docs/rapports_gemini.md" target="_blank" rel="noopener">index des rapports</a> relie chaque original aux données transcrites en JSON.</p>
   <p>Le tableau préparatoire provient de <em>projet tutoré.docx</em>. Les essais Python figurent dans <em>Projet 1.ipynb</em> et <em>projet_tutoré.ipynb</em>.</p>
   <ol class="reference-list">
     <li><span class="idx">[1]</span> Evert, S. (2009). « Corpora and collocations ». Dans A. Lüdeling et M. Kytö (dir.), <em>Corpus Linguistics: An International Handbook</em>, vol. 2, p. 1212–1248. De Gruyter Mouton. <a href="https://doi.org/10.1515/9783110213881.2.1212" target="_blank" rel="noopener">DOI</a> · <a href="https://stephanie-evert.de/PUB/Evert2007HSK_extended_manuscript.pdf" target="_blank" rel="noopener">Manuscrit étendu ouvert (PDF)</a>.</li>
