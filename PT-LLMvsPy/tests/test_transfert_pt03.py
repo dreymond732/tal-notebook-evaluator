@@ -21,7 +21,7 @@ def lemmes_essai_transfert(doc):
 
 
 @pytest.mark.parametrize("variante", [False, True], ids=["consignes-du-cahier", "consignes-du-json"])
-def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, variante):
+def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, capsys, variante):
     monkeypatch.chdir(tmp_path)
     modele = spacy.blank("fr")
     modele.add_pipe("sentencizer")
@@ -43,6 +43,8 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, vari
         travail["studio"] = {"pivots": ["loi", "lois"], "associes": ["peine", "peines"], "annonce_phrases": 17}
         travail["m4"].update(pivot="femme", associe="homme")
         travail["regle_phrase"] = "Compter chaque phrase commune une seule fois."
+        # Les exports du 02 antérieurs à l'introduction du filtre personnel restent lisibles.
+        del r2["variante_personnelle"]
         fichier_frequences.write_text(json.dumps(r2, ensure_ascii=False), encoding="utf-8")
     else:
         assert travail["studio"] == {"pivots": ["femme", "femmes"], "associes": ["homme", "hommes"], "annonce_phrases": 208}
@@ -64,20 +66,53 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, vari
 
     # L’étudiant saisit ses deux lemmes dans la copie personnelle du notebook.
     cahier = json.loads((NOTEBOOKS / "03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb").read_text(encoding="utf-8"))
-    cellule = next(c for c in cahier["cells"] if c.get("id") == "couple-perso")
+    cellules = {c["id"]: c for c in cahier["cells"]}
+    cellule = cellules["couple-perso"]
     cellule["source"] = "".join(cellule["source"]).replace(
         'pivot_libre, associe_libre = "", ""', 'pivot_libre, associe_libre = "loi", "peine"'
     )
-    suite = next(c for c in cahier["cells"] if c.get("id") == "micro-ngrammes")
+    suite = cellules["micro-ngrammes"]
     suite["source"] = "".join(suite["source"]).replace('ma_suite = "loi juste"', 'ma_suite = "les femmes"')
+    if variante:
+        filtre = cellules["filtre-personnel"]
+        filtre["source"] = "".join(filtre["source"]).replace("len(t.text) >= 5", "len(t.text) >= 60")
+        rayons = cellules["choisir-rayons"]
+        rayons["source"] = "".join(rayons["source"]).replace("= 5, 10", "= 3, 10")
+        fenetre = cellules["micro-fenetre"]
+        fenetre["source"] = "".join(fenetre["source"]).replace(
+            '["loi", ",", "droit", "droit"]', '["droit", ",", "loi", "droit"]'
+        )
+        # L'étudiant prépare un nouvel essai après le calcul, puis exporte les mesures précédentes.
+        export = cellules["exporter"]
+        export["source"] = 'def filtrer_phrase(phrase):\n    return list(phrase)\n\n' + "".join(export["source"])
     copie = tmp_path / "03_personnel.ipynb"
     copie.write_text(json.dumps(cahier), encoding="utf-8")
+    capsys.readouterr()
     executer_cahier(copie, numero)
+    affichage = capsys.readouterr().out
+    assert "def mesurer(" in affichage
+    if variante:
+        assert "[(2, 0), (2, 3)]" in affichage
+        assert "[(1, 0), (1, 2)]" in affichage
+    else:
+        assert "[(0, 2)]" in affichage
+        assert "[(0, 1), (0, 2)]" in affichage
     executer_cahier(NOTEBOOKS / "04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb", numero)
 
     r3 = json.loads((dossier / f"resultats_03_{numero}.json").read_text(encoding="utf-8"))
     r4 = json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))
     assert r3["transfert"]["mesure"]["cooc"] == 3
+    seuil = 60 if variante else 5
+    assert f"len(t.text) >= {seuil}" in r3["filtre_personnel"]
+    unites_personnelles = {r["mode"]: (r["phrases"], r["positions"])
+                           for r in r3["unites"] if r["tokens"] == "personnel"}
+    n_phrases = sum(any(t.is_alpha for t in phrase) for phrase in doc.sents)
+    n_positions = sum(t.is_alpha and len(t.text) >= seuil for t in doc)
+    assert unites_personnelles == {"forme": (n_phrases, n_positions), "lemme": (n_phrases, n_positions)}
+    for tableau in ("fenetres", "fenetres_continues"):
+        assert {r["rayon"] for r in r3[tableau]} == ({3, 10} if variante else {5, 10})
+        pivots = {r["mode"]: r["pivots"] for r in r3[tableau] if r["tokens"] == "personnel"}
+        assert pivots == ({"forme": 0, "lemme": 0} if variante else {"forme": 2, "lemme": 3})
     principal = r3["studio"]["principal"]
     studio = travail["studio"]
     assert principal["conventions"]["pivots"] == studio["pivots"]
