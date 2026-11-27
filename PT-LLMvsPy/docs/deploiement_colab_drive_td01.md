@@ -4,7 +4,7 @@
 
 Ouvrez le cahier [Préparer un corpus et mesurer l’effet du nettoyage](../notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb), au sein du dépôt GitHub public `dreymond732/tal-notebook-evaluator`.
 
-Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Ouvrez le notebook dans Colab et choisissez **Fichier → Enregistrer une copie dans Drive**. Rangez la copie dans votre dossier **S3-PythonVsLLM**, puis ouvrez-la pour y saisir vos réponses. Vous pourrez les modifier et relancer les cellules au prochain cours. Dans Colab, l’initialisation de chaque séance installe la bibliothèque depuis la branche `main` du dépôt public. Le cahier de préparation du corpus enregistre le nom de la branche et les versions du cahier et de la bibliothèque dans son archive.
+Dans Google Drive, créez le dossier **Mon Drive → S3-PythonVsLLM**. Dans Colab, l’initialisation de chaque séance installe la bibliothèque depuis la branche `main` du dépôt public. Le cahier de préparation du corpus enregistre le nom de la branche et les versions du cahier et de la bibliothèque dans son archive.
 
 ## Le répertoire de travail
 
@@ -20,8 +20,8 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 ## Travail scientifique
 
 1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et retrouvez-le à la position indiquée dans la source.
-2. Exécutez les six exemples fournis. Sur une phrase de votre choix, prédisez l’effet d’une règle, puis comparez votre prédiction au texte obtenu.
-3. Appliquez le plan commun au livre, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
+2. Exécutez les six exemples fournis. Dans `nettoyer`, déplacez une instruction ou ajoutez une opération entre deux lignes. Sur une phrase de votre choix, prédisez le résultat des deux versions, puis vérifiez-le.
+3. Appliquez au livre la version de `nettoyer` que vous avez choisie, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
 4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. À la revue du 25 novembre, montrez ce passage et expliquez à l’oral votre décision et l’écart obtenu. Les notes écrites dans `NOTES_INSPECTION` et `COMMENTAIRES_ANALYSE` sont facultatives. Exécutez la cellule de création du ZIP pour y conserver les résultats.
 
 ## Garder ses résultats et reprendre dans Colab

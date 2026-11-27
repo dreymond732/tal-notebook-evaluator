@@ -1,47 +1,78 @@
-"""Exécuter les exemples et l’essai personnel du cahier de préparation du corpus."""
+"""Vérifier ce que les cellules du cahier 01 affichent aux étudiants."""
+from inspect import getsource
 import json
 from pathlib import Path
+import re
 
-from tal_toolkit import (
-    OperationPretraitement, PlanPretraitement, executer_pretraitements,
-    composer_texte_epure,
-)
+import pytest
+
+from scripts.verifier_notebook02 import executer_cellule
 
 
-def _essayer(identifiant, **entrees):
+@pytest.fixture
+def cellules():
     fichier = Path(__file__).resolve().parents[1] / "notebooks" / "01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb"
-    cellules = {
+    return {
         c["id"]: "".join(c["source"])
         for c in json.loads(fichier.read_text(encoding="utf-8"))["cells"]
+        if c["cell_type"] == "code"
     }
-    contexte = {
-        "OperationPretraitement": OperationPretraitement,
-        "PlanPretraitement": PlanPretraitement,
-        "executer_pretraitements": executer_pretraitements,
-        "composer_texte_epure": composer_texte_epure,
-        **entrees,
-    }
-    for etape in ("decrire-operation", identifiant):
-        exec(compile(cellules[etape], f"notebook01:{etape}", "exec"), contexte)
+
+
+def _executer(cellules, *etapes):
+    contexte = {"re": re}
+    for etape in ("fonctions-nettoyage", *etapes):
+        executer_cellule(cellules[etape], f"notebook01:{etape}", contexte)
     return contexte
 
 
-def test_toutes_les_phrases_types_du_notebook_01():
-    contexte = _essayer("exemples-fournis")
-    assert len(contexte["EXEMPLES_FOURNIS"]) == 6
-    assert {x["nom"] for x in contexte["EXEMPLES_FOURNIS"]} == {
-        "retours typographiques",
-        "apostrophes courbes",
-        "appel et contenu de note",
-        "séparateur d'astérisques",
-        "titre conservé",
-        "césure approuvée",
-    }
+def test_six_effets_du_nettoyage(cellules, capsys):
+    _executer(cellules, "exemples-fournis")
+    assert capsys.readouterr().out.splitlines() == [
+        "Lignes réunies : Une phrase continue.",
+        "Apostrophe : L'homme",
+        "Note et appel : " + repr("Un propos.\n\nLa suite."),
+        "Séparateur : " + repr("Texte un.\n\nTexte deux."),
+        "Titre conservé : " + repr("IDÉES GÉNÉRALES\n\nLe chapitre commence."),
+        "Césure choisie : Une information.",
+    ]
 
 
-def test_une_prevision_personnelle_inexacte_permet_d_observer_le_resultat():
-    exemple = "Je relis le chapitre.\n\n[Note 2: Une référence à écarter.]\n\nJe poursuis."
-    contexte = _essayer("essai-personnel", MON_TEXTE=exemple, MA_PREVISION=exemple)
-    assert contexte["mon_journal"].original == exemple
-    assert contexte["mon_resultat"] == "Je relis le chapitre.\n\nJe poursuis."
-    assert contexte["MA_PREVISION"] != contexte["mon_resultat"]
+def test_lecture_du_filtre_et_de_la_transformation(cellules, capsys):
+    contexte = _executer(cellules, "lire-filtre", "lire-transformation")
+    sortie = capsys.readouterr().out
+    for nom in ("retirer_appels_notes", "recomposer_lignes"):
+        assert getsource(contexte[nom]) in sortie
+    assert "Avant _Féminisme français_[1]\nAprès _Féminisme français_" in sortie
+    assert repr("le livre le plus complet\n\nUn autre paragraphe.") in sortie
+
+
+def test_ordre_des_deux_instructions_sur_le_meme_passage(cellules, capsys):
+    contexte = _executer(cellules, "ordre-des-traitements")
+    assert contexte["passage"] == "_Féminisme français_[1]"
+    assert capsys.readouterr().out.splitlines() == [
+        "Titre traité en premier : « Féminisme français »[1]",
+        "Signes retirés en premier : Féminisme français[1]",
+    ]
+
+
+def test_le_traitement_personnel_est_insere_dans_la_suite(cellules, capsys):
+    contexte = _executer(cellules, "suite-reference", "definir-nettoyage", "essai-personnel")
+    assert contexte["texte"] == "Le _chapitre_ commence."
+    assert contexte["mon_resultat"] == "Le chapitre commence."
+    assert contexte["MON_TEXTE"] == contexte["exemple"]
+
+    # Essayer la variante proposée dans la consigne : conserver les appels sauf [1].
+    essais = dict(cellules)
+    essais["definir-nettoyage"] = essais["definir-nettoyage"].replace(
+        "texte = retirer_appels_notes(texte)", 'texte = texte.replace("[1]", "")'
+    )
+    essais["essai-personnel"] = re.sub(
+        r"^MON_TEXTE = .*$", 'MON_TEXTE = "Un renvoi[1], puis un autre[2]."',
+        essais["essai-personnel"], flags=re.MULTILINE,
+    )
+    capsys.readouterr()
+    variante = _executer(essais, "definir-nettoyage", "essai-personnel")
+    assert variante["MON_TEXTE"] == "Un renvoi[1], puis un autre[2]."
+    assert variante["mon_resultat"] == "Un renvoi, puis un autre[2]."
+    assert "Prévision vérifiée : False" in capsys.readouterr().out
