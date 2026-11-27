@@ -8,7 +8,7 @@ Quatre notebooks et une bibliothèque Python pour vérifier les mesures lexicale
 
 ## Ouvrir le cahier de préparation du corpus
 
-Créez le dossier **S3-PythonVsLLM** dans **Mon Drive**. Ouvrez [Préparer un corpus et mesurer l’effet du nettoyage](notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb) dans Colab. Pour conserver vos réponses modifiables, choisissez **Fichier → Enregistrer une copie dans Drive**, rangez la copie dans **S3-PythonVsLLM**, puis ouvrez-la et travaillez dedans. Faites de même pour chaque nouveau cahier.
+Créez le dossier **S3-PythonVsLLM** dans **Mon Drive**. Ouvrez [Préparer un corpus et mesurer l’effet du nettoyage](notebooks/01_preparer_le_corpus_et_mesurer_le_nettoyage.ipynb) dans Colab.
 
 Dans Colab, exécutez la cellule d’initialisation au début de chaque séance. Elle charge la bibliothèque depuis la branche `main` du dépôt public. Pour bénéficier aussi de nouvelles consignes, ouvrez le cahier de la séance depuis le dépôt et conservez vos copies déjà renseignées.
 
@@ -24,8 +24,8 @@ Ce cahier permet aussi d’utiliser les sources d’un clone local. Son archive 
 ## Première étape : préparer la source
 
 1. Repérez dans le texte source un appel de note, un séparateur ou un autre élément signalé par l’inventaire.
-2. Essayez les règles sur six exemples courts. Écrivez ensuite votre propre exemple, prévoyez le texte obtenu et comparez-le au résultat de la fonction.
-3. Appliquez le plan commun à tout le livre et téléchargez le texte nettoyé. Examinez-le dans un éditeur. Retrouvez un passage dans les deux textes et comptez les occurrences du motif que vous avez choisi.
+2. Essayez les opérations sur six exemples courts. Lisez le code d’une opération avec `print(getsource(retirer_appels_notes))`. Dans `nettoyer`, déplacez une instruction ou insérez un traitement, par exemple `texte = texte.replace("_", "")`. Prévoyez le résultat sur votre exemple, puis vérifiez-le.
+3. Appliquez la même fonction `nettoyer` à tout le livre et téléchargez le texte nettoyé. Examinez-le dans un éditeur. Retrouvez un passage dans les deux textes et comptez les occurrences du motif que vous avez choisi.
 4. Comparez les sept indicateurs calculés avant et après nettoyage. Pour l’un d’eux, relevez les deux valeurs et appuyez votre interprétation sur un passage inspecté.
 
 Le cahier de préparation du corpus produit dans l’espace temporaire de Colab le TXT nettoyé pour l’inspection et un ZIP qui rassemble le texte, les mesures CSV/JSON, les métadonnées de provenance et les deux fichiers de notes facultatives. Chaque nom de fichier contient votre numéro étudiant. Le ZIP porte aussi la date et le numéro de session.
@@ -58,7 +58,7 @@ Lors de la séance précédente, vous avez fait le point sur les [TD1 à TD7](..
 | [03 · Mesurer les cooccurrences par phrase et par fenêtre](notebooks/03_mesurer_les_cooccurrences_par_phrase_et_par_fenetre.ipynb) | Dans « droit femme droit », prenez *femme* comme pivot et *droit* comme associé. Comptez les pivots couverts et les paires dans une fenêtre d’un token de chaque côté. Insérez une virgule et recommencez. | Le rapport chiffré transmis le 10 novembre 2026 annonce 208 phrases rapprochant *femme(s)* et *homme(s)*. M4 propose de compter les phrases avec les lemmes *femme* et *droit* et laisse l’effectif à calculer. Comparez l’union des phrases, les fenêtres ±5 et ±10 et les suites contiguës de deux ou trois tokens. Le PMI rapporte la présence commune à celle attendue sous indépendance. Relisez deux passages pour interpréter l’association. |
 | [04 · Vérifier une affirmation par le calcul et la lecture](notebooks/04_verifier_une_affirmation_par_le_calcul_et_la_lecture.ipynb) | Testez un intervalle décimal, puis cherchez un mot entier et une citation dans des phrases dont vous connaissez le locuteur. | Les ratios du rapport concordent-ils avec ses propres effectifs et ses unités sont-elles comparables aux vôtres ? Vérifiez ensuite une citation de la transcription et son attribution. Choisissez une enquête sur le sens des mots (polysémie), l’attitude du locuteur (modalisation) ou les voix dans l’énoncé (polyphonie). Confrontez votre lecture à celle d’un binôme. |
 
-Si vous modifiez une réponse, relancez les cellules concernées et la cellule d’export, puis téléchargez et rangez la nouvelle version du JSON. Si le navigateur ajoute `(1)` au nom, ouvrez le dernier téléchargement et vérifiez votre numéro et la présence de votre correction. Remettez ce fichier sous le nom prévu dans le tableau et remplacez uniquement votre propre version antérieure, dans votre Drive puis, si elle a déjà été partagée, dans le dossier partagé.
+Si vous modifiez une réponse, relancez les cellules concernées, puis celles de la section d’export (les deux dernières cellules de code dans le 02). Ensuite, téléchargez et rangez la nouvelle version du JSON. Si le navigateur ajoute `(1)` au nom, ouvrez le dernier téléchargement et vérifiez votre numéro et la présence de votre correction. Remettez ce fichier sous le nom prévu dans le tableau et remplacez uniquement votre propre version antérieure, dans votre Drive puis, si elle a déjà été partagée, dans le dossier partagé.
 
 ### Les quatre séances du S3
 

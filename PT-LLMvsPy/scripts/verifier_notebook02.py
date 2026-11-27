@@ -2,7 +2,9 @@
 """Exécute les cahiers sur les fréquences, les cooccurrences et la vérification des affirmations sur Faguet dans des sessions distinctes."""
 from __future__ import annotations
 
+from hashlib import sha256
 import json
+import linecache
 from pathlib import Path
 from shutil import copy2
 import subprocess
@@ -21,6 +23,14 @@ CAHIERS = (
 NUMERO_TEST = "00123456"
 
 
+def executer_cellule(source: str, nom: str, contexte: dict) -> None:
+    """Conserve le texte de la cellule pour inspect.getsource, comme dans IPython."""
+    empreinte = sha256(source.encode("utf-8")).hexdigest()
+    fichier = f"<{nom}-{empreinte}>"
+    linecache.cache[fichier] = (len(source), None, source.splitlines(keepends=True), fichier)
+    exec(compile(source, fichier, "exec"), contexte)
+
+
 def executer_cahier(chemin: Path, numero_etudiant: str) -> None:
     cahier = json.loads(chemin.read_text(encoding="utf-8"))
     session = {"__name__": "__main__", "display": print}
@@ -32,7 +42,7 @@ def executer_cahier(chemin: Path, numero_etudiant: str) -> None:
                 champ = 'NUMERO_ETUDIANT = ""'
                 assert source.count(champ) == 1
                 source = source.replace(champ, f"NUMERO_ETUDIANT = {numero_etudiant!r}")
-            exec(compile(source, f"{chemin.name}/{cellule['id']}", "exec"), session)
+            executer_cellule(source, f"{chemin.name}/{cellule['id']}", session)
 
 
 def verifier_parcours() -> None:

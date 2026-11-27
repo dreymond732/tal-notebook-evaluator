@@ -32,6 +32,7 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
         "DATE_SESSION = datetime.now(timezone.utc)",
         "executer_pretraitements", "composer_texte_epure",
         "files.download(str(FICHIER_APERCU))",
+        "repere_gauche", "repere_droit",
         "localiser_dans_original", "fonctions_ayant_modifie_zone",
         "compter_motif", "NOTES_INSPECTION",
         "FICHIER_COMPARAISON", "FICHIER_COMPARAISON_JSON",
@@ -42,13 +43,13 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
     sections = re.findall(r"^## (\d+)\b", presentation, flags=re.MULTILINE)
     assert sections == ["0", "1", "2", "3"]
     for element in (
-        "Bloc-notes",
-        "une copie", "S3-PythonVsLLM", "Importer un fichier",
+        "Bloc-notes", "une copie", "S3-PythonVsLLM", "Importer un fichier",
         "depuis **votre dossier personnel**", "volet **Fichiers**",
         "https://drive.google.com/drive/folders/18KPGO5jGPt5f8t_Gq1km79hno4rqy1xO",
 
     ):
         assert element.lower() in presentation.lower()
+    assert "Enregistrez une copie du cahier" not in presentation
     assert "exporter_texte_approuve" not in presentation
     for ancien in (
         "figer_revision_git", "REVISION_GIT_RESOLUE", "api.github.com",
@@ -64,8 +65,8 @@ def test_notebook_01_exports_locaux_et_partage_manuel():
 
 def test_notebook_02_audit_conserve():
     code, presentation = analyser_notebook("02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb")
-    assert "calculer_metriques_globales" in code
-    assert "comparer_annonces" in code
+    assert "def mesurer(tokens, frequences)" in code
+    assert "comparer_annonces(reference, annonces[" in code
 
 
 def test_les_quatre_cahiers_diffuses_utilisent_main():
