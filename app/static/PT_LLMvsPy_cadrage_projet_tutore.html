@@ -215,13 +215,13 @@
       <ol>
         <li><strong>Protocole.</strong> Indiquez la version du texte, le contexte, les mots recherchés, le filtre et la règle. Inventez une phrase, prévoyez le résultat à la main, puis comparez-le à celui de la fonction.</li>
         <li><strong>Mesure.</strong> Appliquez ce protocole au texte nettoyé de Faguet. Donnez un nombre avec son unité (par exemple « … phrases contiennent les deux lemmes »). Pour calculer la proportion de phrases communes dans le cahier de relations lexicales, divisez leur nombre par le nombre total de phrases contenant au moins une unité alphabétique. Indiquez ce dénominateur avec le résultat.</li>
-        <li><strong>Preuves.</strong> Pour le nettoyage, montrez le même passage avant et après transformation. Pour les cooccurrences, partez des phrases retenues par votre protocole. Pour chaque extrait, donnez le numéro de la phrase et ses positions de début et de fin dans le texte nettoyé. Montrez quels mots répondent au critère et combien la phrase ajoute au total. Pour expliquer l’effet d’un choix, reprenez le même extrait et faites varier ce seul choix, par exemple l’union ou la somme des couples.</li>
+        <li><strong>Preuves.</strong> Pour le nettoyage, montrez le même passage avant et après transformation. Pour les cooccurrences, partez des phrases retenues par votre protocole. Pour chaque extrait, donnez le numéro de la phrase dans votre TXT, citez les mots qui répondent au critère et expliquez combien la phrase ajoute au total. Pour expliquer l’effet d’un choix, reprenez le même extrait et faites varier ce seul choix, par exemple l’union ou la somme des couples.</li>
       </ol>
       <p>Dans le cahier de vérification des affirmations du LLM, réunissez votre mesure et les passages qui l’étayent. Si une convention manque dans l’annonce de Gemini, expliquez ce que cela empêche de comparer.</p>
     </div>
   </div>
   <div class="semi method"><h3>◆ De la phrase comptée à son interprétation</h3>
-    <p>Dans le texte nettoyé, la phrase 35 contient « <em>En droit</em> donc, ce que la loi devrait faire, c'est proclamer l'égalité de l'homme et de la femme dans la famille. » Le cahier de relations lexicales la situe entre les positions 5 491 (incluse) et 5 607 (exclue). Les lemmes <em>droit</em> et <em>femme</em> y figurent tous les deux : elle ajoute une phrase au total. À la relecture, <em>droit</em> apparaît dans l’expression « en droit ». Quel sens prend cette expression dans le passage ?</p>
+    <p>Dans le TXT de référence, la phrase 35 contient « <em>En droit</em> donc, ce que la loi devrait faire, c'est proclamer l'égalité de l'homme et de la femme dans la famille. » Dans la variante du TXT où les tirets bas ont été retirés, on retrouve ce passage à la phrase 36. Les lemmes <em>droit</em> et <em>femme</em> y figurent tous les deux : elle ajoute une phrase au total. À la relecture, <em>droit</em> apparaît dans l’expression « en droit ». Quel sens prend cette expression dans le passage ?</p>
     <p>De même, les 203 segments du relevé exploratoire ci-dessus renseignent sur la présence de <em>femme(s)</em> et <em>homme(s)</em>. Pour étayer une lecture en termes d’accord, d’opposition ou d’ironie, cherchez dans le passage un indice précis, par exemple une négation ou un verbe de parole.</p>
   </div>
 </section>
@@ -261,7 +261,7 @@
       </ul>
       <p>Répartissez entre binômes les autres associations annoncées dans le rapport chiffré.</p>
       <p>Pour les deux enquêtes, lisez la table de contingence et le PMI (information mutuelle ponctuelle). Le score compare les phrases communes observées à celles attendues sous indépendance, compte tenu des fréquences des deux groupes. Un couple rare peut avoir un PMI élevé. L’essai supplémentaire sur ce cas est facultatif.</p>
-      <p>Autour de <em>femme</em>, comparez les rayons ±5 et ±10 tokens, dans la phrase puis en continu. Un pivot peut être couvert par plusieurs occurrences de <em>droit</em> et former autant de paires. Une virgule occupe une position et interrompt un bigramme ou trigramme de mots contigus. Comparez les séquences avec et sans ponctuation, dont <em>union libre</em>. Gardez deux passages localisés. Vous pouvez ensuite transférer la méthode à deux lemmes de votre choix.</p>
+      <p>Autour de <em>femme</em>, comparez les rayons ±5 et ±10 tokens, dans la phrase puis en continu. Un pivot peut être couvert par plusieurs occurrences de <em>droit</em> et former autant de paires. Une virgule occupe une position et interrompt un bigramme ou trigramme de mots contigus. Comparez les séquences avec et sans ponctuation, dont <em>union libre</em>. Gardez deux extraits avec leur numéro de phrase dans votre TXT. Vous pouvez ensuite transférer la méthode à deux lemmes de votre choix.</p>
     </div>
     <div class="panel">
       <h3>Discuter une affirmation en contexte</h3>

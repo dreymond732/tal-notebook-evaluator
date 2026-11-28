@@ -19,9 +19,9 @@ Dans ces noms, `<numero>` correspond à votre numéro étudiant. À l’intérie
 
 ## Travail scientifique
 
-1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et retrouvez-le à la position indiquée dans la source.
+1. Chargez le texte de Faguet. Choisissez un élément de l’inventaire et lisez les mots qui l’entourent dans l’extrait affiché.
 2. Exécutez les six exemples fournis. Dans `nettoyer`, déplacez une instruction ou ajoutez une opération entre deux lignes. Sur une phrase de votre choix, prédisez le résultat des deux versions, puis vérifiez-le.
-3. Appliquez au livre la version de `nettoyer` que vous avez choisie, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, recherchez une courte chaîne de caractères dans l’original, relisez le passage nettoyé et comptez les occurrences d’un motif dans les deux textes. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
+3. Appliquez au livre la version de `nettoyer` que vous avez choisie, téléchargez le TXT et ouvrez-le dans un éditeur. Lisez des passages au début, au milieu et à la fin. Pour examiner un changement, choisissez deux expressions qui encadrent le passage dans les trois versions. Comparez le texte entre ces repères dans l’original, la référence et votre TXT. Comptez ensuite les occurrences d’un motif dans l’original et dans votre TXT. Vous pouvez garder une trace de vos observations dans `NOTES_INSPECTION`, y compris si aucun défaut n’apparaît dans les passages lus.
 4. Lisez le tableau des sept indicateurs calculés dans les mêmes conditions avant et après nettoyage. Choisissez une ligne, relevez les deux valeurs et leur écart, puis appuyez votre explication sur un passage. À la revue du 25 novembre, montrez ce passage et expliquez à l’oral votre décision et l’écart obtenu. Les notes écrites dans `NOTES_INSPECTION` et `COMMENTAIRES_ANALYSE` sont facultatives. Exécutez la cellule de création du ZIP pour y conserver les résultats.
 
 ## Garder ses résultats et reprendre dans Colab
