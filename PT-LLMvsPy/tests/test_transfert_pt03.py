@@ -7,7 +7,8 @@ import spacy
 from spacy.language import Language
 
 from scripts.verifier_notebook02 import executer_cahier
-from tal_toolkit import atelier
+from tal_toolkit import atelier, verifier_citation
+from tal_toolkit.audit_llm import concordances_expression
 
 
 NOTEBOOKS = Path(__file__).resolve().parents[1] / "notebooks"
@@ -31,7 +32,7 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, caps
     numero = "00123456"
     texte = ("Une femme parle à un homme.\n\nLes femmes et les hommes lisent, 2 fois. "
              "Une femme revendique un droit. La loi prévoit une peine. "
-             "Une loi modifie la peine. La peine relève de la loi.")
+             "Une loi modifie la peine. La peine relève de la loi. _En droit_ donc.")
     (dossier / f"faguet_nettoye_{numero}.txt").write_text(texte, encoding="utf-8")
     executer_cahier(NOTEBOOKS / "02_comparer_les_frequences_des_formes_et_des_lemmes.ipynb", numero)
 
@@ -45,6 +46,8 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, caps
         travail["regle_phrase"] = "Compter chaque phrase commune une seule fois."
         # Les exports du 02 antérieurs à l'introduction du filtre personnel restent lisibles.
         del r2["variante_personnelle"]
+        # La mesure commune provient de la même ligne alphabétique que les ratios.
+        r2["globales"]["tokens_lexicaux"] += 1
         fichier_frequences.write_text(json.dumps(r2, ensure_ascii=False), encoding="utf-8")
     else:
         assert travail["studio"] == {"pivots": ["femme", "femmes"], "associes": ["homme", "hommes"], "annonce_phrases": 208}
@@ -74,6 +77,7 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, caps
     suite = cellules["micro-ngrammes"]
     suite["source"] = "".join(suite["source"]).replace('ma_suite = "loi juste"', 'ma_suite = "les femmes"')
     if variante:
+        cellule["source"] = cellule["source"].replace('filtre_libre = "sans_ponctuation"', 'filtre_libre = "personnel"')
         filtre = cellules["filtre-personnel"]
         filtre["source"] = "".join(filtre["source"]).replace("len(t.text) >= 5", "len(t.text) >= 60")
         rayons = cellules["choisir-rayons"]
@@ -101,7 +105,16 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, caps
 
     r3 = json.loads((dossier / f"resultats_03_{numero}.json").read_text(encoding="utf-8"))
     r4 = json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))
-    assert r3["transfert"]["mesure"]["cooc"] == 3
+    assert r3["transfert"]["mesure"]["cooc"] == (0 if variante else 3)
+    personnel = r4["lectures_personnelles"]
+    assert personnel["cooccurrences_03"] == r3["transfert"]
+    if variante:
+        assert personnel["frequences_02"] is None
+        assert personnel["condition_filtre_03"] == r3["filtre_personnel"]
+    else:
+        vue_02 = r2["variante_personnelle"]
+        for cle in ("filtre", "selection", "comptage", "mesures_livre"):
+            assert personnel["frequences_02"][cle] == vue_02[cle]
     seuil = 60 if variante else 5
     assert f"len(t.text) >= {seuil}" in r3["filtre_personnel"]
     unites_personnelles = {r["mode"]: (r["phrases"], r["positions"])
@@ -136,12 +149,86 @@ def test_couple_personnel_et_deux_questions_communes(tmp_path, monkeypatch, caps
     assert r4["protocole_B"]["valeur_annoncee"] is None
 
     reference = r2["mesures"]["alphabetiques"]
+    assert r4["annonce_A"]["mesure_02"] == reference["tokens"]
     ratios = r4["ratios_A"]["mesures"]
     assert ratios["ttr"]["ratio sur votre texte"] == reference["unites_distinctes"] / reference["tokens"]
     assert ratios["mots_par_phrase"]["ratio sur votre texte"] == reference["tokens"] / reference["phrases"]
     assert all(r["verdict"] == "INSUFFISAMMENT_DEFINI" for r in ratios.values())
     temoins = r4["concordance_mot"]["temoins"]
     assert [texte[t["debut"]:t["fin"]] for t in temoins] == ["droit"]
+    essais = r4["essais_personnels"]
+    assert essais["regle_intervalle"]["borne_basse_incluse"] is True
+    assert essais["normalisation_citation"]["occurrences_essai"] == 0
+    assert essais["normalisation_citation"]["occurrences_livre"] == 0
+
+    if variante:
+        # Un export 03 ancien contient ses résultats communs sans la rubrique de transfert.
+        del r3["transfert"], r3["filtre_personnel"]
+        (dossier / f"resultats_03_{numero}.json").write_text(json.dumps(r3), encoding="utf-8")
+        audit = executer_04_avec_recherches_personnelles(dossier, numero)
+        regle = audit["essais_personnels"]["regle_intervalle"]
+        assert regle["bornes"][0] == regle["ttr_livre"] == reference["ttr"]
+        assert regle["borne_basse_incluse"] is False
+        assert regle["livre_dans_intervalle"] is False
+        assert "return bas < valeur <= haut" in regle["code"]
+        normalisation = audit["essais_personnels"]["normalisation_citation"]
+        assert normalisation["motif"] == "en droit donc"
+        assert '    texte = texte.replace("_", "")' in normalisation["regle"].splitlines()
+        assert normalisation["occurrences_essai"] == normalisation["occurrences_livre"] == 1
+        assert audit["ratios_A"] == r4["ratios_A"]
+        assert audit["lectures_personnelles"]["cooccurrences_03"] is None
+        assert audit["protocole_B"]["relation_03"] == relation
+        assert audit["effectifs"] == {"droit": 1, "la peine": 2, "illustration": 0}
+        assert audit["protocole_enquete"]["largeur_extrait"] == 4
+        assert audit["protocole_enquete"]["largeur_concordance"] == 2
+        assert {passage["forme"] for passage in audit["passages"]} == {"droit", "la peine"}
+        for passage in audit["passages"]:
+            assert passage["debut"] == max(0, passage["debut_occurrence"] - 4)
+            assert passage["fin"] == min(len(texte), passage["fin_occurrence"] + 4)
+            assert passage["texte"] == texte[passage["debut"]:passage["fin"]]
+            assert texte[passage["debut_occurrence"]:passage["fin_occurrence"]].lower() == passage["forme"]
+        candidate = audit["citation_C"]
+        assert candidate["statut"] == "CANDIDAT_APPROCHE"
+        assert candidate["demarche"]["ancre"] == "la peine"
+        assert candidate["demarche"]["nombre_pistes"] == 2
+        assert candidate["demarche"]["numero_piste"] == 2
+        assert candidate["demarche"]["statut_recherche"] == "NON_RETROUVEE"
+        assert candidate["passage_source"] == texte[candidate["debut"]:candidate["fin"]]
+        debut_piste = texte.lower().rindex("la peine")
+        assert candidate["debut"] == debut_piste - 3
+        assert candidate["fin"] == debut_piste + len("la peine") + 3
+
+
+def executer_04_avec_recherches_personnelles(dossier, numero):
+    """Réutilise les deux résultats importés avec une locution et une piste choisies par l'étudiant."""
+    (chemin,) = NOTEBOOKS.glob("04_*.ipynb")
+    cahier = json.loads(chemin.read_text(encoding="utf-8"))
+    cellules = {c["id"]: c for c in cahier["cells"]}
+    reglages = [
+        ("essai-intervalle", "bornes_ttr = [0.50, 0.75]", 'bornes_ttr = [mesure_02["ttr"], 1]'),
+        ("regle-intervalle", "return bas <= valeur <= haut", "return bas < valeur <= haut"),
+        ("normaliser-citation", '# texte = texte.replace("_", "")', 'texte = texte.replace("_", "")'),
+        ("explorer-enquete", '["droit", "état"]', '["droit", "la peine", "illustration"]'),
+        ("contextes-enquete", "largeur_concordance = 130", "largeur_concordance = 2"),
+        ("retenir-passages", "largeur_extrait = 300", "largeur_extrait = 4"),
+        ("localiser-candidat", "ANCRE = ancre_proposee", 'ANCRE = "la peine"'),
+        ("localiser-candidat", "largeur_piste = 120", "largeur_piste = 3"),
+        ("discuter-citation", "NUMERO_PISTE = None", "NUMERO_PISTE = 2"),
+    ]
+    for identifiant, avant, apres in reglages:
+        cellule = cellules[identifiant]
+        source = "".join(cellule["source"])
+        assert avant in source
+        cellule["source"] = source.replace(avant, apres)
+    # Redéfinir les règles après les calculs ne change pas l'expérience à exporter.
+    nouvelles_definitions = ('def normaliser_citation(texte):\n    return texte\n\n'
+                             'def dans_mon_intervalle(valeur, bas, haut):\n    return bas <= valeur <= haut\n\n')
+    export = cellules["dossier-essais"]
+    export["source"] = nouvelles_definitions + "".join(export["source"])
+    copie = dossier / "04_personnel.ipynb"
+    copie.write_text(json.dumps(cahier, ensure_ascii=False), encoding="utf-8")
+    executer_cahier(copie, numero)
+    return json.loads((dossier / f"resultats_04_{numero}.json").read_text(encoding="utf-8"))
 
 
 @pytest.mark.parametrize("pivot,associe", [("droit civil", "femme"), ("femme", "droit civil")])
@@ -159,9 +246,40 @@ def test_couple_personnel_refuse_plusieurs_mots(pivot, associe):
 def test_enquete_modalisation_avec_un_export_partiel(capsys):
     (chemin,) = NOTEBOOKS.glob("04_*.ipynb")
     cahier = json.loads(chemin.read_text(encoding="utf-8"))
-    cellule = next(c for c in cahier["cells"] if c["id"] == "explorer-enquete")
-    source = "".join(cellule["source"]).replace('ENQUETE = "polysémie"', 'ENQUETE = "modalisation"')
-    exec(source, {"lexique": {"locutions": {"il_faut": {"occurrences": 0}}}})
+    cellules = {c["id"]: "".join(c["source"]) for c in cahier["cells"]}
+    contexte = {"lexique": {"locutions": {"il_faut": {"occurrences": 0}}}}
+    exec(cellules["explorer-enquete"].replace('ENQUETE = "polysémie"', 'ENQUETE = "modalisation"'), contexte)
+    exec(cellules["relire-enquete-02"], contexte)
     affichage = capsys.readouterr().out
     assert "il faut · 0" in affichage
     assert "il faudrait · non compté dans le cahier sur les fréquences" in affichage
+
+
+@pytest.mark.parametrize("nouveau_choix", [1, 2], ids=["autre-citation-absente", "citation-exacte"])
+def test_changer_de_citation_efface_les_pistes_precedentes(nouveau_choix):
+    (chemin,) = NOTEBOOKS.glob("04_*.ipynb")
+    cellules = {c["id"]: "".join(c["source"]) for c in json.loads(chemin.read_text(encoding="utf-8"))["cells"]}
+    contexte = {"texte": "Elle peut être naturellement de même capacité intellectuelle.",
+                "verifier_citation": verifier_citation, "concordances_expression": concordances_expression}
+    chercher = cellules["chercher-citation"]
+    retenir = cellules["discuter-citation"].replace("NUMERO_PISTE = None", "NUMERO_PISTE = 1")
+    exec(chercher, contexte)
+    exec(cellules["localiser-candidat"], contexte)
+    exec(cellules["afficher-pistes"], contexte)
+    exec(retenir, contexte)
+    exec(cellules["afficher-candidat"], contexte)
+    assert contexte["demarche_citation"]["nombre_pistes"] == 1
+    assert contexte["audit_citation"]["statut"] == "CANDIDAT_APPROCHE"
+
+    preuve_avant = (contexte["audit_citation"].copy(), contexte["demarche_citation"].copy())
+    exec(chercher.replace("CHOIX_CITATION = 0", f"CHOIX_CITATION = {nouveau_choix}"), contexte)
+    exec(retenir, contexte)
+    if nouveau_choix == 1:
+        with pytest.raises(ValueError, match="piste"):
+            exec(cellules["afficher-candidat"], contexte)
+        assert (contexte["audit_citation"], contexte["demarche_citation"]) == preuve_avant
+    else:
+        exec(cellules["afficher-candidat"], contexte)
+        assert contexte["audit_citation"]["statut"] == "EXACTE"
+        assert contexte["demarche_citation"]["nombre_pistes"] == 0
+        assert contexte["demarche_citation"]["numero_piste"] is None
