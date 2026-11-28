@@ -13,6 +13,14 @@ Cette fiche compare la [version distribuée avant la reprise](https://github.com
 | §4, une enquête au choix et deux passages, puis confrontation des lectures | Conserver les trois voies. Modifier une cible et choisir la recherche adaptée à sa longueur, mot entier ou suite de mots | Relever un indice dans chacun des deux extraits, identifier la voix, confronter une lecture au binôme et limiter la conclusion à ce que ces passages étayent. |
 | Conclusion et lecture du binôme saisies dans la cellule d’export | Séparer la réponse individuelle de l’écriture du fichier, puis vérifier un commentaire en rouvrant le JSON téléchargé | Après une correction, vérifier la nouvelle version du commentaire dans la copie personnelle et dans la copie de remise. |
 
+## Deux règles à modifier pendant le TD
+
+Au § 1, faire prédire ce que donnera `dans_mon_intervalle` pour une valeur égale à la borne basse. Remplacer le premier `<=` par `<` et relancer la définition puis le calcul. Avec les mêmes bornes, cette valeur passe de `True` à `False`. L’essai enregistre aussi le résultat pour le TTR des phrases et celui du livre.
+
+Au § 3, exécuter `normaliser_citation` puis l’essai sur « En droit donc ». Activer la ligne `texte = texte.replace("_", "")` et relancer les deux cellules. Dans la phrase d’essai et le TXT où figure `_En droit_ donc`, le nombre de correspondances passe de 0 à 1. Sur le TXT déjà nettoyé des `_`, la correspondance est présente dès le premier essai. Cette recherche compte les chaînes de caractères transformées. Les cellules sur la pièce C donnent les positions des passages témoins dans le TXT ouvert.
+
+Les deux règles et les valeurs qu’elles produisent figurent dans `essais_personnels`, sous `regle_intervalle` et `normalisation_citation`.
+
 ## Deux questions distinctes sur les ratios
 
 Le rapport annonce 8 633 unités distinctes, 79 540 tokens et 3 829 phrases. Pour refaire le calcul sur Faguet, le 04 reprend trois valeurs du 02. N est le nombre de tokens alphabétiques, V le nombre de leurs formes distinctes en minuscules et S le nombre de phrases qui en contiennent au moins un. [Tableau du rapport chiffré, § 1](../../app/static/PT_LLMvsPy_Analyse_Gemini_source_originale.md) · [Conventions et mesures du cahier sur les fréquences](reprise_notebook_02.md)
