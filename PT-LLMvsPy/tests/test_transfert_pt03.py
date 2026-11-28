@@ -1,12 +1,13 @@
 """Une exploration personnelle ne doit pas remplacer les preuves communes reprises dans le cahier de vérification des affirmations."""
 import json
+from inspect import getsource
 from pathlib import Path
 
 import pytest
 import spacy
 from spacy.language import Language
 
-from scripts.verifier_notebook02 import executer_cahier
+from scripts.verifier_notebook02 import executer_cahier, executer_cellule
 from tal_toolkit import atelier, verifier_citation
 from tal_toolkit.audit_llm import concordances_expression
 
@@ -283,3 +284,30 @@ def test_changer_de_citation_efface_les_pistes_precedentes(nouveau_choix):
         assert contexte["audit_citation"]["statut"] == "EXACTE"
         assert contexte["demarche_citation"]["nombre_pistes"] == 0
         assert contexte["demarche_citation"]["numero_piste"] is None
+
+
+def test_fenetre_de_lecture_suit_la_regle_modifiee():
+    (chemin,) = NOTEBOOKS.glob("04_*.ipynb")
+    cellules = {c["id"]: "".join(c["source"]) for c in json.loads(chemin.read_text())["cells"]}
+    texte = "_" * 200 + "Préface. " * 30 + "_En droit_ donc" + " Postface." * 30 + "_" * 200
+    session = {"texte": texte, "citation": "En droit donc", "getsource": getsource}
+    regle = cellules["normaliser-citation"]
+    lecture = cellules["relire-contexte-citation"].replace("largeur_lecture = 200", "largeur_lecture = 20")
+    executer_cellule(regle, "normaliser-citation", session)
+    exec(lecture, session)
+    assert session["lecture_formulation"]["statut"] == "NON_RETROUVEE"
+    assert session["lecture_formulation"]["contexte_txt"] == ""
+
+    # L'étudiant modifie sa règle et relance directement la lecture.
+    regle = regle.replace('# texte = texte.replace("_", "")', 'texte = texte.replace("_", "")')
+    executer_cellule(regle, "normaliser-citation", session)
+    exec(lecture, session)
+    lu = session["lecture_formulation"]
+    assert lu["statut"] == "NORMALISEE"
+    assert lu["regle"] == getsource(session["normaliser_citation"])
+    assert "_En droit_ donc" in lu["contexte_txt"] in texte
+
+    session["citation"] = "_En droit_ donc"
+    exec(lecture, session)
+    assert session["lecture_formulation"]["statut"] == "EXACTE"
+    assert "_En droit_ donc" in session["lecture_formulation"]["contexte_txt"]

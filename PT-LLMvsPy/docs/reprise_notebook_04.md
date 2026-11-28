@@ -17,7 +17,7 @@ Cette fiche compare la [version distribuée avant la reprise](https://github.com
 
 Au § 1, faire prédire ce que donnera `dans_mon_intervalle` pour une valeur égale à la borne basse. Remplacer le premier `<=` par `<` et relancer la définition puis le calcul. Avec les mêmes bornes, cette valeur passe de `True` à `False`. L’essai enregistre aussi le résultat pour le TTR des phrases et celui du livre.
 
-Au § 3, exécuter `normaliser_citation` puis l’essai sur « En droit donc ». Activer la ligne `texte = texte.replace("_", "")` et relancer les deux cellules. Dans la phrase d’essai et le TXT où figure `_En droit_ donc`, le nombre de correspondances passe de 0 à 1. Sur le TXT déjà nettoyé des `_`, la correspondance est présente dès le premier essai. Cette recherche compte les chaînes de caractères transformées. Les cellules sur la pièce C donnent les positions des passages témoins dans le TXT ouvert.
+Au § 3, exécuter `normaliser_citation` puis l’essai sur « En droit donc ». Activer la ligne `texte = texte.replace("_", "")` et relancer les deux cellules. Dans la phrase d’essai et le TXT où figure `_En droit_ donc`, le nombre de correspondances passe de 0 à 1. Sur le TXT déjà nettoyé des `_`, la correspondance est présente dès le premier essai. Cette recherche compte les chaînes de caractères transformées. Pour relire la citation de la pièce C ou une formulation personnelle, la cellule de lecture affiche une fenêtre du TXT du 01. Après normalisation, elle estime le décalage à partir de l’écart de longueur et de la part du livre déjà parcourue. La largeur de lecture est réglable.
 
 Les deux règles et les valeurs qu’elles produisent figurent dans `essais_personnels`, sous `regle_intervalle` et `normalisation_citation`.
 
@@ -49,7 +49,7 @@ Au § 4, le rapport annonce 208 phrases rapprochant les graphies *femme(s)* et *
 | « Les professions n'ont pas de sexe. » | `NORMALISEE` | Le passage commence par une minuscule. |
 | « même capacité intellectuelle » | `EXACTE` | La chaîne est présente. Le cotexte reste à lire pour identifier la voix. |
 
-Pour la première citation, l’ancre du premier passage occupe les caractères `[21716:21739]` sur le TXT de référence et `[21685:21708]` après retrait des `_` (fin exclue). La mention « de l’avis de M. Turgeon » introduit les mots cités. Faguet les rapporte et les commente. Choisir ce passage comme candidat permet d’expliquer le rapprochement et de discuter l’attribution de la transcription. [Transcription, réponses 1 et 2](../../Notebooks%20TD/S3/ressources/gemini_transcription.txt)
+Pour la première citation, choisir la première piste de l’ancre « peut être naturellement » dans l’un ou l’autre TXT. La mention « de l’avis de M. Turgeon » introduit les mots cités. Faguet les rapporte et les commente. Choisir ce passage comme candidat permet d’expliquer le rapprochement et de discuter l’attribution de la transcription. [Transcription, réponses 1 et 2](../../Notebooks%20TD/S3/ressources/gemini_transcription.txt)
 
 ## Bibliothèque et références mobilisées
 
